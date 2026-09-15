@@ -7,16 +7,25 @@ import { Drawer } from 'primeng/drawer';
  * a filter is, does not hold filter state, and takes no data input.
  *
  * Adoption test (decision 011): **step 1 — preset tokens alone reach the
- * design.** `jookoi-preset.ts` maps `semantic.overlay.modal` and
- * `semantic.content` onto `--surface-panel`, `--border-panel`,
- * `--radius-panel` and `--shadow-deep`, and `mask.background` onto
- * `--shadow-deep`, so the panel, its header strip, its close control and the
- * scrim all arrive themed. Steps 2 and 3 were not needed: nothing about the
- * design asks for structure PrimeNG does not emit. This is an **adoption, not
- * a port** — the mockup has no overlay drawer at all. Its `.drawer`
- * (`features/design-theme/components.css:1348`) is an in-flow
+ * design.** `jookoi-preset.ts` maps `semantic.overlay.modal` onto
+ * `--surface-panel`, `--border-panel` and `--shadow-deep`, `semantic.content`
+ * onto `--surface-readout`, and `mask.background` onto `--shadow-deep`, so the
+ * panel's surface, border colour, text colour, shadow, header strip, title and
+ * the scrim all arrive without a rule. Steps 2 and 3 were not needed: nothing
+ * about the design asks for structure PrimeNG does not emit. This is an
+ * **adoption, not a port** — the mockup has no overlay drawer at all. Its
+ * `.drawer` (`features/design-theme/components.css:1348`) is an in-flow
  * `<details class="drawer panel">` disclosure in the browse/search rack
  * column, which shares nothing with this component but the word.
+ *
+ * Two things PrimeNG does not tokenise are set in `src/styles.css` under
+ * `@layer components`, and are the whole of it: the panel's radius (Aura's
+ * drawer root token map carries no `borderRadius` key, so
+ * `overlay.modal.borderRadius` is emitted on the element and never read —
+ * measured `0px`) and its border width (`.p-drawer` sets `border-style` and
+ * `border-color` and no `border-width`, leaving three sides at the CSS initial
+ * `medium` — measured `3px 1px 3px 3px`). Step 1 still holds: a rule in the
+ * components layer is CSS, not a template slot and not a build-our-own.
  *
  * Decisions that are this file's to make:
  *
@@ -42,7 +51,10 @@ import { Drawer } from 'primeng/drawer';
  *   already the default.
  *
  * The header is PrimeNG's own, through the `[header]` input, and the close
- * control is PrimeNG's default icon; both are themed by the preset. The
+ * control is PrimeNG's default icon; both are themed by the preset. The close
+ * control is icon-only and `ariaCloseLabel` has no default in 22.1.1
+ * (`primeng-drawer.mjs:222`), so the template sets one — without it the only
+ * visible dismiss control in a modal overlay is an unnamed button. The
  * template slots are `<ng-template #headerTemplate>` and
  * `#closeIconTemplate` (content children, not `pTemplate`), and are unused
  * here — swapping the close icon for one of our chrome keys is parked work.
