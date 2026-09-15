@@ -27,8 +27,8 @@ Verification is cheap; rebuilding is not. Never pay for a full production build 
 
 - **Keep a dev server running in watch mode for the whole session.** `pnpm start` on a fixed port, left up. Angular rebuilds in a few seconds and the browser updates itself. Do not boot a fresh server per change, per fix round, or per subagent — a server already running is always cheaper than one you start.
 - **Debug in the running browser, not through builds.** For a CSS or template change, look at the live page and read the live DOM and computed styles. A `getComputedStyle` probe answers in seconds what a build answers in minutes.
-- **`pnpm run build` and `pnpm run lint` are the gate: once per task, at the end.** They are not an iteration tool and not a debugging aid.
-- **Never run two builders at once.** A dev server and a production build both write `.angular/`. Stop the server before the gate and restart it after.
+- **Do not run a production build per task.** It catches exactly two things the dev server cannot: bundle and component-style **budgets**, and **prerendering**. Both are config-level and change at phase boundaries, not between one component and the next. Build at a phase boundary and at the end of the plan — not after every step. `pnpm run lint` is cheap; run that per task.
+- **Never run two builders at once.** A dev server and a production build both write `.angular/`, and Angular exposes no way to give them separate caches. Only matters when you do build, which is why building rarely also removes the conflict.
 - **`tsconfig.json` compiler options are read at server start.** Changing one needs a restart — a watch rebuild will not pick it up.
 - **Experiment config is reverted inside the same task.** Confirm `git status` shows the file clean before committing.
 
@@ -62,4 +62,4 @@ Verification is cheap; rebuilding is not. Never pay for a full production build 
 - Deterministic work goes in `scripts/`, not into a model's turn.
 - `sources/` is human-authored data (editorial clock). `data/` is machine-observed data (fast clock).
 - Log completed work to `llm-progress-complete.jsonl`; track outstanding work in `_architecture/TODO.md`.
-- UI verification: check at 390px and 1440px in the running dev server — see **Iteration loop**. Gate: `pnpm run build` and `pnpm run lint`, once per task rather than per change. Tests only when explicitly asked.
+- UI verification: check at 390px and 1440px in the running dev server — see **Iteration loop**. `pnpm run lint` per task; `pnpm run build` at phase boundaries and at the end of the plan, not per task. Tests only when explicitly asked.
