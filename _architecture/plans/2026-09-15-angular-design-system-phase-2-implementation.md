@@ -1869,7 +1869,7 @@ import { Directive } from '@angular/core';
 export class CornerBracketsDirective {}
 ```
 
-A directive has no stylesheet of its own. Its CSS goes in `src/styles/base-element-styles.css` inside `@layer components`, keyed on the `.joo-corner-brackets` class, ported from `components.css:883-901` (the `::before`/`::after` corner rules). Note in a comment that this is global CSS because a directive cannot carry encapsulated styles — the one global component rule in the system.
+A directive has no stylesheet of its own. Its CSS goes in `src/styles.css` inside `@layer components`, keyed on the `.joo-corner-brackets` class, ported from `components.css:883-901` (the `::before`/`::after` corner rules). Note in a comment that this is global CSS because a directive cannot carry encapsulated styles — the one global component rule in the system.
 
 - [ ] **Step 2: `readout-panel`**
 
@@ -2842,7 +2842,7 @@ Check the current template-slot syntax in the PrimeNG docs before writing it —
 
 - [ ] **Step 3: Style the panel**
 
-`styleClass` lands on PrimeNG's own root element, outside this component's encapsulation, so `.joo-filter-drawer` rules must go in `src/styles/base-element-styles.css` under `@layer components`. Because PrimeNG emits into `@layer primeng`, which orders before `components`, our rules win without a single `!important` — that ordering is the whole reason Task 3 set up the layer.
+`styleClass` lands on PrimeNG's own root element, outside this component's encapsulation, so `.joo-filter-drawer` rules must go in `src/styles.css` under `@layer components`. Because PrimeNG emits into `@layer primeng`, which orders before `components`, our rules win without a single `!important` — that ordering is the whole reason Task 3 set up the layer.
 
 Port the panel frame from `components.css:1374-1393`, and set `--png-mask-background` on the drawer so the scrim matches the theme's mask token.
 
@@ -3043,7 +3043,9 @@ Expected: PASS.
 
 - [ ] **Step 5: Style it**
 
-Same split as Task 16: `--png-*` variables on `:host` for anything PrimeNG parameterises, and `.joo-record-grid` rules in `base-element-styles.css` under `@layer components` for the frame. Port `components.css:1149-1307` — header strip, zebra rows, hover state, the mono numeric alignment, the sticky header. `min-width: 100%` on the table belongs in that layer too, as a `.joo-record-grid` rule; it was a `[tableStyle]` binding in an earlier draft of this step and there is no reason for it to be one.
+Same split as Task 16: `--png-*` variables on `:host` for anything PrimeNG parameterises, and `.joo-record-grid` rules in `src/styles.css` under `@layer components` for the frame. Port `components.css:1149-1307` — header strip, hover state, the mono numeric alignment. `min-width: 100%` on the table belongs in that layer too, as a `.joo-record-grid` rule; it was a `[tableStyle]` binding in an earlier draft of this step and there is no reason for it to be one. Two things an earlier draft of this step named are not in the port source and must not be invented to satisfy the list: the mockup's `.data-table` block has no zebra striping (hover only, at `:1182`) and no sticky header — the `position: sticky` the rendered `<thead>` carries is PrimeNG's own, emitted as an inline style. The mockup is the source of truth.
+
+One rule in the port source has no counterpart here and is deliberately not carried over: `components.css:1186` splits a single declaration across `.num` and `td[data-col='ver']`, and only the second survives the derivation rule — a content class has no meaning in a `field`-driven wrapper, where the column is chosen by the caller. `.src-name` and `.src-domain` (`:1195-1210`) are content classes for the same reason, and are why the 767px block's last rule is absent.
 
 Note where the hook class actually lands: `tableStyleClass` puts it on PrimeNG's inner `<table>`, not on the `<joo-record-grid>` host. So `.joo-record-grid thead th { … }` is a descendant selector from the table element itself, not from the host, and a rule meant to style the outer frame has to target `.joo-record-grid` directly.
 
@@ -3123,7 +3125,9 @@ The new file covers:
 
 - [ ] **Step 4: Update `_architecture/ARCHITECTURE.md`**
 
-Add the Phase 2 section: the design system's nine sub-groups, the PrimeNG adoption and its cascade-layer mechanism, the page-template group (decision 013), the elevation scheme, and the `/specimen` route. Update the folder map to match what was actually built. Record the measured bundle numbers from Task 17. Record the spec correction from Step 1.
+Add the Phase 2 section: the design system's nine sub-groups, the PrimeNG adoption and its cascade-layer mechanism, the page-template group (decision 013), the elevation scheme, and the `/specimen` route. Update the folder map to match what was actually built. Record the spec correction from Step 1.
+
+Do **not** record bundle numbers. An earlier draft of this step said "record the measured bundle numbers from Task 17", and Task 17 no longer measures any — its own bundle step was rewritten to state that size is CI's to measure and report. Writing a stale figure into `ARCHITECTURE.md` would be worse than writing none, because it would be read as measured.
 
 Keep it to decisions and shape. No tutorials.
 
@@ -3137,12 +3141,20 @@ Mark the Phase 2 checklist items complete. Anything that came up during the buil
 pnpm run test:ci
 ```
 
-All four must pass. Then confirm one last time that `dist/jookoi-frontpage/browser/` has no `specimen/` directory.
+That is the whole gate, and it runs once. Lint and format have run automatically on every save through the `Stop` hook, and the watch dev server has been typechecking continuously — re-running either by hand is the doubling `AGENTS.md` bans.
+
+There is no production build and no `dist/` check here. An earlier draft of this step confirmed "`dist/jookoi-frontpage/browser/` has no `specimen/` directory", which cannot be done without a build; the `/specimen` route never prerenders for two structural reasons instead — it is lazily loaded and it is gated on `isDevMode()` — and Step 3's `specimen/CONTEXT.md` records the check for whoever next runs a build, which is CI.
+
+Then commit, staging the paths by name rather than by directory:
 
 ```bash
-git add src/app _architecture
+git add src/app/shared/design-system/CONTEXT.md src/app/app-shell/CONTEXT.md src/app/specimen/CONTEXT.md
+git add _architecture/ARCHITECTURE.md _architecture/TODO.md _architecture/BACKLOG.md
+git status --short
 git commit -m "Phase 2 task 18: lint boundary verification and paper trail"
 ```
+
+Staging by name is what makes the `git status --short` between the adds and the commit worth reading — it is what confirms nothing else was swept in. Never `git add -A`, `git add .`, or `git add -u` here: this repo carries a gitignored licence token at `src/app/primeui-license.ts`, and a directory-wide add is one `-f` away from staging it.
 
 ---
 
