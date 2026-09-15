@@ -1,0 +1,49 @@
+:host {
+  --light: var(--led-off);
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  flex: none;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 35% 30%,
+    color-mix(in srgb, white 55%, var(--light)),
+    var(--light) 60%
+  );
+  box-shadow: 0 0 0 1px var(--shadow-deep);
+}
+
+:host(.is-cyan) {
+  --light: var(--led-cyan);
+}
+:host(.is-magenta) {
+  --light: var(--led-magenta);
+}
+:host(.is-amber) {
+  --light: var(--led-amber);
+}
+:host(.is-green) {
+  --light: var(--led-green);
+}
+
+:host(.is-lit) {
+  box-shadow:
+    0 0 0 1px var(--shadow-deep),
+    0 0 8px var(--light);
+}
+
+:host(.is-blinking) {
+  animation: status-light-blink 1.4s steps(2, jump-none) infinite;
+}
+
+@keyframes status-light-blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host(.is-blinking) {
+    animation: none;
+  }
+}

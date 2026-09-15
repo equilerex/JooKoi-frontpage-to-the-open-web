@@ -5,3 +5,24 @@
      order components were built: indicators, typography, actions,
      form-controls, data-display, surfaces, navigation, page-layouts,
      page-templates. -->
+
+<joo-specimen-section label="Indicators">
+  @for (color of lightColors; track color) {
+    <joo-status-light [color]="color" [on]="true" [label]="color" />
+  }
+  <joo-status-light color="cyan" [on]="true" [blink]="true" label="blinking" />
+  <joo-status-light color="cyan" [on]="false" label="unlit" />
+
+  <joo-bezel-jewel [on]="false" />
+  @for (color of jewelColors; track color) {
+    <joo-bezel-jewel [color]="color" [on]="true" />
+  }
+
+  <joo-segment-readout>0142</joo-segment-readout>
+  <joo-segment-readout color="magenta">88</joo-segment-readout>
+  <joo-segment-readout color="amber">7</joo-segment-readout>
+
+  <joo-classification-badge>Trusted</joo-classification-badge>
+  <joo-classification-badge variant="dashed">Discovered</joo-classification-badge>
+  <joo-classification-badge variant="double">Archived</joo-classification-badge>
+</joo-specimen-section>
