@@ -104,6 +104,40 @@
       </ul>
     </joo-prose-content>
   </joo-paper-sheet>
+
+  <!-- The hook class lands on PrimeNG's inner `<table>` rather than on this
+       element, so the grid brings no box of its own to size — it takes the
+       section's full row width explicitly. -->
+  <joo-record-grid
+    [rows]="recordRows"
+    [columns]="recordColumns"
+    ariaLabel="Directory records"
+    style="flex-basis: 100%"
+  />
+
+  <!-- `virtual` needs a bounded height. `scrollHeight="flex"` has PrimeNG make
+       the table body fill its container, so against the section's wrap row an
+       auto-height parent would let the body grow to all 5,000 rows and the
+       scroll would never engage — and the virtualiser would have nothing to
+       virtualise. The DOM holding a screenful of `<tr>` rather than 5,000 is
+       the whole assertion here, and it is checked in the running app. -->
+  <div class="specimen-page__grid-frame">
+    <joo-record-grid
+      [rows]="virtualRows"
+      [columns]="recordColumns"
+      [virtual]="true"
+      ariaLabel="Directory records, virtualised"
+    />
+  </div>
+
+  <!-- The `emptyMessage` state. The wrapper defaults it to 'No records.' so an
+       unbound grid is coherent, and an empty collection at first paint is the
+       ordinary case — a default with no demo is a default nobody has seen. -->
+  <joo-record-grid
+    [columns]="recordColumns"
+    ariaLabel="Directory records, empty"
+    style="flex-basis: 100%"
+  />
 </joo-specimen-section>
 
 <joo-specimen-section label="Surfaces">

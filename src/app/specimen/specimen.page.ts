@@ -7,6 +7,10 @@ import { CapabilityTagComponent } from '../shared/design-system/data-display/cap
 import { CountChipComponent } from '../shared/design-system/data-display/count-chip/count-chip.component';
 import { ProseContentComponent } from '../shared/design-system/data-display/prose-content/prose-content.component';
 import {
+  GridColumn,
+  RecordGridComponent,
+} from '../shared/design-system/data-display/record-grid/record-grid.component';
+import {
   SpecEntry,
   SpecListComponent,
 } from '../shared/design-system/data-display/spec-list/spec-list.component';
@@ -42,6 +46,22 @@ import { LogotypeComponent } from '../shared/design-system/typography/logotype/l
 import { StripeRuleComponent } from '../shared/design-system/typography/stripe-rule/stripe-rule.component';
 import { SpecimenSectionComponent } from './specimen-section/specimen-section.component';
 
+/** The mockup's own column set, in its order (`components.css:1146`): name,
+ *  trust, desc, type, sig, lang, ver, act. The field names double as the
+ *  `data-col` values the grid's cells carry, which is what the 1439px and 767px
+ *  rules in `src/styles.css` key on — a demo with different names would leave
+ *  the column dropping and the whole card layout untested while looking fine. */
+interface DemoRecord {
+  readonly name: string;
+  readonly trust: string;
+  readonly desc: string;
+  readonly type: string;
+  readonly sig: string;
+  readonly lang: string;
+  readonly ver: string;
+  readonly act: string;
+}
+
 @Component({
   selector: 'joo-specimen-page',
   imports: [
@@ -67,6 +87,7 @@ import { SpecimenSectionComponent } from './specimen-section/specimen-section.co
     TagSetComponent,
     SpecListComponent,
     ProseContentComponent,
+    RecordGridComponent,
     ReadoutPanelComponent,
     PaperSheetComponent,
     CornerBracketsDirective,
@@ -101,6 +122,66 @@ export class SpecimenPage {
     { label: 'Directory', href: '#' },
     { label: 'Zines' },
   ];
+  /** `width` on one column only: it is an optional input, so leaving every
+   *  column to auto-size would ship it unexercised and a broken `[style.width]`
+   *  binding would look identical to a working one. */
+  protected readonly recordColumns: readonly GridColumn<DemoRecord>[] = [
+    { field: 'name', header: 'Name', width: '18rem' },
+    { field: 'trust', header: 'Trust' },
+    { field: 'desc', header: 'Description' },
+    { field: 'type', header: 'Type' },
+    { field: 'sig', header: 'Signal' },
+    { field: 'lang', header: 'Lang' },
+    { field: 'ver', header: 'Version' },
+    { field: 'act', header: 'Action' },
+  ];
+  protected readonly recordRows: readonly DemoRecord[] = [
+    {
+      name: 'Low-tech Magazine',
+      trust: 'Trusted',
+      desc: 'Solar-powered publishing, with the whole archive shipped as a single PDF.',
+      type: 'Magazine',
+      sig: 'RSS',
+      lang: 'EN',
+      ver: '2026.09',
+      act: 'Open',
+    },
+    {
+      name: 'The Analog Web',
+      trust: 'Trusted',
+      desc: 'A hand-built directory of sites that still serve plain HTML over a slow link.',
+      type: 'Directory',
+      sig: 'Atom',
+      lang: 'EN',
+      ver: '2026.07',
+      act: 'Open',
+    },
+    {
+      name: 'Marginalia Search',
+      trust: 'Discovered',
+      desc: 'Deliberately non-commercial index of the small, the strange and the old.',
+      type: 'Search',
+      sig: 'None',
+      lang: 'EN',
+      ver: '2026.03',
+      act: 'Open',
+    },
+  ];
+  /** The virtual-scroll demo's payload. 5,000 rows is the size at which the
+   *  virtualiser's absence would be obvious; `virtual` renders a screenful. */
+  protected readonly virtualRows: readonly DemoRecord[] = Array.from(
+    { length: 5000 },
+    (_, i) => ({
+      name: `Record ${String(i + 1).padStart(4, '0')}`,
+      trust: i % 3 === 0 ? 'Trusted' : 'Discovered',
+      desc: 'Generated row, present only to give the virtualiser something to scroll.',
+      type: 'Zine',
+      sig: i % 5 === 0 ? 'RSS' : 'None',
+      lang: 'EN',
+      ver: `2026.${String((i % 12) + 1).padStart(2, '0')}`,
+      act: 'Open',
+    }),
+  );
   protected readonly navItems: readonly NavItem[] = [
     { label: 'Directory', href: '#directory', active: true },
     { label: 'Reference', href: '#reference', lightColor: 'amber' },

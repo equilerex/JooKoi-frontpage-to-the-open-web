@@ -238,4 +238,187 @@
   .joo-filter-drawer .p-drawer-close-button:hover {
     color: var(--text-primary);
   }
+
+  /* `joo-record-grid`'s port, from the mockup's `.data-table` block
+   * (`features/design-theme/components.css:1149-1307`). It is global for the
+   * same reason as the drawer rules above, but the landing point is different
+   * and the difference is worth stating: `tableStyleClass` puts this class on
+   * PrimeNG's inner `<table>` (`[class]="cn(cx('table'), tableStyleClass())"`,
+   * `primeng-table.mjs:3587`), so `.joo-record-grid` **is** the `<table>`, not
+   * the `<joo-record-grid>` host. Every rule below is therefore a selector from
+   * the table element — a frame rule targets `.joo-record-grid` directly, and a
+   * rule for the table's internals descends from it.
+   *
+   * PrimeNG's own table rules sit in `@layer primeng`, ordered before
+   * `components` by `cascade-layers.css:5`, so these win by layer rather than
+   * by specificity against rules such as
+   * `.p-datatable-thead > tr > th` — which is a class plus two elements and
+   * would otherwise out-specify a bare `.joo-record-grid th`. No `!important`
+   * anywhere, which is why the mockup's one `!important`
+   * (`components.css:1264`) is not carried over; see the 767px block below.
+   *
+   * The `--png-*` half of the split lives in `record-grid.component.css` on
+   * `:host`, because `padding` is the one property the mockup changes that
+   * PrimeNG already parameterises.
+   *
+   * `.table-wrap` (`components.css:1149-1151`, `overflow-x: auto`) has no
+   * counterpart here: it is a plain wrapper `<div>` in the mockup and this
+   * component renders no such element. `/specimen` records the consequence. */
+  .joo-record-grid {
+    /* `width: 100%` is the mockup's (`components.css:1154`) and PrimeNG's
+     * `.p-datatable-table` already sets it; `min-width` is the addition, so the
+     * table fills a flex or grid parent that would otherwise let it shrink. */
+    min-width: 100%;
+    width: 100%;
+    /* PrimeNG's `.p-datatable-table` is `border-collapse: separate`
+     * (`@primeuix/styles/dist/datatable`); the mockup's `.data-table` is
+     * `collapse` (`components.css:1155`). Ported for fidelity. It is a visual
+     * no-op for this design — the mockup draws only `border-bottom`s and no two
+     * adjacent borders meet — but inheriting the other value silently and
+     * calling the port complete is the thing to avoid. */
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .joo-record-grid th {
+    font: 600 var(--text-2xs) / 1.2 var(--font-display);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: left;
+    white-space: nowrap;
+    color: var(--text-muted);
+    background: var(--surface-readout);
+    border-bottom: 1px solid var(--border-panel);
+  }
+
+  .joo-record-grid td {
+    vertical-align: top;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .joo-record-grid tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .joo-record-grid tbody tr:hover td {
+    background: var(--surface-row-hover);
+  }
+
+  /* The mono numeric alignment. `data-col` is on every cell because the
+   * wrapper emits `[attr.data-col]="col.field"`; without it this rule and the
+   * four below it compile and match nothing, silently — the defect this phase
+   * has now hit four times. The mockup splits this rule across `.num` (a
+   * content class the wrapper has no counterpart for) and `td[data-col='ver']`;
+   * only the second is portable. */
+  .joo-record-grid td[data-col='ver'] {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--text-muted);
+  }
+
+  .joo-record-grid td[data-col='desc'] {
+    min-width: 14rem;
+    max-width: 40ch;
+    color: var(--text-muted);
+  }
+
+  .joo-record-grid td[data-col='act'] {
+    text-align: right;
+  }
+
+  /* Secondary columns drop first when the table gets tight. */
+  @media (max-width: 1439px) {
+    .joo-record-grid [data-col='lang'] {
+      display: none;
+    }
+  }
+
+  /* Under 768px each row becomes a compact card. The grid areas are the
+   * mockup's column names, which is why `field` doubles as the layout key —
+   * `GridColumn<T>` carries no separate one. A consumer whose field names are
+   * not these gets the stacked layout without the areas, which is the mockup's
+   * own contract, not a gap in the port. */
+  @media (max-width: 767px) {
+    .joo-record-grid thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+
+    .joo-record-grid,
+    .joo-record-grid tbody {
+      display: block;
+    }
+
+    .joo-record-grid tr {
+      display: grid;
+      grid-template-columns: auto auto 1fr auto;
+      grid-template-areas:
+        'name name name trust'
+        'desc desc desc desc'
+        'type sig  ver  act';
+      align-items: center;
+      gap: var(--space-1) var(--space-3);
+      padding: var(--space-3);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .joo-record-grid tbody tr:last-child {
+      border-bottom: 0;
+    }
+
+    /* `background: none !important` in the mockup (`components.css:1264`).
+     * `!important` is barred here, and the reset has to name the hover state as
+     * well: `.joo-record-grid tbody tr:hover td` is (0, 2, 3) and a bare
+     * `.joo-record-grid td` is (0, 1, 1), so the same layer's hover rule would
+     * otherwise win and tint every card cell on hover. */
+    .joo-record-grid td,
+    .joo-record-grid tbody tr:hover td {
+      display: block;
+      padding: 0;
+      border: 0;
+      background: none;
+    }
+
+    .joo-record-grid td[data-col='name'] {
+      grid-area: name;
+    }
+    .joo-record-grid td[data-col='trust'] {
+      grid-area: trust;
+      justify-self: end;
+    }
+    .joo-record-grid td[data-col='type'] {
+      grid-area: type;
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+    .joo-record-grid td[data-col='sig'] {
+      grid-area: sig;
+    }
+    .joo-record-grid td[data-col='ver'] {
+      grid-area: ver;
+    }
+    .joo-record-grid td[data-col='act'] {
+      grid-area: act;
+    }
+    .joo-record-grid td[data-col='lang'] {
+      display: none;
+    }
+
+    .joo-record-grid td[data-col='desc'] {
+      grid-area: desc;
+      min-width: 0;
+      max-width: none;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: var(--space-1);
+    }
+  }
 }

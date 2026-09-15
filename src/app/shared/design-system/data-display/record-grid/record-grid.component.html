@@ -1,0 +1,40 @@
+<p-table
+  [value]="tableValue()"
+  [columns]="tableColumns()"
+  [virtualScroll]="virtual()"
+  [virtualScrollItemSize]="rowHeight()"
+  [scrollable]="virtual()"
+  [scrollHeight]="virtual() ? 'flex' : undefined"
+  tableStyleClass="joo-record-grid"
+  [pt]="{ table: { 'aria-label': ariaLabel() } }"
+>
+  <!-- `scope="col"` is not decoration. A `<th>` with no `scope` is only a
+       column header by inference, and Vitest 4's `getByRole` is Playwright's
+       selector engine rather than a DOM-spec one: its implicit-role table maps
+       a scopeless `<th>` to `cell`, and returns `columnheader` only for
+       `scope="col"`. Without the attribute the spec's own
+       `getByRole('columnheader', …)` query cannot match, and assistive tech has
+       nothing telling it which cells this header owns — the column association
+       is real information, so it is stated rather than left to inference. -->
+  <ng-template #header let-cols>
+    <tr>
+      @for (col of cols; track col.field) {
+      <th scope="col" [style.width]="col.width">{{ col.header }}</th>
+      }
+    </tr>
+  </ng-template>
+
+  <ng-template #body let-row let-cols="columns">
+    <tr (click)="rowActivate.emit(row)">
+      @for (col of cols; track col.field) {
+      <td [attr.data-col]="col.field">{{ row[col.field] }}</td>
+      }
+    </tr>
+  </ng-template>
+
+  <ng-template #emptymessage let-cols>
+    <tr>
+      <td [attr.colspan]="cols.length">{{ emptyMessage() }}</td>
+    </tr>
+  </ng-template>
+</p-table>
