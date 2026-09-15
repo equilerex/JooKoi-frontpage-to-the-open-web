@@ -113,23 +113,32 @@ if (hasShared) {
   }
 
   if (sharedSubDirs.includes('design-system')) {
-    importDirectionConfigs.push({
-      files: ['src/app/shared/design-system/**/*.ts'],
-      rules: {
-        'no-restricted-imports': [
-          'error',
-          {
-            patterns: [
-              {
-                group: ['**/app/**', '!**/shared/design-system/**'],
+    // Forbid design-system from importing any sibling under src/app/: other
+    // top-level folders (app-shell, features) and other shared/* folders.
+    // Keyed on folder name, like the rule families above, so relative
+    // imports (which never contain a literal "app/" segment) are caught.
+    const designSystemForbiddenNames = [
+      ...topLevelDirs.filter((name) => name !== 'shared'),
+      ...sharedSubDirs.filter((name) => name !== 'design-system'),
+    ];
+
+    if (designSystemForbiddenNames.length > 0) {
+      importDirectionConfigs.push({
+        files: ['src/app/shared/design-system/**/*.ts'],
+        rules: {
+          'no-restricted-imports': [
+            'error',
+            {
+              patterns: designSystemForbiddenNames.map((name) => ({
+                group: [`**/${name}`, `**/${name}/**`],
                 message:
                   'shared/design-system must not import anything from outside shared/design-system (ADR 005).',
-              },
-            ],
-          },
-        ],
-      },
-    });
+              })),
+            },
+          ],
+        },
+      });
+    }
   }
 }
 

@@ -91,3 +91,15 @@ Decision 005 renamed the domain to **curated website** inside the app only. Stil
 Status: OPEN
 
 Steyer's layout would make the domain its own top-level folder. Decision 005 put it under `shared/` because every feature uses it and `shared/` was wanted as the home for stores and services. Revisit once two or three real features exist and it's clear whether `shared/` is carrying too much. If it moves, decision 005 gets superseded rather than edited.
+
+## Final review — deferred minors
+
+Status: OPEN
+
+Flagged by the final whole-branch review as non-blocking and parked rather than fixed in the same pass:
+
+- `engines.node` in `package.json` never narrowed to `24` though ADR 003 says it was.
+- `src/styles.css` (global reset/base file) sits outside the `@layer` cascade declared elsewhere.
+- `angular.json`'s prerender config has a `{ path: '**', renderMode: Prerender }` entry that is a silent no-op (no non-`''` routes exist to prerender).
+- `pnpm-workspace.yaml` has placeholder `allowBuilds` values from pnpm's non-interactive scaffold (needs a `pnpm approve-builds` pass later).
+- `jsdom` dependency appears unused.

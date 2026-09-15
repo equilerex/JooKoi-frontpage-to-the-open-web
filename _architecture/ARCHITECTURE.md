@@ -16,7 +16,7 @@ Written at the end of Phase 1 (foundation). Phase 2 is the design system, Phase 
 | Styles                 | Plain CSS, explicit cascade layers, custom properties  | 007 |
 | Tests                  | Vitest browser mode (Playwright/Chromium), `~4.1.11`   | 008 |
 | State                  | Plain signals + `@ngrx/signals` `~22.0.1`              | 010 |
-| Lint / format          | `angular-eslint` + Prettier + `eslint-config-prettier` | — |
+| Lint / format          | `angular-eslint` + Prettier + `eslint-config-prettier` | —   |
 | Import boundaries      | generated `no-restricted-imports` rules                | 005 |
 | CI / hosting           | Designed, not built                                    | 009 |
 
@@ -44,7 +44,7 @@ Static prerendering with no server (ADR 004). `ng build` emits prerendered HTML 
 
 This is the **target** map for the app described in `_architecture/sitemap.yaml`. Design-system component names are candidates taken from the mockup CSS classes; Phase 2 settles the final list. Parked areas are shown only to prove they have a home — they are not created.
 
-> **What actually exists after Phase 1:** `app.component.*`, `app.config.ts`, `app.config.server.ts`, `app.routes.ts` (two routes: `''` → `HomePage`, `**` → `NotFoundPage`), `app.routes.server.ts`, and `app-shell/` holding `home.page.*`, `not-found.page.*` and `app-shell-layout/`. Plus `src/styles/cascade-layers.css` and `src/styles/base-element-styles.css`. There is no `shared/` folder and no feature folder yet. Everything else below is the plan.
+> **What actually exists after Phase 1:** `app.component.*`, `app.config.ts`, `app.config.server.ts`, `app.routes.ts` (two routes: `''` → `HomePage`, `**` → `NotFoundPage`), `app.routes.server.ts`, and `app-shell/` holding `home.page.*`, `not-found.page.*` and `app-shell-layout/`. Plus `src/styles/cascade-layers.css` and `src/styles/base-element-styles.css`. `src/app/shared/`, `src/app/shared/curated-websites/` and `src/app/shared/design-system/` exist as documentation scaffolding, each holding only a `CONTEXT.md` — no feature folder yet. Everything else below is the plan.
 
 ```
 src/
