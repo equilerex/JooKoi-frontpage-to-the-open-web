@@ -14,7 +14,7 @@ The motivation, constraints, and scope stated by the project owner before any pl
 
 **This is not a business.** It's for you and close friends/local community. Free or minimal-cost, offsetting costs the way Wikipedia does if that ever becomes necessary. No monetization intent.
 
-**The "manifesto" framing, stated with your own humor intact:** something of a reaction against the walled-garden, platform-owned model of discovery — an inversion of the old "don't be evil" framing, aimed specifically at not profiting off other people's content, and at sending users *to* original sources rather than reproducing them. That "send to sources, don't reproduce" stance is a design constraint, not just tone — it shows up directly in the discovery review's A1 four-claims test (verified URLs, persistence, action-not-answer, no-network-dependency) and A2's launcher-first argument.
+**The "manifesto" framing, stated with your own humor intact:** something of a reaction against the walled-garden, platform-owned model of discovery — an inversion of the old "don't be evil" framing, aimed specifically at not profiting off other people's content, and at sending users _to_ original sources rather than reproducing them. That "send to sources, don't reproduce" stance is a design constraint, not just tone — it shows up directly in the discovery review's A1 four-claims test (verified URLs, persistence, action-not-answer, no-network-dependency) and A2's launcher-first argument.
 
 **The brainstorm document is explicitly not a definitive plan.** It's Gemini-generated scratch material you hadn't fully read yourself, offered with the instruction to treat it skeptically and to actually define requirements, not transcribe them. Its job in the repo is raw material for `product-concept.md`, sitting behind `decisions/000-discovery.md` (the critique of it), not a spec to implement against.
 
@@ -23,7 +23,6 @@ The motivation, constraints, and scope stated by the project owner before any pl
 **Named as future scope, not now:** dedicated news exploration, feed reading, multi-tab open-and-browse patterns. Explicitly deferred, not forgotten — worth a line in `.agents/context/gotchas.md` or a "not yet" section of the product-concept file so a future planning pass doesn't have to rediscover that these were considered and consciously parked.
 
 **Design exploration is deliberately sequenced after planning, not before.** You corrected me mid-session for jumping into implementation-level design-token discussion prematurely — the instruction stands: design skill selection and UX exploration happen during Stage 2 (product exploration on real data) and Stage 4 (MVP definition) of `discovery-phase-review.md` §B, not before the stack and the data exist.
-
 
 ## Consequences
 

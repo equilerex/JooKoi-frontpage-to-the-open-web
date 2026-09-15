@@ -1,184 +1,314 @@
 <!doctype html>
 <html lang="en" data-theme="retro">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Open Web · Search</title>
-  <!-- Specimen only. The app self-hosts these fonts. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css">
-  <link rel="stylesheet" href="components.css">
-  <script src="demo.js" defer></script>
-</head>
-<body>
-  <header class="hud">
-    <div class="hud__inner">
-      <a class="hud__brand" href="index.html"><span class="hud__mark" aria-hidden="true"></span><span class="logotype logotype--sm">Open<b>Web</b></span></a>
-      <form class="hud__search console console--compact" role="search" action="search.html">
-        <label class="sr-only" for="q">Search sources</label>
-        <span class="console__prompt" aria-hidden="true">&gt;</span>
-        <input class="console__input" id="q" name="q" value="css grid" autocomplete="off">
-        <button class="key key--hot key--xs">Go</button>
-      </form>
-      <nav class="hud__nav" aria-label="Main">
-        <a class="key key--sm" href="search.html" aria-current="page"><span class="led" aria-hidden="true"></span>Search</a>
-        <a class="key key--sm" href="browse.html"><span class="led" aria-hidden="true"></span>Browse</a>
-        <a class="key key--sm" href="learn-topic.html"><span class="led" aria-hidden="true"></span>Learn</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="page stack">
-    <div class="toolbar">
-      <div>
-        <p class="eyebrow">Search results</p>
-        <h1 class="h-title">Sources for <span class="mono">css grid</span></h1>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Open Web · Search</title>
+    <!-- Specimen only. The app self-hosts these fonts. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="tokens.css" />
+    <link rel="stylesheet" href="components.css" />
+    <script src="demo.js" defer></script>
+  </head>
+  <body>
+    <header class="hud">
+      <div class="hud__inner">
+        <a class="hud__brand" href="index.html"
+          ><span class="hud__mark" aria-hidden="true"></span
+          ><span class="logotype logotype--sm">Open<b>Web</b></span></a
+        >
+        <form class="hud__search console console--compact" role="search" action="search.html">
+          <label class="sr-only" for="q">Search sources</label>
+          <span class="console__prompt" aria-hidden="true">&gt;</span>
+          <input class="console__input" id="q" name="q" value="css grid" autocomplete="off" />
+          <button class="key key--hot key--xs">Go</button>
+        </form>
+        <nav class="hud__nav" aria-label="Main">
+          <a class="key key--sm" href="search.html" aria-current="page"
+            ><span class="led" aria-hidden="true"></span>Search</a
+          >
+          <a class="key key--sm" href="browse.html"
+            ><span class="led" aria-hidden="true"></span>Browse</a
+          >
+          <a class="key key--sm" href="learn-topic.html"
+            ><span class="led" aria-hidden="true"></span>Learn</a
+          >
+        </nav>
       </div>
-      <div class="toolbar__end leds">
-        <span class="readout" data-ghost="888" aria-hidden="true">124</span>
-        <span>124 sources</span>
-      </div>
-    </div>
+    </header>
 
-    <div class="with-rack">
-      <aside class="with-rack__side">
-        <details class="drawer panel" open>
-          <summary class="panel__head">
-            <span class="led led--amber" aria-hidden="true"></span>
-            <span class="panel__title">Filters</span>
-            <span class="panel__meta">2 on <span class="drawer__caret" aria-hidden="true">▾</span></span>
-          </summary>
-          <div class="panel__body rack-groups">
-            <div class="rack-group">
-              <p class="field-label">Trust</p>
-              <div class="toggles">
-                <button type="button" class="toggle" aria-pressed="true"><span class="toggle__jewel" aria-hidden="true"></span>Trusted only<span class="toggle__state" aria-hidden="true"></span></button>
+    <main class="page stack">
+      <div class="toolbar">
+        <div>
+          <p class="eyebrow">Search results</p>
+          <h1 class="h-title">Sources for <span class="mono">css grid</span></h1>
+        </div>
+        <div class="toolbar__end leds">
+          <span class="readout" data-ghost="888" aria-hidden="true">124</span>
+          <span>124 sources</span>
+        </div>
+      </div>
+
+      <div class="with-rack">
+        <aside class="with-rack__side">
+          <details class="drawer panel" open>
+            <summary class="panel__head">
+              <span class="led led--amber" aria-hidden="true"></span>
+              <span class="panel__title">Filters</span>
+              <span class="panel__meta"
+                >2 on <span class="drawer__caret" aria-hidden="true">▾</span></span
+              >
+            </summary>
+            <div class="panel__body rack-groups">
+              <div class="rack-group">
+                <p class="field-label">Trust</p>
+                <div class="toggles">
+                  <button type="button" class="toggle" aria-pressed="true">
+                    <span class="toggle__jewel" aria-hidden="true"></span>Trusted only<span
+                      class="toggle__state"
+                      aria-hidden="true"
+                    ></span>
+                  </button>
+                </div>
+              </div>
+              <div class="rack-group">
+                <p class="field-label">Signals</p>
+                <div class="toggles">
+                  <button type="button" class="toggle toggle--magenta" aria-pressed="false">
+                    <span class="toggle__jewel" aria-hidden="true"></span>Has RSS<span
+                      class="toggle__state"
+                      aria-hidden="true"
+                    ></span>
+                  </button>
+                  <button type="button" class="toggle toggle--magenta" aria-pressed="true">
+                    <span class="toggle__jewel" aria-hidden="true"></span>Has site search<span
+                      class="toggle__state"
+                      aria-hidden="true"
+                    ></span>
+                  </button>
+                  <button type="button" class="toggle toggle--magenta" aria-pressed="false">
+                    <span class="toggle__jewel" aria-hidden="true"></span>Has API<span
+                      class="toggle__state"
+                      aria-hidden="true"
+                    ></span>
+                  </button>
+                </div>
+              </div>
+              <div class="rack-group toggles">
+                <div>
+                  <label class="field-label" for="f-type">Type</label>
+                  <select class="select" id="f-type">
+                    <option>Any type</option>
+                    <option>Reference</option>
+                    <option>Blog</option>
+                    <option>Magazine</option>
+                    <option>Search engine</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label" for="f-lang">Language</label>
+                  <select class="select" id="f-lang">
+                    <option>Any language</option>
+                    <option>English</option>
+                    <option>Estonian</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="field-label" for="f-region">Region</label>
+                  <select class="select" id="f-region">
+                    <option>Global</option>
+                    <option>Europe</option>
+                    <option>Baltics</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <div class="rack-group">
-              <p class="field-label">Signals</p>
-              <div class="toggles">
-                <button type="button" class="toggle toggle--magenta" aria-pressed="false"><span class="toggle__jewel" aria-hidden="true"></span>Has RSS<span class="toggle__state" aria-hidden="true"></span></button>
-                <button type="button" class="toggle toggle--magenta" aria-pressed="true"><span class="toggle__jewel" aria-hidden="true"></span>Has site search<span class="toggle__state" aria-hidden="true"></span></button>
-                <button type="button" class="toggle toggle--magenta" aria-pressed="false"><span class="toggle__jewel" aria-hidden="true"></span>Has API<span class="toggle__state" aria-hidden="true"></span></button>
-              </div>
-            </div>
-            <div class="rack-group toggles">
-              <div>
-                <label class="field-label" for="f-type">Type</label>
-                <select class="select" id="f-type"><option>Any type</option><option>Reference</option><option>Blog</option><option>Magazine</option><option>Search engine</option></select>
-              </div>
-              <div>
-                <label class="field-label" for="f-lang">Language</label>
-                <select class="select" id="f-lang"><option>Any language</option><option>English</option><option>Estonian</option></select>
-              </div>
-              <div>
-                <label class="field-label" for="f-region">Region</label>
-                <select class="select" id="f-region"><option>Global</option><option>Europe</option><option>Baltics</option></select>
-              </div>
+          </details>
+        </aside>
+
+        <section class="panel" aria-labelledby="results-title">
+          <div class="panel__head">
+            <span class="led led--cyan" aria-hidden="true"></span>
+            <h2 class="panel__title" id="results-title">Results</h2>
+            <span class="panel__meta">sources, not pages</span>
+          </div>
+          <div class="panel__body toolbar">
+            <span class="field-label" id="sort-label">Sort</span>
+            <div class="segment" role="group" aria-labelledby="sort-label">
+              <button type="button" aria-pressed="true">Relevance</button>
+              <button type="button" aria-pressed="false">Trust</button>
+              <button type="button" aria-pressed="false">Verified</button>
+              <button type="button" aria-pressed="false">A–Z</button>
             </div>
           </div>
-        </details>
-      </aside>
-
-      <section class="panel" aria-labelledby="results-title">
-        <div class="panel__head">
-          <span class="led led--cyan" aria-hidden="true"></span>
-          <h2 class="panel__title" id="results-title">Results</h2>
-          <span class="panel__meta">sources, not pages</span>
-        </div>
-        <div class="panel__body toolbar">
-          <span class="field-label" id="sort-label">Sort</span>
-          <div class="segment" role="group" aria-labelledby="sort-label">
-            <button type="button" aria-pressed="true">Relevance</button>
-            <button type="button" aria-pressed="false">Trust</button>
-            <button type="button" aria-pressed="false">Verified</button>
-            <button type="button" aria-pressed="false">A–Z</button>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Source</th>
+                  <th>Trust</th>
+                  <th>About</th>
+                  <th>Type</th>
+                  <th>Signals</th>
+                  <th data-col="lang">Lang</th>
+                  <th>Verified</th>
+                  <th><span class="sr-only">Direct search</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-col="name">
+                    <a class="src-name" href="source.html">MDN Web Docs</a
+                    ><span class="src-domain">developer.mozilla.org</span>
+                  </td>
+                  <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
+                  <td data-col="desc">
+                    Reference for HTML, CSS, JavaScript and Web APIs, with a full grid guide.
+                  </td>
+                  <td data-col="type">Reference</td>
+                  <td data-col="sig">
+                    <span class="sigs"><span class="sig">SRCH</span></span>
+                  </td>
+                  <td data-col="lang">EN</td>
+                  <td data-col="ver">2026-09-02</td>
+                  <td data-col="act">
+                    <a
+                      class="key key--cyan key--xs"
+                      href="https://developer.mozilla.org/en-US/search?q=css+grid"
+                      aria-label="Search MDN Web Docs for css grid"
+                      >Search ↗</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td data-col="name">
+                    <a class="src-name" href="source.html">CSS-Tricks</a
+                    ><span class="src-domain">css-tricks.com</span>
+                  </td>
+                  <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
+                  <td data-col="desc">
+                    Long-running front-end articles and almanac, known for its grid cheat sheet.
+                  </td>
+                  <td data-col="type">Articles</td>
+                  <td data-col="sig">
+                    <span class="sigs"
+                      ><span class="sig">RSS</span><span class="sig">SRCH</span></span
+                    >
+                  </td>
+                  <td data-col="lang">EN</td>
+                  <td data-col="ver">2026-08-30</td>
+                  <td data-col="act">
+                    <a
+                      class="key key--cyan key--xs"
+                      href="https://css-tricks.com/?s=css+grid"
+                      aria-label="Search CSS-Tricks for css grid"
+                      >Search ↗</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td data-col="name">
+                    <a class="src-name" href="source.html">Smashing Magazine</a
+                    ><span class="src-domain">smashingmagazine.com</span>
+                  </td>
+                  <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
+                  <td data-col="desc">
+                    In-depth articles on layout, design systems and front-end practice.
+                  </td>
+                  <td data-col="type">Magazine</td>
+                  <td data-col="sig">
+                    <span class="sigs"
+                      ><span class="sig">RSS</span><span class="sig">SRCH</span></span
+                    >
+                  </td>
+                  <td data-col="lang">EN</td>
+                  <td data-col="ver">2026-08-27</td>
+                  <td data-col="act">
+                    <a
+                      class="key key--cyan key--xs"
+                      href="https://www.smashingmagazine.com/search/?q=css+grid"
+                      aria-label="Search Smashing Magazine for css grid"
+                      >Search ↗</a
+                    >
+                  </td>
+                </tr>
+                <tr>
+                  <td data-col="name">
+                    <a class="src-name" href="source.html">Josh W. Comeau</a
+                    ><span class="src-domain">joshwcomeau.com</span>
+                  </td>
+                  <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
+                  <td data-col="desc">
+                    Interactive explainers on CSS layout, including an illustrated grid guide.
+                  </td>
+                  <td data-col="type">Blog</td>
+                  <td data-col="sig">
+                    <span class="sigs"><span class="sig">RSS</span></span>
+                  </td>
+                  <td data-col="lang">EN</td>
+                  <td data-col="ver">2026-08-11</td>
+                  <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
+                </tr>
+                <tr>
+                  <td data-col="name">
+                    <a class="src-name" href="source.html">Grid by Example</a
+                    ><span class="src-domain">gridbyexample.com</span>
+                  </td>
+                  <td data-col="trust"><span class="trust trust--discovered">Discovered</span></td>
+                  <td data-col="desc">Small example library of grid patterns. Not yet reviewed.</td>
+                  <td data-col="type">Examples</td>
+                  <td data-col="sig"></td>
+                  <td data-col="lang">EN</td>
+                  <td data-col="ver">2026-06-04</td>
+                  <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
+                </tr>
+                <tr>
+                  <td data-col="name">
+                    <a class="src-name" href="source.html">Marginalia Search</a
+                    ><span class="src-domain">marginalia-search.com</span>
+                  </td>
+                  <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
+                  <td data-col="desc">
+                    Independent engine for small, text-heavy sites. Good for personal grid
+                    write-ups.
+                  </td>
+                  <td data-col="type">Search engine</td>
+                  <td data-col="sig">
+                    <span class="sigs"
+                      ><span class="sig">SRCH</span><span class="sig">API</span></span
+                    >
+                  </td>
+                  <td data-col="lang">EN</td>
+                  <td data-col="ver">2026-08-21</td>
+                  <td data-col="act">
+                    <a
+                      class="key key--cyan key--xs"
+                      href="https://marginalia-search.com/search?query=css+grid"
+                      aria-label="Search Marginalia for css grid"
+                      >Search ↗</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </div>
-        <div class="table-wrap">
-          <table class="data-table">
-            <thead>
-              <tr><th>Source</th><th>Trust</th><th>About</th><th>Type</th><th>Signals</th><th data-col="lang">Lang</th><th>Verified</th><th><span class="sr-only">Direct search</span></th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td data-col="name"><a class="src-name" href="source.html">MDN Web Docs</a><span class="src-domain">developer.mozilla.org</span></td>
-                <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
-                <td data-col="desc">Reference for HTML, CSS, JavaScript and Web APIs, with a full grid guide.</td>
-                <td data-col="type">Reference</td>
-                <td data-col="sig"><span class="sigs"><span class="sig">SRCH</span></span></td>
-                <td data-col="lang">EN</td>
-                <td data-col="ver">2026-09-02</td>
-                <td data-col="act"><a class="key key--cyan key--xs" href="https://developer.mozilla.org/en-US/search?q=css+grid" aria-label="Search MDN Web Docs for css grid">Search ↗</a></td>
-              </tr>
-              <tr>
-                <td data-col="name"><a class="src-name" href="source.html">CSS-Tricks</a><span class="src-domain">css-tricks.com</span></td>
-                <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
-                <td data-col="desc">Long-running front-end articles and almanac, known for its grid cheat sheet.</td>
-                <td data-col="type">Articles</td>
-                <td data-col="sig"><span class="sigs"><span class="sig">RSS</span><span class="sig">SRCH</span></span></td>
-                <td data-col="lang">EN</td>
-                <td data-col="ver">2026-08-30</td>
-                <td data-col="act"><a class="key key--cyan key--xs" href="https://css-tricks.com/?s=css+grid" aria-label="Search CSS-Tricks for css grid">Search ↗</a></td>
-              </tr>
-              <tr>
-                <td data-col="name"><a class="src-name" href="source.html">Smashing Magazine</a><span class="src-domain">smashingmagazine.com</span></td>
-                <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
-                <td data-col="desc">In-depth articles on layout, design systems and front-end practice.</td>
-                <td data-col="type">Magazine</td>
-                <td data-col="sig"><span class="sigs"><span class="sig">RSS</span><span class="sig">SRCH</span></span></td>
-                <td data-col="lang">EN</td>
-                <td data-col="ver">2026-08-27</td>
-                <td data-col="act"><a class="key key--cyan key--xs" href="https://www.smashingmagazine.com/search/?q=css+grid" aria-label="Search Smashing Magazine for css grid">Search ↗</a></td>
-              </tr>
-              <tr>
-                <td data-col="name"><a class="src-name" href="source.html">Josh W. Comeau</a><span class="src-domain">joshwcomeau.com</span></td>
-                <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
-                <td data-col="desc">Interactive explainers on CSS layout, including an illustrated grid guide.</td>
-                <td data-col="type">Blog</td>
-                <td data-col="sig"><span class="sigs"><span class="sig">RSS</span></span></td>
-                <td data-col="lang">EN</td>
-                <td data-col="ver">2026-08-11</td>
-                <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
-              </tr>
-              <tr>
-                <td data-col="name"><a class="src-name" href="source.html">Grid by Example</a><span class="src-domain">gridbyexample.com</span></td>
-                <td data-col="trust"><span class="trust trust--discovered">Discovered</span></td>
-                <td data-col="desc">Small example library of grid patterns. Not yet reviewed.</td>
-                <td data-col="type">Examples</td>
-                <td data-col="sig"></td>
-                <td data-col="lang">EN</td>
-                <td data-col="ver">2026-06-04</td>
-                <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
-              </tr>
-              <tr>
-                <td data-col="name"><a class="src-name" href="source.html">Marginalia Search</a><span class="src-domain">marginalia-search.com</span></td>
-                <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
-                <td data-col="desc">Independent engine for small, text-heavy sites. Good for personal grid write-ups.</td>
-                <td data-col="type">Search engine</td>
-                <td data-col="sig"><span class="sigs"><span class="sig">SRCH</span><span class="sig">API</span></span></td>
-                <td data-col="lang">EN</td>
-                <td data-col="ver">2026-08-21</td>
-                <td data-col="act"><a class="key key--cyan key--xs" href="https://marginalia-search.com/search?query=css+grid" aria-label="Search Marginalia for css grid">Search ↗</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="panel__body">
-          <button type="button" class="key key--block">Load 20 more</button>
-        </div>
-      </section>
-    </div>
-  </main>
+          <div class="panel__body">
+            <button type="button" class="key key--block">Load 20 more</button>
+          </div>
+        </section>
+      </div>
+    </main>
 
-  <nav class="dock" aria-label="Main">
-    <a class="dock__item" href="index.html">Home</a>
-    <a class="dock__item" href="search.html" aria-current="page">Search</a>
-    <a class="dock__item" href="browse.html">Browse</a>
-    <a class="dock__item" href="learn-topic.html">Learn</a>
-  </nav>
-</body>
+    <nav class="dock" aria-label="Main">
+      <a class="dock__item" href="index.html">Home</a>
+      <a class="dock__item" href="search.html" aria-current="page">Search</a>
+      <a class="dock__item" href="browse.html">Browse</a>
+      <a class="dock__item" href="learn-topic.html">Learn</a>
+    </nav>
+  </body>
 </html>

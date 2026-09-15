@@ -1,4 +1,4 @@
-  # Sitemap — pages, dev-facing scripts, and navigation edges. Rough first draft, not build order.
+# Sitemap — pages, dev-facing scripts, and navigation edges. Rough first draft, not build order.
 # Schema per entry (flat, no nesting — scripts/sitemap-to-mermaid.mjs depends on this shape):
 #   id: unique slug, used as node id and in links_to
 #   title: short label
