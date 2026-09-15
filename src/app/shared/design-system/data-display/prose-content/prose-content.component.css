@@ -1,0 +1,23 @@
+/*
+ * The prose box, ported from `features/design-theme/components.css` `.prose`
+ * (:1523-1526) and its mobile size override (:1636-1638).
+ *
+ * Only the box rules live here. Every descendant rule in the mockup's `.prose`
+ * block reaches projected content, which emulated encapsulation cannot scope,
+ * so those are in `src/styles.css` under `@layer components`, keyed to this
+ * element name. Decision 014 has the mechanism and the reasoning.
+ *
+ * `display: block` matches the mockup, where `.prose` sat on an `<article>`.
+ */
+
+:host {
+  display: block;
+  font: 400 1rem / 1.7 var(--font-read);
+  color: var(--sheet-text);
+}
+
+@media (max-width: 768px) {
+  :host {
+    font-size: 0.875rem;
+  }
+}

@@ -2,6 +2,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HardwareKeyComponent } from '../shared/design-system/actions/hardware-key/hardware-key.component';
 import { KeycapGridComponent } from '../shared/design-system/actions/keycap-grid/keycap-grid.component';
 import { KeycapComponent } from '../shared/design-system/actions/keycap/keycap.component';
+import { CapabilityTagComponent } from '../shared/design-system/data-display/capability-tag/capability-tag.component';
+import { CountChipComponent } from '../shared/design-system/data-display/count-chip/count-chip.component';
+import { ProseContentComponent } from '../shared/design-system/data-display/prose-content/prose-content.component';
+import {
+  SpecEntry,
+  SpecListComponent,
+} from '../shared/design-system/data-display/spec-list/spec-list.component';
+import { TagSetComponent } from '../shared/design-system/data-display/tag-set/tag-set.component';
 import { ConsoleInputComponent } from '../shared/design-system/form-controls/console-input/console-input.component';
 import { FieldLabelComponent } from '../shared/design-system/form-controls/field-label/field-label.component';
 import {
@@ -36,6 +44,11 @@ import { SpecimenSectionComponent } from './specimen-section/specimen-section.co
     ConsoleInputComponent,
     StompboxToggleComponent,
     SegmentSelectorComponent,
+    CapabilityTagComponent,
+    CountChipComponent,
+    TagSetComponent,
+    SpecListComponent,
+    ProseContentComponent,
   ],
   templateUrl: './specimen.page.html',
   styleUrl: './specimen.page.css',
@@ -48,5 +61,10 @@ export class SpecimenPage {
     { value: 'relevance', label: 'Relevance' },
     { value: 'recent', label: 'Recent' },
     { value: 'alpha', label: 'A–Z' },
+  ];
+  protected readonly specEntries: readonly SpecEntry[] = [
+    { term: 'Updated', value: 'Weekly' },
+    { term: 'Feed', value: 'Atom' },
+    { term: 'Licence', value: 'CC BY-SA' },
   ];
 }

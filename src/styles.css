@@ -11,4 +11,134 @@
     font-weight: 700;
     font-style: italic;
   }
+
+  /* Same reason, at length. `joo-prose-content`'s whole template is
+   * `<ng-content />` and its contract is that it styles whatever long-form HTML
+   * the consumer projects into it, so every descendant rule it needs has this
+   * problem. The box rules stay in prose-content.component.css under `:host`;
+   * these are the ones that reach the projected elements. Decision 014. */
+  joo-prose-content h1,
+  joo-prose-content h2,
+  joo-prose-content h3,
+  joo-prose-content h4 {
+    margin: 1.6em 0 0.6em;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  joo-prose-content > :first-child {
+    margin-top: 0;
+  }
+
+  joo-prose-content h1 {
+    font-size: 1.4rem;
+  }
+
+  joo-prose-content h2 {
+    font-size: 1.3rem;
+  }
+
+  joo-prose-content h3 {
+    font-size: 1.25rem;
+  }
+
+  joo-prose-content h4 {
+    font-size: 1.125rem;
+  }
+
+  joo-prose-content p {
+    margin: 0 0 1rem;
+  }
+
+  joo-prose-content a {
+    color: var(--sheet-link);
+    text-decoration: none;
+  }
+
+  joo-prose-content a:hover {
+    text-decoration: underline;
+  }
+
+  joo-prose-content ul,
+  joo-prose-content ol {
+    margin: 0 0 1rem;
+    padding-left: 2rem;
+  }
+
+  joo-prose-content li {
+    margin-bottom: 0.5rem;
+  }
+
+  joo-prose-content code {
+    padding: 0.2rem 0.4rem;
+    font: 600 0.9em var(--font-mono);
+    color: var(--sheet-text);
+    background: var(--sheet-code-inline);
+    border-radius: 4px;
+  }
+
+  joo-prose-content pre {
+    margin: 0 0 1rem;
+    padding: 1rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    color: var(--sheet-code-text);
+    background: var(--sheet-code-block);
+    border-radius: 8px;
+  }
+
+  joo-prose-content pre code {
+    padding: 0;
+    font-weight: 400;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+  }
+
+  joo-prose-content blockquote {
+    margin: 0 0 1rem;
+    padding-left: 1rem;
+    color: var(--sheet-text-muted);
+    border-left: 4px solid var(--sheet-quote);
+  }
+
+  joo-prose-content table {
+    width: 100%;
+    margin: 0 0 1rem;
+    border-collapse: collapse;
+  }
+
+  joo-prose-content th,
+  joo-prose-content td {
+    padding: 0.5rem;
+    text-align: left;
+    border: 1px solid var(--sheet-border);
+  }
+
+  joo-prose-content th {
+    font-weight: 500;
+    background: var(--sheet-head);
+  }
+
+  joo-prose-content hr {
+    margin: 2rem 0;
+    border: 0;
+    border-top: 1px solid var(--sheet-border);
+  }
+
+  @media (max-width: 768px) {
+    joo-prose-content pre {
+      margin-inline: calc(var(--space-4) * -1);
+      border-radius: 0;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    joo-prose-content table {
+      display: block;
+      overflow-x: auto;
+      font-size: 0.75rem;
+    }
+  }
 }
