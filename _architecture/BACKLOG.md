@@ -115,3 +115,15 @@ The mobile dock renders each item as `joo-hardware-key`, not the mockup's `.dock
 Status: OPEN
 
 indicator-nav-list renders every row as a key slab — uppercase display type on a raised slab in the key's muted --k-text — where the mockup's rows in features/design-theme/browse.html are sentence case, --text-sm and --text-muted on a flat transparent background. The mockup also puts a .chip__count in each row (features/design-theme/components.css:1137-1140, browse.html:73-75) and NavItem has no field to represent it. Consequence: the nav list reads noticeably heavier than the mockup intends, and the count chip is not representable at all. Accepted in T11-2 for the active row; the question is whether the rest of the row should follow.
+
+## Port the three .launcher narrow-screen rules to the components that own them
+
+Status: OPEN
+
+The mockup's narrow block at features/design-theme/components.css:1418-1430 has three rules that reach projected content and so cannot live in joo-console-landing-template: .launcher .logotype { font-size: 2rem } (:1418-1420, owed to joo-logotype), .launcher .keygrid { grid-template-columns: repeat(2, 1fr); gap: var(--space-2); padding: var(--space-2) } (:1422-1426, owed to joo-keycap-grid), and .launcher .keycap { min-height: 3.25rem } (:1428-1430, owed to joo-keycap). They were not ported in the page-template work because each one is a property of the component's own box at narrow widths, not of the launcher layout: a rule in the template stylesheet compiles with the template's own _ngcontent and projected nodes do not carry it, so it would match nothing (measured: the compiled selector is .launcher__lead[_ngcontent-X] > [_ngcontent-X] and matches 0 elements on the running console-landing demo). Each component needs its own @media (max-width: 767px) block setting the same values, after which the launcher demo will pick them up automatically.
+
+## Port the mockup's base body typography
+
+Status: OPEN
+
+features/design-theme/components.css:30-37 gives body { margin: 0; min-height: 100dvh; background: var(--bg-page); color: var(--text-primary); font: 400 var(--text-md)/1.55 var(--font-read); -webkit-font-smoothing: antialiased }. It was never ported: src/styles/base-element-styles.css holds only a reset, and --bg-page is defined in src/styles/design-tokens.css but used nowhere. Measured on the running app (2026-09-16, port 4250, /specimen): body font-family "Times New Roman", font-size 16px, line-height normal, background rgba(0,0,0,0). Every component that sets its own font looks right; the gap only shows on text no component owns, e.g. the specimen index lede (.specimen-page__lede computes to "Times New Roman" while its colour correctly resolves to --text-muted). Found during the page-template work and left alone as out of scope.

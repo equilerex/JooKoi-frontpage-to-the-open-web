@@ -1,0 +1,21 @@
+<joo-readout-panel jooCornerBrackets [flush]="true">
+  <joo-console-landing-template>
+    <joo-eyebrow-label templateHero>Front page terminal · 412 sources indexed</joo-eyebrow-label>
+    <joo-logotype templateHero>Open<b>Web</b></joo-logotype>
+
+    <joo-console-input templateConsole size="lg" placeholder="css grid, estonian news, rss readers">
+      <joo-hardware-key accent="hot" size="sm">Launch</joo-hardware-key>
+    </joo-console-input>
+    <joo-toolbar-row templateConsole>
+      <joo-field-label>Scope</joo-field-label>
+      <joo-segment-selector [options]="scopeOptions" value="trusted" ariaLabel="Scope" />
+    </joo-toolbar-row>
+
+    <joo-field-label templateKeys>Quick keys</joo-field-label>
+    <joo-keycap-grid templateKeys>
+      <joo-keycap fn="F1" label="Dev reference" [count]="48" href="#" />
+      <joo-keycap fn="F2" label="Independent news" [count]="31" href="#" />
+      <joo-keycap fn="F3" label="Science" [count]="27" href="#" />
+    </joo-keycap-grid>
+  </joo-console-landing-template>
+</joo-readout-panel>

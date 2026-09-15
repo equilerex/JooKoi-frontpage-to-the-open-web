@@ -1,0 +1,15 @@
+<joo-directory-browse-template>
+  <joo-toolbar-row templateToolbar>
+    <joo-segment-selector [options]="sortOptions" value="relevance" ariaLabel="Sort order" />
+    <joo-count-chip toolbarTrailing [count]="128">Results</joo-count-chip>
+  </joo-toolbar-row>
+
+  <joo-readout-panel templateRack label="Filters">
+    <joo-stompbox-toggle>Has feed</joo-stompbox-toggle>
+    <joo-stompbox-toggle>No tracking</joo-stompbox-toggle>
+  </joo-readout-panel>
+
+  <joo-readout-panel label="Results">
+    <p>Result rows land here in Phase 3.</p>
+  </joo-readout-panel>
+</joo-directory-browse-template>

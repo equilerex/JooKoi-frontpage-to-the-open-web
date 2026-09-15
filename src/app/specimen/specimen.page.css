@@ -26,3 +26,21 @@
   margin: 0;
   color: var(--text-muted);
 }
+
+/* The page templates cannot be demonstrated inline (each is a whole page), so
+ * the index links out to them instead of projecting them into a row. */
+.specimen-page__template-link {
+  padding: var(--space-2) var(--space-3);
+  font: 600 var(--text-xs) / 1 var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-primary);
+  background: var(--surface-chrome);
+  border: 1px solid var(--border-chrome);
+  border-radius: var(--radius-chip);
+}
+
+.specimen-page__template-link:hover {
+  border-color: var(--focus-ring);
+}

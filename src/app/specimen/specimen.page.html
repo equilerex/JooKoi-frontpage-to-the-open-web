@@ -131,3 +131,9 @@
     <joo-count-chip toolbarTrailing [count]="128">Results</joo-count-chip>
   </joo-toolbar-row>
 </joo-specimen-section>
+
+<joo-specimen-section label="Page templates">
+  @for (demo of templateDemos; track demo.path) {
+    <a class="specimen-page__template-link" [routerLink]="demo.path">{{ demo.label }}</a>
+  }
+</joo-specimen-section>

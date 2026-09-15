@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { HardwareKeyComponent } from '../shared/design-system/actions/hardware-key/hardware-key.component';
 import { KeycapGridComponent } from '../shared/design-system/actions/keycap-grid/keycap-grid.component';
 import { KeycapComponent } from '../shared/design-system/actions/keycap/keycap.component';
@@ -42,6 +43,7 @@ import { SpecimenSectionComponent } from './specimen-section/specimen-section.co
 @Component({
   selector: 'joo-specimen-page',
   imports: [
+    RouterLink,
     SpecimenSectionComponent,
     StatusLightComponent,
     BezelJewelComponent,
@@ -96,5 +98,14 @@ export class SpecimenPage {
     { label: 'Directory', href: '#directory', active: true },
     { label: 'Reference', href: '#reference', lightColor: 'amber' },
     { label: 'Tools', href: '#tools' },
+  ];
+  /** The page templates cannot be shown inside this page's flex rows — each is
+   *  the whole page — so they are links to their own routes instead. Paths are
+   *  relative to this page's `/specimen`. */
+  protected readonly templateDemos: readonly { label: string; path: string }[] = [
+    { label: 'Console landing', path: 'templates/console-landing' },
+    { label: 'Directory browse', path: 'templates/directory-browse' },
+    { label: 'Record detail', path: 'templates/record-detail' },
+    { label: 'Document', path: 'templates/document' },
   ];
 }
