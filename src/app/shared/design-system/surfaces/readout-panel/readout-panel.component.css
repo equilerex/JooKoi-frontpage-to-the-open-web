@@ -48,10 +48,8 @@
 }
 
 /* The head strip exists only when it has something to show — the label, the
- * consumer's projected [panelHead], or both. `:has(*)` rather than `:empty`
- * because Angular can leave comment nodes behind for a projection slot and
- * `:empty` counts those while `:has(*)` ignores them. */
-.panel__head:not(:has(*)) {
+ * consumer's projected [panelHead], or both. */
+.panel__head:empty {
   display: none;
 }
 
