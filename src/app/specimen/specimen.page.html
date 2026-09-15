@@ -51,3 +51,19 @@
     <joo-keycap label="No legend" />
   </joo-keycap-grid>
 </joo-specimen-section>
+
+<joo-specimen-section label="Form controls">
+  <joo-field-label for="spec-q">Query</joo-field-label>
+  <joo-console-input inputId="spec-q" placeholder="Search the open web" style="flex-basis: 100%">
+    <joo-hardware-key accent="hot" size="sm">Go</joo-hardware-key>
+  </joo-console-input>
+  <joo-console-input size="compact" placeholder="Compact" style="flex-basis: 100%" />
+  <joo-console-input size="lg" placeholder="Large" style="flex-basis: 100%" />
+
+  <joo-stompbox-toggle style="flex-basis: 100%">Has feed</joo-stompbox-toggle>
+  <joo-stompbox-toggle color="magenta" [on]="true" style="flex-basis: 100%">
+    Trusted only
+  </joo-stompbox-toggle>
+
+  <joo-segment-selector [options]="sortOptions" value="relevance" ariaLabel="Sort order" />
+</joo-specimen-section>

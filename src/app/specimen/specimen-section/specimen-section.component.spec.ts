@@ -11,6 +11,8 @@ describe('SpecimenSectionComponent', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(SpecimenSectionComponent);
+    // `label` is `input.required`, so it must be set before the first render.
+    fixture.componentRef.setInput('label', 'Specimen');
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
