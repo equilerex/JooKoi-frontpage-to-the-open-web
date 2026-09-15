@@ -21,6 +21,17 @@ Stage: **Phase 1 complete — Angular foundation built.** An Angular 22 workspac
 
 This constrains scope and ceremony. It does not relax the personal layer's engineering stances — strict typing, explicit errors, compiler-as-correctness-gate still apply.
 
+## Iteration loop (read before running anything)
+
+Verification is cheap; rebuilding is not. Never pay for a full production build to look at one change.
+
+- **Keep a dev server running in watch mode for the whole session.** `pnpm start` on a fixed port, left up. Angular rebuilds in a few seconds and the browser updates itself. Do not boot a fresh server per change, per fix round, or per subagent — a server already running is always cheaper than one you start.
+- **Debug in the running browser, not through builds.** For a CSS or template change, look at the live page and read the live DOM and computed styles. A `getComputedStyle` probe answers in seconds what a build answers in minutes.
+- **`pnpm run build` and `pnpm run lint` are the gate: once per task, at the end.** They are not an iteration tool and not a debugging aid.
+- **Never run two builders at once.** A dev server and a production build both write `.angular/`. Stop the server before the gate and restart it after.
+- **`tsconfig.json` compiler options are read at server start.** Changing one needs a restart — a watch rebuild will not pick it up.
+- **Experiment config is reverted inside the same task.** Confirm `git status` shows the file clean before committing.
+
 ## Where things are
 
 | Need                                                         | File                                                       |
@@ -51,4 +62,4 @@ This constrains scope and ceremony. It does not relax the personal layer's engin
 - Deterministic work goes in `scripts/`, not into a model's turn.
 - `sources/` is human-authored data (editorial clock). `data/` is machine-observed data (fast clock).
 - Log completed work to `llm-progress-complete.jsonl`; track outstanding work in `_architecture/TODO.md`.
-- UI verification: check at 390px and 1440px in preview browser. Gate: `pnpm run build` and `pnpm run lint`. Tests only when explicitly asked.
+- UI verification: check at 390px and 1440px in the running dev server — see **Iteration loop**. Gate: `pnpm run build` and `pnpm run lint`, once per task rather than per change. Tests only when explicitly asked.
