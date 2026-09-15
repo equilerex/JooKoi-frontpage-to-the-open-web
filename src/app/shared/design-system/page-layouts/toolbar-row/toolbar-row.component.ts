@@ -11,8 +11,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
  * controls together and pushes only the trailing cluster across.
  *
  * The row reflows on its OWN width, not the viewport's: `container-type:
- * inline-size` on the host makes it the container the `@container` query below
- * measures, so a toolbar inside a narrow column stacks even in a wide window.
+ * inline-size` on the host makes it the container the `@container` query in
+ * `toolbar-row.component.css` measures, so a toolbar inside a narrow column
+ * stacks even in a wide window. That containment also makes the host's intrinsic
+ * width zero, so it needs a definite inline size — the stylesheet's `width: 100%`
+ * is the default that supplies one.
  */
 @Component({
   selector: 'joo-toolbar-row',
