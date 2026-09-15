@@ -4,8 +4,9 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
  * Rack-unit panel: chrome head strip with a label, flat readout body. Content
  * in the body never gets texture or glow.
  *
- * The head renders only when `label` is set, so a panel used purely as a frame
- * loses the strip rather than shipping an empty chrome bar.
+ * The head renders only when it has something to show — the label or a
+ * projected `panelHead` — so a panel used purely as a frame loses the strip
+ * rather than shipping an empty chrome bar.
  *
  * The strip's trailing item is whatever the consumer marks `panelHead`. It is
  * projected, so no rule in this component's stylesheet can reach it — the

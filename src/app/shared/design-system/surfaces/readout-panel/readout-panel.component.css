@@ -48,8 +48,14 @@
 }
 
 /* The head strip exists only when it has something to show — the label, the
- * consumer's projected [panelHead], or both. */
-.panel__head:empty {
+ * consumer's projected [panelHead], or both.
+ *
+ * `:has(*)` rather than `:empty` because the two are not equivalent here:
+ * `:empty` also counts text nodes, and the whitespace around the `@if` block
+ * is trimmed only because `preserveWhitespaces` is left at its default of
+ * false. `:has(*)` asks what this component actually means — is any element
+ * in here — and stays correct if that setting is ever turned on. */
+.panel__head:not(:has(*)) {
   display: none;
 }
 
