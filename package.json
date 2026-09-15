@@ -12,6 +12,7 @@
     "test": "ng test",
     "test:ci": "ng test --watch=false --browsers=chromiumHeadless",
     "serve:ssr:jookoi-frontpage": "node dist/jookoi-frontpage/server/server.mjs",
+    "serve:static-build": "node scripts/serve-static-build.mjs",
     "lint": "ng lint",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
