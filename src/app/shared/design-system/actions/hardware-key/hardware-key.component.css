@@ -1,0 +1,139 @@
+/*
+ * Ported from `features/design-theme/components.css` `.key` (:265-365).
+ *
+ * The host is `display: contents` so the inner `.key` is the child of the
+ * surrounding grid or flex container, not of `joo-hardware-key`. That is what
+ * lets one component be a button, a nav link, a toggle, a pager card and a
+ * dock item without four components.
+ *
+ * Not ported: `components.css:368-378`, the rules that light a nested `.led`
+ * when the key latches. A `status-light` projected into a key is a separate
+ * component, and a parent cannot style a child component's internals without
+ * `::ng-deep`, which decision 007 bans. The consumer sets both states from the
+ * same condition instead:
+ *
+ *   <joo-hardware-key [pressed]="isLatched" (press)="toggle()">
+ *     <joo-status-light color="cyan" [on]="isLatched" />
+ *   </joo-hardware-key>
+ *
+ * There is no missing rule here to find.
+ */
+
+:host {
+  display: contents;
+}
+
+.key {
+  --k-top: var(--key-top);
+  --k-base: var(--key-base);
+  --k-edge: var(--key-edge);
+  --k-text: var(--key-text);
+  --k-glow: transparent;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: 0 var(--space-4);
+  font: 600 var(--text-sm)/1 var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--k-text);
+  background: linear-gradient(180deg, var(--k-top), var(--k-base));
+  border: 1px solid var(--key-rim);
+  border-radius: var(--radius-key);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 25%, transparent),
+    inset 0 -2px 0 color-mix(in srgb, black 25%, transparent),
+    0 var(--key-travel) 0 var(--k-edge),
+    0 calc(var(--key-travel) + 3px) 12px var(--shadow-deep),
+    0 0 18px var(--k-glow);
+  cursor: pointer;
+  user-select: none;
+  transition:
+    transform var(--duration-press) ease-out,
+    box-shadow var(--duration-press) ease-out,
+    filter var(--duration-state);
+}
+
+/* `:not(:disabled)` is not in the mockup, which has no disabled keys. Without
+   it a disabled key still lifts on hover, because Chrome matches `:hover` on
+   disabled buttons. */
+.key:not(:disabled):hover {
+  filter: brightness(1.15);
+}
+
+.key:active {
+  transform: translateY(var(--key-travel));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 15%, transparent),
+    inset 0 2px 6px color-mix(in srgb, black 35%, transparent),
+    0 0 0 var(--k-edge),
+    0 1px 3px var(--shadow-deep),
+    0 0 18px var(--k-glow);
+}
+
+.key[aria-pressed='true'],
+.key[aria-current='page'] {
+  transform: translateY(calc(var(--key-travel) / 2));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, white 15%, transparent),
+    inset 0 2px 6px color-mix(in srgb, black 30%, transparent),
+    0 calc(var(--key-travel) / 2) 0 var(--k-edge),
+    0 2px 6px var(--shadow-deep),
+    0 0 18px var(--k-glow);
+}
+
+.key:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.key:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+:host(.is-hot) .key {
+  --k-top: var(--key-hot-top);
+  --k-base: var(--key-hot-base);
+  --k-edge: var(--key-hot-edge);
+  --k-text: var(--text-on-neon);
+  --k-glow: var(--glow-magenta);
+  border-color: var(--key-hot-edge);
+}
+
+:host(.is-cyan) .key {
+  --k-top: var(--key-cyan-top);
+  --k-base: var(--key-cyan-base);
+  --k-edge: var(--key-cyan-edge);
+  --k-text: var(--text-on-neon);
+  --k-glow: var(--glow-cyan);
+  border-color: var(--key-cyan-edge);
+}
+
+:host(.is-sm) .key {
+  min-height: 2.25rem;
+  padding: 0 var(--space-3);
+  font-size: var(--text-xs);
+}
+
+:host(.is-xs) .key {
+  min-height: 1.875rem;
+  padding: 0 var(--space-2);
+  font-size: var(--text-2xs);
+  --key-travel: 2px;
+}
+
+:host(.is-lg) .key {
+  min-height: 3.5rem;
+  padding: 0 var(--space-6);
+  font-size: var(--text-md);
+}
+
+:host(.is-block) .key {
+  width: 100%;
+}

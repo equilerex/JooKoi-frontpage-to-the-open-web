@@ -1,0 +1,41 @@
+/*
+ * Ported from `features/design-theme/components.css` `.keycap` (:381-406).
+ *
+ * In the mockup the keycap rules sat on the same element as `.key`, so they
+ * overrode the slab's own flex layout. Here that element is the projected
+ * `.keycap__body`, and the declarations that `.key` used to provide have to be
+ * stated: `display: flex` (the mockup inherited it) and `width: 100%` (the
+ * mockup's `.key` was a stretched grid item, which is what left the legend
+ * flush against the key's left padding rather than centred in it).
+ *
+ * `.keycap__fn` / `.keycap__label` / `.keycap__count` port unchanged.
+ */
+
+.keycap__body {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: 4.5rem;
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  white-space: normal;
+}
+
+.keycap__fn {
+  font: 500 var(--text-2xs)/1 var(--font-mono);
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.keycap__label {
+  font-size: var(--text-sm);
+  line-height: 1.15;
+}
+
+.keycap__count {
+  font: 500 var(--text-2xs)/1 var(--font-mono);
+  color: var(--text-accent);
+  text-transform: none;
+}

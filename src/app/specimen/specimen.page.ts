@@ -1,4 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { HardwareKeyComponent } from '../shared/design-system/actions/hardware-key/hardware-key.component';
+import { KeycapGridComponent } from '../shared/design-system/actions/keycap-grid/keycap-grid.component';
+import { KeycapComponent } from '../shared/design-system/actions/keycap/keycap.component';
 import { BezelJewelComponent } from '../shared/design-system/indicators/bezel-jewel/bezel-jewel.component';
 import { ClassificationBadgeComponent } from '../shared/design-system/indicators/classification-badge/classification-badge.component';
 import { SegmentReadoutComponent } from '../shared/design-system/indicators/segment-readout/segment-readout.component';
@@ -19,6 +22,9 @@ import { SpecimenSectionComponent } from './specimen-section/specimen-section.co
     EyebrowLabelComponent,
     LogotypeComponent,
     StripeRuleComponent,
+    HardwareKeyComponent,
+    KeycapComponent,
+    KeycapGridComponent,
   ],
   templateUrl: './specimen.page.html',
   styleUrl: './specimen.page.css',

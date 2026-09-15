@@ -33,3 +33,21 @@
   <joo-logotype size="sm">Joo<b>Koi</b></joo-logotype>
   <joo-stripe-rule style="flex-basis: 100%" />
 </joo-specimen-section>
+
+<joo-specimen-section label="Actions">
+  <joo-hardware-key size="xs">Extra small</joo-hardware-key>
+  <joo-hardware-key size="sm">Small</joo-hardware-key>
+  <joo-hardware-key>Medium</joo-hardware-key>
+  <joo-hardware-key size="lg">Large</joo-hardware-key>
+  <joo-hardware-key accent="hot">Hot</joo-hardware-key>
+  <joo-hardware-key accent="cyan">Cyan</joo-hardware-key>
+  <joo-hardware-key [pressed]="true">Latched</joo-hardware-key>
+  <joo-hardware-key [current]="true" as="anchor" href="#">Current page</joo-hardware-key>
+  <joo-hardware-key [disabled]="true">Disabled</joo-hardware-key>
+
+  <joo-keycap-grid style="flex-basis: 100%">
+    <joo-keycap fn="F1" label="Reference" [count]="42" href="#" />
+    <joo-keycap fn="F2" label="Tools" [count]="17" href="#" />
+    <joo-keycap label="No legend" />
+  </joo-keycap-grid>
+</joo-specimen-section>
