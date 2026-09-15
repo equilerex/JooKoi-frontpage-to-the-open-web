@@ -47,3 +47,4 @@ This constrains scope and ceremony. It does not relax the personal layer's engin
 - Deterministic work goes in `scripts/`, not into a model's turn.
 - `sources/` is human-authored data (editorial clock). `data/` is machine-observed data (fast clock).
 - Log completed work to `llm-progress-complete.jsonl`; track outstanding work in `_architecture/TODO.md`.
+- UI verification: check at 390px and 1440px in preview browser. Gate: `pnpm run build` and `pnpm run lint`. Tests only when explicitly asked.
