@@ -2,7 +2,9 @@
 
 Date: 2026-09-15
 
-Status: DECIDED
+Status: DECIDED — amended by decision 011
+
+Decision 011 adopts PrimeNG in styled mode as the component base, skinned through a custom preset and cascade-layer ordering. Angular Material stays rejected — the objection recorded here is to Material's stubborn theme and limited override surface specifically, not to component libraries as a class, and PrimeNG's `cssLayer` emission is the override mechanism Material lacks. Aria and CDK stay available for bespoke controls, but with PrimeNG covering the overlay class, Aria may see little or no use in Phase 2. CDK arrives regardless as a PrimeNG peer.
 
 <!-- Status is one of: DECIDED | TRIAL | REJECTED | DEFERRED | SUPERSEDED
      A superseding decision gets its own number. The superseded file's status changes
