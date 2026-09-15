@@ -8,8 +8,10 @@
  * Most of the panel does arrive from `jookoi-preset.ts` through
  * `semantic.overlay.modal`, `semantic.content` and `semantic.mask`: surface,
  * border colour, text colour, shadow, header strip, title and the scrim,
- * measured in the browser before this file was written. Two properties do not,
- * and they are why the global rule exists — `border-radius`, measured `0px`
- * because Aura's drawer root token map has no `borderRadius` key, and the
+ * measured in the browser before this file was written. Three properties do
+ * not, and they are why the global rule exists — `border-radius`, measured
+ * `0px` because Aura's drawer root token map has no `borderRadius` key; the
  * border width, measured `3px 1px 3px 3px` because PrimeNG sets no
- * `border-width` outside the one side a position class owns. */
+ * `border-width` outside the one side a position class owns; and the close
+ * control's colour, measured `rgb(161, 161, 170)` because that control is a
+ * `pButton` on Aura's button tokens, which this preset does not define. */

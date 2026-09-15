@@ -223,4 +223,19 @@
      * `--radius-panel` is the design system's panel radius. */
     border-radius: var(--radius-panel);
   }
+
+  /* The close control is a `pButton` inside Drawer's own template, so it is not
+   * on the drawer's token chain: the preset declares no `button` block, and
+   * Aura's `--p-button-*` defaults colour it. Measured on the open panel:
+   * `rgb(161, 161, 170)` — Tailwind zinc, unrelated to any token in this
+   * project, and it would not follow a `[data-theme]` swap. Muted, like every
+   * other secondary icon in the system (`pager.component.css:43`,
+   * `breadcrumb-trail.component.css:37`). */
+  .joo-filter-drawer .p-drawer-close-button {
+    color: var(--text-muted);
+  }
+
+  .joo-filter-drawer .p-drawer-close-button:hover {
+    color: var(--text-primary);
+  }
 }
