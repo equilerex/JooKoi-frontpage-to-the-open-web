@@ -2871,7 +2871,7 @@ The heaviest component and the one with the real bundle risk. It gets a test bec
 **Interfaces:**
 
 - Produces:
-  - `joo-record-grid<T>` — `rows` as `input.required<readonly T[]>()`, `columns` as `input.required<readonly GridColumn<T>[]>()` where `GridColumn<T> = { readonly field: keyof T & string; readonly header: string; readonly width?: string }`, `rowHeight: number` (default `44`), `virtual: boolean` (default `false`), `emptyMessage: string`, `ariaLabel: string`; `rowActivate` output of type `T`.
+  - `joo-record-grid<T>` — `rows` as `input<readonly T[]>([])`, `columns` as `input<readonly GridColumn<T>[]>([])` where `GridColumn<T> = { readonly field: keyof T & string; readonly header: string; readonly width?: string }`, `rowHeight: number` (default `44`), `virtual: boolean` (default `false`), `emptyMessage: string` (default `'No records.'`), `ariaLabel: string` (default `''`); `rowActivate` output of type `T`. Neither array is `input.required`, and Step 3 carries the reason.
 
 Generic over the row type: a grid that types its rows as `Record<string, unknown>` pushes a cast onto every consumer, and `keyof T & string` is what makes the column list check against the data at compile time.
 
@@ -2940,7 +2940,7 @@ Expected: FAIL — `Cannot find module './record-grid.component'`.
 - [ ] **Step 3: Write the component**
 
 ```ts
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { TableModule } from 'primeng/table';
 
 export interface GridColumn<T> {
@@ -2957,13 +2957,36 @@ export interface GridColumn<T> {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RecordGridComponent<T> {
-  readonly rows = input.required<readonly T[]>();
-  readonly columns = input.required<readonly GridColumn<T>[]>();
+  /**
+   * Neither array is `input.required`, and the reason is not style. The two
+   * `computed`s below read them, and a `computed` that reads a required input
+   * before it is set throws `NG0950`. Normal rendering is unaffected — inputs
+   * are applied before the template renders — but Angular's SSR error-
+   * **recovery** path calls `recreate()` without re-applying inputs, so on a
+   * page containing this component any recoverable render error escalates into
+   * an uncaught `NG0950` and the process exits 1. This repo prerenders, so that
+   * is a crashed build rather than a failed page. An empty grid is a coherent
+   * default anyway; the same reasoning is written out in `chrome-select` and
+   * `pager`, which were bitten by it for real.
+   *
+   * The copies exist because `Table.value` and `Table.columns` are both typed
+   * `any[] | undefined`, so a `readonly` array is rejected outright (TS4104).
+   * Calling these inputs `readonly` is the right public contract — the
+   * component never mutates either one — so the copy happens here rather than
+   * by weakening the interface to a mutable array and pushing the problem onto
+   * every caller. `computed` memoises, so the identity PrimeNG sees changes
+   * only when the data does.
+   */
+  readonly rows = input<readonly T[]>([]);
+  readonly columns = input<readonly GridColumn<T>[]>([]);
   readonly rowHeight = input(44);
   readonly virtual = input(false);
   readonly emptyMessage = input('No records.');
   readonly ariaLabel = input('');
   readonly rowActivate = output<T>();
+
+  protected readonly tableValue = computed(() => [...this.rows()]);
+  protected readonly tableColumns = computed(() => [...this.columns()]);
 }
 ```
 
@@ -2971,14 +2994,14 @@ export class RecordGridComponent<T> {
 
 ```html
 <p-table
-  [value]="rows()"
-  [columns]="columns()"
+  [value]="tableValue()"
+  [columns]="tableColumns()"
   [virtualScroll]="virtual()"
   [virtualScrollItemSize]="rowHeight()"
   [scrollable]="virtual()"
   [scrollHeight]="virtual() ? 'flex' : undefined"
-  styleClass="joo-record-grid"
-  [tableStyle]="{ 'min-width': '100%' }"
+  tableStyleClass="joo-record-grid"
+  [pt]="{ table: { 'aria-label': ariaLabel() } }"
 >
   <ng-template #header let-cols>
     <tr>
@@ -3004,7 +3027,12 @@ export class RecordGridComponent<T> {
 </p-table>
 ```
 
-The `#header` / `#body` / `#emptymessage` template-reference form is PrimeNG v22's slot syntax; if the version in `node_modules` still expects `pTemplate="header"`, use that instead. Check one of PrimeNG's own `.d.ts` or docs before guessing — this is the single most likely thing in the plan to have changed.
+Every line above was checked against `primeng@22.1.5` in `node_modules`, because this is the part of the plan most likely to have drifted from the installed version. Read them as verified, not as guesses:
+
+- **`tableStyleClass`, not `styleClass`.** `Table` in 22.1.5 declares no `styleClass` input at all — grep `styleClass` in `node_modules/primeng/types/primeng-table.d.ts` and the only hit is `tableStyleClass`. A bare `styleClass="joo-record-grid"` is not an error, it is a stray attribute on the host element that no selector matches, so the hook class silently styles nothing. `tableStyleClass` is the input, and it lands on PrimeNG's inner `<table>` (`[class]="cn(cx('table'), tableStyleClass())"`, `primeng-table.mjs:3587`).
+- **The three slot names are right.** `contentChild('header')`, `contentChild('body')` and `contentChild('emptymessage')` are the queries, at `primeng-table.mjs:1654`, `:1656` and `:1671`. The `pTemplate="header"` form is not what this version reads, so there is nothing to fall back to.
+- **The slot contexts are right, and they differ from each other.** `#header` gets `{ $implicit: scrollerOptions.columns }` (`:3593-3595`, and the non-virtual branch supplies `options: { columns }` at `:3580`), which is why `let-cols` is the column list. `#body` gets `{ $implicit: rowData, rowIndex, columns, editing, frozen }` (`:713-719`), which is why it is `let-row let-cols="columns"` and not the other way round. `#emptymessage` gets `bodyContext()`, i.e. `{ $implicit: columns, frozen }` (`:587-591`, rendered at `:1043`). All three render inside the right row group: the header template inside `<thead>`, the other two inside `<tbody>`, so the bare `<tr>` roots are correct.
+- **`[pt]` is how the label reaches the table.** PrimeNG 22.1.5 declares no `ariaLabel` input on `Table` (unlike `Select`, which does — that is why `chrome-select` could just bind one). The inner `<table>` carries `role="table"` (`:3587`) and no accessible name, and it is outside this component's encapsulation, so a host attribute cannot reach it. `pt` is the library's own pass-through and `[pBind]="ptm('table')"` is what applies it to that element; `Bind`'s effect calls `renderer.setAttribute` for every key it is given (`primeng-bind.mjs`), so a plain `aria-label` key arrives as a real attribute. This is the one line in the step whose *runtime* effect could not be settled by reading `node_modules` — if the build rejects it, that is a reportable concern, not something to invent a workaround for, and either way the accessible name is confirmed in the running app before the task is called done.
 
 Row activation is on `(click)` only here; keyboard row activation is a Phase 3 concern once there is a real destination to activate to. Note that in the file header so it is a recorded gap, not an oversight.
 
@@ -3015,7 +3043,9 @@ Expected: PASS.
 
 - [ ] **Step 5: Style it**
 
-Same split as Task 16: `--png-*` variables on `:host` for anything PrimeNG parameterises, and `.joo-record-grid` rules in `base-element-styles.css` under `@layer components` for the frame. Port `components.css:1149-1307` — header strip, zebra rows, hover state, the mono numeric alignment, the sticky header.
+Same split as Task 16: `--png-*` variables on `:host` for anything PrimeNG parameterises, and `.joo-record-grid` rules in `base-element-styles.css` under `@layer components` for the frame. Port `components.css:1149-1307` — header strip, zebra rows, hover state, the mono numeric alignment, the sticky header. `min-width: 100%` on the table belongs in that layer too, as a `.joo-record-grid` rule; it was a `[tableStyle]` binding in an earlier draft of this step and there is no reason for it to be one.
+
+Note where the hook class actually lands: `tableStyleClass` puts it on PrimeNG's inner `<table>`, not on the `<joo-record-grid>` host. So `.joo-record-grid thead th { … }` is a descendant selector from the table element itself, not from the host, and a rule meant to style the outer frame has to target `.joo-record-grid` directly.
 
 Watch the `anyComponentStyle` budget: the table CSS is the largest port in the project and errors at 4 kB. If it exceeds, the frame rules belong in the global layer anyway (they target `.joo-record-grid`, not the host), which moves the weight out of the component budget.
 
