@@ -1,0 +1,20 @@
+:host {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: var(--space-6);
+}
+
+h1 {
+  margin: 0;
+  font: 700 var(--text-xl) / 1.1 var(--font-display);
+  color: var(--text-primary);
+}
+
+p {
+  margin: 0;
+  color: var(--text-muted);
+}

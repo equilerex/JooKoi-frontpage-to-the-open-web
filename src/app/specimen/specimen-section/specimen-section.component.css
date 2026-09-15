@@ -1,0 +1,22 @@
+:host {
+  display: block;
+  padding: var(--space-4);
+  background: var(--surface-panel);
+  border: 1px solid var(--border-panel);
+  border-radius: var(--radius-panel);
+}
+
+h2 {
+  margin: 0 0 var(--space-4);
+  font: 600 var(--text-xs) / 1 var(--font-display);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.specimen-section__items {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
