@@ -16,7 +16,8 @@ Written at the end of Phase 1 (foundation). Phase 2 is the design system, Phase 
 | Styles                 | Plain CSS, explicit cascade layers, custom properties  | 007 |
 | Tests                  | Vitest browser mode (Playwright/Chromium), `~4.1.11`   | 008 |
 | State                  | Plain signals + `@ngrx/signals` `~22.0.1`              | 010 |
-| Lint / format          | `angular-eslint` + Prettier + `eslint-config-prettier` | 005 |
+| Lint / format          | `angular-eslint` + Prettier + `eslint-config-prettier` | — |
+| Import boundaries      | generated `no-restricted-imports` rules                | 005 |
 | CI / hosting           | Designed, not built                                    | 009 |
 
 The workspace sits at the **repo root**, next to `sources/`, `data/`, `scripts/`, `features/` and `.agents/`. It's a single app — no Nx, no monorepo (ADR 005).

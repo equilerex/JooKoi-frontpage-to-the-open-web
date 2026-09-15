@@ -30,7 +30,7 @@ These wait for the design system (Phase 2) because they're the most heavily styl
 ## Imports
 
 - `app-shell` may import `shared/*`.
-- `app-shell` never imports a feature folder.
+- `app-shell` never imports a feature folder (convention only — not lint-enforced).
 - Only `app.routes.ts` and `app.component.ts` import from `app-shell`.
 
 Enforced by the generated `no-restricted-imports` blocks in `eslint.config.js`.

@@ -33,7 +33,7 @@ No `<feature>-shared/` folders, and no shared folder that exists to hold leftove
 - `shared/design-system` imports nothing from the app — not other `shared/*` folders, not features, not the shell.
 - Other `shared/*` folders may import `shared/design-system`.
 - Other `shared/*` folders **do not import each other**. If two of them need each other, that's a signal the split is wrong: either merge them or update ADR 005. Don't work around the lint rule.
-- `shared/*` never imports a feature or `app-shell`.
+- `shared/*` never imports a feature or `app-shell` (convention only — not lint-enforced).
 
 Enforced by generated `no-restricted-imports` blocks in `eslint.config.js`, which read this folder's subdirectory listing at lint time. A new `shared/` subfolder is covered automatically on the next lint run.
 

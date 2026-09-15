@@ -8,7 +8,7 @@ A curated launcher and directory for the open web, for personal and small-commun
 
 Also the user's personal reference and experimenting ground for a modern Angular application.
 
-Stage: **Phase 1 complete — Angular foundation built.** An Angular 22 workspace sits at the repo root: zoneless, strict, statically prerendered, with lint/format/test/budget gates and written guidelines. No real pages or data yet — the app has a placeholder home page and a not-found page. Phase 2 is the design system, Phase 3 is content and features. Structure and rules: `_architecture/ARCHITECTURE.md` and decisions `003`–`010`. Phase order and reasoning: `_architecture/plans/decisions/002-*`. Visual direction is mocked up in `features/design-theme/`.
+Stage: **Phase 1 complete — Angular foundation built.** An Angular 22 workspace sits at the repo root: zoneless, strict, statically prerendered, with lint/format/test/budget gates and written guidelines. No real pages or data yet — the app has a placeholder home page and a not-found page. Phase 2 is the design system, Phase 3 is content and features. Structure and rules: `_architecture/ARCHITECTURE.md` and decisions `003`–`010`. Phase order and reasoning: `_architecture/plans/decisions/002-*`. Visual direction is mocked up in `features/design-theme/`. Handoff brief: `_architecture/plans/2026-09-15-angular-project-setup-handoff.md`.
 
 ## Build philosophy (the gate — read before proposing work)
 

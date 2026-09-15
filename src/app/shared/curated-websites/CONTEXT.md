@@ -50,7 +50,7 @@ Components, each in its own folder: `website-result-card/`, `trust-tier-badge/`,
 ## Imports
 
 - This folder may import `shared/design-system/`.
-- It must **not** import other `shared/*` folders, any feature folder, or `app-shell/`.
+- It must **not** import other `shared/*` folders or `app-shell/`. It must not import any feature folder (convention only — not lint-enforced).
 - Features and the shell may import from here. `shared/design-system/` may not.
 
 Enforced by the generated `no-restricted-imports` blocks in `eslint.config.js`.
