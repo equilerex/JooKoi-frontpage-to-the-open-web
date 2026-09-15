@@ -35,6 +35,10 @@
   justify-content: center;
   gap: var(--space-2);
   min-height: 2.75rem;
+  /* Horizontal inset `joo-keycap`'s `.keycap__body` reclaims: that body pulls
+     in by this same `--space-4` and grows its width to match, which is how the
+     keycap text lands at the mockup's 13px (keycap.component.css). Change this
+     padding and the reclaim has to change with it. */
   padding: 0 var(--space-4);
   font: 600 var(--text-sm)/1 var(--font-display);
   letter-spacing: 0.08em;

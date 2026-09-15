@@ -15,6 +15,13 @@
 # Environment files
 /.env
 
+# PrimeUI licence - a credential, never committed. See scripts/primeui-license.mjs.
+/.primeui-license
+/src/app/primeui-license.ts
+
+# Browser-mode test scratch, rewritten on every `pnpm test` run.
+/.vitest-attachments/
+
 # Angular CLI and build artefacts
 /.angular-cli.json
 /.ng/
