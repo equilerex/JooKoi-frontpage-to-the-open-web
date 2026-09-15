@@ -2,7 +2,7 @@
 <input
   class="console__input"
   type="text"
-  [id]="inputId()"
+  [attr.id]="inputId() || null"
   [attr.aria-label]="placeholder() || null"
   [placeholder]="placeholder()"
   [value]="value()"
