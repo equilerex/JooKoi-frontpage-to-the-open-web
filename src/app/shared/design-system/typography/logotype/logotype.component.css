@@ -10,14 +10,6 @@
   filter: drop-shadow(0 0 14px var(--glow-magenta));
 }
 
-/* Descendant `b`, not a modifier: the caller projects <b> into the logotype to
-   mark the accented half of the wordmark ("Joo<b>Koi</b>"). Styling it is part
-   of this component's contract, so the selector stays descendant-scoped. */
-:host b {
-  font-weight: 700;
-  font-style: italic;
-}
-
 :host(.is-small) {
   font-size: 1.25rem;
   filter: drop-shadow(0 0 8px var(--glow-magenta));

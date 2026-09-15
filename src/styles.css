@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+@layer components {
+  /* Angular's emulated view encapsulation scopes a component's styles to its
+   * own template, so a `:host b` rule in logotype.component.css cannot match
+   * the projected `b` the consumer supplies — projected nodes carry the parent
+   * template's scope attribute, not the component's. Decision 007 rules out
+   * `::ng-deep` and `ViewEncapsulation.None`, so the wordmark's accent rule
+   * lives globally, scoped to this custom element. Changing this needs an ADR. */
+  joo-logotype b {
+    font-weight: 700;
+    font-style: italic;
+  }
+}
