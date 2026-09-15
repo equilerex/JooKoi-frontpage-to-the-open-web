@@ -2,6 +2,10 @@
   --readout-color: var(--led-cyan);
   position: relative;
   display: inline-block;
+  /* The ghost `::before` is absolutely positioned and does not widen the host,
+     so it can spill past the pill when the real value is shorter than it.
+     Clip it to the host box. */
+  overflow: hidden;
   padding: 2px var(--space-2);
   font: 600 var(--text-lg)/1 var(--font-mono);
   font-variant-numeric: tabular-nums;
