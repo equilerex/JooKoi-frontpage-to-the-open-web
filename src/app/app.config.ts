@@ -1,9 +1,10 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, TitleStrategy } from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
 import { providePrimeNG } from 'primeng/config';
 import { PRIMEUI_LICENSE } from './primeui-license';
 import { routes } from './app.routes';
+import { PageTitleStrategy } from './app-shell/page-title.strategy';
 import { jookoiPreset } from './shared/design-system/theme/jookoi-preset';
 import { ELEVATION } from './shared/design-system/theme/elevation';
 
@@ -11,6 +12,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
+    { provide: TitleStrategy, useClass: PageTitleStrategy },
     provideClientHydration(),
     providePrimeNG({
       // Generated before every build by scripts/primeui-license.mjs, from a

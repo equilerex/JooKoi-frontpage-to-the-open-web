@@ -1,0 +1,104 @@
+/*
+ * Ported from `features/design-theme/components.css` `.hud` (:690-773).
+ * `.hud` becomes `:host`; `.hud__inner`, `.hud__brand`, `.hud__mark` and
+ * `.hud__nav` keep their names.
+ *
+ * Not ported, with reasons:
+ * - `.hud__search` (:740-744) and `.hud__status` (:751-752) — no element in the
+ *   template, and both are Phase 3 content rather than chrome.
+ * - The `.hud__status` and `.hud__search` lines of the media query below.
+ *
+ * The mockup's `z-index: 20` becomes `var(--z-hud)` (200): the tokens in
+ * `src/styles/design-tokens.css:190-196` are the one elevation scale, and
+ * `elevation.ts` mirrors them for PrimeNG.
+ *
+ * The `10px`, `1px`, `8px` and `24px` below are the mockup's own values kept
+ * verbatim — there is no blur, border-width or shadow token to replace them
+ * with.
+ *
+ * `display: block` is the one declaration added that the mockup did not need.
+ * There, `.hud` was a `<header>`, which is a block box for free. Here the host
+ * is a custom element, which defaults to `inline`, and `position: sticky` does
+ * NOT blockify the way `position: fixed` does — measured: this host computes
+ * `display: inline` without the line below, while the dock and the backdrop
+ * compute `display: block`. The inline box still painted and still stuck, but
+ * its own layout APIs disagreed about what box it had (`offsetWidth` 2560,
+ * `clientWidth` 0), which is not something to leave a sticky full-bleed bar
+ * standing on.
+ */
+
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-hud);
+  background: var(--surface-hud);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border-chrome);
+  box-shadow:
+    0 1px 0 var(--glow-magenta),
+    0 8px 24px var(--shadow-deep);
+}
+
+.hud__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: var(--content-max);
+  min-height: var(--hud-height);
+  margin-inline: auto;
+  padding: var(--space-2) var(--space-6);
+}
+
+.hud__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+  text-decoration: none;
+}
+
+.hud__mark {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0 40%,
+      var(--led-magenta) 40% 52%,
+      transparent 52% 62%,
+      var(--led-orange) 62% 72%,
+      transparent 72% 82%,
+      var(--led-amber) 82%
+    ),
+    var(--surface-inset);
+  box-shadow:
+    0 0 0 1px var(--border-chrome),
+    0 0 10px var(--glow-magenta);
+}
+
+.hud__nav {
+  display: flex;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+/* A media query, not a container query: this is chrome, and the rule that binds
+ * design-system components to their own width does not. Below 768px the dock is
+ * the navigation, so the nav goes and the brand collapses to its mark — without
+ * `.hud__mark` the brand would be an invisible, wordless link to `/`. */
+@media (max-width: 767px) {
+  .hud__inner {
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .hud__nav {
+    display: none;
+  }
+
+  .hud__brand joo-logotype {
+    display: none;
+  }
+}

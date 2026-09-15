@@ -10,14 +10,15 @@ import { NotFoundPage } from './app-shell/not-found.page';
  * it costs nothing in the initial bundle either way.
  */
 export const routes: Routes = [
-  { path: '', component: HomePage },
+  { path: '', component: HomePage, title: 'Home' },
   ...(isDevMode()
     ? [
         {
           path: 'specimen',
+          title: 'Specimen',
           loadChildren: () => import('./specimen/specimen.routes').then((m) => m.specimenRoutes),
         },
       ]
     : []),
-  { path: '**', component: NotFoundPage },
+  { path: '**', component: NotFoundPage, title: 'Not found' },
 ];

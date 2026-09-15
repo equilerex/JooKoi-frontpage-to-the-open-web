@@ -3,10 +3,11 @@
   grid-template-columns: minmax(0, 1fr);
   gap: var(--space-6);
   width: 100%;
-  max-width: var(--content-max);
-  margin-inline: auto;
-  padding: var(--space-6);
 }
+
+/* The page container is the shell's `main.page` now (app-shell-layout), so the
+ * `max-width` / `margin-inline` / `padding` that used to sit on this host would
+ * be a second content column nested inside the first. */
 
 /* Element selectors are classed throughout this file on purpose. A bare `p`
  * here compiles to `p[_ngcontent-page]`, which is unlayered and therefore beats

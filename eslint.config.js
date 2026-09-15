@@ -11,7 +11,11 @@ const eslintConfigPrettier = require('eslint-config-prettier');
 //
 // Reads src/app/ at lint-config-load time (Node, not browser/build code) and
 // classifies each top-level folder per the plan's placement rules:
-//   - "app-shell" is the shell. Only app.routes.ts and app.component.ts may import it.
+//   - "app-shell" is the shell. Only the three root files — app.config.ts,
+//     app.routes.ts and app.component.ts — may import it. app.config.ts is the
+//     composition root and has to be able to register the shell's app-wide
+//     providers (the TitleStrategy); it is the same layer as app.component.ts,
+//     so allowing it is completing this list rather than widening the rule.
 //   - "shared" (if present) holds shared/* subfolders. shared/design-system may be
 //     imported by any shared/* folder; other shared/* folders must not import each
 //     other. Nothing outside shared/design-system may be imported by
@@ -44,11 +48,16 @@ const featureDirs = topLevelDirs.filter((name) => name !== 'app-shell' && name !
 /** @type {any[]} */
 const importDirectionConfigs = [];
 
-// app-shell: only app.routes.ts and app.component.ts may import it.
+// app-shell: only the root files app.config.ts, app.routes.ts and app.component.ts may import it.
 if (hasAppShell) {
   importDirectionConfigs.push({
     files: ['src/app/**/*.ts'],
-    ignores: ['src/app/app.routes.ts', 'src/app/app.component.ts', 'src/app/app-shell/**'],
+    ignores: [
+      'src/app/app.config.ts',
+      'src/app/app.routes.ts',
+      'src/app/app.component.ts',
+      'src/app/app-shell/**',
+    ],
     rules: {
       'no-restricted-imports': [
         'error',
@@ -56,7 +65,8 @@ if (hasAppShell) {
           patterns: [
             {
               group: ['**/app-shell', '**/app-shell/**'],
-              message: 'Only app.routes.ts and app.component.ts may import app-shell (ADR 005).',
+              message:
+                'Only app.config.ts, app.routes.ts and app.component.ts may import app-shell (ADR 005).',
             },
           ],
         },

@@ -103,3 +103,9 @@ Flagged by the final whole-branch review as non-blocking and parked rather than 
 - `angular.json`'s prerender config has a `{ path: '**', renderMode: Prerender }` entry that is a silent no-op (no non-`''` routes exist to prerender).
 - `pnpm-workspace.yaml` has placeholder `allowBuilds` values from pnpm's non-interactive scaffold (needs a `pnpm approve-builds` pass later).
 - `jsdom` dependency appears unused.
+
+## Dock item styling: the per-item LED bar was dropped
+
+Status: OPEN
+
+The mobile dock renders each item as `joo-hardware-key`, not the mockup's `.dock__item`. Decision 012 makes the key one component in five placements and nav link is one of them, so the dock matches the HUD nav and `indicator-nav-list` — but the mockup's `.dock__item` carried a hand-drawn 22x4px LED bar that went cyan and glowing on `[aria-current='page']`, and the key has no equivalent. `current` still renders `aria-current="page"` and the key's pressed slab, so the current page is signalled; the mobile "you are here" accent is not. Same shape as the nav-list active-row divergence parked in Task 11: accept the key's treatment, and revisit together. Cost if wrong: a few declarations in one place once the design call is made. Do not reintroduce `.dock__item` without that call — decision 012 is what makes the dock a data-driven list rather than four hard-coded anchors.

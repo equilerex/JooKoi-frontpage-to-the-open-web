@@ -1,0 +1,14 @@
+<div class="hud__inner">
+  <a class="hud__brand" href="/">
+    <span class="hud__mark" aria-hidden="true"></span>
+    <joo-logotype size="sm">Joo<b>Koi</b></joo-logotype>
+  </a>
+  <nav class="hud__nav" aria-label="Primary">
+    @for (item of navItems(); track item.href) {
+      <joo-hardware-key as="anchor" size="sm" [href]="item.href" [current]="item.active ?? false">
+        <joo-status-light color="cyan" [on]="item.active ?? false" />
+        {{ item.label }}
+      </joo-hardware-key>
+    }
+  </nav>
+</div>
