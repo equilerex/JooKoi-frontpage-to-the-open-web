@@ -47,3 +47,27 @@ yarn-error.log*
 /.idea/vcs.xml
 /.serena/.gitignore
 /.serena/project.yml
+
+# Angular CLI generated (ng new jookoi-frontpage) — entries not already covered above
+/bazel-out
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+.history/*
+.sass-cache/
+/connect.lock
+/libpeerconnection.log
+testem.log
+/typings
+__screenshots__/
+.DS_Store
+Thumbs.db

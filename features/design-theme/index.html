@@ -1,147 +1,228 @@
 <!doctype html>
 <html lang="en" data-theme="retro">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Open Web · Home</title>
-  <!-- Specimen only. The app self-hosts these fonts. -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="tokens.css">
-  <link rel="stylesheet" href="components.css">
-  <script src="demo.js" defer></script>
-</head>
-<body>
-  <header class="hud">
-    <div class="hud__inner">
-      <a class="hud__brand" href="index.html"><span class="hud__mark" aria-hidden="true"></span><span class="logotype logotype--sm">Open<b>Web</b></span></a>
-      <nav class="hud__nav" aria-label="Main">
-        <a class="key key--sm" href="search.html"><span class="led" aria-hidden="true"></span>Search</a>
-        <a class="key key--sm" href="browse.html"><span class="led" aria-hidden="true"></span>Browse</a>
-        <a class="key key--sm" href="learn-topic.html"><span class="led" aria-hidden="true"></span>Learn</a>
-      </nav>
-      <div class="hud__status leds" aria-hidden="true"><span class="led led--green led--blink"></span>412 src online</div>
-    </div>
-  </header>
-
-  <main class="page stack">
-    <section class="panel brackets launcher" aria-labelledby="home-title">
-      <div class="stack">
-        <p class="eyebrow">Front page terminal · 412 sources indexed</p>
-        <h1 class="logotype" id="home-title">Open<b>Web</b></h1>
-        <p class="lede">Find the sites worth searching. Then search them directly.</p>
-        <form class="console console--lg" role="search" action="search.html">
-          <label class="sr-only" for="home-q">Search sources</label>
-          <span class="console__prompt" aria-hidden="true">&gt;</span>
-          <input class="console__input" id="home-q" name="q" placeholder="css grid, estonian news, rss readers" autocomplete="off">
-          <button class="key key--hot">Launch</button>
-        </form>
-        <div class="toolbar">
-          <span class="field-label" id="scope-label">Scope</span>
-          <div class="segment" role="group" aria-labelledby="scope-label">
-            <button type="button" aria-pressed="true">Trusted</button>
-            <button type="button" aria-pressed="false">All</button>
-            <button type="button" aria-pressed="false">Discovered</button>
-          </div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Open Web · Home</title>
+    <!-- Specimen only. The app self-hosts these fonts. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="tokens.css" />
+    <link rel="stylesheet" href="components.css" />
+    <script src="demo.js" defer></script>
+  </head>
+  <body>
+    <header class="hud">
+      <div class="hud__inner">
+        <a class="hud__brand" href="index.html"
+          ><span class="hud__mark" aria-hidden="true"></span
+          ><span class="logotype logotype--sm">Open<b>Web</b></span></a
+        >
+        <nav class="hud__nav" aria-label="Main">
+          <a class="key key--sm" href="search.html"
+            ><span class="led" aria-hidden="true"></span>Search</a
+          >
+          <a class="key key--sm" href="browse.html"
+            ><span class="led" aria-hidden="true"></span>Browse</a
+          >
+          <a class="key key--sm" href="learn-topic.html"
+            ><span class="led" aria-hidden="true"></span>Learn</a
+          >
+        </nav>
+        <div class="hud__status leds" aria-hidden="true">
+          <span class="led led--green led--blink"></span>412 src online
         </div>
       </div>
+    </header>
 
-      <nav aria-labelledby="quick-label">
-        <p class="field-label" id="quick-label">Quick keys</p>
-        <div class="keygrid">
-          <a class="key keycap" href="browse.html"><span class="keycap__fn">F1</span><span class="keycap__label">Dev reference</span><span class="keycap__count">48</span></a>
-          <a class="key keycap" href="browse.html"><span class="keycap__fn">F2</span><span class="keycap__label">Independent news</span><span class="keycap__count">31</span></a>
-          <a class="key keycap" href="browse.html"><span class="keycap__fn">F3</span><span class="keycap__label">Science</span><span class="keycap__count">27</span></a>
-          <a class="key keycap" href="browse.html"><span class="keycap__fn">F4</span><span class="keycap__label">Search engines</span><span class="keycap__count">12</span></a>
-          <a class="key keycap" href="browse.html"><span class="keycap__fn">F5</span><span class="keycap__label">Estonian web</span><span class="keycap__count">19</span></a>
-          <a class="key keycap key--hot" href="source.html"><span class="keycap__fn">F6</span><span class="keycap__label">Surprise me</span><span class="keycap__count">?</span></a>
-        </div>
-      </nav>
-    </section>
-
-    <hr class="stripes">
-
-    <div class="stack">
-      <section class="panel" aria-labelledby="hl-title">
-        <div class="panel__head">
-          <span class="led led--cyan" aria-hidden="true"></span>
-          <h2 class="panel__title" id="hl-title">Trusted highlights</h2>
-          <span class="panel__meta">recently verified</span>
-        </div>
-        <div class="panel__body panel__body--flush table-wrap">
-          <table class="data-table">
-            <thead>
-              <tr><th>Source</th><th>Trust</th><th>About</th><th>Type</th><th>Signals</th><th>Verified</th><th><span class="sr-only">Action</span></th></tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td data-col="name"><a class="src-name" href="source.html">MDN Web Docs</a><span class="src-domain">developer.mozilla.org</span></td>
-                <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
-                <td data-col="desc">Reference for HTML, CSS, JavaScript and Web APIs.</td>
-                <td data-col="type">Reference</td>
-                <td data-col="sig"><span class="sigs"><span class="sig">SRCH</span></span></td>
-                <td data-col="ver">2026-09-02</td>
-                <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
-              </tr>
-              <tr>
-                <td data-col="name"><a class="src-name" href="source.html">ERR News</a><span class="src-domain">news.err.ee</span></td>
-                <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
-                <td data-col="desc">Estonian public broadcaster, English-language news desk.</td>
-                <td data-col="type">News</td>
-                <td data-col="sig"><span class="sigs"><span class="sig">RSS</span><span class="sig">SRCH</span></span></td>
-                <td data-col="ver">2026-08-29</td>
-                <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
-              </tr>
-              <tr>
-                <td data-col="name"><a class="src-name" href="source.html">Marginalia Search</a><span class="src-domain">marginalia-search.com</span></td>
-                <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
-                <td data-col="desc">Independent search engine that favours small, text-heavy sites.</td>
-                <td data-col="type">Search engine</td>
-                <td data-col="sig"><span class="sigs"><span class="sig">SRCH</span><span class="sig">API</span></span></td>
-                <td data-col="ver">2026-08-21</td>
-                <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
-              </tr>
-              <tr>
-                <td data-col="name"><a class="src-name" href="source.html">arXiv</a><span class="src-domain">arxiv.org</span></td>
-                <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
-                <td data-col="desc">Open-access preprints in physics, maths and computer science.</td>
-                <td data-col="type">Archive</td>
-                <td data-col="sig"><span class="sigs"><span class="sig">RSS</span><span class="sig">SRCH</span><span class="sig">API</span></span></td>
-                <td data-col="ver">2026-08-18</td>
-                <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="panel" aria-labelledby="tags-title">
-        <div class="panel__head">
-          <span class="led led--magenta" aria-hidden="true"></span>
-          <h2 class="panel__title" id="tags-title">Browse by tag</h2>
-        </div>
-        <div class="panel__body">
-          <div class="chips">
-            <a class="chip" href="browse.html">css <span class="chip__count">22</span></a>
-            <a class="chip" href="browse.html">accessibility <span class="chip__count">9</span></a>
-            <a class="chip" href="browse.html">rss-friendly <span class="chip__count">140</span></a>
-            <a class="chip" href="browse.html">no-tracking <span class="chip__count">63</span></a>
-            <a class="chip" href="browse.html">estonia <span class="chip__count">19</span></a>
-            <a class="chip" href="browse.html">preprints <span class="chip__count">6</span></a>
-            <a class="chip" href="browse.html">small-web <span class="chip__count">37</span></a>
-            <a class="chip" href="browse.html">datasets <span class="chip__count">14</span></a>
+    <main class="page stack">
+      <section class="panel brackets launcher" aria-labelledby="home-title">
+        <div class="stack">
+          <p class="eyebrow">Front page terminal · 412 sources indexed</p>
+          <h1 class="logotype" id="home-title">Open<b>Web</b></h1>
+          <p class="lede">Find the sites worth searching. Then search them directly.</p>
+          <form class="console console--lg" role="search" action="search.html">
+            <label class="sr-only" for="home-q">Search sources</label>
+            <span class="console__prompt" aria-hidden="true">&gt;</span>
+            <input
+              class="console__input"
+              id="home-q"
+              name="q"
+              placeholder="css grid, estonian news, rss readers"
+              autocomplete="off"
+            />
+            <button class="key key--hot">Launch</button>
+          </form>
+          <div class="toolbar">
+            <span class="field-label" id="scope-label">Scope</span>
+            <div class="segment" role="group" aria-labelledby="scope-label">
+              <button type="button" aria-pressed="true">Trusted</button>
+              <button type="button" aria-pressed="false">All</button>
+              <button type="button" aria-pressed="false">Discovered</button>
+            </div>
           </div>
         </div>
-      </section>
-    </div>
-  </main>
 
-  <nav class="dock" aria-label="Main">
-    <a class="dock__item" href="index.html" aria-current="page">Home</a>
-    <a class="dock__item" href="search.html">Search</a>
-    <a class="dock__item" href="browse.html">Browse</a>
-    <a class="dock__item" href="learn-topic.html">Learn</a>
-  </nav>
-</body>
+        <nav aria-labelledby="quick-label">
+          <p class="field-label" id="quick-label">Quick keys</p>
+          <div class="keygrid">
+            <a class="key keycap" href="browse.html"
+              ><span class="keycap__fn">F1</span><span class="keycap__label">Dev reference</span
+              ><span class="keycap__count">48</span></a
+            >
+            <a class="key keycap" href="browse.html"
+              ><span class="keycap__fn">F2</span><span class="keycap__label">Independent news</span
+              ><span class="keycap__count">31</span></a
+            >
+            <a class="key keycap" href="browse.html"
+              ><span class="keycap__fn">F3</span><span class="keycap__label">Science</span
+              ><span class="keycap__count">27</span></a
+            >
+            <a class="key keycap" href="browse.html"
+              ><span class="keycap__fn">F4</span><span class="keycap__label">Search engines</span
+              ><span class="keycap__count">12</span></a
+            >
+            <a class="key keycap" href="browse.html"
+              ><span class="keycap__fn">F5</span><span class="keycap__label">Estonian web</span
+              ><span class="keycap__count">19</span></a
+            >
+            <a class="key keycap key--hot" href="source.html"
+              ><span class="keycap__fn">F6</span><span class="keycap__label">Surprise me</span
+              ><span class="keycap__count">?</span></a
+            >
+          </div>
+        </nav>
+      </section>
+
+      <hr class="stripes" />
+
+      <div class="stack">
+        <section class="panel" aria-labelledby="hl-title">
+          <div class="panel__head">
+            <span class="led led--cyan" aria-hidden="true"></span>
+            <h2 class="panel__title" id="hl-title">Trusted highlights</h2>
+            <span class="panel__meta">recently verified</span>
+          </div>
+          <div class="panel__body panel__body--flush table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Source</th>
+                  <th>Trust</th>
+                  <th>About</th>
+                  <th>Type</th>
+                  <th>Signals</th>
+                  <th>Verified</th>
+                  <th><span class="sr-only">Action</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-col="name">
+                    <a class="src-name" href="source.html">MDN Web Docs</a
+                    ><span class="src-domain">developer.mozilla.org</span>
+                  </td>
+                  <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
+                  <td data-col="desc">Reference for HTML, CSS, JavaScript and Web APIs.</td>
+                  <td data-col="type">Reference</td>
+                  <td data-col="sig">
+                    <span class="sigs"><span class="sig">SRCH</span></span>
+                  </td>
+                  <td data-col="ver">2026-09-02</td>
+                  <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
+                </tr>
+                <tr>
+                  <td data-col="name">
+                    <a class="src-name" href="source.html">ERR News</a
+                    ><span class="src-domain">news.err.ee</span>
+                  </td>
+                  <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
+                  <td data-col="desc">Estonian public broadcaster, English-language news desk.</td>
+                  <td data-col="type">News</td>
+                  <td data-col="sig">
+                    <span class="sigs"
+                      ><span class="sig">RSS</span><span class="sig">SRCH</span></span
+                    >
+                  </td>
+                  <td data-col="ver">2026-08-29</td>
+                  <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
+                </tr>
+                <tr>
+                  <td data-col="name">
+                    <a class="src-name" href="source.html">Marginalia Search</a
+                    ><span class="src-domain">marginalia-search.com</span>
+                  </td>
+                  <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
+                  <td data-col="desc">
+                    Independent search engine that favours small, text-heavy sites.
+                  </td>
+                  <td data-col="type">Search engine</td>
+                  <td data-col="sig">
+                    <span class="sigs"
+                      ><span class="sig">SRCH</span><span class="sig">API</span></span
+                    >
+                  </td>
+                  <td data-col="ver">2026-08-21</td>
+                  <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
+                </tr>
+                <tr>
+                  <td data-col="name">
+                    <a class="src-name" href="source.html">arXiv</a
+                    ><span class="src-domain">arxiv.org</span>
+                  </td>
+                  <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
+                  <td data-col="desc">
+                    Open-access preprints in physics, maths and computer science.
+                  </td>
+                  <td data-col="type">Archive</td>
+                  <td data-col="sig">
+                    <span class="sigs"
+                      ><span class="sig">RSS</span><span class="sig">SRCH</span
+                      ><span class="sig">API</span></span
+                    >
+                  </td>
+                  <td data-col="ver">2026-08-18</td>
+                  <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="tags-title">
+          <div class="panel__head">
+            <span class="led led--magenta" aria-hidden="true"></span>
+            <h2 class="panel__title" id="tags-title">Browse by tag</h2>
+          </div>
+          <div class="panel__body">
+            <div class="chips">
+              <a class="chip" href="browse.html">css <span class="chip__count">22</span></a>
+              <a class="chip" href="browse.html"
+                >accessibility <span class="chip__count">9</span></a
+              >
+              <a class="chip" href="browse.html"
+                >rss-friendly <span class="chip__count">140</span></a
+              >
+              <a class="chip" href="browse.html">no-tracking <span class="chip__count">63</span></a>
+              <a class="chip" href="browse.html">estonia <span class="chip__count">19</span></a>
+              <a class="chip" href="browse.html">preprints <span class="chip__count">6</span></a>
+              <a class="chip" href="browse.html">small-web <span class="chip__count">37</span></a>
+              <a class="chip" href="browse.html">datasets <span class="chip__count">14</span></a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <nav class="dock" aria-label="Main">
+      <a class="dock__item" href="index.html" aria-current="page">Home</a>
+      <a class="dock__item" href="search.html">Search</a>
+      <a class="dock__item" href="browse.html">Browse</a>
+      <a class="dock__item" href="learn-topic.html">Learn</a>
+    </nav>
+  </body>
 </html>
