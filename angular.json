@@ -50,6 +50,8 @@
             ],
             "styles": [
               "src/styles/cascade-layers.css",
+              "src/styles/design-tokens.css",
+              "src/styles/fonts.css",
               "src/styles/base-element-styles.css",
               "src/styles.css"
             ],
