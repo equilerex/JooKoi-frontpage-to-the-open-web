@@ -11,6 +11,7 @@ import {
   SpecListComponent,
 } from '../shared/design-system/data-display/spec-list/spec-list.component';
 import { TagSetComponent } from '../shared/design-system/data-display/tag-set/tag-set.component';
+import { ChromeSelectComponent } from '../shared/design-system/form-controls/chrome-select/chrome-select.component';
 import { ConsoleInputComponent } from '../shared/design-system/form-controls/console-input/console-input.component';
 import { FieldLabelComponent } from '../shared/design-system/form-controls/field-label/field-label.component';
 import {
@@ -59,6 +60,7 @@ import { SpecimenSectionComponent } from './specimen-section/specimen-section.co
     ConsoleInputComponent,
     StompboxToggleComponent,
     SegmentSelectorComponent,
+    ChromeSelectComponent,
     CapabilityTagComponent,
     CountChipComponent,
     TagSetComponent,
