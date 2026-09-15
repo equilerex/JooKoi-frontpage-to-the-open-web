@@ -1,0 +1,26 @@
+# Workflow friction log
+
+Raw notes on access problems, missing tooling, confusion, paper-trail trouble and inefficiency red flags hit during agent sessions. Input for later workflow review. Append dated bullets, newest session at the bottom. Tags: `[access]` `[tooling]` `[confusion]` `[paper-trail]` `[inefficiency]` `[instructions]`.
+
+## 2026-09-15 — Phase 1 planning and implementation (Angular foundation)
+
+- `[instructions]` Plan mode blocks every write except the plan file. The friction log was requested mid-planning but could only be created after approval.
+- `[tooling]` npm `latest` tags run ahead of Angular 22 peer ranges: TypeScript 7.0.2 (needs `>=6.0 <6.1`), Vitest 5.0.0 and `@vitest/browser-playwright` 5.0.0 (need `^4`). An unpinned `pnpm add` breaks the build. Always check the `@angular/build` peer ranges before adding.
+- `[confusion]` The handoff brief recommended CDK only. Angular Aria has been stable since v22. Library recommendations written into briefs go stale and need a docs check at planning time.
+- `[paper-trail]` `.gitignore` ignores lockfiles and also `.agents/context/principles.md`, `product-concept.md` and `gotchas.md`, which `AGENTS.md` treats as shared docs. Unclear if intentional. Needs the user's call. Only the lockfile line was fixed.
+- `[instructions]` The plan-mode workflow says to spawn Explore and Plan subagents. The global rules say don't spawn unless asked. The global rule was followed and research was done inline.
+- `[instructions]` The `angular-developer` skill wasn't invoked before the first plan submission. The user had to request the review. For Angular work, invoke it at the start of planning.
+- `[confusion]` The skill's naming reference defaults to `core/` and `shared/` folders, which conflicts with the user's semantic-naming preference. Project guidelines must override it explicitly, or agents drift back.
+- `[inefficiency]` The first folder proposal was a generic starter layout, not derived from `sitemap.yaml` or the mockup component inventory. It had no stores, domain services or placement rules. The user had to push back twice. Folder design should start from the sitemap and the component inventory.
+- `[instructions]` The first plan included building the CI and deploy pipeline. "Plan it" and "build it" weren't separated for delivery work.
+- `[access]` The `tokensave` MCP server failed to connect at session start (`CONNECTION_CLOSED`).
+- `[inefficiency]` A Glob on the sibling `JooKoi-md-archive` returned about 61k files because of `graphify-out/cache`. Avoid broad globs there.
+- `[instructions]` The SessionStart caveman hook asks for terse fragments, while the global tone rules and the docs need normal prose. The two style rules pull against each other.
+- `[instructions]` The agent took the ExitPlanMode approval (and the harness's "you can now start coding" message) as the go-ahead and started step 1 (`ng new`). The user normally has another agent review the plan before implementation starts. Plan approval and implementation go-ahead are separate checkpoints and should be confirmed separately.
+- `[tooling]` `ctx7 docs` under Git Bash rewrote the library ID `/websites/angular_dev` into a Windows path (`C:/Program Files/Git/websites/angular_dev`) but still returned results. Use PowerShell, or set `MSYS_NO_PATHCONV=1`, for ctx7 calls.
+- `[confusion]` Revision 1 claimed Angular's 2025 style guide wants suffixless file names. That's only the v20+ CLI default. The style guide takes no stance, and `angular.json` schematic defaults restore suffixes. An external review (Gemini) caught it. Separate "CLI default" from "style guide rule" when citing Angular docs.
+- `[inefficiency]` Architecture research first pulled 2020–2024 articles (Sheriff 2023, Nx state 2024, Trajan's 2020 CoreModule article, a 2024 post titled "Angular v22"). The user had to flag it. Check the publish date before using a source, and use 2025+ only for Angular. Article titles and URLs don't reveal the date.
+- `[access]` `ismaelramos.dev` returned HTTP 403 to WebFetch.
+- `[confusion]` The product word "source" (a curated website) went straight into code names (`source-directory/`, `Source` model). In code it reads as source code. Product vocabulary needs a check for clashes with engineering terms before it becomes folder and class names. The app now uses "curated website". `sitemap.yaml`, `sources/` and the `source-ingest` skill still use the old word.
+- `[confusion]` Revision 2 gave page components and normal components the same `.component.ts` suffix, in the same feature folder. You can't tell a route target from a child component by file name. Fixed with a `.page.ts` type.
+- `[inefficiency]` Revision 2 added a lint plugin (`eslint-plugin-boundaries`) because an influencer used it, without first checking whether built-in ESLint could do the job. It can, with rule blocks generated in `eslint.config.js`. Check the no-dependency option before proposing a package.
