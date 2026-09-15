@@ -124,3 +124,10 @@
   <joo-indicator-nav-list [items]="navItems" ariaLabel="Categories" style="flex-basis: 100%" />
   <joo-pager [page]="2" [pageCount]="7" style="flex-basis: 100%" />
 </joo-specimen-section>
+
+<joo-specimen-section label="Page layouts">
+  <joo-toolbar-row style="flex-basis: 100%">
+    <joo-segment-selector [options]="sortOptions" value="relevance" ariaLabel="Sort order" />
+    <joo-count-chip toolbarTrailing [count]="128">Results</joo-count-chip>
+  </joo-toolbar-row>
+</joo-specimen-section>

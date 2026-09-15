@@ -1,0 +1,38 @@
+/*
+ * Ported from `features/design-theme/components.css` `.toolbar` (:1336-1341)
+ * and `.toolbar__end` (:1343-1345), moved onto `:host`.
+ *
+ * The cluster separation is the mockup's `margin-left: auto` on the trailing
+ * element, NOT `justify-content: space-between` on the row. They differ as soon
+ * as the lead holds more than one item: `space-between` spreads every child to
+ * the edges and restyles the line boxes on wrap, where `margin-left: auto`
+ * groups the leading cluster at the left and pushes only the trailing cluster
+ * right. Same behaviour as the mockup, which is what a toolbar means.
+ *
+ * `.toolbar__end` is renamed `.toolbar__trail` to match the `toolbarTrailing`
+ * projection slot above. Every other declaration is the mockup's verbatim.
+ *
+ * The `@container` block is an addition: the mockup is page-level CSS and has no
+ * narrow-width rule for `.toolbar` at all. A component has to reflow on its own
+ * width, and `container-type: inline-size` on `:host` is what makes `:host` the
+ * containing element that query measures.
+ */
+
+:host {
+  container-type: inline-size;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.toolbar__trail {
+  margin-left: auto;
+}
+
+@container (max-width: 30rem) {
+  .toolbar__lead,
+  .toolbar__trail {
+    flex-basis: 100%;
+  }
+}

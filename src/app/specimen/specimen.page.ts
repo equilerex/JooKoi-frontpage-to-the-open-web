@@ -30,6 +30,7 @@ import {
   NavItem,
 } from '../shared/design-system/navigation/indicator-nav-list/indicator-nav-list.component';
 import { PagerComponent } from '../shared/design-system/navigation/pager/pager.component';
+import { ToolbarRowComponent } from '../shared/design-system/page-layouts/toolbar-row/toolbar-row.component';
 import { CornerBracketsDirective } from '../shared/design-system/surfaces/corner-brackets/corner-brackets.directive';
 import { PaperSheetComponent } from '../shared/design-system/surfaces/paper-sheet/paper-sheet.component';
 import { ReadoutPanelComponent } from '../shared/design-system/surfaces/readout-panel/readout-panel.component';
@@ -67,6 +68,7 @@ import { SpecimenSectionComponent } from './specimen-section/specimen-section.co
     BreadcrumbTrailComponent,
     IndicatorNavListComponent,
     PagerComponent,
+    ToolbarRowComponent,
   ],
   templateUrl: './specimen.page.html',
   styleUrl: './specimen.page.css',
