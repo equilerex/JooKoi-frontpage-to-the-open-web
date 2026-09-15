@@ -21,23 +21,23 @@ This constrains scope and ceremony. It does not relax the personal layer's engin
 
 ## Where things are
 
-| Need | File |
-|---|---|
-| Product constraints, the four-claims gate | `.agents/context/principles.md` |
-| What the product is (raw + parked ideas) | `.agents/context/product-concept.md` |
-| Why this project exists | `_architecture/plans/2026-08-22-founding-context.md` |
-| Dev-stack layers, repo naming, build sequence | `_architecture/plans/2026-08-22-dev-stack-plan.md` |
-| Critique of the concept, MVP call | `_architecture/plans/2026-08-22-discovery-phase-review.md` |
-| Traps found the hard way | `.agents/context/gotchas.md` |
-| Live working set (current status, checklist) | `_architecture/TODO.md` |
-| Logged but not yet scoped work | `_architecture/BACKLOG.md` |
-| Flushed TODO history | `_architecture/archive/` |
-| Completed work log | `llm-progress-complete.jsonl` |
-| Whole-system architecture | `_architecture/ARCHITECTURE.md` — written at Stage 5, does not exist yet |
-| Per-feature scoped context | `features/<name>/CONTEXT.md` |
-| Decisions made, with reasoning | `_architecture/plans/decisions/` |
-| Page types and routes | `_architecture/sitemap.yaml` |
-| Visual direction, CSS tokens and mockups | `features/design-theme/` |
+| Need                                          | File                                                                     |
+| --------------------------------------------- | ------------------------------------------------------------------------ |
+| Product constraints, the four-claims gate     | `.agents/context/principles.md`                                          |
+| What the product is (raw + parked ideas)      | `.agents/context/product-concept.md`                                     |
+| Why this project exists                       | `_architecture/plans/2026-08-22-founding-context.md`                     |
+| Dev-stack layers, repo naming, build sequence | `_architecture/plans/2026-08-22-dev-stack-plan.md`                       |
+| Critique of the concept, MVP call             | `_architecture/plans/2026-08-22-discovery-phase-review.md`               |
+| Traps found the hard way                      | `.agents/context/gotchas.md`                                             |
+| Live working set (current status, checklist)  | `_architecture/TODO.md`                                                  |
+| Logged but not yet scoped work                | `_architecture/BACKLOG.md`                                               |
+| Flushed TODO history                          | `_architecture/archive/`                                                 |
+| Completed work log                            | `llm-progress-complete.jsonl`                                            |
+| Whole-system architecture                     | `_architecture/ARCHITECTURE.md` — written at Stage 5, does not exist yet |
+| Per-feature scoped context                    | `features/<name>/CONTEXT.md`                                             |
+| Decisions made, with reasoning                | `_architecture/plans/decisions/`                                         |
+| Page types and routes                         | `_architecture/sitemap.yaml`                                             |
+| Visual direction, CSS tokens and mockups      | `features/design-theme/`                                                 |
 
 ## Conventions
 

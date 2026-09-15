@@ -29,7 +29,10 @@ function parseSitemap(text) {
     if (field && current) {
       const [, key, value] = field;
       if (key === 'links_to') {
-        current.links_to = value.split(',').map((s) => s.trim()).filter(Boolean);
+        current.links_to = value
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean);
       } else if (key === 'external') {
         current.external = value.trim() === 'true';
       } else {
@@ -44,7 +47,11 @@ function toMermaid(entries) {
   const out = ['graph TD'];
   for (const e of entries) {
     const label = e.status === 'parked' ? `${e.title} (parked)` : e.title;
-    const nodeShape = e.external ? `((${label}))` : e.type === 'script' ? `[[${label}]]` : `[${label}]`;
+    const nodeShape = e.external
+      ? `((${label}))`
+      : e.type === 'script'
+        ? `[[${label}]]`
+        : `[${label}]`;
     out.push(`  ${e.id}${nodeShape}`);
   }
   for (const e of entries) {

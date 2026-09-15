@@ -15,58 +15,58 @@
 
 :root {
   /* Void: the dark ground, slightly violet */
-  --p-void-950: #07060D;
-  --p-void-900: #0C0B16;
-  --p-void-850: #110F1E;
+  --p-void-950: #07060d;
+  --p-void-900: #0c0b16;
+  --p-void-850: #110f1e;
   --p-void-800: #171529;
-  --p-void-700: #221F38;
-  --p-void-600: #2E2A4A;
-  --p-void-500: #423D63;
-  --p-void-300: #9A94BD;
-  --p-void-200: #C3BFDB;
-  --p-void-100: #ECEAF7;
+  --p-void-700: #221f38;
+  --p-void-600: #2e2a4a;
+  --p-void-500: #423d63;
+  --p-void-300: #9a94bd;
+  --p-void-200: #c3bfdb;
+  --p-void-100: #eceaf7;
 
   /* Neon */
-  --p-magenta-300: #FF7CC3;
-  --p-magenta-400: #FF3EA5;
-  --p-magenta-700: #B0176A;
-  --p-cyan-300: #8AF7FF;
-  --p-cyan-400: #3DF2FF;
-  --p-cyan-700: #0E8C99;
-  --p-amber-300: #FFCB7A;
-  --p-amber-400: #FFB547;
-  --p-green-400: #5CFFA8;
-  --p-violet-400: #A47BFF;
-  --p-orange-400: #FF8A3D;
-  --p-red-400: #FF5468;
+  --p-magenta-300: #ff7cc3;
+  --p-magenta-400: #ff3ea5;
+  --p-magenta-700: #b0176a;
+  --p-cyan-300: #8af7ff;
+  --p-cyan-400: #3df2ff;
+  --p-cyan-700: #0e8c99;
+  --p-amber-300: #ffcb7a;
+  --p-amber-400: #ffb547;
+  --p-green-400: #5cffa8;
+  --p-violet-400: #a47bff;
+  --p-orange-400: #ff8a3d;
+  --p-red-400: #ff5468;
 
   /* Chrome */
-  --p-chrome-50: #FFFFFF;
-  --p-chrome-100: #E6E9F2;
-  --p-chrome-300: #B7BDD0;
-  --p-chrome-500: #7B8199;
-  --p-chrome-700: #4A4F66;
+  --p-chrome-50: #ffffff;
+  --p-chrome-100: #e6e9f2;
+  --p-chrome-300: #b7bdd0;
+  --p-chrome-500: #7b8199;
+  --p-chrome-700: #4a4f66;
 
   /* Paper (from JooKoi-md-archive markdown rendering) */
-  --p-paper-50: #FAFAFA;
-  --p-paper-100: #F5F5F5;
-  --p-paper-200: #E3E3E3;
-  --p-paper-300: #E0E0E0;
+  --p-paper-50: #fafafa;
+  --p-paper-100: #f5f5f5;
+  --p-paper-200: #e3e3e3;
+  --p-paper-300: #e0e0e0;
   --p-ink-900: #111827;
-  --p-ink-500: #5F6673;
-  --p-link-600: #1C6FAE;
-  --p-code-900: #282C34;
+  --p-ink-500: #5f6673;
+  --p-link-600: #1c6fae;
+  --p-code-900: #282c34;
 
   --p-black: #000000;
-  --p-white: #FFFFFF;
+  --p-white: #ffffff;
 
-  --p-font-display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
-  --p-font-read: "Inter", -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-  --p-font-mono: "JetBrains Mono", Consolas, Monaco, "Courier New", monospace;
+  --p-font-display: 'Chakra Petch', 'Segoe UI', system-ui, sans-serif;
+  --p-font-read: 'Inter', -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --p-font-mono: 'JetBrains Mono', Consolas, Monaco, 'Courier New', monospace;
 }
 
 :root,
-[data-theme="retro"] {
+[data-theme='retro'] {
   /* Ground */
   --bg-page: var(--p-void-950);
   --bg-horizon: color-mix(in srgb, var(--p-magenta-400) 20%, transparent);
@@ -79,7 +79,14 @@
   --surface-inset: var(--p-void-950);
   --border-chrome: var(--p-void-600);
   --bracket: var(--p-cyan-400);
-  --chrome-text: linear-gradient(180deg, var(--p-chrome-50) 0%, var(--p-chrome-100) 40%, var(--p-chrome-500) 52%, var(--p-chrome-100) 60%, var(--p-chrome-50) 100%);
+  --chrome-text: linear-gradient(
+    180deg,
+    var(--p-chrome-50) 0%,
+    var(--p-chrome-100) 40%,
+    var(--p-chrome-500) 52%,
+    var(--p-chrome-100) 60%,
+    var(--p-chrome-50) 100%
+  );
 
   /* Readout surfaces */
   --surface-panel: var(--p-void-850);
@@ -90,9 +97,9 @@
 
   /* Sheet surfaces */
   --surface-sheet: var(--p-paper-50);
-  --sheet-text: var(--p-ink-900);             /* 17.0:1 on sheet */
-  --sheet-text-muted: var(--p-ink-500);       /* 5.7:1 on sheet */
-  --sheet-link: var(--p-link-600);            /* 5.2:1 on sheet */
+  --sheet-text: var(--p-ink-900); /* 17.0:1 on sheet */
+  --sheet-text-muted: var(--p-ink-500); /* 5.7:1 on sheet */
+  --sheet-link: var(--p-link-600); /* 5.2:1 on sheet */
   --sheet-border: var(--p-paper-300);
   --sheet-head: var(--p-paper-100);
   --sheet-code-inline: var(--p-paper-200);
@@ -101,9 +108,9 @@
   --sheet-quote: var(--p-link-600);
 
   /* Text on dark */
-  --text-primary: var(--p-void-100);          /* 17.1:1 on page, 15.7:1 on panel */
-  --text-muted: var(--p-void-300);            /* 6.9:1 on page, 6.2:1 on panel */
-  --text-dim: var(--p-void-500);              /* decoration only */
+  --text-primary: var(--p-void-100); /* 17.1:1 on page, 15.7:1 on panel */
+  --text-muted: var(--p-void-300); /* 6.9:1 on page, 6.2:1 on panel */
+  --text-dim: var(--p-void-500); /* decoration only */
   --text-accent: var(--p-cyan-300);
   --text-hot: var(--p-magenta-300);
   --text-warn: var(--p-amber-300);

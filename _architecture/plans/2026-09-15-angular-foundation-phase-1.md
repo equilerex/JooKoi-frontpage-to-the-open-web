@@ -25,18 +25,18 @@ Handoff brief: `_architecture/plans/2026-09-15-angular-project-setup-handoff.md`
 
 ## Verified facts (npm and angular.dev on 2026-09-15)
 
-| Item | Value | Note |
-|---|---|---|
-| Angular core / CLI / CDK / Aria / SSR | 22.1.6 / 22.1.8 / 22.1.6 / 22.1.6 / 22.1.8 | v22 stabilised Signal Forms, `resource`/`httpResource`, and **Angular Aria** |
-| Global `ng` | 22.1.7 | The skill rule says an installed CLI means use `ng new` directly |
-| TypeScript | **6.0.3** | Angular 22 peer is `>=6.0 <6.1`. npm `latest` (7.0.2) is incompatible |
-| Vitest / @vitest/browser-playwright | **4.1.11** / **4.1.11** | `@angular/build` peer is `^4.0.8`. npm `latest` (5.0.0) is incompatible |
-| `@ngrx/signals` | 22.0.1 | Peer `@angular/core ^22.0.0` |
-| Node / pnpm | 24.19.0 / 11.22.0 local | Angular engines `^22.22.3 \|\| ^24.15.0 \|\| >=26` |
-| `ng new` defaults | zoneless, standalone, strict, Vitest, suffixless file names | Suffixless is a CLI default only. The style guide takes no stance on suffixes. Schematics accept a `type` option, which sets both the file suffix and the class suffix (`--type=page` gives `x.page.ts` / `XPage`) |
-| Selector prefix | `ng new --prefix joo` | Style guide: use an app-specific prefix for components and directives |
-| Static output | `ng add @angular/ssr` + `"outputMode": "static"` gives prerendered HTML, no server file | |
-| Angular CLI MCP | `npx -y @angular/cli mcp` | |
+| Item                                  | Value                                                                                   | Note                                                                                                                                                                                                               |
+| ------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Angular core / CLI / CDK / Aria / SSR | 22.1.6 / 22.1.8 / 22.1.6 / 22.1.6 / 22.1.8                                              | v22 stabilised Signal Forms, `resource`/`httpResource`, and **Angular Aria**                                                                                                                                       |
+| Global `ng`                           | 22.1.7                                                                                  | The skill rule says an installed CLI means use `ng new` directly                                                                                                                                                   |
+| TypeScript                            | **6.0.3**                                                                               | Angular 22 peer is `>=6.0 <6.1`. npm `latest` (7.0.2) is incompatible                                                                                                                                              |
+| Vitest / @vitest/browser-playwright   | **4.1.11** / **4.1.11**                                                                 | `@angular/build` peer is `^4.0.8`. npm `latest` (5.0.0) is incompatible                                                                                                                                            |
+| `@ngrx/signals`                       | 22.0.1                                                                                  | Peer `@angular/core ^22.0.0`                                                                                                                                                                                       |
+| Node / pnpm                           | 24.19.0 / 11.22.0 local                                                                 | Angular engines `^22.22.3 \|\| ^24.15.0 \|\| >=26`                                                                                                                                                                 |
+| `ng new` defaults                     | zoneless, standalone, strict, Vitest, suffixless file names                             | Suffixless is a CLI default only. The style guide takes no stance on suffixes. Schematics accept a `type` option, which sets both the file suffix and the class suffix (`--type=page` gives `x.page.ts` / `XPage`) |
+| Selector prefix                       | `ng new --prefix joo`                                                                   | Style guide: use an app-specific prefix for components and directives                                                                                                                                              |
+| Static output                         | `ng add @angular/ssr` + `"outputMode": "static"` gives prerendered HTML, no server file |                                                                                                                                                                                                                    |
+| Angular CLI MCP                       | `npx -y @angular/cli mcp`                                                               |                                                                                                                                                                                                                    |
 
 ## Sources used for structure and state (2025 or newer only)
 
@@ -69,18 +69,19 @@ What they agree on: lazy features that never import each other, a shell area, re
    - **Domain vocabulary.** The things this app lists and links to are **curated websites**. Code never uses the bare word "source" for them, because in an engineering context it reads as source code. Model `CuratedWebsite`, folder `curated-websites/`, components `website-*`.
    - **Page components vs normal components.** Two separate file types, so the difference shows in the file name, class name, selector and folder position:
 
-     | | Page component | Normal component |
-     |---|---|---|
-     | Purpose | Rendered by a route. Reads route params, injects stores, arranges child components | Presentational. Gets data through `input()`, reports through `output()` |
-     | File | `website-search.page.ts` (+ `.html`, `.css`, `.spec.ts`) | `search-filter-rack.component.ts` |
-     | Class | `WebsiteSearchPage` | `SearchFilterRackComponent` |
-     | Selector | `joo-website-search-page` | `joo-search-filter-rack` |
-     | Where | Flat in the root of its feature folder (or `app-shell/` for not-found). One page per feature folder | In its own subfolder |
-     | Referenced from | `*.routes.ts` only | Templates only |
-     | May inject stores | Yes | No |
-     | Generate | `ng g c website-search/website-search --type=page --flat --selector=joo-website-search-page` | `ng g c website-search/search-filter-rack` |
+     |                   | Page component                                                                                      | Normal component                                                        |
+     | ----------------- | --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+     | Purpose           | Rendered by a route. Reads route params, injects stores, arranges child components                  | Presentational. Gets data through `input()`, reports through `output()` |
+     | File              | `website-search.page.ts` (+ `.html`, `.css`, `.spec.ts`)                                            | `search-filter-rack.component.ts`                                       |
+     | Class             | `WebsiteSearchPage`                                                                                 | `SearchFilterRackComponent`                                             |
+     | Selector          | `joo-website-search-page`                                                                           | `joo-search-filter-rack`                                                |
+     | Where             | Flat in the root of its feature folder (or `app-shell/` for not-found). One page per feature folder | In its own subfolder                                                    |
+     | Referenced from   | `*.routes.ts` only                                                                                  | Templates only                                                          |
+     | May inject stores | Yes                                                                                                 | No                                                                      |
+     | Generate          | `ng g c website-search/website-search --type=page --flat --selector=joo-website-search-page`        | `ng g c website-search/search-filter-rack`                              |
 
      Seeing a `.page.ts` file tells you it's a route target without opening it. Pages injecting stores is the expected pattern. It's a convention in the guidelines with no lint guard rail.
+
    - **File naming.** Type suffixes are kept. Schematic defaults in `angular.json` so `ng generate` produces them:
      ```json
      "schematics": {
@@ -93,18 +94,18 @@ What they agree on: lazy features that never import each other, a shell area, re
        "@schematics/angular:resolver": { "typeSeparator": "." }
      }
      ```
-     | Kind | File | Class / export |
-     |---|---|---|
-     | Page component | `website-search.page.ts` | `WebsiteSearchPage` |
-     | Component | `trust-tier-badge.component.ts` | `TrustTierBadgeComponent` |
-     | Directive | `corner-brackets.directive.ts` | `CornerBracketsDirective` (selector `[jooCornerBrackets]`) |
-     | Service | `curated-websites-data.service.ts` | `CuratedWebsitesDataService` |
-     | Signal store | `curated-websites.store.ts` | `CuratedWebsitesStore` |
-     | Model | `curated-website.model.ts` | `CuratedWebsite` type |
-     | Routes | `website-search.routes.ts` | `websiteSearchRoutes` |
-     | Pure functions | `website-filtering.ts` | named functions |
-     | Component harness (optional) | `hardware-key-button.harness.ts` | `HardwareKeyButtonHarness` |
-     | Test | `<file>.spec.ts` | |
+     | Kind                         | File                               | Class / export                                             |
+     | ---------------------------- | ---------------------------------- | ---------------------------------------------------------- |
+     | Page component               | `website-search.page.ts`           | `WebsiteSearchPage`                                        |
+     | Component                    | `trust-tier-badge.component.ts`    | `TrustTierBadgeComponent`                                  |
+     | Directive                    | `corner-brackets.directive.ts`     | `CornerBracketsDirective` (selector `[jooCornerBrackets]`) |
+     | Service                      | `curated-websites-data.service.ts` | `CuratedWebsitesDataService`                               |
+     | Signal store                 | `curated-websites.store.ts`        | `CuratedWebsitesStore`                                     |
+     | Model                        | `curated-website.model.ts`         | `CuratedWebsite` type                                      |
+     | Routes                       | `website-search.routes.ts`         | `websiteSearchRoutes`                                      |
+     | Pure functions               | `website-filtering.ts`             | named functions                                            |
+     | Component harness (optional) | `hardware-key-button.harness.ts`   | `HardwareKeyButtonHarness`                                 |
+     | Test                         | `<file>.spec.ts`                   |                                                            |
    - Names stay semantic and spelled out: no acronyms, no `utils.ts`, `helpers.ts` or `common.ts`. `shared/` is the one folder with a general name, and every folder inside it names what it is.
    - **Target map for the app in `sitemap.yaml`.** This goes in full into `ARCHITECTURE.md`. Design-system component names are candidates taken from the mockup CSS classes, and Phase 2 settles the final list. Parked areas are shown only to prove they have a home, and they aren't created.
      ```
@@ -227,12 +228,12 @@ What they agree on: lazy features that never import each other, a shell area, re
      - No `effect` for syncing state. Use `withComputed`, `computed` or `linkedSignal`.
    - **Where each kind of state lives:**
 
-     | State kind | Example | Where | Provided |
-     |---|---|---|---|
-     | Domain data, read-only | the curated websites and categories | `shared/curated-websites/curated-websites.store.ts` | `providedIn: 'root'` |
-     | Shareable view state | search query, filters, sort, page | the URL, mirrored by `website-search/website-search-query.store.ts`, which reads query params into state and writes back with `router.navigate` | route `providers` (created and destroyed with the route) |
-     | Local UI state | panel open, focused row | component `signal`s, `linkedSignal` for editable values derived from inputs | component |
-     | Persistent user state (parked) | bookmarks, personal homepage | `shared/local-preferences/` store over `shared/browser-storage/` | `providedIn: 'root'` |
+     | State kind                     | Example                             | Where                                                                                                                                           | Provided                                                 |
+     | ------------------------------ | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+     | Domain data, read-only         | the curated websites and categories | `shared/curated-websites/curated-websites.store.ts`                                                                                             | `providedIn: 'root'`                                     |
+     | Shareable view state           | search query, filters, sort, page   | the URL, mirrored by `website-search/website-search-query.store.ts`, which reads query params into state and writes back with `router.navigate` | route `providers` (created and destroyed with the route) |
+     | Local UI state                 | panel open, focused row             | component `signal`s, `linkedSignal` for editable values derived from inputs                                                                     | component                                                |
+     | Persistent user state (parked) | bookmarks, personal homepage        | `shared/local-preferences/` store over `shared/browser-storage/`                                                                                | `providedIn: 'root'`                                     |
 
    - **Why the URL holds view state:** a filtered search can be bookmarked and shared, and it can be prerendered or restored. That's principle 2, persistence. The store is a typed view of the URL, not a second source of truth.
    - **Data loading:** the service's public API doesn't depend on how the data arrives. The mechanism (bundled JSON import, or per-category JSON fetched with `httpResource`, which works with prerendering) is a Phase 3 data-pipeline decision.
@@ -240,6 +241,7 @@ What they agree on: lazy features that never import each other, a shell area, re
    - Phase 1 installs `@ngrx/signals` and documents the pattern. The first real store is written in Phase 3.
 
 **Conventions for `ARCHITECTURE.md` and the guidelines doc** (framework defaults, not ADRs):
+
 - Zoneless, signals (`signal`, `computed`, `linkedSignal`, `resource`), `input()`/`output()`, `inject()`, standalone components, built-in control flow, `@defer`, lazy routes.
 - Signal Forms for any form.
 - `isDevMode()` instead of environment files, since there's no API config.

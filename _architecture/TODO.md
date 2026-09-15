@@ -1,4 +1,5 @@
 # TODO
+
 <!-- Live working set. `jookoi-paper-trail flush` archives it and resets it. See AGENTS.md. -->
 
 ## Context

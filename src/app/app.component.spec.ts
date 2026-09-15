@@ -5,8 +5,7 @@ describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   it('should create the app', () => {
