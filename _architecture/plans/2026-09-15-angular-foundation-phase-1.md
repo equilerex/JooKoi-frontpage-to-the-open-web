@@ -296,6 +296,20 @@ Each step produces one checkable result, and each can be retried on its own. Not
 - **Vocabulary outside `src/app/`.** `sitemap.yaml` still says `source_detail` and `/source/:id`. The repo has a `sources/` data folder and a `source-ingest` skill. Phase 1 only fixes the name inside the app. Renaming the route URL (for example `/website/:id`) and the repo folders is a product call, logged to the backlog, not done here.
 - **`shared/curated-websites/` vs a top-level `curated-websites/`.** Steyer would make the domain its own top-level folder. It's under `shared/` because every feature uses it and you wanted `shared/` to hold stores and services.
 
+## Implementation deviations
+
+Written after implementation. Five places where the build differed from the steps above, or where a step's wording needed interpreting.
+
+**1. Step 5 contradicted itself about the `''` route.** The step says `app.routes.server.ts` prerenders `''`, but its own route instructions produce only the wildcard route, with feature routes "added when their features are built". With no `''` route there was nothing to prerender, and the step's stated result — a built `index.html` containing rendered markup — could not be met. Resolved by adding a minimal `HomePage` in `app-shell/` wired to `''`. That satisfies the step's own verification rather than adding scope; the real landing page is still `launcher-home/` in Phase 3.
+
+**2. Step 9's reference test needed real not-found page content.** The hybrid spec navigates to an unknown path, finds a heading by role, and clicks a home link. The CLI scaffold's placeholder markup (`not-found works!`) had neither a heading nor a link, so the test had nothing to assert on. Added `<h1>Page not found</h1>` and `<a routerLink="/">Home</a>` to `not-found.page.html` — the minimum the reference test requires.
+
+**3. `strictTemplates` was missing from the generated `tsconfig.json`.** Step 4 says to "keep" it, assuming `ng new` emits it. It doesn't, and it is not an implicit Angular default — a gap in the step 1 scaffold rather than in step 4. Added while doing step 4's strictness work, since verifying it was already that step's remit.
+
+**4. The static server serves the CSR fallback, not an HTTP 404.** Step 11 says the server "returns the not-found or CSR fallback page for unknown paths", and what `scripts/serve-static-build.mjs` does is serve `index.csr.html` with a 200. That is correct for this app: the `**` wildcard route lives inside the Angular router, so the app has to mount before `NotFoundPage` can render, and a real 404 response would stop that happening. Called out because "static file server" reads as though a literal 404 were expected.
+
+**5. Gitignored per-user files don't follow a fresh worktree branch.** Implementation ran in a git worktree on a new branch, and `.gitignore` excludes several files the plan's own steps need to edit. Each had to be copied in from the main checkout before the step that touched it: this plan file and `workflow-friction-log.md` at worktree setup, `.claude/launch.json` before step 11, and `.agents/context/{principles.md,gotchas.md,product-concept.md}` before step 13. Edits to them are real on disk but never appear in `git status` or in a commit. Worth planning for in Phases 2 and 3 if the same worktree pattern is used — and it's a second argument for the friction log's open question about whether those `.gitignore` lines are intentional at all.
+
 ## Verification
 
 - `pnpm install --frozen-lockfile && pnpm run format:check && pnpm run lint && pnpm run build && pnpm run test:ci`: all pass (you run them, or approve an agent running them).
