@@ -141,4 +141,54 @@
       font-size: 0.75rem;
     }
   }
+
+  /* Same reason, for a directive. A directive has no stylesheet of its own, so
+   * it cannot carry encapsulated styles, and `jooCornerBrackets`'s decoration
+   * is the one design-system rule that is global by necessity. The class comes
+   * from the directive's `host` binding. `position: relative` is part of the
+   * port, not a convenience: the mockup's `.brackets` had no base rule and
+   * relied on the consumer's box already being positioned (components.css:882
+   * reads "add to any positioned box"), but a directive is applied to whatever
+   * box the consumer already has, so it has to establish its own containing
+   * block for the absolutely positioned `::after`. Decision 014. */
+  .joo-corner-brackets {
+    position: relative;
+  }
+
+  /* `components.css:883-901`. One rule, one `::after` — its eight gradients
+   * draw all four corners. Ported from `.brackets::after`. */
+  .joo-corner-brackets::after {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    pointer-events: none;
+    --b: var(--bracket);
+    background:
+      linear-gradient(var(--b), var(--b)) top left / 16px 2px,
+      linear-gradient(var(--b), var(--b)) top left / 2px 16px,
+      linear-gradient(var(--b), var(--b)) top right / 16px 2px,
+      linear-gradient(var(--b), var(--b)) top right / 2px 16px,
+      linear-gradient(var(--b), var(--b)) bottom left / 16px 2px,
+      linear-gradient(var(--b), var(--b)) bottom left / 2px 16px,
+      linear-gradient(var(--b), var(--b)) bottom right / 16px 2px,
+      linear-gradient(var(--b), var(--b)) bottom right / 2px 16px;
+    background-repeat: no-repeat;
+    filter: drop-shadow(0 0 4px var(--glow-cyan));
+  }
+
+  @media (max-width: 767px) {
+    .joo-corner-brackets::after {
+      display: none;
+    }
+  }
+
+  /* `components.css:1510-1512`. The mockup's `.sheet :focus-visible` reaches
+   * whatever the consumer projects into the sheet, so under emulated
+   * encapsulation it compiles to `[_nghost-c] :focus-visible[_ngcontent-c]`
+   * in the sheet's own stylesheet and matches nothing. Same mechanism as
+   * `joo-logotype b` above and the prose rules; an element name is the scope.
+   * Decision 014. */
+  joo-paper-sheet :focus-visible {
+    outline-color: var(--focus-ring-sheet);
+  }
 }

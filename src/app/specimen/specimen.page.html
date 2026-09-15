@@ -80,9 +80,11 @@
 
   <joo-spec-list [entries]="specEntries" style="flex-basis: 100%" />
 
-  <!-- Prose is paper content, so it gets a paper surface — see the
-       `specimen-page__sheet` rule for why this wrapper is here. -->
-  <div class="specimen-page__sheet" style="flex-basis: 100%">
+  <!-- Prose is paper content, so it gets a paper surface. `joo-prose-content`
+       sets the sheet ink, which is calibrated against `--surface-sheet`; against
+       this section's `--surface-panel` the two measure about 1.05:1 and the demo
+       is unreadable. -->
+  <joo-paper-sheet style="flex-basis: 100%">
     <joo-prose-content>
       <h2>Heading</h2>
       <p>Body copy with a <a href="#">link</a> and some <code>inline code</code>.</p>
@@ -90,5 +92,20 @@
         <li>List item</li>
       </ul>
     </joo-prose-content>
-  </div>
+  </joo-paper-sheet>
+</joo-specimen-section>
+
+<joo-specimen-section label="Surfaces">
+  <joo-readout-panel label="Signal" style="flex-basis: 100%">
+    <joo-hardware-key panelHead size="xs">Refresh</joo-hardware-key>
+    <p>Panel body content.</p>
+  </joo-readout-panel>
+
+  <div jooCornerBrackets style="padding: var(--space-4); flex-basis: 100%">Bracketed region</div>
+
+  <joo-paper-sheet style="flex-basis: 100%">
+    <joo-prose-content>
+      <p>Sheet content.</p>
+    </joo-prose-content>
+  </joo-paper-sheet>
 </joo-specimen-section>

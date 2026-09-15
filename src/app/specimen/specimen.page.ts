@@ -21,6 +21,9 @@ import { BezelJewelComponent } from '../shared/design-system/indicators/bezel-je
 import { ClassificationBadgeComponent } from '../shared/design-system/indicators/classification-badge/classification-badge.component';
 import { SegmentReadoutComponent } from '../shared/design-system/indicators/segment-readout/segment-readout.component';
 import { StatusLightComponent } from '../shared/design-system/indicators/status-light/status-light.component';
+import { CornerBracketsDirective } from '../shared/design-system/surfaces/corner-brackets/corner-brackets.directive';
+import { PaperSheetComponent } from '../shared/design-system/surfaces/paper-sheet/paper-sheet.component';
+import { ReadoutPanelComponent } from '../shared/design-system/surfaces/readout-panel/readout-panel.component';
 import { EyebrowLabelComponent } from '../shared/design-system/typography/eyebrow-label/eyebrow-label.component';
 import { LogotypeComponent } from '../shared/design-system/typography/logotype/logotype.component';
 import { StripeRuleComponent } from '../shared/design-system/typography/stripe-rule/stripe-rule.component';
@@ -49,6 +52,9 @@ import { SpecimenSectionComponent } from './specimen-section/specimen-section.co
     TagSetComponent,
     SpecListComponent,
     ProseContentComponent,
+    ReadoutPanelComponent,
+    PaperSheetComponent,
+    CornerBracketsDirective,
   ],
   templateUrl: './specimen.page.html',
   styleUrl: './specimen.page.css',
