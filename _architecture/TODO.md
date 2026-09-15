@@ -27,4 +27,16 @@
   - [x] 8–10 `@ngrx/signals@~22.0.1` installed (no store code yet); Vitest browser mode + the reference hybrid spec; build budgets from the measured baseline.
   - [x] 11–12 `scripts/serve-static-build.mjs` (Node built-ins only) + `.claude/launch.json` entries; `.mcp.json` with the Angular CLI MCP server and UI-verification notes in `AGENTS.md`.
   - [x] 13 Paper trail: decisions 003–010, `ARCHITECTURE.md`, area `CONTEXT.md` files, `.agents/context/engineering-guidelines.md`, `AGENTS.md` / `principles.md` / `TODO.md` / `BACKLOG.md` updates, plan deviations section.
-- [ ] **Phase 2 planning session:** extract the design system from `features/design-theme/` into `src/app/shared/design-system/`. Install `@angular/aria` + `@angular/cdk` (decision 006), add `src/styles/design-tokens.css` and `public/fonts/`, build the `app-shell/` chrome components. Rules already written in `src/app/shared/design-system/CONTEXT.md`.
+- [x] **Phase 2 planning session:** planned from `plans/2026-09-15-angular-design-system-phase-2-handoff.md`. Output: `plans/2026-09-15-angular-design-system-phase-2.md`, decisions 011–013.
+- [ ] **Phase 2 implementation** — build order and detail in `plans/2026-09-15-angular-design-system-phase-2.md`. Gate every step with `pnpm run build` + `pnpm run lint`, UI check at 390px and 1440px:
+  - [ ] 1 Install `@angular/aria`, `@angular/cdk`, `primeng@~22.1.1`. Confirm resolution against Angular 22.1 and that no licence warning fires.
+  - [ ] 2 `src/styles/design-tokens.css` under the `tokens` layer (port `features/design-theme/tokens.css`, two layers intact) + self-hosted woff2 under `public/fonts/` with `@font-face` in the `base` layer. Verify no 404 in the prerendered build.
+  - [ ] 3 PrimeNG preset + layer config (decision 011): `definePreset` onto our semantic tokens, `prefix: 'png'` (collides with our `--p-*` otherwise), `cssLayer` order `reset, tokens, base, primeng, components, utilities`, `zIndex` tiers mapped to our elevation tokens. Nothing consumes PrimeNG before this.
+  - [ ] 4 `/specimen` dev-only route, empty, excluded from the prerender route list.
+  - [ ] 5 Our own atomic primitives — plan Part 1. Each appears in `/specimen` in all states.
+  - [ ] 6 Our own composite patterns — plan Part 1.
+  - [ ] 7 `app-shell/` chrome: `horizon-backdrop` → `heads-up-display-header` → `mobile-bottom-dock` → wire into `app-shell-layout`. Plus `page-title.strategy.ts` (verify `TitleStrategy` API first).
+  - [ ] 8 Four page templates in the new `page-templates/` sub-group (decision 013).
+  - [ ] 9 Adopted PrimeNG components, each with a time-boxed skin check in `/specimen`; anything failing the adoption test moves to build-our-own and is logged in the plan's deviations. `record-grid` last — measure the bundle immediately after against the 320 kB warn line; `@defer` is the fix if it crosses.
+  - [ ] 10 Hybrid interaction tests for the interactive parts only; harness only for `record-grid`. Confirm the `no-restricted-imports` boundary fails a real component.
+  - [ ] 11 Paper trail: rewrite `shared/design-system/CONTEXT.md` (class map superseded by decision 012) and `app-shell/CONTEXT.md`; update `ARCHITECTURE.md` Phase 2 section and folder map.
