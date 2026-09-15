@@ -15,7 +15,7 @@ A component whose whole template is `<ng-content />` cannot style what its consu
 
 Confirmed by reading the emitted bundle rather than by reasoning about it: `:host(.is-hot) .key` emits as `[_nghost-%COMP%].is-hot .key[_ngcontent-%COMP%]`.
 
-Two parts have this contract. `joo-logotype` styles the accent `<b>` its consumer supplies, and `joo-prose-content` styles arbitrary projected long-form HTML. Decision 007 bars `::ng-deep` and requires an ADR for `ViewEncapsulation.None`, so neither escape hatch is available.
+Two parts need the same thing. `joo-logotype` styles the accent `<b>` its consumer supplies, and `joo-prose-content` styles arbitrary projected long-form HTML. Decision 007 bars `::ng-deep` and requires an ADR for `ViewEncapsulation.None`, so neither escape hatch is available.
 
 Two further cases reach the same place for different reasons, and this task adds both. A directive has no stylesheet of its own, so a directive's CSS is global by necessity — `jooCornerBrackets` draws its corners from a class rule in the same layer. A component that projects content may also need a descendant rule that is not about typography — `joo-paper-sheet` carries `.sheet :focus-visible`, which has to reach a focus ring the consumer renders inside the sheet. The mechanism is the same in all four cases: a class or element-name rule in `@layer components`, never `::ng-deep`, never a component stylesheet.
 

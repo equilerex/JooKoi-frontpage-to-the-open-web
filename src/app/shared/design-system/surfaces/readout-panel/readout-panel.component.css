@@ -47,6 +47,14 @@
   box-shadow: inset 0 1px 0 color-mix(in srgb, white 8%, transparent);
 }
 
+/* The head strip exists only when it has something to show — the label, the
+ * consumer's projected [panelHead], or both. `:has(*)` rather than `:empty`
+ * because Angular can leave comment nodes behind for a projection slot and
+ * `:empty` counts those while `:has(*)` ignores them. */
+.panel__head:not(:has(*)) {
+  display: none;
+}
+
 .panel__label {
   /* `auto` on the right is `.panel__meta`'s `margin-left: auto` (:869),
      re-homed here because the trailing head node is projected. */
