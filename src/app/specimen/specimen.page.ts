@@ -91,8 +91,8 @@ export class SpecimenPage {
     { label: 'Zines' },
   ];
   protected readonly navItems: readonly NavItem[] = [
-    { label: 'Directory', href: '#', active: true },
-    { label: 'Reference', href: '#', lightColor: 'amber' },
-    { label: 'Tools', href: '#' },
+    { label: 'Directory', href: '#directory', active: true },
+    { label: 'Reference', href: '#reference', lightColor: 'amber' },
+    { label: 'Tools', href: '#tools' },
   ];
 }

@@ -37,8 +37,9 @@ export interface NavItem {
   templateUrl: './indicator-nav-list.component.html',
   styleUrl: './indicator-nav-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { role: 'navigation' },
+  host: { role: 'navigation', '[attr.aria-label]': 'ariaLabel() || null' },
 })
 export class IndicatorNavListComponent {
   readonly items = input.required<readonly NavItem[]>();
+  readonly ariaLabel = input('');
 }
