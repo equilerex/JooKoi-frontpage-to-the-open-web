@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en" data-theme="retro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Open Web · Browse</title>
+  <!-- Specimen only. The app self-hosts these fonts. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="components.css">
+  <script src="demo.js" defer></script>
+</head>
+<body>
+  <header class="hud">
+    <div class="hud__inner">
+      <a class="hud__brand" href="index.html"><span class="hud__mark" aria-hidden="true"></span><span class="logotype logotype--sm">Open<b>Web</b></span></a>
+      <form class="hud__search console console--compact" role="search" action="search.html">
+        <label class="sr-only" for="q">Search sources</label>
+        <span class="console__prompt" aria-hidden="true">&gt;</span>
+        <input class="console__input" id="q" name="q" placeholder="Search sources" autocomplete="off">
+        <button class="key key--hot key--xs">Go</button>
+      </form>
+      <nav class="hud__nav" aria-label="Main">
+        <a class="key key--sm" href="search.html"><span class="led" aria-hidden="true"></span>Search</a>
+        <a class="key key--sm" href="browse.html" aria-current="page"><span class="led" aria-hidden="true"></span>Browse</a>
+        <a class="key key--sm" href="learn-topic.html"><span class="led" aria-hidden="true"></span>Learn</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page stack">
+    <ol class="breadcrumb">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="browse.html">Browse</a></li>
+      <li aria-current="page">Dev reference</li>
+    </ol>
+
+    <div class="with-rack">
+      <aside class="with-rack__side">
+        <details class="drawer panel" open>
+          <summary class="panel__head">
+            <span class="led led--magenta" aria-hidden="true"></span>
+            <span class="panel__title">Categories</span>
+            <span class="panel__meta">8 <span class="drawer__caret" aria-hidden="true">▾</span></span>
+          </summary>
+          <nav class="panel__body" aria-label="Categories">
+            <ul class="navlist">
+              <li><a href="browse.html" aria-current="page"><span class="led" aria-hidden="true"></span>Dev reference<span class="chip__count">48</span></a></li>
+              <li><a href="browse.html"><span class="led" aria-hidden="true"></span>Independent news<span class="chip__count">31</span></a></li>
+              <li><a href="browse.html"><span class="led" aria-hidden="true"></span>Science<span class="chip__count">27</span></a></li>
+              <li><a href="browse.html"><span class="led" aria-hidden="true"></span>Search engines<span class="chip__count">12</span></a></li>
+              <li><a href="browse.html"><span class="led" aria-hidden="true"></span>Estonian web<span class="chip__count">19</span></a></li>
+              <li><a href="browse.html"><span class="led" aria-hidden="true"></span>Datasets<span class="chip__count">14</span></a></li>
+              <li><a href="browse.html"><span class="led" aria-hidden="true"></span>Tools<span class="chip__count">40</span></a></li>
+              <li><a href="browse.html"><span class="led" aria-hidden="true"></span>Small web<span class="chip__count">37</span></a></li>
+            </ul>
+          </nav>
+        </details>
+      </aside>
+
+      <div class="stack">
+        <header class="stack">
+          <p class="eyebrow">Category</p>
+          <h1 class="h-title">Dev reference</h1>
+          <p class="lede">Documentation, specs and learning material for building on the web.</p>
+        </header>
+
+        <div>
+          <p class="field-label" id="tags-label">Tags</p>
+          <div class="chips chips--scroll" role="group" aria-labelledby="tags-label">
+            <button type="button" class="key key--xs" aria-pressed="true"><span class="led" aria-hidden="true"></span>css</button>
+            <button type="button" class="key key--xs" aria-pressed="false"><span class="led" aria-hidden="true"></span>javascript</button>
+            <button type="button" class="key key--xs" aria-pressed="false"><span class="led" aria-hidden="true"></span>accessibility</button>
+            <button type="button" class="key key--xs" aria-pressed="false"><span class="led" aria-hidden="true"></span>specs</button>
+            <button type="button" class="key key--xs" aria-pressed="false"><span class="led" aria-hidden="true"></span>performance</button>
+          </div>
+        </div>
+
+        <div>
+          <p class="field-label">Related categories</p>
+          <div class="chips">
+            <a class="chip" href="browse.html">Design systems <span class="chip__count">14</span></a>
+            <a class="chip" href="browse.html">Tools <span class="chip__count">40</span></a>
+            <a class="chip" href="browse.html">Small web <span class="chip__count">37</span></a>
+          </div>
+        </div>
+
+        <section class="panel" aria-labelledby="sources-title">
+          <div class="panel__head">
+            <span class="led led--cyan" aria-hidden="true"></span>
+            <h2 class="panel__title" id="sources-title">Sources</h2>
+            <span class="panel__meta">22 tagged css</span>
+          </div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr><th>Source</th><th>Trust</th><th>About</th><th>Type</th><th>Signals</th><th>Verified</th><th><span class="sr-only">Action</span></th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td data-col="name"><a class="src-name" href="source.html">MDN Web Docs</a><span class="src-domain">developer.mozilla.org</span></td>
+                  <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
+                  <td data-col="desc">Reference for HTML, CSS, JavaScript and Web APIs.</td>
+                  <td data-col="type">Reference</td>
+                  <td data-col="sig"><span class="sigs"><span class="sig">SRCH</span></span></td>
+                  <td data-col="ver">2026-09-02</td>
+                  <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
+                </tr>
+                <tr>
+                  <td data-col="name"><a class="src-name" href="source.html">web.dev</a><span class="src-domain">web.dev</span></td>
+                  <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
+                  <td data-col="desc">Guides and courses on modern web platform features.</td>
+                  <td data-col="type">Guides</td>
+                  <td data-col="sig"><span class="sigs"><span class="sig">RSS</span></span></td>
+                  <td data-col="ver">2026-08-24</td>
+                  <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
+                </tr>
+                <tr>
+                  <td data-col="name"><a class="src-name" href="source.html">CSS Working Group drafts</a><span class="src-domain">drafts.csswg.org</span></td>
+                  <td data-col="trust"><span class="trust trust--trusted">Trusted</span></td>
+                  <td data-col="desc">Editor's drafts of CSS specifications.</td>
+                  <td data-col="type">Specs</td>
+                  <td data-col="sig"></td>
+                  <td data-col="ver">2026-08-01</td>
+                  <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
+                </tr>
+                <tr>
+                  <td data-col="name"><a class="src-name" href="source.html">Modern CSS Solutions</a><span class="src-domain">moderncss.dev</span></td>
+                  <td data-col="trust"><span class="trust trust--discovered">Discovered</span></td>
+                  <td data-col="desc">Tutorials replacing old CSS hacks with current features.</td>
+                  <td data-col="type">Blog</td>
+                  <td data-col="sig"><span class="sigs"><span class="sig">RSS</span></span></td>
+                  <td data-col="ver">2026-05-19</td>
+                  <td data-col="act"><a class="key key--xs" href="source.html">Open</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <nav class="dock" aria-label="Main">
+    <a class="dock__item" href="index.html">Home</a>
+    <a class="dock__item" href="search.html">Search</a>
+    <a class="dock__item" href="browse.html" aria-current="page">Browse</a>
+    <a class="dock__item" href="learn-topic.html">Learn</a>
+  </nav>
+</body>
+</html>

@@ -1,0 +1,202 @@
+/*
+ * Design tokens. Two layers:
+ *   1. Primitives (--p-*): raw values. Never referenced by components.
+ *   2. Semantic tokens: what components use. A theme redefines only this layer.
+ *
+ * Default theme "retro": neon retro-futurist device UI (Ready Player One,
+ * cyberpunk HUD, studio hardware controls). A later "sleek" theme is one
+ * [data-theme="sleek"] block redefining the semantic layer.
+ *
+ * Three surface families, each with its own rules:
+ *   chrome  - HUD, nav, controls. Rich: bevels, LEDs, glow.
+ *   readout - tables, lists, metadata. Calm: flat dark, no glow.
+ *   sheet   - long-form documents. Light paper, matches JooKoi-md-archive.
+ */
+
+:root {
+  /* Void: the dark ground, slightly violet */
+  --p-void-950: #07060D;
+  --p-void-900: #0C0B16;
+  --p-void-850: #110F1E;
+  --p-void-800: #171529;
+  --p-void-700: #221F38;
+  --p-void-600: #2E2A4A;
+  --p-void-500: #423D63;
+  --p-void-300: #9A94BD;
+  --p-void-200: #C3BFDB;
+  --p-void-100: #ECEAF7;
+
+  /* Neon */
+  --p-magenta-300: #FF7CC3;
+  --p-magenta-400: #FF3EA5;
+  --p-magenta-700: #B0176A;
+  --p-cyan-300: #8AF7FF;
+  --p-cyan-400: #3DF2FF;
+  --p-cyan-700: #0E8C99;
+  --p-amber-300: #FFCB7A;
+  --p-amber-400: #FFB547;
+  --p-green-400: #5CFFA8;
+  --p-violet-400: #A47BFF;
+  --p-orange-400: #FF8A3D;
+  --p-red-400: #FF5468;
+
+  /* Chrome */
+  --p-chrome-50: #FFFFFF;
+  --p-chrome-100: #E6E9F2;
+  --p-chrome-300: #B7BDD0;
+  --p-chrome-500: #7B8199;
+  --p-chrome-700: #4A4F66;
+
+  /* Paper (from JooKoi-md-archive markdown rendering) */
+  --p-paper-50: #FAFAFA;
+  --p-paper-100: #F5F5F5;
+  --p-paper-200: #E3E3E3;
+  --p-paper-300: #E0E0E0;
+  --p-ink-900: #111827;
+  --p-ink-500: #5F6673;
+  --p-link-600: #1C6FAE;
+  --p-code-900: #282C34;
+
+  --p-black: #000000;
+  --p-white: #FFFFFF;
+
+  --p-font-display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+  --p-font-read: "Inter", -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --p-font-mono: "JetBrains Mono", Consolas, Monaco, "Courier New", monospace;
+}
+
+:root,
+[data-theme="retro"] {
+  /* Ground */
+  --bg-page: var(--p-void-950);
+  --bg-horizon: color-mix(in srgb, var(--p-magenta-400) 20%, transparent);
+  --bg-haze: color-mix(in srgb, var(--p-cyan-400) 7%, transparent);
+  --bg-grid-line: color-mix(in srgb, var(--p-cyan-400) 30%, transparent);
+
+  /* Chrome surfaces */
+  --surface-chrome: linear-gradient(180deg, var(--p-void-700), var(--p-void-800));
+  --surface-hud: color-mix(in srgb, var(--p-void-900) 88%, transparent);
+  --surface-inset: var(--p-void-950);
+  --border-chrome: var(--p-void-600);
+  --bracket: var(--p-cyan-400);
+  --chrome-text: linear-gradient(180deg, var(--p-chrome-50) 0%, var(--p-chrome-100) 40%, var(--p-chrome-500) 52%, var(--p-chrome-100) 60%, var(--p-chrome-50) 100%);
+
+  /* Readout surfaces */
+  --surface-panel: var(--p-void-850);
+  --surface-readout: var(--p-void-900);
+  --surface-row-hover: var(--p-void-800);
+  --border-panel: var(--p-void-600);
+  --border-subtle: var(--p-void-700);
+
+  /* Sheet surfaces */
+  --surface-sheet: var(--p-paper-50);
+  --sheet-text: var(--p-ink-900);             /* 17.0:1 on sheet */
+  --sheet-text-muted: var(--p-ink-500);       /* 5.7:1 on sheet */
+  --sheet-link: var(--p-link-600);            /* 5.2:1 on sheet */
+  --sheet-border: var(--p-paper-300);
+  --sheet-head: var(--p-paper-100);
+  --sheet-code-inline: var(--p-paper-200);
+  --sheet-code-block: var(--p-code-900);
+  --sheet-code-text: var(--p-white);
+  --sheet-quote: var(--p-link-600);
+
+  /* Text on dark */
+  --text-primary: var(--p-void-100);          /* 17.1:1 on page, 15.7:1 on panel */
+  --text-muted: var(--p-void-300);            /* 6.9:1 on page, 6.2:1 on panel */
+  --text-dim: var(--p-void-500);              /* decoration only */
+  --text-accent: var(--p-cyan-300);
+  --text-hot: var(--p-magenta-300);
+  --text-warn: var(--p-amber-300);
+  --text-on-neon: var(--p-void-950);
+
+  /* Keys */
+  --key-top: var(--p-void-600);
+  --key-base: var(--p-void-700);
+  --key-rim: var(--p-void-500);
+  --key-edge: var(--p-black);
+  --key-text: var(--p-void-100);
+  --key-hot-top: var(--p-magenta-300);
+  --key-hot-base: var(--p-magenta-400);
+  --key-hot-edge: var(--p-magenta-700);
+  --key-cyan-top: var(--p-cyan-300);
+  --key-cyan-base: var(--p-cyan-400);
+  --key-cyan-edge: var(--p-cyan-700);
+
+  /* LEDs and enamel accents */
+  --led-off: var(--p-void-600);
+  --led-cyan: var(--p-cyan-400);
+  --led-magenta: var(--p-magenta-400);
+  --led-amber: var(--p-amber-400);
+  --led-green: var(--p-green-400);
+  --led-violet: var(--p-violet-400);
+  --led-orange: var(--p-orange-400);
+  --led-red: var(--p-red-400);
+  --jewel-rim: var(--p-chrome-500);
+  --metal-light: var(--p-chrome-100);
+  --metal-mid: var(--p-chrome-300);
+  --metal-dark: var(--p-chrome-700);
+
+  /* Focus */
+  --focus-ring: var(--p-cyan-400);
+  --focus-ring-sheet: var(--p-magenta-700);
+
+  /* Effects */
+  --shadow-deep: color-mix(in srgb, var(--p-black) 65%, transparent);
+  --glow-cyan: color-mix(in srgb, var(--p-cyan-400) 45%, transparent);
+  --glow-magenta: color-mix(in srgb, var(--p-magenta-400) 50%, transparent);
+  --scanline: color-mix(in srgb, var(--p-black) 35%, transparent);
+
+  /* Shape: chrome is soft-cornered hardware, print is near-square */
+  --radius-panel: 10px;
+  --radius-key: 8px;
+  --radius-chip: 6px;
+  --radius-sheet: 8px;
+  --radius-print: 3px;
+
+  /* Type. Display for controls and labels, read for text, mono for data */
+  --font-display: var(--p-font-display);
+  --font-read: var(--p-font-read);
+  --font-mono: var(--p-font-mono);
+  --text-2xs: 0.6875rem;
+  --text-xs: 0.8125rem;
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.375rem;
+
+  /* Space (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+
+  /* Size */
+  --hud-height: 64px;
+  --dock-height: 64px;
+  --content-max: 80rem;
+  --sheet-max: 950px;
+
+  /* Motion */
+  --key-travel: 3px;
+  --duration-press: 70ms;
+  --duration-state: 160ms;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --hud-height: 52px;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --glow-cyan: transparent;
+    --glow-magenta: transparent;
+    --scanline: transparent;
+    --text-muted: var(--p-void-200);
+  }
+}

@@ -1,0 +1,155 @@
+  # Sitemap — pages, dev-facing scripts, and navigation edges. Rough first draft, not build order.
+# Schema per entry (flat, no nesting — scripts/sitemap-to-mermaid.mjs depends on this shape):
+#   id: unique slug, used as node id and in links_to
+#   title: short label
+#   path: route, or script/skill file path for type: script (illustrative, not final)
+#   type: page (default, navigable route) | script (dev-facing tool/skill, not a route) | content (templated, backed by external files)
+#   status: mvp | parked  (parked = Stage 2/4+ candidate per product-concept.md Part D, not built now)
+#   purpose: one line, why this exists
+#   components: ; separated key UI pieces or actions
+#   links_to: comma separated ids this navigates to (omit if none)
+#   external: true if the link target leaves the app (site-search launch, direct outbound)
+#   source_repo: for type: content — where the actual content lives (cross-repo dependency, worth naming explicitly)
+
+- id: home
+  title: Home / Launcher
+  path: /
+  status: mvp
+  purpose: Entry point — search bar plus quick access to trusted sources and top categories.
+  components: search bar; trusted highlights; quick category chips
+  links_to: search_results, browse, source_detail, education_home, collection_view
+
+- id: search_results
+  title: Search Results
+  path: /search?q=
+  status: mvp
+  purpose: Source-level results for a query — which sites are worth looking at, not page hits.
+  components: result cards; filters (trusted only, language, region, type, has-RSS, has-search); sort
+  links_to: source_detail, site_search_launch
+
+- id: browse
+  title: Category Browse
+  path: /browse/:category?
+  status: mvp
+  purpose: Discovery without a query — shallow category tree, tags, related categories.
+  components: category list; tag chips; related-category links; source cards
+  links_to: source_detail
+
+- id: source_detail
+  title: Source Detail
+  path: /source/:id
+  status: mvp
+  purpose: One source's full record — what it is, why it's trusted, how to search it directly.
+  components: description; metadata (type, trust tier, RSS/API/search availability, last verified); related/alternative sources; direct-search box
+  links_to: site_search_launch
+
+- id: site_search_launch
+  title: Direct Site Search
+  path: n/a — generates an outbound URL
+  status: mvp
+  purpose: Send the user's query straight into a source's own search, bypassing this app entirely.
+  components: query-to-URL-template substitution
+  external: true
+
+- id: graph_explore
+  title: Node-Graph Explore
+  path: /explore
+  status: parked
+  purpose: Spatial alternative to category browse — sources and relationships as an explorable graph. Stage 2/4 candidate, not MVP.
+  components: node graph canvas; node = source; edge = related/alternative
+  links_to: source_detail
+
+- id: personal_homepage
+  title: Personal Homepage
+  path: /home (configured)
+  status: parked
+  purpose: Longer-term personalized front page — saved sections, bookmarks, frequent searches. Not required for the indexing MVP.
+  components: configurable sections; bookmarks; saved filters
+  links_to: browse, source_detail
+
+- id: utilities
+  title: Local Utilities
+  path: /tools
+  status: parked
+  purpose: Small client-side tools (diff, JSON format, hashing, etc.) that replace one-off external tool searches. Secondary feature family.
+  components: tool list; per-tool local-only UI
+
+- id: export
+  title: Export / Download
+  path: /export
+  status: parked
+  purpose: Download the open-web-map dataset (JSON/CSV) — anti-silo philosophy, not urgent.
+  components: format picker; scope picker (all / filtered view)
+
+- id: collection_view
+  title: Niche / Vertical Collection
+  path: /collections/:slug
+  status: parked
+  purpose: Preset filtered view over the same dataset for one themed sub-web — e.g. frontend engineering, Estonian web, independent journalism. One dataset, many views (product-concept.md §35).
+  components: collection header/description; filtered source cards; link back to full browse
+  links_to: source_detail
+
+- id: contribute
+  title: Contribute / Submit Source
+  path: /contribute
+  status: parked
+  purpose: GitHub-based community submission flow — propose a source, correct metadata, flag a dead link. Trusted status stays curator-controlled even if submission is open (§32).
+  components: submission form -> PR/issue template; contribution-type picker (add/correct/flag)
+
+- id: federated_search
+  title: Federated Search Launcher
+  path: /search/federated?q=
+  status: parked
+  purpose: Fan one query out to several trusted sources' own search pages at once, without merging results into one ranking (§14).
+  components: query box; list of participating sources; per-source "open search" buttons
+  links_to: site_search_launch
+
+- id: health_dashboard
+  title: Directory Health
+  path: /health
+  status: parked
+  purpose: Rollup of source freshness and verification signals — dead links, stale metadata, ownership changes. Historical open-web-health view (§38), not a per-source field.
+  components: dead/stale source list; last-verified distribution; recently-changed sources
+
+- id: education_home
+  title: Developer AI 101 (landing)
+  path: /learn
+  type: page
+  status: parked
+  purpose: Landing page for the AI-tooling crash course — what it covers, suggested reading order, link into the topic index.
+  components: intro; topic index; suggested path for a first read
+  links_to: education_topic
+  source_repo: JooKoi-developer-stack/ai-tooling-crash-course-for-developers
+
+- id: education_topic
+  title: Crash-Course Topic (templated)
+  path: /learn/:topic
+  type: content
+  status: parked
+  purpose: Renders one topic doc. Currently 19 files under topics/ plus one intro doc (how-llms-actually-work) — real content already written, not stubs, just not yet surfaced as app pages.
+  components: rendered markdown; prev/next topic nav; back to /learn
+  source_repo: JooKoi-developer-stack/ai-tooling-crash-course-for-developers/topics
+
+- id: probe_url_script
+  title: probe-url.mjs
+  path: scripts/probe-url.mjs
+  type: script
+  status: mvp
+  purpose: Deterministic per-URL probe — HTTP status, redirects, RSS/OpenSearch autodiscovery, CSP headers, robots.txt. No model call. Feeds source ingestion and later the health dashboard.
+  components: n/a — CLI/script, not a UI
+
+- id: source_ingest_skill
+  title: source-ingest skill
+  path: .agents/skills/source-ingest/SKILL.md
+  type: script
+  status: mvp
+  purpose: AI-assisted workflow that proposes a directory entry from a URL (description, categories, tags, type, RSS/API/search availability). AI proposes, human approves for the trusted tier.
+  components: n/a — agent skill, invoked during ingestion, not a UI
+
+- id: link_decay_checker
+  title: Link Decay Checker
+  path: scripts/check-decay.mjs (future)
+  type: script
+  status: parked
+  purpose: Periodic reachability/ownership-change sweep over existing sources. Introduced once the directory passes ~50 sources, per the "three occurrences, then encode" rule — not before.
+  components: n/a — scheduled/manual script, feeds health_dashboard

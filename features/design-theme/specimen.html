@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en" data-theme="retro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Open Web · Parts kit</title>
+  <!-- Specimen only. The app self-hosts these fonts. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="components.css">
+  <script src="demo.js" defer></script>
+  <style>
+    /* Specimen layout only. */
+    .kit { display: grid; gap: var(--space-6); grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
+    .row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-3); padding-bottom: var(--key-travel); }
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr)); gap: var(--space-2); }
+    .swatch { padding: var(--space-3); min-height: 4rem; border: 1px solid var(--border-panel); border-radius: var(--radius-chip); font: 500 var(--text-2xs)/1.3 var(--font-mono); }
+  </style>
+</head>
+<body>
+  <header class="hud">
+    <div class="hud__inner">
+      <a class="hud__brand" href="index.html"><span class="hud__mark" aria-hidden="true"></span><span class="logotype logotype--sm">Open<b>Web</b></span></a>
+      <nav class="hud__nav" aria-label="Pages">
+        <a class="key key--sm" href="index.html">Home</a>
+        <a class="key key--sm" href="search.html">Search</a>
+        <a class="key key--sm" href="browse.html">Browse</a>
+        <a class="key key--sm" href="source.html">Source</a>
+        <a class="key key--sm" href="learn-topic.html">Doc</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page stack">
+    <div>
+      <p class="eyebrow">Design theme · retro · v3</p>
+      <h1 class="h-title">Parts kit</h1>
+      <p class="lede">Chrome parts are rich. Readout parts stay calm. Sheet parts match JooKoi-md-archive.</p>
+    </div>
+
+    <div class="kit">
+      <section class="panel">
+        <div class="panel__head"><span class="led led--magenta" aria-hidden="true"></span><h2 class="panel__title">Keys</h2><span class="panel__meta">.key</span></div>
+        <div class="panel__body stack">
+          <div class="row">
+            <button type="button" class="key">Default</button>
+            <button type="button" class="key key--hot">Hot</button>
+            <button type="button" class="key key--cyan">Cyan</button>
+          </div>
+          <div class="row">
+            <button type="button" class="key key--lg key--hot">Launch</button>
+            <button type="button" class="key key--sm">Small</button>
+            <button type="button" class="key key--xs">XS</button>
+          </div>
+          <div class="row">
+            <button type="button" class="key key--sm" aria-pressed="true"><span class="led" aria-hidden="true"></span>Latched</button>
+            <button type="button" class="key key--sm" aria-pressed="false"><span class="led" aria-hidden="true"></span>Open</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head"><span class="led led--cyan" aria-hidden="true"></span><h2 class="panel__title">Toggles</h2><span class="panel__meta">.toggle</span></div>
+        <div class="panel__body toggles">
+          <button type="button" class="toggle" aria-pressed="true"><span class="toggle__jewel" aria-hidden="true"></span>Trusted only<span class="toggle__state" aria-hidden="true"></span></button>
+          <button type="button" class="toggle toggle--magenta" aria-pressed="true"><span class="toggle__jewel" aria-hidden="true"></span>Has RSS<span class="toggle__state" aria-hidden="true"></span></button>
+          <button type="button" class="toggle toggle--amber" aria-pressed="false"><span class="toggle__jewel" aria-hidden="true"></span>Include discovered<span class="toggle__state" aria-hidden="true"></span></button>
+          <button type="button" class="toggle toggle--green" aria-pressed="false"><span class="toggle__jewel" aria-hidden="true"></span>Has API<span class="toggle__state" aria-hidden="true"></span></button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head"><span class="led led--amber" aria-hidden="true"></span><h2 class="panel__title">Selectors and input</h2></div>
+        <div class="panel__body stack">
+          <div class="segment" role="group" aria-label="Sort">
+            <button type="button" aria-pressed="true">Relevance</button>
+            <button type="button" aria-pressed="false">Trust</button>
+            <button type="button" aria-pressed="false">Verified</button>
+          </div>
+          <form class="console" role="search" onsubmit="return false">
+            <label class="sr-only" for="kit-q">Search</label>
+            <span class="console__prompt" aria-hidden="true">&gt;</span>
+            <input class="console__input" id="kit-q" placeholder="query" autocomplete="off">
+            <button class="key key--hot key--sm">Go</button>
+          </form>
+          <div>
+            <label class="field-label" for="kit-sel">Language</label>
+            <select class="select" id="kit-sel"><option>Any language</option><option>English</option></select>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head"><span class="led led--green" aria-hidden="true"></span><h2 class="panel__title">Status and readout</h2></div>
+        <div class="panel__body stack">
+          <div class="row leds">
+            <span class="led" aria-hidden="true"></span>off
+            <span class="led led--cyan" aria-hidden="true"></span>cyan
+            <span class="led led--magenta" aria-hidden="true"></span>magenta
+            <span class="led led--amber" aria-hidden="true"></span>amber
+            <span class="led led--green led--blink" aria-hidden="true"></span>blink
+          </div>
+          <div class="row">
+            <span class="readout" data-ghost="888">124</span>
+            <span class="trust trust--trusted">Trusted</span>
+            <span class="trust trust--discovered">Discovered</span>
+            <span class="sigs"><span class="sig">RSS</span><span class="sig">SRCH</span><span class="sig">API</span></span>
+          </div>
+          <div class="chips">
+            <a class="chip" href="browse.html">css <span class="chip__count">22</span></a>
+            <a class="chip" href="browse.html">small-web <span class="chip__count">37</span></a>
+          </div>
+          <hr class="stripes">
+        </div>
+      </section>
+    </div>
+
+    <section class="panel">
+      <div class="panel__head"><span class="led led--cyan" aria-hidden="true"></span><h2 class="panel__title">Surfaces</h2><span class="panel__meta">semantic tokens</span></div>
+      <div class="panel__body swatches">
+        <div class="swatch" style="background: var(--bg-page)">--bg-page</div>
+        <div class="swatch" style="background: var(--surface-chrome)">--surface-chrome</div>
+        <div class="swatch" style="background: var(--surface-panel)">--surface-panel</div>
+        <div class="swatch" style="background: var(--surface-readout)">--surface-readout</div>
+        <div class="swatch" style="background: var(--surface-inset)">--surface-inset</div>
+        <div class="swatch" style="background: var(--surface-sheet); color: var(--sheet-text)">--surface-sheet</div>
+        <div class="swatch" style="background: var(--sheet-code-block); color: var(--sheet-code-text)">--sheet-code-block</div>
+        <div class="swatch" style="background: var(--led-magenta); color: var(--text-on-neon)">--led-magenta</div>
+        <div class="swatch" style="background: var(--led-cyan); color: var(--text-on-neon)">--led-cyan</div>
+        <div class="swatch" style="background: var(--led-amber); color: var(--text-on-neon)">--led-amber</div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="dock" aria-label="Pages">
+    <a class="dock__item" href="index.html">Home</a>
+    <a class="dock__item" href="search.html">Search</a>
+    <a class="dock__item" href="browse.html">Browse</a>
+    <a class="dock__item" href="learn-topic.html">Learn</a>
+  </nav>
+</body>
+</html>
