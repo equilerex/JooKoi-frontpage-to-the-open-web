@@ -1943,7 +1943,7 @@ CSS: port `.sheet` from `components.css:1496-1521` onto `:host`, including the p
 Verify the brackets draw at all four corners and the panel head strip aligns its label and trailing key on one row at 390px.
 
 ```bash
-git add src/app/shared/design-system/surfaces src/styles src/app/specimen
+git add src/app/shared/design-system/surfaces src/styles.css src/styles src/app/specimen
 git commit -m "Phase 2 task 10: corner brackets, readout panel, paper sheet"
 ```
 
@@ -2401,7 +2401,7 @@ Expected: `<title>Home — JooKoi</title>`. If it shows the raw app title, the s
 Then check `/` at 390px and 1440px: the HUD sticks to the top on scroll, the dock is visible only at 390px, the horizon renders behind everything, and no content hides under the dock at the bottom of the page.
 
 ```bash
-git add src/app/app-shell src/app/app.config.ts src/app/app.routes.ts src/styles
+git add src/app/app-shell src/app/app.config.ts src/app/app.routes.ts src/styles.css src/styles
 git commit -m "Phase 2 task 13: application chrome and page title strategy"
 ```
 
@@ -2851,7 +2851,7 @@ Port the panel frame from `components.css:1374-1393`, and set `--png-mask-backgr
 Open the drawer from a specimen key. Confirm: Tab cycles only inside the drawer, the page behind does not scroll, Escape closes it, and focus returns to the key that opened it. That list is the value being bought — if any of it fails, the wiring is wrong, not PrimeNG.
 
 ```bash
-git add src/app/shared/design-system/surfaces src/styles src/app/specimen
+git add src/app/shared/design-system/surfaces src/styles.css src/styles src/app/specimen
 git commit -m "Phase 2 task 16: filter drawer on PrimeNG Drawer"
 ```
 
@@ -3039,7 +3039,7 @@ On `/specimen`, render the grid with a few rows and again with `virtual` on and 
 
 ```bash
 pnpm run test:ci
-git add src/app/shared/design-system/data-display src/styles src/app/specimen
+git add src/app/shared/design-system/data-display src/styles.css src/styles src/app/specimen
 git commit -m "Phase 2 task 17: record grid on PrimeNG Table"
 ```
 
