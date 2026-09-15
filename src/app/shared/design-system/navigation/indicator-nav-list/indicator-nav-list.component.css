@@ -1,0 +1,46 @@
+/*
+ * Ported from `features/design-theme/components.css` `.navlist` (:1100-1140).
+ *
+ * The container rules move to `:host`. `flex-direction: column` is the default
+ * the mockup left implied by its block `<li>`s; with the keys as direct flex
+ * children it has to be said. `gap` is an addition: the mockup's rows were flat
+ * and adjacent, so it needed none, but key slabs are not — their drop shadows
+ * collide with no separation between them. `--space-1` is the smallest step on
+ * the scale, a token reference rather than an invented value.
+ *
+ * The mockup's per-row rules are NOT ported. In the mockup the row was a plain
+ * `<a>` (`.navlist a`, :1107-1128) and those declarations — display, alignment,
+ * gap, padding, type, ink, radius, and the hover highlight — are exactly what
+ * `joo-hardware-key`'s `.key` already carries. Here the row IS the key, so the
+ * only thing left needing a rule is the label.
+ *
+ * DEVIATION, deliberately accepted: the mockup's active row is a flat row with
+ * `color: var(--text-primary)`, `background: var(--surface-row-hover)` and
+ * `box-shadow: inset 2px 0 0 var(--led-magenta)` (:1124-1128). `hardware-key`
+ * answers `aria-current="page"` with a generic PRESSED treatment shared with
+ * `aria-pressed="true"` (hardware-key.component.css:83-92): the slab sinks half
+ * its travel into a deeper inset shadow. So the active row reads as a pressed
+ * key, not as a tinted row.
+ *
+ * That look cannot be ported from here. The mockup's `<a>` is hardware-key's
+ * own element carrying hardware-key's `_ngcontent`, so a rule written in this
+ * stylesheet compiles with THIS component's `_ngcontent` and silently matches
+ * nothing. The alternatives are a new input on `hardware-key` — an API invented
+ * in Task 11 for a component Task 7 froze — or a global rule reaching into
+ * another component's internals, barred by decision 007. A pressed-in key reads
+ * coherently as "you are here", so it stands.
+ */
+
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* The key centres its contents, so without this the lamp and label would sit in
+   the middle of the row. Growing the label to fill pushes the lamp to the left
+   edge and the text right after it — the alignment the mockup got from its
+   `display: flex` row, at the level this composition can actually reach. */
+.navlist__label {
+  flex: 1;
+}

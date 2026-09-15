@@ -21,6 +21,15 @@ import { BezelJewelComponent } from '../shared/design-system/indicators/bezel-je
 import { ClassificationBadgeComponent } from '../shared/design-system/indicators/classification-badge/classification-badge.component';
 import { SegmentReadoutComponent } from '../shared/design-system/indicators/segment-readout/segment-readout.component';
 import { StatusLightComponent } from '../shared/design-system/indicators/status-light/status-light.component';
+import {
+  BreadcrumbTrailComponent,
+  Crumb,
+} from '../shared/design-system/navigation/breadcrumb-trail/breadcrumb-trail.component';
+import {
+  IndicatorNavListComponent,
+  NavItem,
+} from '../shared/design-system/navigation/indicator-nav-list/indicator-nav-list.component';
+import { PagerComponent } from '../shared/design-system/navigation/pager/pager.component';
 import { CornerBracketsDirective } from '../shared/design-system/surfaces/corner-brackets/corner-brackets.directive';
 import { PaperSheetComponent } from '../shared/design-system/surfaces/paper-sheet/paper-sheet.component';
 import { ReadoutPanelComponent } from '../shared/design-system/surfaces/readout-panel/readout-panel.component';
@@ -55,6 +64,9 @@ import { SpecimenSectionComponent } from './specimen-section/specimen-section.co
     ReadoutPanelComponent,
     PaperSheetComponent,
     CornerBracketsDirective,
+    BreadcrumbTrailComponent,
+    IndicatorNavListComponent,
+    PagerComponent,
   ],
   templateUrl: './specimen.page.html',
   styleUrl: './specimen.page.css',
@@ -72,5 +84,15 @@ export class SpecimenPage {
     { term: 'Updated', value: 'Weekly' },
     { term: 'Feed', value: 'Atom' },
     { term: 'Licence', value: 'CC BY-SA' },
+  ];
+  protected readonly crumbs: readonly Crumb[] = [
+    { label: 'Home', href: '#' },
+    { label: 'Directory', href: '#' },
+    { label: 'Zines' },
+  ];
+  protected readonly navItems: readonly NavItem[] = [
+    { label: 'Directory', href: '#', active: true },
+    { label: 'Reference', href: '#', lightColor: 'amber' },
+    { label: 'Tools', href: '#' },
   ];
 }

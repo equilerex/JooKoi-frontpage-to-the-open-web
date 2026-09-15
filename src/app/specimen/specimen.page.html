@@ -118,3 +118,9 @@
     </joo-prose-content>
   </joo-paper-sheet>
 </joo-specimen-section>
+
+<joo-specimen-section label="Navigation">
+  <joo-breadcrumb-trail [crumbs]="crumbs" style="flex-basis: 100%" />
+  <joo-indicator-nav-list [items]="navItems" style="flex-basis: 100%" />
+  <joo-pager [page]="2" [pageCount]="7" style="flex-basis: 100%" />
+</joo-specimen-section>
