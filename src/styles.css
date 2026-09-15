@@ -342,7 +342,17 @@
    * not these gets the stacked layout without the areas, which is the mockup's
    * own contract, not a gap in the port. */
   @media (max-width: 767px) {
+    /* `display: block` is load-bearing and is not in the mockup
+     * (`components.css:1230-1236`), which gets away without it. PrimeNG emits
+     * `position: sticky` as an *inline style* on the `<thead>`
+     * (`primeng-table.mjs:286`), so the `position: absolute` below never
+     * applies, and a `table-header-group` ignores `width`/`height` outright.
+     * Without the blockification the header renders whole — measured 332x109
+     * above the cards, with the last label clipped — which is the defect this
+     * rule exists to prevent. `position: absolute` is kept for the mockup's
+     * behaviour if that inline style ever goes away. */
     .joo-record-grid thead {
+      display: block;
       position: absolute;
       width: 1px;
       height: 1px;
@@ -357,7 +367,9 @@
 
     .joo-record-grid tr {
       display: grid;
-      grid-template-columns: auto auto 1fr auto;
+      grid-template-columns:
+        minmax(0, auto) minmax(0, auto) minmax(0, 1fr)
+        minmax(0, auto);
       grid-template-areas:
         'name name name trust'
         'desc desc desc desc'

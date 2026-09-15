@@ -52,6 +52,7 @@
  * virtualiser would have nothing to virtualise — the demo would look correct
  * while proving nothing. */
 .specimen-page__grid-frame {
+  display: grid;
   flex-basis: 100%;
   height: 26rem;
 }
