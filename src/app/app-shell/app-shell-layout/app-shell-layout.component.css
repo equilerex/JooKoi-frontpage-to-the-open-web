@@ -1,4 +1,19 @@
 /*
+ * The frame's own box. `display: block` is explicit because nothing else
+ * supplies it: a custom element defaults to `inline`, and no global rule in
+ * `src/styles/` blockifies one. Its three children are a fixed backdrop, a
+ * sticky header and a fixed dock, all of which position against the viewport
+ * rather than against this box, so an inline host is harmless today — the
+ * `<main>` between them is a block box that also sizes against `body`. It is
+ * the same declaration, added for the same reason, as
+ * `heads-up-display-header.component.css`: an inline full-page wrapper is a
+ * trap for the first change that needs the host to have a box.
+ */
+:host {
+  display: block;
+}
+
+/*
  * The page container, ported verbatim from `features/design-theme/components.css`
  * `.page` (:91-103), including its `@media (max-width: 767px)` rule.
  *

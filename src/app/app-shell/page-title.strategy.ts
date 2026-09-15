@@ -5,7 +5,7 @@ import { RouterStateSnapshot, TitleStrategy } from '@angular/router';
 const SITE_NAME = 'JooKoi';
 
 /**
- * `"<page> — JooKoi"`, or the bare site name on a route with no title.
+ * `"<page> · JooKoi"`, or the bare site name on a route with no title.
  *
  * The router calls `updateTitle` on every successful navigation AND once during
  * prerender, which is the reason this exists: the static `src/index.html` title
@@ -24,6 +24,6 @@ export class PageTitleStrategy extends TitleStrategy {
 
   override updateTitle(snapshot: RouterStateSnapshot): void {
     const routeTitle = this.buildTitle(snapshot);
-    this.#title.setTitle(routeTitle ? `${routeTitle} — ${SITE_NAME}` : SITE_NAME);
+    this.#title.setTitle(routeTitle ? `${routeTitle} · ${SITE_NAME}` : SITE_NAME);
   }
 }

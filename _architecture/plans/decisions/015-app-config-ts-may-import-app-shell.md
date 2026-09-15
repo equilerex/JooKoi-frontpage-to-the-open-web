@@ -35,4 +35,4 @@ The chosen option is not a widening of the boundary. `app.config.ts` is the comp
 
 ## Next step
 
-Decision 005's import-direction sentence now understates the rule and should be amended or superseded when that file is next touched. `eslint.config.js`'s comment above the generated block states the current three-file list.
+Done. Decision 005's import-direction sentence was amended in place to name all three root files, so this decision and that one now agree. `eslint.config.js`'s comment above the generated block states the same three-file list.

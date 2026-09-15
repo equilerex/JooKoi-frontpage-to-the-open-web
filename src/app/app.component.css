@@ -1,0 +1,15 @@
+/*
+ * The shell's root element, wrapping the whole layout.
+ *
+ * `display: block` is explicit because nothing else supplies it: a custom
+ * element defaults to `inline`, and no global rule in `src/styles/` blockifies
+ * one. Harmless today — `joo-app-shell-layout` is a block box that sizes
+ * against `body` either way — but an inline box wrapping two fixed layers, a
+ * sticky bar and a centred `<main>` is a trap for whoever makes the first
+ * change that depends on the host's own box. Same declaration, same reason as
+ * `heads-up-display-header.component.css`.
+ */
+
+:host {
+  display: block;
+}

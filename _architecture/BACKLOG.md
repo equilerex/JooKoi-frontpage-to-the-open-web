@@ -109,3 +109,9 @@ Flagged by the final whole-branch review as non-blocking and parked rather than 
 Status: OPEN
 
 The mobile dock renders each item as `joo-hardware-key`, not the mockup's `.dock__item`. Decision 012 makes the key one component in five placements and nav link is one of them, so the dock matches the HUD nav and `indicator-nav-list` — but the mockup's `.dock__item` carried a hand-drawn 22x4px LED bar that went cyan and glowing on `[aria-current='page']`, and the key has no equivalent. `current` still renders `aria-current="page"` and the key's pressed slab, so the current page is signalled; the mobile "you are here" accent is not. Same shape as the nav-list active-row divergence parked in Task 11: accept the key's treatment, and revisit together. Cost if wrong: a few declarations in one place once the design call is made. Do not reintroduce `.dock__item` without that call — decision 012 is what makes the dock a data-driven list rather than four hard-coded anchors.
+
+## Nav list rows are key slabs, not the mockup's flat rows
+
+Status: OPEN
+
+indicator-nav-list renders every row as a key slab — uppercase display type on a raised slab in the key's muted --k-text — where the mockup's rows in features/design-theme/browse.html are sentence case, --text-sm and --text-muted on a flat transparent background. The mockup also puts a .chip__count in each row (features/design-theme/components.css:1137-1140, browse.html:73-75) and NavItem has no field to represent it. Consequence: the nav list reads noticeably heavier than the mockup intends, and the count chip is not representable at all. Accepted in T11-2 for the active row; the question is whether the rest of the row should follow.

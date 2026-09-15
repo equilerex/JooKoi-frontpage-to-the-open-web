@@ -60,7 +60,7 @@ src/
       heads-up-display-header/          #   desktop HUD navigation (.hud)
       mobile-bottom-dock/               #   thumb-reach navigation below 768px (.dock)
       horizon-backdrop/                 #   perspective grid, desktop only
-      page-title.strategy.ts            #   TitleStrategy: "<page> — JooKoi"
+      page-title.strategy.ts            #   TitleStrategy: "<page> · JooKoi"
 
     shared/                             # used by two or more features, or by shell + a feature
       design-system/                    #   domain-agnostic visual building blocks (Phase 2)

@@ -18,7 +18,7 @@ The not-found page lives here rather than in a feature folder because it's the w
 - `heads-up-display-header/` — desktop HUD navigation, the mockup's `.hud`. Hidden below 768px.
 - `mobile-bottom-dock/` — thumb-reach navigation below 768px, the mockup's `.dock`. Hidden at 768px and up.
 - `horizon-backdrop/` — the perspective grid floor and horizon glow, desktop only.
-- `page-title.strategy.ts` — `PageTitleStrategy`, registered in `app.config.ts`, producing `"<page> — JooKoi"`.
+- `page-title.strategy.ts` — `PageTitleStrategy`, registered in `app.config.ts`, producing `"<page> · JooKoi"`.
 
 ## Imports
 
