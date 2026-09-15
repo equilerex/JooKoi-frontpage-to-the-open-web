@@ -3,6 +3,9 @@ import { BezelJewelComponent } from '../shared/design-system/indicators/bezel-je
 import { ClassificationBadgeComponent } from '../shared/design-system/indicators/classification-badge/classification-badge.component';
 import { SegmentReadoutComponent } from '../shared/design-system/indicators/segment-readout/segment-readout.component';
 import { StatusLightComponent } from '../shared/design-system/indicators/status-light/status-light.component';
+import { EyebrowLabelComponent } from '../shared/design-system/typography/eyebrow-label/eyebrow-label.component';
+import { LogotypeComponent } from '../shared/design-system/typography/logotype/logotype.component';
+import { StripeRuleComponent } from '../shared/design-system/typography/stripe-rule/stripe-rule.component';
 import { SpecimenSectionComponent } from './specimen-section/specimen-section.component';
 
 @Component({
@@ -13,6 +16,9 @@ import { SpecimenSectionComponent } from './specimen-section/specimen-section.co
     BezelJewelComponent,
     SegmentReadoutComponent,
     ClassificationBadgeComponent,
+    EyebrowLabelComponent,
+    LogotypeComponent,
+    StripeRuleComponent,
   ],
   templateUrl: './specimen.page.html',
   styleUrl: './specimen.page.css',
