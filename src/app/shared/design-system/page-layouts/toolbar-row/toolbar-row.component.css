@@ -27,9 +27,11 @@
  *
  * The clusters get their own flex context because `gap` on `:host` only reaches
  * between them: the host's only flex children are the two wrapper divs, and
- * `display: block` wrappers put a cluster's controls in normal flow, separated
- * by template whitespace (about 4px) rather than by the token. The mockup
- * separated all of `.toolbar`'s children with its 12px gap, and most of its real
+ * `display: block` wrappers put a cluster's controls in normal flow, where the
+ * only separation is inline whitespace — and Angular's default
+ * `preserveWhitespaces: false` strips that text node, so in practice there was
+ * none at all. The mockup separated all of `.toolbar`'s children with its 12px
+ * gap, and most of its real
  * toolbars put two or more controls in one cluster. `flex-wrap: wrap` there is
  * load-bearing, not decoration: a flex item's `min-width: auto` would make a
  * cluster wider than the host overflow instead of wrapping.
