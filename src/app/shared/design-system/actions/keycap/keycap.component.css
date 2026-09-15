@@ -1,19 +1,39 @@
 /*
  * Ported from `features/design-theme/components.css` `.keycap` (:381-406).
  *
- * In the mockup the keycap rules sat on the same element as `.key`, so they
- * overrode the slab's own flex layout. Here that element is the projected
- * `.keycap__body`, and the declarations that `.key` used to provide have to be
- * stated: `display: flex` (the mockup inherited it) and `width: 100%` (the
- * mockup's `.key` was a stretched grid item, which is what left the legend
- * flush against the key's left padding rather than centred in it).
+ * In the mockup both classes sat on ONE element — `index.html:73` is
+ * `<a class="key keycap">` — so `.keycap`'s `padding: var(--space-2)
+ * var(--space-3)` (:386) overrode `.key`'s `padding: 0 var(--space-4)` (:277)
+ * by source order at equal specificity. Only one horizontal inset ever
+ * applied, and it was `--space-3`: 1px border + 12px = the mockup's 13px.
+ *
+ * Splitting the two classes into a parent slab and a projected body made the
+ * paddings additive — 1px + `--space-4` (16px) + `--space-3` (12px) = 29px.
+ * The body therefore reclaims the slab's horizontal inset and carries the
+ * mockup's `--space-3` itself, which puts the text back at 1px + 12px = 13px.
+ * The `width` has to grow by the same amount the margins pull in, or
+ * `justify-content: center` on `.key` just recentres the box and the reclaim
+ * cancels out.
+ *
+ * `--space-4` here is the slab's inset at its default size, which is the only
+ * size a keycap uses — `joo-keycap` exposes no size input. If that default
+ * padding ever changes, this margin changes with it.
+ *
+ * `display: contents` keeps the key — not `joo-keycap` — as the grid item, so
+ * a keycap fills its row height the way the mockup's stretched grid item did.
+ * `joo-hardware-key` does the same for the same reason.
  *
  * `.keycap__fn` / `.keycap__label` / `.keycap__count` port unchanged.
  */
 
+:host {
+  display: contents;
+}
+
 .keycap__body {
   display: flex;
-  width: 100%;
+  width: calc(100% + 2 * var(--space-4));
+  margin-inline: calc(-1 * var(--space-4));
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
