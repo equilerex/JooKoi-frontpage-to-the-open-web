@@ -30,6 +30,8 @@ Descendant rules that must reach projected content live in `src/styles.css` insi
 
 The layer placement is load-bearing, not incidental. `components` sits after `tokens` and `base` and before `utilities` in the order declared for the cascade layers, so these rules beat base element defaults and still lose to a utility class. A projected element therefore stays overridable by whoever uses the component.
 
+It follows that an **unlayered** rule wins over all of them, because anything outside a layer outranks everything inside one. A consuming component that writes a bare element selector — `p { }` in a page's stylesheet — compiles to `p[_ngcontent-page]`, which matches the projected element and beats the layered prose rule. So the corollary is a rule in its own right: keep bare element selectors out of component stylesheets. There is no case where one is needed, since a component's own markup can always carry a class, and the only elements a bare selector reaches beyond that are the consumer's.
+
 ## Why not the alternatives
 
 - **`::ng-deep`** is barred by decision 007, and it leaks further than this does: it pierces into child components' templates, while an element-name rule stops at the host's subtree.

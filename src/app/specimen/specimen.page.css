@@ -8,13 +8,33 @@
   padding: var(--space-6);
 }
 
-h1 {
+/* Element selectors are classed throughout this file on purpose. A bare `p`
+ * here compiles to `p[_ngcontent-page]`, which is unlayered and therefore beats
+ * `@layer components`'s `joo-prose-content p`, so it reaches into projected
+ * content decision 014 writes the rule for. A component's own markup can always
+ * carry a class; the only elements a bare selector reaches past that are its
+ * consumer's. */
+
+.specimen-page__title {
   margin: 0;
   font: 700 var(--text-xl) / 1.1 var(--font-display);
   color: var(--text-primary);
 }
 
-p {
+.specimen-page__lede {
   margin: 0;
   color: var(--text-muted);
+}
+
+/* `joo-prose-content` sets the sheet ink, which is calibrated against a sheet —
+ * `--sheet-text` is commented "17.0:1 on sheet" and `--surface-sheet` is the
+ * paper it means. On this section's `--surface-panel` the two measure about
+ * 1.05:1, so the prose demo was styled and unreadable. These are the mockup's
+ * own `.sheet` surface declarations (components.css:1496-1508).
+ *
+ * A stand-in until the design system has a real paper-sheet component, at which
+ * point this wrapper goes away. Not a component, not a token, not a fallback. */
+.specimen-page__sheet {
+  background: var(--surface-sheet);
+  color: var(--sheet-text);
 }

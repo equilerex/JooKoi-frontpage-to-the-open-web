@@ -1,5 +1,7 @@
-<h1>Specimen</h1>
-<p>Dev-only parts kit. Every design-system component, in every state it has.</p>
+<h1 class="specimen-page__title">Specimen</h1>
+<p class="specimen-page__lede">
+  Dev-only parts kit. Every design-system component, in every state it has.
+</p>
 
 <!-- Each task appends one <joo-specimen-section> here. Keep them in the
      order components were built: indicators, typography, actions,
@@ -78,11 +80,15 @@
 
   <joo-spec-list [entries]="specEntries" style="flex-basis: 100%" />
 
-  <joo-prose-content style="flex-basis: 100%">
-    <h2>Heading</h2>
-    <p>Body copy with a <a href="#">link</a> and some <code>inline code</code>.</p>
-    <ul>
-      <li>List item</li>
-    </ul>
-  </joo-prose-content>
+  <!-- Prose is paper content, so it gets a paper surface — see the
+       `specimen-page__sheet` rule for why this wrapper is here. -->
+  <div class="specimen-page__sheet" style="flex-basis: 100%">
+    <joo-prose-content>
+      <h2>Heading</h2>
+      <p>Body copy with a <a href="#">link</a> and some <code>inline code</code>.</p>
+      <ul>
+        <li>List item</li>
+      </ul>
+    </joo-prose-content>
+  </div>
 </joo-specimen-section>
