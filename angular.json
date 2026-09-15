@@ -33,6 +33,8 @@
               }
             ],
             "styles": [
+              "src/styles/cascade-layers.css",
+              "src/styles/base-element-styles.css",
               "src/styles.css"
             ],
             "server": "src/main.server.ts",
