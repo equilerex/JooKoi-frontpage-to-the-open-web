@@ -139,6 +139,15 @@
       <p>Sheet content.</p>
     </joo-prose-content>
   </joo-paper-sheet>
+
+  <!-- The drawer is an overlay, so it needs a trigger that owns focus before it
+       opens — that key is what "focus returns to the trigger" has as its
+       referent. `joo-filter-drawer` itself renders nothing while closed. -->
+  <joo-hardware-key accent="cyan" (press)="filterDrawerOpen.set(true)">Filters</joo-hardware-key>
+
+  <joo-filter-drawer [(open)]="filterDrawerOpen" heading="Filters">
+    <p>Filter body content.</p>
+  </joo-filter-drawer>
 </joo-specimen-section>
 
 <joo-specimen-section label="Navigation">

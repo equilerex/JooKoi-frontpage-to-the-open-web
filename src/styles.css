@@ -191,4 +191,36 @@
   joo-paper-sheet :focus-visible {
     outline-color: var(--focus-ring-sheet);
   }
+
+  /* `joo-filter-drawer` is PrimeNG Drawer's root element, and its frame is
+   * global for the same reason as the rules above: `styleClass` lands on an
+   * element created in Drawer's template, so it carries **Drawer's**
+   * `_ngcontent`, not ours, and the same rule in
+   * `filter-drawer.component.css` would compile to
+   * `.joo-filter-drawer[_ngcontent-c]` and match nothing, with no error.
+   *
+   * The competition here is PrimeNG's own rules, which sit in `@layer primeng`
+   * — ordered before `components` by `cascade-layers.css:5` — so this wins by
+   * layer rather than by specificity, and needs no `!important`. That is the
+   * inverse of the component-stylesheet case above: an unlayered Angular
+   * stylesheet beats a layered rule, and a layered PrimeNG one does not.
+   * Decision 011. */
+  .joo-filter-drawer {
+    /* PrimeNG's `.p-drawer` sets `border-style` and `border-color` (the colour
+     * arrives from the preset) but no `border-width`, and only
+     * `.p-drawer-left`/`-right`/`-top`/`-bottom` set an inline width — 1px, on
+     * the one side they own. Measured on the open panel: top/right/bottom/left
+     * = 3px/1px/3px/3px, i.e. three sides falling back to the CSS initial
+     * `medium`. 1px is the width every other panel in the design system uses
+     * (`readout-panel.component.css:27`, ported from the mockup's `.panel` at
+     * `components.css:834`). */
+    border-width: 1px;
+    /* `jookoi-preset.ts` maps `overlay.modal.borderRadius`, and it does reach
+     * the element — `--png-overlay-modal-border-radius` reads `10px` on the
+     * panel — but PrimeNG's drawer structural CSS never consumes that token,
+     * and `drawer.borderRadius` does not exist in Aura at all
+     * (`--png-drawer-border-radius` is unset). Measured `border-radius: 0px`.
+     * `--radius-panel` is the design system's panel radius. */
+    border-radius: var(--radius-panel);
+  }
 }

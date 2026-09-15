@@ -1,0 +1,11 @@
+/* Empty on purpose. Every visible part of the panel — surface, border, radius,
+ * shadow, header strip, title, close control — and the scrim's colour come
+ * from `jookoi-preset.ts` through `semantic.overlay.modal`, `semantic.content`
+ * and `semantic.mask`, measured in the browser before this file was written.
+ *
+ * Nothing belongs here even if a frame rule were needed: `styleClass` lands on
+ * PrimeNG's own root element, created in Drawer's template, so that element
+ * carries Drawer's `_ngcontent`, not ours, and a rule in this file would
+ * compile to `.joo-filter-drawer[_ngcontent-c]` and match nothing, silently.
+ * Any global rule goes in `src/styles.css` under `@layer components` — see the
+ * component's file header. */

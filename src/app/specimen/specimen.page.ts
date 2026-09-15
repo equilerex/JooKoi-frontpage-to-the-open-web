@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HardwareKeyComponent } from '../shared/design-system/actions/hardware-key/hardware-key.component';
 import { KeycapGridComponent } from '../shared/design-system/actions/keycap-grid/keycap-grid.component';
@@ -34,6 +34,7 @@ import {
 import { PagerComponent } from '../shared/design-system/navigation/pager/pager.component';
 import { ToolbarRowComponent } from '../shared/design-system/page-layouts/toolbar-row/toolbar-row.component';
 import { CornerBracketsDirective } from '../shared/design-system/surfaces/corner-brackets/corner-brackets.directive';
+import { FilterDrawerComponent } from '../shared/design-system/surfaces/filter-drawer/filter-drawer.component';
 import { PaperSheetComponent } from '../shared/design-system/surfaces/paper-sheet/paper-sheet.component';
 import { ReadoutPanelComponent } from '../shared/design-system/surfaces/readout-panel/readout-panel.component';
 import { EyebrowLabelComponent } from '../shared/design-system/typography/eyebrow-label/eyebrow-label.component';
@@ -69,6 +70,7 @@ import { SpecimenSectionComponent } from './specimen-section/specimen-section.co
     ReadoutPanelComponent,
     PaperSheetComponent,
     CornerBracketsDirective,
+    FilterDrawerComponent,
     BreadcrumbTrailComponent,
     IndicatorNavListComponent,
     PagerComponent,
@@ -79,6 +81,9 @@ import { SpecimenSectionComponent } from './specimen-section/specimen-section.co
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpecimenPage {
+  /** Two-way bound to the drawer's own `open` model, so the trigger key and
+   *  PrimeNG's close paths (Escape, scrim, close icon) write to the same cell. */
+  protected readonly filterDrawerOpen = signal(false);
   protected readonly lightColors = ['off', 'cyan', 'magenta', 'amber', 'green'] as const;
   protected readonly jewelColors = ['cyan', 'magenta', 'amber', 'green'] as const;
   protected readonly sortOptions: readonly SegmentOption[] = [
