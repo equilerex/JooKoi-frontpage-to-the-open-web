@@ -36,7 +36,18 @@ export interface SelectOption {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChromeSelectComponent {
-  readonly options = input.required<readonly SelectOption[]>();
+  /**
+   * Deliberately **not** `input.required`. `selectOptions` below reads it, and a
+   * `computed` that reads a required input before it is set throws `NG0950`.
+   * Normal rendering is unaffected — inputs are applied before the template
+   * renders — but Angular's SSR error-**recovery** path calls `recreate()`
+   * without re-applying inputs, so on a page containing this component any
+   * recoverable render error escalates from a reported error into a thrown
+   * `NG0950` with nothing catching it, and the process exits 1. This repo
+   * prerenders, so that is a crashed build rather than a failed page. An empty
+   * option list is a legitimate state anyway; the default costs nothing.
+   */
+  readonly options = input<readonly SelectOption[]>([]);
   readonly value = model<string | null>(null);
   readonly placeholder = input('');
   readonly ariaLabel = input('');

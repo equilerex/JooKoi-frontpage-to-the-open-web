@@ -22,8 +22,19 @@ import { HardwareKeyComponent } from '../../actions/hardware-key/hardware-key.co
   host: { role: 'navigation', 'aria-label': 'Pagination' },
 })
 export class PagerComponent {
-  readonly page = input.required<number>();
-  readonly pageCount = input.required<number>();
+  /**
+   * Not `input.required`, and the reason is not style. `hasPrevious` and
+   * `hasNext` below read both of these from a `computed`, and a `computed` that
+   * reads a required input before it is set throws `NG0950`. Normal rendering is
+   * unaffected — inputs are applied before the template renders — but Angular's
+   * SSR error-**recovery** path calls `recreate()` without re-applying inputs,
+   * so on a page containing this component any recoverable render error
+   * escalates into an uncaught `NG0950` and the process exits 1. This repo
+   * prerenders, so that is a crashed build rather than a failed page. Page 1 of
+   * 1 is a coherent default for a pager.
+   */
+  readonly page = input(1);
+  readonly pageCount = input(1);
   readonly pageChange = output<number>();
 
   protected readonly hasPrevious = computed(() => this.page() > 1);
