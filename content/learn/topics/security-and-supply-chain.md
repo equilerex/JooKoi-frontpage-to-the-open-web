@@ -1,0 +1,53 @@
+# Stage 1 — Security: vetting AI tooling before you run it
+
+This extends the existing personal stance ("no new dependency without a registry check — age, download counts, repo link; never substitute a second model's opinion for this") to the newer surface: Skills, MCP servers, and agent plugins. That surface is real and actively exploited as of 2026, not a hypothetical — see the incidents below. This is knowledge and practices, not a product recommendation; pick what's worth adopting.
+
+## The threat is documented, not speculative
+
+Several concrete, sourced incidents from 2026:
+
+- **[ClawHub](https://clawhub.ai/) (the [OpenClaw](https://github.com/openclaw-ai/openclaw) skill registry) was systematically poisoned at scale.**
+  - One widely cited count: 5 of the top 7 most-downloaded skills contained malware at peak infection (<!-- VERIFY: figure traced to "[Top downloaded skill in ClawHub contains malware](https://shekhar14.medium.com/top-downloaded-skill-in-clawhub-contains-malware-cc395361d49e)", a Medium post rather than a primary vendor report — treat as indicative, not confirmed-by-a-named-vendor -->).
+  - "ClawHavoc" campaign, disclosed by [Koi Security](https://www.esecurityplanet.com/threats/hundreds-of-malicious-skills-found-in-openclaws-clawhub/) on 2026-02-01: 341 of 2,857 scanned skills (11.9%) malicious. [Antiy researchers](https://cybersecuritynews.com/clawhavoc-poisoned-openclaws-clawhub/) later tied 1,184 malicious packages to 12 publisher accounts.
+  - [SlowMist's MistEye](https://slowmist.medium.com/threat-intelligence-analysis-of-clawhub-malicious-skills-poisoning-0448ffd49c80) separately flagged 472 malicious skills on the platform.
+  - Barrier to publishing there: a `SKILL.md` file and a week-old GitHub account. No code signing, no security review, no default sandboxing.
+- **[Snyk's ToxicSkills study](https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/)** scanned 3,984 skills across ClawHub and skills.sh: 36.8% (1,467) had at least one security flaw, 13.4% (534) had critical issues. Prompt injection patterns showed up in only 2.6% of the full scanned population but in 91% of the samples Snyk confirmed malicious — injection is concentrated in the actually-malicious subset, not spread evenly across the ecosystem.
+- **Marketplace dependency hijacking in Claude Code specifically.** A malicious plugin can redirect dependency installs mid-flow, so a routine "add httpx" request pulls a trojanized package instead. Only user actions needed: connect to an unofficial marketplace, install a plugin, ask Claude to add a dependency. Documented independently by [Prompt Security](https://prompt.security/blog/when-your-plugin-starts-picking-your-dependencies-marketplace-skills-and-dependency-hijack-in-claude-code) and [SentinelOne](https://www.sentinelone.com/blog/marketplace-skills-and-dependency-hijack-in-claude-code/).
+- **MCP-specific.** Malicious or later-compromised MCP servers can bridge to sensitive local resources, exploit the sampling feature for prompt-injection attacks (covert tool invocation, conversation hijacking, resource theft), and — since many run locally with direct filesystem/shell access — are vulnerable to command injection on careless input handling. ([Unit 42/Palo Alto Networks](https://unit42.paloaltonetworks.com/model-context-protocol-attack-vectors/), [Checkmarx MCP security 2026 report](https://checkmarx.com/learn/mcp-security-risks-real-world-incidents-and-security-controls/))
+- **Anthropic's own guidance is blunt:** "A malicious Skill can direct Claude to invoke tools or execute code in ways that don't match the Skill's stated purpose" — including reading environment variables and exfiltrating API keys via URL parameters or embedded requests. Recommendation: use Skills only from sources you created yourself or Anthropic-vetted ones. Enterprise plans can turn on automatic skill/plugin malware scanning at upload time. ([Anthropic Help Center](https://support.claude.com/en/articles/15927065-get-started-with-skill-and-plugin-scanning))
+- **General npm supply-chain context** (not AI-specific, same failure mode): 2026 saw large legitimate-package takeovers — [Axios](https://www.elastic.co/security-labs/axios-one-rat-to-rule-them-all) (maintainer npm account compromise 2026-03-31, RAT dropper via a phantom postinstall dependency) and [keyv](https://www.wiz.io/blog/keyv-and-cacheable-npm-supply-chain-attack) (127M weekly downloads, GitHub account takeover 2026-08-04, self-propagating "Mini Shai-Hulud" credential-stealing worm). <!-- VERIFY: "roughly half of all tracked malicious-package incidents in 2026 are compromised legitimate packages" — no single source found stating this aggregate ratio; the Axios/keyv examples support the pattern but not this specific proportion --> Old, popular, and previously trustworthy isn't durable protection on its own.
+
+## Pre-install verification checklist
+
+Adapted from [OWASP's Agentic Skills Top 10 project](https://owasp.org/www-project-agentic-skills-top-10/), trimmed to what's realistic for a single home developer rather than an enterprise security team:
+
+**Worth doing every time, low effort:**
+- Check the repo/author has a real, checkable identity — not just a username. A one-week-old account publishing a skill is the exact pattern behind the ClawHub incidents above.
+- Read the skill's actual instructions/manifest before enabling it, specifically for: does it request write access to your instruction/memory files (`AGENTS.md`, memory directories), does it request broad/wildcard file or network access it has no obvious reason to need, does it pull logic or content from a remote source at runtime rather than being fully self-contained.
+- Prefer Anthropic-vetted or first-party sources over third-party marketplaces for anything touching credentials, filesystem, or shell — this matches Anthropic's own stated position, not just a personal preference.
+- If a skill/MCP server needs a dependency installed, watch what actually gets installed — the marketplace-hijack pattern above hides a swapped package inside an otherwise-normal-looking request.
+
+**Worth doing for anything with real access (filesystem, shell, credentials), more effort:**
+- Pin to a specific version/commit rather than "latest" — this is the direct mitigation for the "legitimate package gets compromised later" failure mode, which the Axios and keyv incidents above both were.
+- Consider a dependency-monitoring tool ([Socket.dev](https://socket.dev/) is the most cited for exactly this — alerts on new vulnerabilities, maintainer changes, and packages starting to make network requests they didn't make before; [deps.dev](https://deps.dev/) is a free alternative for basic lookup) if you're pulling in enough third-party skills/packages that manual review stops scaling.
+- Run unfamiliar tooling in an isolated/sandboxed context first (a VM, a container, a throwaway environment) before giving it access to your real filesystem or credentials — this is the single highest-leverage practical step and the one most often skipped.
+
+**Explicitly not worth it for a solo home setup** (per the same OWASP checklist, scaled down): a formal skill-inventory/governance workflow, mandatory code-signing infrastructure you maintain yourself, or enterprise-style approval pipelines. Those solve a team-coordination problem, not an individual-risk one — security theater relative to the actual threat model here.
+
+## Handling "it was fine, then it wasn't"
+
+Axios and keyv show pinning-and-forgetting isn't enough if you never revisit pinned versions. But *blindly auto-updating* is worse — that's exactly the vector (a poisoned release ships with valid signatures and looks like a normal update).
+
+Practical middle ground: let a bot ([Renovate](https://docs.renovatebot.com/), [Dependabot](https://docs.github.com/en/code-security/dependabot)) open update PRs rather than auto-merging, then actually look at what changed before accepting. A version bump alone isn't a safety signal anymore — CI-signed provenance can come from a compromised-but-legitimate pipeline.
+
+## Sources
+- [OWASP Agentic Skills Top 10 project](https://owasp.org/www-project-agentic-skills-top-10/)
+- Snyk, ["ToxicSkills: malicious AI agent skills in ClawHub"](https://snyk.io/blog/toxicskills-malicious-ai-agent-skills-clawhub/)
+- Prompt Security and SentinelOne, both independently covering Claude Code marketplace dependency hijacking: [Prompt Security](https://prompt.security/blog/when-your-plugin-starts-picking-your-dependencies-marketplace-skills-and-dependency-hijack-in-claude-code), [SentinelOne](https://www.sentinelone.com/blog/marketplace-skills-and-dependency-hijack-in-claude-code/)
+- Anthropic Help Center, ["Get started with skill and plugin scanning"](https://support.claude.com/en/articles/15927065-get-started-with-skill-and-plugin-scanning) and Claude Code security guidance
+- [Unit 42 (Palo Alto Networks), "New Prompt Injection Attack Vectors Through MCP Sampling"](https://unit42.paloaltonetworks.com/model-context-protocol-attack-vectors/); [Checkmarx, "MCP Security: Risks, Real Incidents & Controls (2026)"](https://checkmarx.com/learn/mcp-security-risks-real-world-incidents-and-security-controls/)
+- 2026 npm supply-chain incident coverage: [Elastic Security Labs on Axios](https://www.elastic.co/security-labs/axios-one-rat-to-rule-them-all), [Wiz on keyv/cacheable](https://www.wiz.io/blog/keyv-and-cacheable-npm-supply-chain-attack), [Aikido on keyv/cacheable](https://www.aikido.dev/blog/keyv-and-friends-compromised-in-npm-supply-chain-attack)
+- [Socket.dev](https://socket.dev/) and [deps.dev](https://deps.dev/) for the dependency-monitoring tooling mention
+- SlowMist MistEye ClawHub poisoning analysis: [Medium writeup](https://slowmist.medium.com/threat-intelligence-analysis-of-clawhub-malicious-skills-poisoning-0448ffd49c80); Koi Security ClawHavoc disclosure via [eSecurity Planet](https://www.esecurityplanet.com/threats/hundreds-of-malicious-skills-found-in-openclaws-clawhub/) and [Cybersecurity News on Antiy's findings](https://cybersecuritynews.com/clawhavoc-poisoned-openclaws-clawhub/)
+
+**Weak-sourcing flag:** the OWASP "Agentic Skills Top 10" project is real and current but is a newer, narrower-adoption OWASP subproject compared to the flagship OWASP Top 10 — treat its checklist as credible guidance, not as an industry-universal standard the way the main OWASP Top 10 is. The "five of top seven downloads were malware" figure and the "roughly half of 2026 incidents are compromised legitimate packages" figure are flagged VERIFY above — everything else traces to named security research teams, primary vendor writeups, or Anthropic's own docs.

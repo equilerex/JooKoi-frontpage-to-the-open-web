@@ -19,6 +19,10 @@
 /.primeui-license
 /src/app/primeui-license.ts
 
+# Generated learn-content module - rebuilt from content/learn/ on every
+# build/serve. See scripts/build-learn-content.mjs.
+/src/app/shared/learn-content/learn-content.generated.ts
+
 # Browser-mode test scratch, rewritten on every `pnpm test` run.
 /.vitest-attachments/
 

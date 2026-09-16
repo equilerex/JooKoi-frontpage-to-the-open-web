@@ -21,12 +21,11 @@ import { MobileBottomDockComponent } from '../mobile-bottom-dock/mobile-bottom-d
  * three. A single shared list could satisfy one shape or the other but not
  * both, so this component owns two.
  *
- * `/search` (Task 5 — `search.page.ts`) is the real filter/sort/results
- * page, so the header console, the home launcher console and the quick keys
- * all land somewhere real. `/learn` is still not routed (Task 6) — the
- * wildcard route sends it to `NotFoundPage`, an honest "not built yet"
- * rather than a dead `href="#"`. `/browse` stays `#`: it is `parked` (D2),
- * not scheduled.
+ * `/search` (Task 5 — `search.page.ts`) and `/learn` + `/learn/:topic`
+ * (Task 6 — `learn.page.ts`, `learn-topic.page.ts`) are both real routes
+ * now, so the header console, the home launcher console, the quick keys and
+ * the Learn nav item all land somewhere real. `/browse` stays `#`: it is
+ * `parked` (D2), not scheduled.
  */
 @Component({
   imports: [

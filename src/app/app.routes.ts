@@ -1,6 +1,8 @@
 import { isDevMode } from '@angular/core';
 import { Routes } from '@angular/router';
 import { HomePage } from './app-shell/home.page';
+import { LearnPage } from './app-shell/learn.page';
+import { LearnTopicPage } from './app-shell/learn-topic.page';
 import { NotFoundPage } from './app-shell/not-found.page';
 import { SearchPage } from './app-shell/search.page';
 
@@ -13,6 +15,8 @@ import { SearchPage } from './app-shell/search.page';
 export const routes: Routes = [
   { path: '', component: HomePage, title: 'Home' },
   { path: 'search', component: SearchPage, title: 'Search' },
+  { path: 'learn', component: LearnPage, title: 'Learn' },
+  { path: 'learn/:topic', component: LearnTopicPage, title: 'Learn' },
   ...(isDevMode()
     ? [
         {

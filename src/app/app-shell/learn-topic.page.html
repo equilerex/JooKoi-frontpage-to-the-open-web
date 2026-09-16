@@ -1,0 +1,18 @@
+<joo-document-template>
+  <joo-breadcrumb-trail templateCrumbs [crumbs]="crumbs()" />
+
+  @if (topic(); as t) {
+    <joo-paper-sheet>
+      <joo-prose-content [innerHTML]="t.html" />
+    </joo-paper-sheet>
+
+    <joo-pager [page]="page()" [pageCount]="pageCount" (pageChange)="onPageChange($event)" />
+  } @else {
+    <joo-paper-sheet>
+      <joo-prose-content>
+        <h1>Topic not found</h1>
+        <p><a href="/learn">Back to Learn</a></p>
+      </joo-prose-content>
+    </joo-paper-sheet>
+  }
+</joo-document-template>
