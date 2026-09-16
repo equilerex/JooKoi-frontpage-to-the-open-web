@@ -20,7 +20,7 @@ Every task inherits all of these. They are not repeated per task.
 - **UI check** at 390px and 1440px in the preview browser, on `/specimen`, for any task that adds something visible.
 - **Tests only where this plan names a test.** Per `AGENTS.md`: no tests for the sake of tests. The dev server's watch build is the correctness gate. Named test targets are `console-input`, `stompbox-toggle`, `segment-selector`, `chrome-select`, `record-grid` — nothing else gets a spec file.
 - **Signal APIs only.** `input()`, `input.required()`, `output()`, `model()` for two-way, `computed()`, `linkedSignal()`. Never a hand-written `value`/`valueChange` pair, never `@Input`/`@Output` decorators.
-- **`ChangeDetectionStrategy.OnPush` on every component.** `inject()`, never constructor DI. No NgModules.
+- **OnPush change detection.** It is the Angular 22 default — `ChangeDetectionStrategy.OnPush` is the enum's zero value — so components do not declare it and an omission is correct. `inject()`, never constructor DI. No NgModules.
 - **Style the host, not a wrapper.** Use `host: { ... }` bindings and `:host` CSS. An extra wrapper `<div>` breaks the grid relationship between a template's container and its child. Where a host must be transparent to its parent grid, `:host { display: contents; }`.
 - **Modern control flow only:** `@if`, `@for` with a real `track`, `@switch`, `@let`, `@defer`. No `*ngIf`, no `*ngFor`, no `NgIf`/`NgForOf` imports.
 - **Zoneless-safe.** No `setTimeout`-driven view updates, no reliance on zone change detection.

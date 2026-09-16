@@ -29,7 +29,7 @@ The app's aim is to be easy to use, performant, and an excellent example of mode
 
 - **Signal APIs only.** `input()`, `input.required()`, `output()`. Two-way state uses **`model()`** — never a hand-written `value` / `valueChange` pair. Derived state uses `computed()`; state that resets when an input changes uses `linkedSignal()`.
 - **Styles the host element, not a wrapper.** `host: { '[class.is-pressed]': 'pressed()' }` and host CSS. An extra wrapper `<div>` inside a component breaks the grid relationship between a template's container and its child, and this design is grid-heavy throughout. Where a host must be transparent to its parent grid, `display: contents`.
-- **`inject()`, standalone, `ChangeDetectionStrategy.OnPush`, modern control flow** (`@if` / `@for` with a real `track` / `@switch`, `@let`). No NgModules, no constructor DI, no `*ngIf`.
+- **`inject()`, standalone, modern control flow** (`@if` / `@for` with a real `track` / `@switch`, `@let`). No NgModules, no constructor DI, no `*ngIf`. Change detection is OnPush — the Angular 22 default, so not declared.
 - **Zoneless-safe.** No reliance on zone-triggered change detection — no `setTimeout`-driven view updates.
 - **`@defer` for anything heavy.** See Part 4; it is the idiomatic answer to the bundle question, and a flagship feature worth demonstrating.
 

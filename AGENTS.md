@@ -73,6 +73,7 @@ The bullets below are the reasons behind it.
 ## Conventions
 
 - Paper trail follows `jookoi-paper-trail`: `_architecture/TODO.md` (live working set), `BACKLOG.md`, `ARCHITECTURE.md`, `plans/` (design sessions), `plans/decisions/` (single calls with reasoning), `archive/` (flushed TODO history). Folder-local `CONTEXT.md` beside code it describes.
+- **Harness scratch is not the record.** A subagent-driven-development ledger, or any other progress file a harness owns, is scratch for one run: dispatch order, commit SHAs, which tasks are done. Nothing durable stays in it. A decision with reasoning goes to `plans/decisions/`, parked work to `BACKLOG.md`, the live set to `TODO.md`, friction to `workflow-friction-log.md` — written at the moment it is decided, because a run's context is gone by the time it ends. Decision `016`.
 - Single-decision ADRs (a call made, with reasoning) go in `_architecture/plans/decisions/NNN-slug.md`, numbered, never reused. Multi-part planning-session docs go in `_architecture/plans/YYYY-MM-DD-topic.md` instead. Ship either in the same commit as the pattern it constrains.
 - Skills live in `.agents/skills/<name>/SKILL.md` — provider-agnostic, plain markdown.
 - Deterministic work goes in `scripts/`, not into a model's turn.

@@ -34,6 +34,8 @@ Angular 22, zoneless, standalone. Use:
 
 Strictness on top of the generated strict set: `noUncheckedIndexedAccess`, `noImplicitOverride`, `strictTemplates`, `strictInjectionParameters`. Don't relax any of them; fix the type.
 
+**Change detection is OnPush by default.** In Angular 22 `ChangeDetectionStrategy.OnPush` is `0`, the enum's zero value, so a component that does not declare `changeDetection` is already OnPush. Declaring it is redundant: a component that does is not wrong, and a component that omits it is not incomplete. Don't add the declaration to a new component, and don't "fix" its absence in an existing one.
+
 ## Where does this file go
 
 Placement rules, first match wins (ADR 005 — full version in `ARCHITECTURE.md`):

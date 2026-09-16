@@ -45,8 +45,9 @@ Measured against `primeng@22.1.1` source during Phase 2, because the Problem sec
 - **Focus management** — partly. `Dialog` has `focusOnShow` and `focusTrap`. `Drawer` has neither, and exposes no equivalent input and no global configuration for it.
 - **Background `inert`** — no overlay in the library sets it.
 - **Focus restoration to the trigger on close** — no overlay in the library does it, `Dialog` included.
+- **Modal semantics** — no. `Drawer` renders `role="complementary"` with `aria-modal` and `aria-labelledby` absent, so an open drawer announces itself as a complementary landmark rather than a modal dialog. Overridable on the host.
 
-So the shell, the portal and the scroll lock are bought; initial focus, background inertness and focus restoration stay ours, per overlay, whichever component is adopted. That is a property of the library rather than of any one component, which is why it is recorded here and not in the component that found it.
+So the shell, the portal and the scroll lock are bought; initial focus, background inertness, focus restoration and modal semantics stay ours, per overlay, whichever component is adopted. That is a property of the library rather than of any one component, which is why it is recorded here and not in the component that found it.
 
 ### Configuration this commits to
 
