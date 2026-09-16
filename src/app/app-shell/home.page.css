@@ -1,7 +1,13 @@
+/*
+ * `gap: var(--space-6)` matches the mock's `.stack > * + *` (`components.css:
+ * 104-106`, `--space-6`) between the launcher, the stripe rule and the two
+ * panels below it — `--space-8` here previously left the stripe rule and the
+ * panels visibly detached from the launcher (backlog #9).
+ */
 :host {
   display: flex;
   flex-direction: column;
-  gap: var(--space-8);
+  gap: var(--space-6);
 }
 
 .home-lede {
@@ -10,10 +16,52 @@
   font-size: var(--text-md);
 }
 
+/* Mock `.panel__meta` (`components.css:868-872`): plain text, no icon. The
+ * LED that used to sit here moved onto the panel title itself via
+ * `readout-panel`'s `led` input (backlog #10/#17). */
 .panel-meta {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
+  font: 500 var(--text-2xs) / 1 var(--font-mono);
   color: var(--text-muted);
-  font-size: var(--text-xs);
+}
+
+/* Mock `.sigs` (`components.css:1042-1046`) — the flex row of `.sig` pills
+ * inside the highlights table's Signals cell (backlog #13). */
+.sigs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* Mock `.src-name`/`.src-domain` (`components.css:1195-1210`) — the
+ * highlights table's two-line source cell (backlog #11): bold name over dim
+ * mono domain. Not ported into `src/styles.css` alongside the rest of
+ * `.data-table` because these two are content classes on the cell's own
+ * markup, not selectors keyed to `record-grid`'s `data-col` attribute. */
+.src-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.src-name:hover {
+  color: var(--text-accent);
+  text-decoration: underline;
+}
+
+.src-domain {
+  display: block;
+  font: 400 var(--text-xs) / 1.4 var(--font-mono);
+  color: var(--text-muted);
+}
+
+/*
+ * The mock's tag chip is a bare `<a class="chip">` (`index.html:203-214`);
+ * `joo-chip` (backlog #18) renders the pill itself but owns no anchor, so the
+ * real `<a>` wraps it here — same shape as `joo-hardware-key`/`joo-keycap`'s
+ * own `display: contents` host, which is what keeps this wrapper's UA
+ * underline from painting (a `display: contents` box generates no box to
+ * draw a text-decoration line on) without a `text-decoration` override.
+ */
+.chip-link {
+  display: contents;
 }

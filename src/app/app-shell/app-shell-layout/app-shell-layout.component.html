@@ -1,6 +1,6 @@
 <joo-horizon-backdrop />
-<joo-heads-up-display-header [navItems]="navItems" />
+<joo-heads-up-display-header [navItems]="headerNavItems" [statusText]="statusText" />
 <main id="main-content" class="page">
   <router-outlet />
 </main>
-<joo-mobile-bottom-dock [navItems]="navItems" />
+<joo-mobile-bottom-dock [navItems]="dockNavItems" />

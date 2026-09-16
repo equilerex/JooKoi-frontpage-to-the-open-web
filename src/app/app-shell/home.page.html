@@ -1,11 +1,11 @@
 <joo-readout-panel jooCornerBrackets [flush]="true">
   <joo-console-landing-template>
-    <joo-eyebrow-label templateHero>Front page terminal · 412 sources indexed</joo-eyebrow-label>
-    <joo-logotype templateHero>Open<b>Web</b></joo-logotype>
+    <joo-eyebrow-label templateHero>Front page to the</joo-eyebrow-label>
+    <joo-logotype templateHero>Open <b>Web</b></joo-logotype>
     <p templateHero class="home-lede">Find the sites worth searching. Then search them directly.</p>
 
     <joo-console-input templateConsole size="lg" placeholder="css grid, estonian news, rss readers">
-      <joo-hardware-key accent="hot" size="sm">Launch</joo-hardware-key>
+      <joo-hardware-key accent="hot">Launch</joo-hardware-key>
     </joo-console-input>
     <joo-toolbar-row templateConsole>
       <joo-field-label>Scope</joo-field-label>
@@ -15,7 +15,13 @@
     <joo-field-label templateKeys>Quick keys</joo-field-label>
     <joo-keycap-grid templateKeys>
       @for (key of quickKeys; track key.fn) {
-        <joo-keycap [fn]="key.fn" [label]="key.label" [count]="key.count" href="#" />
+        <joo-keycap
+          [fn]="key.fn"
+          [label]="key.label"
+          [count]="key.count"
+          [accent]="key.accent ?? 'neutral'"
+          href="#"
+        />
       }
     </joo-keycap-grid>
   </joo-console-landing-template>
@@ -23,26 +29,42 @@
 
 <joo-stripe-rule />
 
-<joo-readout-panel [flush]="true" label="Trusted highlights">
-  <span panelHead class="panel-meta">
-    <joo-status-light color="cyan" [on]="true" />
-    recently verified
-  </span>
+<joo-readout-panel [flush]="true" label="Trusted highlights" led="cyan">
+  <span panelHead class="panel-meta">recently verified</span>
   <joo-record-grid
     [rows]="highlights"
     [columns]="highlightColumns"
     ariaLabel="Trusted highlights"
     emptyMessage="No sources yet."
-  />
+  >
+    <ng-template jooRecordGridCell="name" [rows]="highlights" let-row>
+      <a class="src-name" href="#">{{ splitSourceCell(row.name).name }}</a>
+      <span class="src-domain">{{ splitSourceCell(row.name).domain }}</span>
+    </ng-template>
+    <ng-template jooRecordGridCell="trust" [rows]="highlights" let-row>
+      <joo-classification-badge [variant]="row.trust === 'Trusted' ? 'solid' : 'double'">
+        {{ row.trust }}
+      </joo-classification-badge>
+    </ng-template>
+    <ng-template jooRecordGridCell="sig" [rows]="highlights" let-row>
+      <span class="sigs">
+        @for (signal of splitSignals(row.sig); track signal) {
+          <joo-capability-tag>{{ signal }}</joo-capability-tag>
+        }
+      </span>
+    </ng-template>
+    <ng-template jooRecordGridCell="act" [rows]="highlights" let-row>
+      <joo-hardware-key size="xs" as="anchor" href="#">{{ row.act }}</joo-hardware-key>
+    </ng-template>
+  </joo-record-grid>
 </joo-readout-panel>
 
-<joo-readout-panel label="Browse by tag">
+<joo-readout-panel label="Browse by tag" led="magenta">
   <joo-tag-set>
     @for (tag of tags; track tag.label) {
-      <joo-hardware-key [as]="'anchor'" href="#" size="sm">
-        {{ tag.label }}
-        <joo-count-chip [count]="tag.count" />
-      </joo-hardware-key>
+      <a class="chip-link" href="#">
+        <joo-chip [count]="tag.count">{{ tag.label }}</joo-chip>
+      </a>
     }
   </joo-tag-set>
 </joo-readout-panel>

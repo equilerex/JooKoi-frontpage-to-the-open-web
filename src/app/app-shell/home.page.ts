@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { HardwareKeyComponent } from '../shared/design-system/actions/hardware-key/hardware-key.component';
+import { HardwareKeyAccent, HardwareKeyComponent } from '../shared/design-system/actions/hardware-key/hardware-key.component';
 import { KeycapGridComponent } from '../shared/design-system/actions/keycap-grid/keycap-grid.component';
 import { KeycapComponent } from '../shared/design-system/actions/keycap/keycap.component';
-import { CountChipComponent } from '../shared/design-system/data-display/count-chip/count-chip.component';
+import { CapabilityTagComponent } from '../shared/design-system/data-display/capability-tag/capability-tag.component';
+import { ChipComponent } from '../shared/design-system/data-display/chip/chip.component';
+import { RecordGridCellDirective } from '../shared/design-system/data-display/record-grid/record-grid-cell.directive';
 import {
   GridColumn,
   RecordGridComponent,
@@ -14,7 +16,7 @@ import {
   SegmentOption,
   SegmentSelectorComponent,
 } from '../shared/design-system/form-controls/segment-selector/segment-selector.component';
-import { StatusLightComponent } from '../shared/design-system/indicators/status-light/status-light.component';
+import { ClassificationBadgeComponent } from '../shared/design-system/indicators/classification-badge/classification-badge.component';
 import { ToolbarRowComponent } from '../shared/design-system/page-layouts/toolbar-row/toolbar-row.component';
 import { ConsoleLandingTemplateComponent } from '../shared/design-system/page-templates/console-landing-template/console-landing-template.component';
 import { CornerBracketsDirective } from '../shared/design-system/surfaces/corner-brackets/corner-brackets.directive';
@@ -27,6 +29,9 @@ interface QuickKey {
   readonly fn: string;
   readonly label: string;
   readonly count: number | null;
+  /** Defaults to 'neutral' at the call site. Only the AI-marketplace key
+   *  (F6, backlog #8) carries 'hot'. */
+  readonly accent?: HardwareKeyAccent;
 }
 
 interface HighlightRow {
@@ -50,16 +55,17 @@ interface Tag {
  * the header and mobile dock, so this page owns only the launcher, the
  * trusted-highlights table and the tag chips.
  *
- * The highlights table is `joo-record-grid`, not a hand-written
- * `<table class="data-table">`: `.data-table`/`.table-wrap` from the mockup
- * were never ported into `src/styles.css` — the only styled, responsive
- * table path the app has is `.joo-record-grid` (`src/styles.css:242-360`).
- * record-grid only renders plain-text cells, so the mock's trust badge,
- * capability tags and per-row action key collapse to plain strings here;
- * logged in `BACKLOG.md` rather than building a cell-template API for one
- * table. No route exists yet for `/source` or `/browse` (Phase 3), so every
- * link here is `href="#"`, matching the placeholder convention already used
- * in `console-landing-demo.page.html`.
+ * The highlights table is `joo-record-grid` using Task 1's cell-template API
+ * (backlog #11-14): the source cell, trust chip, signal pills and `OPEN` key
+ * are each a `jooRecordGridCell` template rather than the plain-text
+ * fallback. `splitSourceCell`/`splitSignals` below parse the placeholder
+ * `"Name — domain"`/`"RSS, SRCH"` strings this page has always hard-coded —
+ * Task 3/4 replaces `highlights` with real `Source` records (`name`/`url`
+ * and a `capabilities` array already split), at which point these two
+ * helpers go away rather than change shape. No route exists yet for
+ * `/source` or `/browse` (Phase 3), so every link here is `href="#"`,
+ * matching the placeholder convention already used in
+ * `console-landing-demo.page.html`.
  */
 @Component({
   selector: 'joo-home-page',
@@ -77,10 +83,12 @@ interface Tag {
     KeycapGridComponent,
     KeycapComponent,
     StripeRuleComponent,
-    StatusLightComponent,
     RecordGridComponent,
+    RecordGridCellDirective,
+    ClassificationBadgeComponent,
+    CapabilityTagComponent,
+    ChipComponent,
     TagSetComponent,
-    CountChipComponent,
   ],
   styleUrl: './home.page.css',
   templateUrl: './home.page.html',
@@ -99,7 +107,11 @@ export class HomePage {
     { fn: 'F3', label: 'Science', count: 27 },
     { fn: 'F4', label: 'Search engines', count: 12 },
     { fn: 'F5', label: 'Estonian web', count: 19 },
-    { fn: 'F6', label: 'Surprise me', count: null },
+    // AI marketplace (D3/backlog #8) — replaces the mock's "Surprise me"
+    // placeholder. 8 = the seed-content list's mdskills.ai, agensi.io,
+    // mcpmarket.com plus five skill-library repos; a real count arrives with
+    // the Task 3/4 fixture.
+    { fn: 'F6', label: 'AI marketplace', count: 8, accent: 'hot' },
   ];
 
   protected readonly highlightColumns: readonly GridColumn<HighlightRow>[] = [
@@ -161,4 +173,30 @@ export class HomePage {
     { label: 'small-web', count: 37 },
     { label: 'datasets', count: 14 },
   ];
+
+  /**
+   * Splits the placeholder `"Name — domain"` join (backlog #11) into the
+   * mock's two display lines: bold name, dim mono domain underneath. Real
+   * `Source` records (Task 3+) carry `name` and `url` separately and derive
+   * the domain from `url` instead of a string split.
+   */
+  protected splitSourceCell(name: string): { readonly name: string; readonly domain: string } {
+    // `noUncheckedIndexedAccess` types array-destructured elements as
+    // possibly `undefined`, so both branches fall back explicitly even
+    // though the placeholder data always contains the ' — ' separator.
+    const [label, domain] = name.split(' — ');
+    return { name: label ?? name, domain: domain ?? '' };
+  }
+
+  /**
+   * Splits the placeholder comma-joined signal string (backlog #13) into
+   * individual pills. Real `Source` records carry `capabilities` as an array
+   * already, so this parsing step goes away with the fixture.
+   */
+  protected splitSignals(sig: string): readonly string[] {
+    return sig
+      .split(',')
+      .map((s) => s.trim())
+      .filter((s) => s.length > 0);
+  }
 }
