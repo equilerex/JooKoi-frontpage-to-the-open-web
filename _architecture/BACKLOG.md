@@ -127,3 +127,70 @@ The mockup's narrow block at features/design-theme/components.css:1418-1430 has 
 Status: OPEN
 
 features/design-theme/components.css:30-37 gives body { margin: 0; min-height: 100dvh; background: var(--bg-page); color: var(--text-primary); font: 400 var(--text-md)/1.55 var(--font-read); -webkit-font-smoothing: antialiased }. It was never ported: src/styles/base-element-styles.css holds only a reset, and --bg-page is defined in src/styles/design-tokens.css but used nowhere. Measured on the running app (2026-09-16, port 4250, /specimen): body font-family "Times New Roman", font-size 16px, line-height normal, background rgba(0,0,0,0). Every component that sets its own font looks right; the gap only shows on text no component owns, e.g. the specimen index lede (.specimen-page__lede computes to "Times New Roman" while its colour correctly resolves to --text-muted). Found during the page-template work and left alone as out of scope.
+
+## Record grid: who owns horizontal overflow
+
+Status: OPEN
+
+The mockup wrapped its table in `.table-wrap { overflow-x: auto }` (`features/design-theme/components.css:1149-1151`). The port deliberately did not carry it, and `joo-record-grid` has no containment of its own: above 767px the grid is eight columns with `white-space: nowrap` on `th` (`src/styles.css:284-289`), so inside a parent narrower than the table's natural width nothing scrolls or clips and the page itself widens.
+
+Task 17 fixed the 767px card layout by letting the tracks shrink (`grid-template-columns: minmax(0, auto) ...`), measured at 390px: `document.documentElement.scrollWidth` 620 to 390, with no containment rule needed. That is the card case only. The wide table still has no owner.
+
+Phase 3 decides: `overflow-x: auto` on the host (the mockup's answer), or a declared minimum width with the page carrying the scroll. Cost of leaving it: a page that puts the grid in a narrow column silently widens the viewport.
+
+## Vitest resolves roles from its own vendored table
+
+Status: OPEN
+
+`getByRole` in the Vitest browser tests resolves roles from a table **vendored inside Vitest**, not from the accessibility tree of the page under test: `node_modules/.pnpm/@vitest+browser@4.1.11_*/node_modules/@vitest/browser/dist/index.js:5056`. It is a hand-maintained map, and it disagrees in places with the engine actually rendering the page (`playwright-core@1.63.0` `lib/coreBundle.js`).
+
+Symptom: a role assertion fails or passes differently in a test than in the live DOM, with no error pointing at the cause. The table is not configurable and not documented.
+
+Phase 3 tests should reach for `getByLabelText`, `getByText` or an explicit `data-testid` when a role query behaves oddly, and the browser is the arbiter, not the table. Worth a decision only if a role query actually blocks a real test.
+
+## Design-system fidelity deltas against the mockup
+
+Status: OPEN
+
+Small places where the shipped component and the mockup do not agree. None is a defect on its own; together they are the reason "done" means checked in the browser, not diffed against the mockup.
+
+- `:focus-visible` ring is defined at `features/design-theme/components.css:43` and the port's ring does not match it exactly.
+- `prefers-contrast: more` logotype override exists in the mockup (`components.css:1686-1690`) and was not carried across.
+- Keycap interior padding is about 2px off the mockup's.
+- Navigation rows are `2.75rem` in the port and `2.5rem` in the mockup.
+- A contentless head at 390px renders a box the mockup does not.
+- `segment-readout` paints its ghost digits above the live digits rather than behind them.
+
+Fix them only if the difference is visible in the running app at 390px or 1440px. Recorded so the next reader knows these are known, not missed.
+
+## Budgets and tooling owed a decision
+
+Status: OPEN
+
+Four things tooling owes a decision on. Each is one call, none blocks anything today.
+
+- **The 320 kB bundle warn is exceeded** (measured over by roughly 121 kB) and so is the component-style warn. `ARCHITECTURE.md` records the fact and deliberately no number. The decision is whether the warn lines move, whether `@defer` comes in, or whether the budget is dropped as a gate for a prototype.
+- **Component-style budget:** `hardware-key.component.css` is 2.44 kB and `console-input.component.css` about 2140 B, against PrimeNG's own stylesheet budget calc.
+- **`pnpm run format` rewrites tracked `pnpm-lock.yaml`** because there is no `.prettierignore`. Harmless but noisy; a one-line ignore fixes it.
+- **`src/styles.css:1` still carries the `ng new` CLI placeholder comment.** Removing it would have added an unlisted path to Task 18's commit, so it was left and recorded instead.
+
+## Mockup patterns with no owner
+
+Status: OPEN
+
+The mockups carry patterns no component owns, and one is load-bearing:
+
+- `<details class="drawer panel">` — a native disclosure styled as a panel, `features/design-theme/components.css:1351-1377`. It is interactive, it appears in the mockups in more than one place, and nothing in `shared/design-system/` implements it. Either it becomes a component or Phase 3 pages hand-roll it; hand-rolling it in a page is the outcome to avoid.
+
+Anything else in `features/design-theme/` that no component claims belongs here rather than a new entry.
+
+## Decision records 013 and 014 have stale edges
+
+Status: OPEN
+
+Two decision records describe the folder shape slightly differently from what shipped.
+
+- **013 (page templates)** proposed template folder names that are not the shipped ones — the shipped set is `console-landing-template`, `directory-browse-template`, `record-detail-template`, `document-template` under `shared/design-system/page-templates/`. The shipped names are what `ARCHITECTURE.md` and `shared/design-system/CONTEXT.md` now record; the ADR was left alone deliberately, since editing a decision after the fact is worse than a named divergence.
+- **014 (global layer)** names the projected-content cases it knew about; the shipped set is the four targets listed in `shared/design-system/CONTEXT.md`. Same treatment.
+
+Nothing is broken. Read the code, not the ADR, for the folder names.

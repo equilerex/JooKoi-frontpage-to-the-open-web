@@ -3095,8 +3095,13 @@ The generated `no-restricted-imports` block in `eslint.config.js` is keyed on fo
 Temporarily add to any design-system component:
 
 ```ts
-import { HorizonBackdropComponent } from '../../../app-shell/horizon-backdrop/horizon-backdrop.component';
+import { HorizonBackdropComponent } from '../../../../app-shell/horizon-backdrop/horizon-backdrop.component';
 ```
+
+Four `../`, not three: every design-system component sits at
+`shared/design-system/<group>/<name>/`, so `app/` is four levels up. A
+three-level path resolves to `shared/app-shell/…`, which does not exist — the
+import fails to resolve and the lint rule is never reached.
 
 Run eslint once, deliberately. `AGENTS.md` bans linting by hand, and this is the narrow exception it implies: the work here *is* the lint config, and a rule that has never been shown to fire is a comment. Point it at the violating file only — not a repo-wide run — and say in the report that this was the reason.
 Expected: FAIL, naming the restricted import of `app-shell` from a shared file.

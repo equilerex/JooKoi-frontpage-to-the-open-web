@@ -2,92 +2,73 @@
 
 Domain-agnostic visual building blocks. The retro HUD look, extracted from the mockups in `features/design-theme/` into real Angular components.
 
-Rules: ADRs `005` (folders/naming), `006` (Aria + CDK), `007` (styles), `008` (harnesses). Visual direction: ADR `001` and `features/design-theme/CONTEXT.md`.
-
-> **Phase 2 work. Nothing here yet.** This file is the rule for when it's built.
+Rules: ADRs `005` (folders/naming), `006` (Aria + CDK), `007` (styles), `008` (harnesses), `011` (PrimeNG as the component base), `012` (derivation), `013` (page templates), `014` (global layer for projected content). Visual direction: ADR `001` and `features/design-theme/CONTEXT.md`.
 
 ## The agnostic rule
 
-A design-system component **knows nothing about curated websites, routes or app state.** Concretely, it must not:
+A design-system component **knows nothing about curated websites, routes or app state.** It imports nothing from outside this folder — no feature, no `app-shell`, no `Router`/`RouterLink`, no store, no domain model. Everything arrives through `input()`; everything leaves through `output()` or a plain DOM event.
 
-- import anything from `shared/curated-websites/`, a feature folder, or `app-shell/`;
-- import `Router`, `ActivatedRoute` or `RouterLink` — a link takes an `href` or is projected in by the caller;
-- inject a store, or reference `CuratedWebsite` or any domain model;
-- know what a "trust tier" is. A `status-light` takes a colour and a label, and the caller decides that a trusted website gets a green one.
-
-Everything it needs arrives through `input()`, and everything it reports leaves through `output()` or plain DOM events.
-
-This is enforced: `eslint.config.js` generates a `no-restricted-imports` block forbidding any import from `**/app/**` outside this folder. A component that can't be built without reaching out belongs in `shared/curated-websites/` instead.
+Enforced by the generated `no-restricted-imports` block in `eslint.config.js` (ADR 005, and the block is generated from the `src/app/` folder list, so a new feature folder is covered the moment it exists). The rule was verified firing in Task 18 — importing `app-shell` from a component in this folder fails lint with the folder name in the message. A component that cannot be built without reaching out belongs in a feature folder instead.
 
 ## Sub-groups
 
-Eight folders, from the target map in `_architecture/ARCHITECTURE.md`. Component names are candidates taken from the mockup classes; Phase 2 settles the final list.
+| Folder           | What belongs in it                                                                                                              |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `actions/`       | Things you press: `hardware-key`, `keycap`, `keycap-grid`.                                                                       |
+| `data-display/`  | Data on screen: `record-grid`, `spec-list`, `tag-set`, `capability-tag`, `count-chip`, `prose-content`.                          |
+| `form-controls/` | Inputs and their labels: `chrome-select`, `console-input`, `field-label`, `segment-selector`, `stompbox-toggle`.                   |
+| `indicators/`    | State at a glance: `status-light`, `bezel-jewel`, `segment-readout`, `classification-badge`.                                      |
+| `navigation/`    | Moving between places: `breadcrumb-trail`, `indicator-nav-list`, `pager`.                                                        |
+| `page-layouts/`  | Pieces composed **inside** a page. Currently `toolbar-row`.                                                                       |
+| `page-templates/`| The outermost grid a page **is** (ADR 013): `console-landing-template`, `directory-browse-template`, `record-detail-template`, `document-template`. |
+| `surfaces/`      | Boxes and their decorations: `readout-panel`, `paper-sheet`, `filter-drawer`, and the `corner-brackets` directive.                 |
+| `typography/`    | Type that is part of the look: `logotype`, `eyebrow-label`, `stripe-rule`.                                                        |
 
-| Folder           | Components (candidates)                                                                                    |
-| ---------------- | ---------------------------------------------------------------------------------------------------------- |
-| `typography/`    | `logotype/`, `section-heading/`, `eyebrow-label/`, `stripe-rule/`                                          |
-| `indicators/`    | `status-light/`, `seven-segment-readout/`                                                                  |
-| `actions/`       | `hardware-key-button/`, `keycap-shortcut/`, `keycap-grid/`                                                 |
-| `form-controls/` | `command-console-input/`, `stompbox-toggle/`, `rotary-segment-selector/`, `chrome-select/`, `field-label/` |
-| `surfaces/`      | `readout-panel/`, `paper-sheet/`, `corner-brackets.directive.ts`                                           |
-| `navigation/`    | `breadcrumb-trail/`, `indicator-navigation-list/`, `pagination-control/`                                   |
-| `data-display/`  | `data-table/`, `tag-chip-list/`, `specification-list/`, `prose-content/`                                   |
-| `page-layouts/`  | `filter-rack-layout/`, `two-column-split/`, `toolbar-row/`                                                 |
+`theme/` is the tenth folder and holds no components — `elevation.ts` (the `ELEVATION` scale) and `jookoi-preset.ts` (PrimeNG's `definePreset`).
 
-Names are spelled out on purpose — `hardware-key-button`, not `btn`; `seven-segment-readout`, not `readout7`.
+`page-layouts/` and `page-templates/` are separate because they answer different questions: one holds what you compose inside a page, the other the shell a page starts from.
 
-## Mockup class map
+## Derivation rule
 
-Each component replaces a class from `features/design-theme/components.css`. Check that file for the actual rules before writing a component's CSS; these are the classes currently in use:
+**A component's identity, name and boundary come from its visual role** (ADR 012). The mockup's HTML structure, nesting and class names are ignored when deciding what a component is; `features/design-theme/components.css` is a paint source, read *after* the boundary is settled, never a source of structure. The class map that Phase 1 carried here (`.led` → `status-light/`, `.key` → `hardware-key-button/`) is superseded and gone; it named relationships the screen does not show.
 
-| Mockup class                                             | Becomes                                            |
-| -------------------------------------------------------- | -------------------------------------------------- |
-| `.hud`                                                   | `app-shell/heads-up-display-header/`               |
-| `.dock`                                                  | `app-shell/mobile-bottom-dock/`                    |
-| `.led` (`--on --blink --cyan --green --amber --magenta`) | `indicators/status-light/`                         |
-| `.readout`                                               | `indicators/seven-segment-readout/`                |
-| `.key` (`--xs --sm --lg --block --cyan --hot`)           | `actions/hardware-key-button/`                     |
-| `.keycap`, `.keygrid`                                    | `actions/keycap-shortcut/`, `actions/keycap-grid/` |
-| `.console` (`--compact --lg`)                            | `form-controls/command-console-input/`             |
-| `.toggle` (`--green --amber --magenta`), `.toggles`      | `form-controls/stompbox-toggle/`                   |
-| `.segment`                                               | `form-controls/rotary-segment-selector/`           |
-| `.select`                                                | `form-controls/chrome-select/`                     |
-| `.field-label`                                           | `form-controls/field-label/`                       |
-| `.panel`                                                 | `surfaces/readout-panel/`                          |
-| `.sheet`                                                 | `surfaces/paper-sheet/`                            |
-| `.brackets`                                              | `surfaces/corner-brackets.directive.ts`            |
-| `.breadcrumb`                                            | `navigation/breadcrumb-trail/`                     |
-| `.navlist`                                               | `navigation/indicator-navigation-list/`            |
-| `.pager`                                                 | `navigation/pagination-control/`                   |
-| `.data-table`, `.table-wrap`                             | `data-display/data-table/`                         |
-| `.chip`, `.chips`                                        | `data-display/tag-chip-list/`                      |
-| `.spec`                                                  | `data-display/specification-list/`                 |
-| `.prose`, `.lede`                                        | `data-display/prose-content/`                      |
-| `.with-rack`, `.rack-group`                              | `page-layouts/filter-rack-layout/`                 |
-| `.split`                                                 | `page-layouts/two-column-split/`                   |
-| `.toolbar`                                               | `page-layouts/toolbar-row/`                        |
-| `.logotype` (`--sm`)                                     | `typography/logotype/`                             |
-| `.h-title`, `.h-section`                                 | `typography/section-heading/`                      |
-| `.eyebrow`                                               | `typography/eyebrow-label/`                        |
-| `.stripes`                                               | `typography/stripe-rule/`                          |
+Three places the two derivations disagreed, which is why the rule exists: `.led` is two components (bare dot, dot-in-bezel) not one; a classification badge takes no `color` input because shape and border carry its meaning; the hardware key is one component in five placements, not four components.
 
-Domain-flavoured mockup classes (`.trust`, `.trust--trusted`, `.trust--discovered`, `.sig`, `.sigs`, `.src-name`, `.src-domain`) are **not** design-system components. They belong in `shared/curated-websites/`, built on top of the agnostic ones.
+The procedure for any project is `.agents/skills/visual-component-derivation/SKILL.md`.
 
-Utility classes (`.mono`, `.muted`, `.sr-only`, `.desktop-only`, `.stack`, `.page`) stay as global CSS in the `utilities` layer, not components.
+## The PrimeNG boundary
 
-## Behaviour and styling
+`chrome-select`, `filter-drawer` and `record-grid` wrap a PrimeNG component. **Nothing outside this folder imports a PrimeNG symbol** — the wrapper owns the import and re-exposes a design-system API, so PrimeNG stays replaceable and no consumer inherits its types.
 
-- Behaviour comes from **Angular Aria** with **CDK** underneath (ADR 006) — never Angular Material. Aria directives are headless: they handle keyboard, focus and ARIA state, and the CSS styles off the resulting ARIA attributes.
-- Styles use default `Emulated` encapsulation and read **semantic tokens only**. No raw colour or size values, no `::ng-deep`, no `ViewEncapsulation.None` without an ADR (ADR 007).
+A component is adopted only when ADR 011's test passes in order: (1) CSS and preset tokens alone reach the design → adopt; (2) a template slot or `pt` exposes the part that falls short → adopt; (3) the design needs structural DOM that is neither present nor templatable → build our own.
 
-## Harnesses are optional
+PrimeNG emits into `@layer primeng`, ordered before `components` by `src/styles/cascade-layers.css`, so a global override wins **by layer, not by specificity** — no `!important`, no specificity war, and no `::ng-deep`. That layer order is the whole reason the adoption works; a rule in an unlayered component stylesheet still beats a layered one, which is the distinction to keep in mind when a rule appears to be losing.
 
-A component gets a `<name>.harness.ts` **only** when its markup is complex enough that other tests would otherwise reach into its internals — Aria-backed selects, listboxes, grids. A button or a badge does not need one (ADR 008).
+## Styling rules that bit during the build
+
+- **Style the host, not a wrapper.** A wrapper element inside `:host` adds a box the parent's grid or flex container did not account for. Where the host's own box breaks the parent, the host is `display: contents` (`hardware-key`, `keycap`, `spec-list`, `pager`).
+- **Variants are `:host(.is-x)`.** `is-sm`, `is-hot`, `is-large`, `is-muted` and so on — the caller sets a class on the host, the component reads it.
+- **Two documented exceptions to "everything under `:host`".** `hardware-key` styles an inner element, because its slab is a child `.key` rather than the host itself. Everything else that has to reach beyond its own box is a projected-content or library-internal case and belongs in the global layer (ADR 014), not here.
+- **`--png-*` variables are the sanctioned PrimeNG integration.** They may be set on the host when a preset value cannot express the same thing, provided the declaration references a semantic token rather than a raw colour or size. A PrimeNG class selector (`.p-*`) written into a component stylesheet is not sanctioned — emulated encapsulation scopes it to this component's own template and it matches nothing PrimeNG rendered.
+
+## The one global-CSS entry
+
+`src/styles.css` inside its `@layer components` block is the only place a rule can live that has to reach an element this component does not render. Emulated encapsulation compiles `:host x` to `[_nghost-c] x[_ngcontent-c]`; a projected node, or an element a library's own template created, carries the *other* template's scope attribute, so the descendant half never matches — silently, with no error and no warning.
+
+Four targets, all there for that one reason:
+
+- `.joo-corner-brackets` — a directive has no stylesheet of its own, so its CSS is global by necessity.
+- `.joo-filter-drawer` — `styleClass` lands on PrimeNG Drawer's root element, which Drawer's template created.
+- `.joo-record-grid` — `tableStyleClass` lands on PrimeNG's inner `<table>`, so the class *is* the table, not the host.
+- `joo-logotype b`, `joo-prose-content *` and `joo-paper-sheet :focus-visible` — the consumer projects these elements in.
+
+A rule that looks dead in a component stylesheet should be read as a hint to check `src/styles.css` first.
 
 ## Generating
 
 ```
 ng g c shared/design-system/<group>/<name>
+ng g d shared/design-system/<group>/<name>
 ```
 
-produces `<name>.component.ts` with selector `joo-<name>`, per the `angular.json` schematic defaults.
+produces `<name>.component.ts` with selector `joo-<name>` per the `angular.json` schematic defaults. A `<name>.harness.ts` is added only when the markup is complex enough that other tests would otherwise reach into it (ADR 008) — no component currently needs one.
