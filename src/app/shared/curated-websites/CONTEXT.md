@@ -4,14 +4,17 @@ The domain: the websites this app lists and links out to. Models, data access, t
 
 Rules: ADRs `005` (vocabulary, folders) and `010` (state). Full map: `_architecture/ARCHITECTURE.md`.
 
-> **Phase 3 work. Nothing here yet.** This file is the rule for when it's built. The data schema stays open until the Stage 1 ingestion spike produces real data — don't lock it in early.
+> **Phase 3 task 3 started this folder.** `source.model.ts`, `source-fixture.ts` and `source-search.ts` (+ spec) exist; the store, service and components below are still unbuilt.
 
-## Vocabulary — this is the important rule
+## Vocabulary — superseded for the data model, still true for everything else
 
 The things this app lists are **curated websites**. In code, **never** the bare word "source": in an engineering context it reads as source code, and an earlier draft that used it produced `source-directory/` and a `Source` model that nobody could read at a glance.
 
-- Model `CuratedWebsite`, folder `curated-websites/`, components `website-*`, store `CuratedWebsitesStore`.
-- "Source" stays correct outside `src/app/`: the `sources/` data folder (human-authored input) and the `source-ingest` skill. Those keep their names for now.
+**Exception, taken 2026-09-16 (Phase 3 task 3):** `_architecture/plans/2026-09-16-phase-3-content-and-features.md`'s "Data model" section specifies the record type as `Source`, verbatim, including the `TrustScore`/`Capability` comments — a newer, dated, explicit decision that overrides this rule for the data model specifically. `source.model.ts`, `source-fixture.ts` and `source-search.ts` follow the plan and use `Source`/`source-*`, not `CuratedWebsite`/`website-*`. This is flagged here rather than silently deviated from; Task 7 (ADRs `017`+) should either write an ADR formalizing the exception or rename the model to reconcile it with the rule below, whichever the curator decides. Until then:
+
+- Model `Source` (not `CuratedWebsite`), files `source.model.ts` / `source-fixture.ts` / `source-search.ts`.
+- The rest of this rule still holds for anything not yet built: components stay `website-*`, the store stays `CuratedWebsitesStore` (or is renamed alongside the model — a call for the ADR above, not decided here).
+- "Source" stays correct outside `src/app/`: the `sources/` data folder (human-authored input) and the `source-ingest` skill. Those keep their names for now. (The `sources/` folder itself is still empty — task 3's fixture lives in `src/app/shared/curated-websites/` instead, because `tsconfig.app.json`/`tsconfig.spec.json` only include `src/**/*.ts`; a file under root `sources/` wouldn't compile or be testable without a tsconfig change, which was out of this task's scope.)
 - `_architecture/sitemap.yaml` still says `source_detail` and `/source/:id`. Renaming the public route is a product call logged in `_architecture/BACKLOG.md` — don't do it as a side effect of feature work.
 
 ## Service vs store — the split
