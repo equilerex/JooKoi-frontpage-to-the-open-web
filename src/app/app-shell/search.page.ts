@@ -128,7 +128,10 @@ function toSelectOptions(
   values: readonly string[],
   labelFor: (value: string) => string = (value) => value,
 ): readonly SelectOption[] {
-  return [{ value: '', label: anyLabel }, ...values.map((value) => ({ value, label: labelFor(value) }))];
+  return [
+    { value: '', label: anyLabel },
+    ...values.map((value) => ({ value, label: labelFor(value) })),
+  ];
 }
 
 const TYPE_OPTIONS = toSelectOptions(
@@ -149,7 +152,11 @@ const CATEGORY_OPTIONS = toSelectOptions(
 const DISTINCT_LANGS = uniqueSorted(
   SOURCE_FIXTURE.map((source) => source.lang).filter((lang): lang is string => !!lang),
 );
-const LANG_OPTIONS = toSelectOptions('Any language', DISTINCT_LANGS, (value) => LANG_LABEL[value] ?? value);
+const LANG_OPTIONS = toSelectOptions(
+  'Any language',
+  DISTINCT_LANGS,
+  (value) => LANG_LABEL[value] ?? value,
+);
 
 /**
  * Search route (`/search`). Plan's "Search — `/search?q=`" section, brief's
