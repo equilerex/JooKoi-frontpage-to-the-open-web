@@ -10,7 +10,7 @@ Applies to `src/` only. Repo-level conventions are in `AGENTS.md`.
 | -------------------------- | ----------------------------------------------------- |
 | Install                    | `pnpm install` (CI: `pnpm install --frozen-lockfile`) |
 | Dev server                 | `pnpm start`                                          |
-| **Correctness gate**       | the watch dev server — see `AGENTS.md`, Iteration loop                 |
+| **Correctness gate**       | watch dev server — see `AGENTS.md`, Iteration loop    |
 | Tests (watch)              | `pnpm test`                                           |
 | Tests (headless, one shot) | `pnpm run test:ci`                                    |
 | Format                     | `pnpm run format` / `pnpm run format:check`           |

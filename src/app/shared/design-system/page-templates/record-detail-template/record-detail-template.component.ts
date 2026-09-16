@@ -31,7 +31,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   templateUrl: './record-detail-template.component.html',
   styleUrl: './record-detail-template.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { '[class.detail--aside-first]': 'asideFirst()' },
+  host: { '[class.is-aside-first]': 'asideFirst()' },
 })
 export class RecordDetailTemplateComponent {
   /** Puts the aside above the body below 1024px, for a page whose narrow order
