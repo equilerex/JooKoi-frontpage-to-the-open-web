@@ -1,1 +1,48 @@
-<h1>JooKoi</h1>
+<joo-readout-panel jooCornerBrackets [flush]="true">
+  <joo-console-landing-template>
+    <joo-eyebrow-label templateHero>Front page terminal · 412 sources indexed</joo-eyebrow-label>
+    <joo-logotype templateHero>Open<b>Web</b></joo-logotype>
+    <p templateHero class="home-lede">Find the sites worth searching. Then search them directly.</p>
+
+    <joo-console-input templateConsole size="lg" placeholder="css grid, estonian news, rss readers">
+      <joo-hardware-key accent="hot" size="sm">Launch</joo-hardware-key>
+    </joo-console-input>
+    <joo-toolbar-row templateConsole>
+      <joo-field-label>Scope</joo-field-label>
+      <joo-segment-selector [options]="scopeOptions" value="trusted" ariaLabel="Scope" />
+    </joo-toolbar-row>
+
+    <joo-field-label templateKeys>Quick keys</joo-field-label>
+    <joo-keycap-grid templateKeys>
+      @for (key of quickKeys; track key.fn) {
+        <joo-keycap [fn]="key.fn" [label]="key.label" [count]="key.count" href="#" />
+      }
+    </joo-keycap-grid>
+  </joo-console-landing-template>
+</joo-readout-panel>
+
+<joo-stripe-rule />
+
+<joo-readout-panel [flush]="true" label="Trusted highlights">
+  <span panelHead class="panel-meta">
+    <joo-status-light color="cyan" [on]="true" />
+    recently verified
+  </span>
+  <joo-record-grid
+    [rows]="highlights"
+    [columns]="highlightColumns"
+    ariaLabel="Trusted highlights"
+    emptyMessage="No sources yet."
+  />
+</joo-readout-panel>
+
+<joo-readout-panel label="Browse by tag">
+  <joo-tag-set>
+    @for (tag of tags; track tag.label) {
+      <joo-hardware-key [as]="'anchor'" href="#" size="sm">
+        {{ tag.label }}
+        <joo-count-chip [count]="tag.count" />
+      </joo-hardware-key>
+    }
+  </joo-tag-set>
+</joo-readout-panel>

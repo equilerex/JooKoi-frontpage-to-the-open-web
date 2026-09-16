@@ -221,3 +221,15 @@ Raised by the Phase 2 whole-branch review.
 Status: OPEN
 
 indicator-nav-list renders its rows as bare joo-hardware-key anchors directly under the navigation landmark — a template-level @for with no ul or li wrapper — so assistive tech reports the rows as individual links with no list and no item count. The mockup used ul and li for these rows in features/design-theme/browse.html, so this is a divergence rather than a deliberate simplification. Parked in Task 11 because the landmark defect it was found beside was the one worth fixing then, and changing the wrapper touches the key [block] layout. Decide in Phase 3 alongside the nav-list entry above: the port already renders each row as a key slab rather than a flat mockup row, and both questions are the same one — how far the row should follow the mockup.
+
+## Richer drill-in UI for the learn section
+
+Status: OPEN
+
+The Phase 3 plan renders the crash-course index as a PrimeNG p-tree, which is a plain file tree. The user has flagged wanting a more interesting way to drill into topics than a tree. Not designed; revisit once the twenty topics are actually rendering and the tree's limits are visible in practice.
+
+## Base element styles were ported incompletely from the mockup
+
+Status: OPEN
+
+src/styles/base-element-styles.css carried only margin:0 out of the mockup's body rule, dropping background, color and font. The canvas fell back to the UA dark-mode default instead of --bg-page and all inherited text fell back to the UA serif, which read as a green cast and Times New Roman body copy. Fixed 2026-09-16 by porting the body, html, a and :focus-visible rules. Logged because the same class of omission may exist elsewhere in the Phase 2 port: the mockup's .sr-only utility is still unported, and no check exists that a ported stylesheet is complete.

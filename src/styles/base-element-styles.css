@@ -1,10 +1,46 @@
+/*
+ * Ported from `features/design-theme/components.css:19-56` (its "base"
+ * section). The mockup has no cascade layers, so its single block is split
+ * here: normalisation lands in `reset`, themed element defaults in `base`.
+ *
+ * `body`'s background, colour and font are what put the theme on the page at
+ * all. Without them the canvas falls back to the UA's dark-mode default (a
+ * neutral black, not the mockup's purple-leaning `--bg-page`) and inherited
+ * text falls back to the UA serif, which is why every component that sets its
+ * own font looked right while projected prose did not.
+ */
+
 @layer reset {
   *,
   *::before,
   *::after {
     box-sizing: border-box;
   }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
     margin: 0;
+  }
+}
+
+@layer base {
+  body {
+    min-height: 100dvh;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font: 400 var(--text-md) / 1.55 var(--font-read);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a {
+    color: var(--text-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
   }
 }
