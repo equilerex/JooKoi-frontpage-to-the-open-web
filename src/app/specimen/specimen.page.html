@@ -248,17 +248,13 @@
 </joo-specimen-section>
 
 <joo-specimen-section label="Chrome">
-  <!-- `heads-up-display-header` capability work (backlog #1-3): nav items
-       (already supported — demonstrated here alongside the two new
-       capabilities), the compact search console for inner pages, and the
-       `412 SRC ONLINE` status strip. Wiring real nav items, a real query
-       store and a real source count into the app shell is Task 2/5. -->
-  <joo-heads-up-display-header
-    [navItems]="navItems"
-    [console]="true"
-    statusText="412 src online"
-    style="flex-basis: 100%"
-  />
+  <!-- `joo-heads-up-display-header` (backlog #1-3: nav items, the compact
+       search console, and the `412 SRC ONLINE` status strip) is not demoed
+       here. It is an `app-shell/` composite — already wired live in
+       `app-shell-layout.component.html`, rendered once around every page —
+       not a `shared/design-system/` leaf, so importing it into this feature
+       page would cross the app-shell import boundary (ADR 005/015). Verify
+       its capabilities in the running shell, not in this catalog. -->
 </joo-specimen-section>
 
 <joo-specimen-section label="Page layouts">

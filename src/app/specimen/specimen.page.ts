@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TreeNode } from 'primeng/api';
-import { HeadsUpDisplayHeaderComponent } from '../app-shell/heads-up-display-header/heads-up-display-header.component';
 import { HardwareKeyComponent } from '../shared/design-system/actions/hardware-key/hardware-key.component';
 import { KeycapGridComponent } from '../shared/design-system/actions/keycap-grid/keycap-grid.component';
 import { KeycapComponent } from '../shared/design-system/actions/keycap/keycap.component';
@@ -104,7 +103,6 @@ interface DemoRecord {
     IndicatorNavListComponent,
     PagerComponent,
     ToolbarRowComponent,
-    HeadsUpDisplayHeaderComponent,
   ],
   templateUrl: './specimen.page.html',
   styleUrl: './specimen.page.css',
