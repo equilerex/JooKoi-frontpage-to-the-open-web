@@ -1,0 +1,16 @@
+/*
+ * Ported from `features/design-theme/components.css` `.sig` (:1033-1040).
+ *
+ * The mockup's `.sig--strong` variant is not ported: nothing in the design
+ * distinguishes it from the base once the theme tokens apply. A second weight
+ * arrives as an input if it is ever needed.
+ */
+
+:host {
+  display: inline-block;
+  padding: 2px 5px;
+  font: 600 var(--text-2xs) / 1 var(--font-mono);
+  color: var(--text-muted);
+  border: 1px solid var(--border-panel);
+  border-radius: var(--radius-print);
+}

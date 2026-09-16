@@ -1,0 +1,50 @@
+/*
+ * Ported from `features/design-theme/components.css` `.spec` (:1049-1078).
+ *
+ * The grid sits on the `dl` and `.spec__row` is `display: contents`, so the
+ * `dt`/`dd` pair lands in the parent grid exactly as the mockup's flat children
+ * did. The wrapper exists only because `@for` needs an element to repeat.
+ *
+ * That extra level moves `:last-of-type` with it: every row holds one `dt` and
+ * one `dd`, so `dt:last-of-type` matches all of them and would strip every
+ * divider instead of only the last. The mockup's rule is therefore written
+ * against the row — `:last-child` on `.spec__row` — which is the same intent at
+ * the level the wrapper introduced.
+ *
+ * The value column is `minmax(0, 1fr)` rather than the mockup's `1fr`, so a
+ * long unbroken value cannot push the grid wider than its container.
+ */
+
+dl {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  margin: 0;
+}
+
+.spec__row {
+  display: contents;
+}
+
+dt,
+dd {
+  margin: 0;
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+dt {
+  padding-right: var(--space-6);
+  font: 600 var(--text-2xs) / 1.9 var(--font-display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+dd {
+  font-size: var(--text-sm);
+}
+
+.spec__row:last-child dt,
+.spec__row:last-child dd {
+  border-bottom: 0;
+}

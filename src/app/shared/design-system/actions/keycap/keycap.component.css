@@ -1,0 +1,61 @@
+/*
+ * Ported from `features/design-theme/components.css` `.keycap` (:381-406).
+ *
+ * In the mockup both classes sat on ONE element — `index.html:73` is
+ * `<a class="key keycap">` — so `.keycap`'s `padding: var(--space-2)
+ * var(--space-3)` (:386) overrode `.key`'s `padding: 0 var(--space-4)` (:277)
+ * by source order at equal specificity. Only one horizontal inset ever
+ * applied, and it was `--space-3`: 1px border + 12px = the mockup's 13px.
+ *
+ * Splitting the two classes into a parent slab and a projected body made the
+ * paddings additive — 1px + `--space-4` (16px) + `--space-3` (12px) = 29px.
+ * The body therefore reclaims the slab's horizontal inset and carries the
+ * mockup's `--space-3` itself, which puts the text back at 1px + 12px = 13px.
+ * The `width` has to grow by the same amount the margins pull in, or
+ * `justify-content: center` on `.key` just recentres the box and the reclaim
+ * cancels out.
+ *
+ * `--space-4` here is the slab's inset at its default size, which is the only
+ * size a keycap uses — `joo-keycap` exposes no size input. If that default
+ * padding ever changes, this margin changes with it.
+ *
+ * `display: contents` keeps the key — not `joo-keycap` — as the grid item, so
+ * a keycap fills its row height the way the mockup's stretched grid item did.
+ * `joo-hardware-key` does the same for the same reason.
+ *
+ * `.keycap__fn` / `.keycap__label` / `.keycap__count` port unchanged.
+ */
+
+:host {
+  display: contents;
+}
+
+.keycap__body {
+  display: flex;
+  width: calc(100% + 2 * var(--space-4));
+  margin-inline: calc(-1 * var(--space-4));
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: 4.5rem;
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  white-space: normal;
+}
+
+.keycap__fn {
+  font: 500 var(--text-2xs)/1 var(--font-mono);
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.keycap__label {
+  font-size: var(--text-sm);
+  line-height: 1.15;
+}
+
+.keycap__count {
+  font: 500 var(--text-2xs)/1 var(--font-mono);
+  color: var(--text-accent);
+  text-transform: none;
+}

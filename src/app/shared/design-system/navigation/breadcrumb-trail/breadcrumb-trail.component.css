@@ -1,0 +1,55 @@
+/*
+ * Ported from `features/design-theme/components.css` `.breadcrumb` (:1079-1099).
+ *
+ * The mockup's `.breadcrumb` sat on the `<ol>` itself, so its declarations —
+ * type, ink, the flex row and the list reset — land on `:host ol` here. The
+ * separator is the one structural change: the mockup generated it with
+ * `.breadcrumb li + li::before { content: '/' }` (:1090-1094), which cannot be
+ * hidden from the accessibility tree. It is a real `<span aria-hidden="true">`
+ * instead, placed AFTER each non-last crumb.
+ *
+ * That move is why the separator carries no margin. The mockup's generated
+ * separator had `margin-right: var(--space-2)` because it sat before the crumb
+ * it belonged to; moved after the preceding crumb, the same margin would add to
+ * the container's `gap` and double-space it against the next crumb. The `gap`
+ * alone supplies the mockup's spacing.
+ *
+ * `display: flex` on the `li` is a structural addition the markup change
+ * requires (decision 012): with the separator as a real element beside the
+ * label, the `li` has to be a flex row for `align-items` and `gap` to reach
+ * between the two. The mockup needed neither, since its separator was generated
+ * content inside the `li`.
+ *
+ * Bare `ol`, `li` and `a` are safe here: this component projects no content, so
+ * these selectors compile with this component's own `_ngcontent` and reach only
+ * its own template (decision 014).
+ */
+
+:host ol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font: 500 var(--text-xs) / 1.4 var(--font-mono);
+  color: var(--text-muted);
+}
+
+:host li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* The UA stylesheet colours links, and `a` does not inherit, so the mockup's
+   `.breadcrumb a` (:1096-1098) is what keeps a crumb link muted rather than
+   default blue. */
+a {
+  color: var(--text-muted);
+}
+
+.breadcrumb__sep {
+  color: var(--text-dim);
+}

@@ -1,1 +1,5 @@
-@layer reset, tokens, base, components, utilities;
+/* Layer order. A layer's position is fixed by its first mention, so this file
+ * is the first entry in angular.json's styles array. PrimeNG emits into
+ * `primeng`, which sits below `components` so our component rules win by
+ * layer rather than by specificity (decisions 007 and 011). */
+@layer reset, tokens, base, primeng, components, utilities;

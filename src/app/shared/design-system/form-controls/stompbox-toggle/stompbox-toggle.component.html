@@ -1,0 +1,5 @@
+<button type="button" class="toggle" [attr.aria-pressed]="on()" (click)="toggle()">
+  <joo-bezel-jewel [color]="color()" [on]="on()" />
+  <span class="toggle__label"><ng-content /></span>
+  <span class="toggle__state" aria-hidden="true">{{ on() ? 'ON' : 'OFF' }}</span>
+</button>

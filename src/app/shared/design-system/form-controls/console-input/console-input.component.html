@@ -1,0 +1,12 @@
+<span class="console__prompt" aria-hidden="true">&gt;</span>
+<input
+  class="console__input"
+  type="text"
+  [attr.id]="inputId() || null"
+  [attr.aria-label]="placeholder() || null"
+  [placeholder]="placeholder()"
+  [value]="value()"
+  (input)="onInput($event)"
+  (keydown.enter)="onEnter()"
+/>
+<ng-content />

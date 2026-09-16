@@ -1,0 +1,25 @@
+/*
+ * The document measure, ported from the mockup's `.sheet`
+ * (`features/design-theme/components.css:1496-1499`) and `.pager` (:1459-1461):
+ * `max-width: var(--sheet-max); margin-inline: auto`, the mockup's own mechanism
+ * for centring a readable measure.
+ *
+ * The gap is `--space-6`, the only page-level gap the mockup uses — `.with-rack`
+ * (:1315) and `.split` (:1436) are both `--space-6` between their blocks.
+ *
+ * No `align-content` or `min-height: 100%` on the host. A percentage min-height
+ * resolves against the containing block's height, and no ancestor of a page
+ * template has a definite height, so it would compute against `auto` and centre
+ * nothing.
+ */
+
+:host {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+}
+
+.document__body {
+  max-inline-size: var(--sheet-max);
+  margin-inline: auto;
+}

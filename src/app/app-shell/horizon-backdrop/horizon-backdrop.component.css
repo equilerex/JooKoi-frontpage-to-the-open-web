@@ -1,0 +1,76 @@
+/*
+ * Ported from `features/design-theme/components.css:57-89`, where the horizon
+ * was `body::before` (the grid floor) and `body::after` (the glow).
+ *
+ * Two deliberate changes from the source, both because the layers now hang off
+ * a host box instead of off `body`:
+ *
+ * - The pseudo-elements are `position: absolute` against a `position: fixed;
+ *   inset: 0` host rather than `position: fixed` themselves. The host already
+ *   covers the viewport exactly, so the geometry (`bottom: -10vh`, `top: 0`,
+ *   `height: 55vh` / `70vh`) is identical and the layers can no longer drift
+ *   from the box they belong to.
+ * - The source's `z-index: -1` on the layers is dropped. It was there to get
+ *   both layers behind `body`'s in-flow content; the host's own
+ *   `z-index: var(--z-backdrop)` does that now, and a `z-index` inside the
+ *   host's stacking context is local and meaningless.
+ *
+ * The raw `48px`, `64px` and `#000` are part of the ported grid declaration —
+ * the mask reads only alpha, and the gradient stops are the mockup's own.
+ */
+
+:host {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  :host {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-backdrop);
+    pointer-events: none;
+  }
+
+  /* The grid floor. */
+  :host::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -10vh;
+    height: 55vh;
+    background:
+      linear-gradient(var(--bg-grid-line) 1px, transparent 1px) 0 0 / 100% 48px,
+      linear-gradient(90deg, var(--bg-grid-line) 1px, transparent 1px) 50% 0 / 64px 100%;
+    transform: perspective(420px) rotateX(62deg);
+    transform-origin: 50% 0;
+    mask-image: linear-gradient(180deg, transparent, #000 45%);
+    opacity: 0.45;
+    animation: floor-scroll 6s linear infinite;
+  }
+
+  /* The horizon glow, painted over the grid. */
+  :host::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 70vh;
+    background:
+      radial-gradient(60% 50% at 50% 100%, var(--bg-horizon), transparent 70%),
+      radial-gradient(40% 40% at 85% 0%, var(--bg-haze), transparent 70%);
+  }
+}
+
+/* Ported from `components.css:1662-1668`. The mockup's other keyframe, `blink`
+ * (:1656), is NOT ported: `status-light.component.css` already owns
+ * `status-light-blink` for that. */
+@keyframes floor-scroll {
+  to {
+    background-position:
+      0 48px,
+      50% 0;
+  }
+}

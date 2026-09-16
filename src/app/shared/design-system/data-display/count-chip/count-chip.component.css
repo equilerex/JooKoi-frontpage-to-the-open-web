@@ -1,0 +1,35 @@
+/*
+ * Ported from `features/design-theme/components.css` `.chip` (:945-960),
+ * `.chip:hover` (:962-965) and `.chip__count` (:967-970).
+ *
+ * The mockup's hover rule is unconditional because every chip it renders is
+ * inside a link or key. Here it hangs off `interactive`, which the host binding
+ * sets from the input.
+ */
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 2rem;
+  padding: 0 var(--space-3);
+  font: 500 var(--text-xs) / 1 var(--font-read);
+  color: var(--text-primary);
+  text-decoration: none;
+  background: var(--surface-readout);
+  border: 1px solid var(--border-panel);
+  border-radius: var(--radius-chip);
+  transition:
+    border-color var(--duration-state),
+    color var(--duration-state);
+}
+
+:host(.is-interactive):hover {
+  border-color: var(--text-accent);
+  color: var(--text-accent);
+}
+
+.chip__count {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}

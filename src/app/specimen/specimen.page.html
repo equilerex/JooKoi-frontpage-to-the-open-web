@@ -1,0 +1,204 @@
+<h1 class="specimen-page__title">Specimen</h1>
+<p class="specimen-page__lede">
+  Dev-only parts kit. Every design-system component, in every state it has.
+</p>
+
+<!-- Each task appends one <joo-specimen-section> here. Keep them in the
+     order components were built: indicators, typography, actions,
+     form-controls, data-display, surfaces, navigation, page-layouts,
+     page-templates. -->
+
+<joo-specimen-section label="Indicators">
+  @for (color of lightColors; track color) {
+    <joo-status-light [color]="color" [on]="true" [label]="color" />
+  }
+  <joo-status-light color="cyan" [on]="true" [blink]="true" label="blinking" />
+  <joo-status-light color="cyan" [on]="false" label="unlit" />
+
+  <joo-bezel-jewel [on]="false" />
+  @for (color of jewelColors; track color) {
+    <joo-bezel-jewel [color]="color" [on]="true" />
+  }
+
+  <joo-segment-readout>0142</joo-segment-readout>
+  <joo-segment-readout color="magenta">88</joo-segment-readout>
+  <joo-segment-readout color="amber">7</joo-segment-readout>
+
+  <joo-classification-badge>Trusted</joo-classification-badge>
+  <joo-classification-badge variant="dashed">Discovered</joo-classification-badge>
+  <joo-classification-badge variant="double">Archived</joo-classification-badge>
+</joo-specimen-section>
+
+<joo-specimen-section label="Typography">
+  <joo-eyebrow-label>Section label</joo-eyebrow-label>
+  <joo-logotype>Joo<b>Koi</b></joo-logotype>
+  <joo-logotype size="sm">Joo<b>Koi</b></joo-logotype>
+  <joo-stripe-rule style="flex-basis: 100%" />
+</joo-specimen-section>
+
+<joo-specimen-section label="Actions">
+  <joo-hardware-key size="xs">Extra small</joo-hardware-key>
+  <joo-hardware-key size="sm">Small</joo-hardware-key>
+  <joo-hardware-key>Medium</joo-hardware-key>
+  <joo-hardware-key size="lg">Large</joo-hardware-key>
+  <joo-hardware-key accent="hot">Hot</joo-hardware-key>
+  <joo-hardware-key accent="cyan">Cyan</joo-hardware-key>
+  <joo-hardware-key [pressed]="true">Latched</joo-hardware-key>
+  <joo-hardware-key [current]="true" as="anchor" href="#">Current page</joo-hardware-key>
+  <joo-hardware-key [disabled]="true">Disabled</joo-hardware-key>
+
+  <joo-keycap-grid style="flex-basis: 100%">
+    <joo-keycap fn="F1" label="Reference" [count]="42" href="#" />
+    <joo-keycap fn="F2" label="Tools" [count]="17" href="#" />
+    <joo-keycap label="No legend" />
+  </joo-keycap-grid>
+</joo-specimen-section>
+
+<joo-specimen-section label="Form controls">
+  <joo-field-label for="spec-q">Query</joo-field-label>
+  <joo-console-input inputId="spec-q" placeholder="Search the open web" style="flex-basis: 100%">
+    <joo-hardware-key accent="hot" size="sm">Go</joo-hardware-key>
+  </joo-console-input>
+  <joo-console-input size="compact" placeholder="Compact" style="flex-basis: 100%" />
+  <joo-console-input size="lg" placeholder="Large" style="flex-basis: 100%" />
+
+  <joo-stompbox-toggle style="flex-basis: 100%">Has feed</joo-stompbox-toggle>
+  <joo-stompbox-toggle color="magenta" [on]="true" style="flex-basis: 100%">
+    Trusted only
+  </joo-stompbox-toggle>
+
+  <joo-segment-selector [options]="sortOptions" value="relevance" ariaLabel="Sort order" />
+
+  <!-- The label and the control must agree on `inputId`/`for` or the control
+       has no accessible name beyond `ariaLabel`, and `inputId` ships unexercised. -->
+  <joo-field-label for="spec-sort">Sort</joo-field-label>
+  <joo-chrome-select
+    inputId="spec-sort"
+    [options]="sortOptions"
+    value="relevance"
+    ariaLabel="Sort order"
+    style="flex-basis: 100%"
+  />
+</joo-specimen-section>
+
+<joo-specimen-section label="Data display">
+  <joo-tag-set style="flex-basis: 100%">
+    <joo-capability-tag>RSS</joo-capability-tag>
+    <joo-capability-tag>No tracking</joo-capability-tag>
+    <joo-count-chip [count]="128">Articles</joo-count-chip>
+    <joo-count-chip [count]="9" [interactive]="true">Tools</joo-count-chip>
+  </joo-tag-set>
+
+  <joo-spec-list [entries]="specEntries" style="flex-basis: 100%" />
+
+  <!-- Prose is paper content, so it gets a paper surface. `joo-prose-content`
+       sets the sheet ink, which is calibrated against `--surface-sheet`; against
+       this section's `--surface-panel` the two measure about 1.05:1 and the demo
+       is unreadable. -->
+  <joo-paper-sheet style="flex-basis: 100%">
+    <joo-prose-content>
+      <h2>Heading</h2>
+      <p>Body copy with a <a href="#">link</a> and some <code>inline code</code>.</p>
+      <ul>
+        <li>List item</li>
+      </ul>
+    </joo-prose-content>
+  </joo-paper-sheet>
+
+  <!-- The hook class lands on PrimeNG's inner `<table>` rather than on this
+       element, so the grid brings no box of its own to size — it takes the
+       section's full row width explicitly. -->
+  <joo-record-grid
+    [rows]="recordRows"
+    [columns]="recordColumns"
+    ariaLabel="Directory records"
+    style="flex-basis: 100%"
+  />
+
+  <!-- `virtual` needs a bounded height. `scrollHeight="flex"` has PrimeNG make
+       the table body fill its container, so against the section's wrap row an
+       auto-height parent would let the body grow to all 5,000 rows and the
+       scroll would never engage — and the virtualiser would have nothing to
+       virtualise. The DOM holding a screenful of `<tr>` rather than 5,000 is
+       the whole assertion here, and it is checked in the running app. -->
+  <div class="specimen-page__grid-frame">
+    <joo-record-grid
+      [rows]="virtualRows"
+      [columns]="recordColumns"
+      [virtual]="true"
+      ariaLabel="Directory records, virtualised"
+    />
+  </div>
+
+  <!-- The `emptyMessage` state. The wrapper defaults it to 'No records.' so an
+       unbound grid is coherent, and an empty collection at first paint is the
+       ordinary case — a default with no demo is a default nobody has seen. -->
+  <joo-record-grid
+    [columns]="recordColumns"
+    ariaLabel="Directory records, empty"
+    style="flex-basis: 100%"
+  />
+</joo-specimen-section>
+
+<joo-specimen-section label="Surfaces">
+  <joo-readout-panel label="Signal" style="flex-basis: 100%">
+    <joo-hardware-key panelHead size="xs">Refresh</joo-hardware-key>
+    <p>Panel body content.</p>
+  </joo-readout-panel>
+
+  <joo-readout-panel style="flex-basis: 100%">
+    <joo-hardware-key panelHead size="xs">Refresh</joo-hardware-key>
+    <p>Unlabelled panel body.</p>
+  </joo-readout-panel>
+
+  <joo-readout-panel style="flex-basis: 100%">
+    <p>Headless panel — no label, nothing projected into the head.</p>
+  </joo-readout-panel>
+
+  <!-- A control inside a panel. Its open list must escape the panel's frame
+       rather than be clipped by it — this demo exists to keep that true. -->
+  <joo-readout-panel label="In-panel control" style="flex-basis: 100%">
+    <joo-chrome-select
+      [options]="sortOptions"
+      value="recent"
+      ariaLabel="Sort order"
+      style="flex-basis: 100%"
+    />
+  </joo-readout-panel>
+
+  <div jooCornerBrackets style="padding: var(--space-4); flex-basis: 100%">Bracketed region</div>
+
+  <joo-paper-sheet style="flex-basis: 100%">
+    <joo-prose-content>
+      <p>Sheet content.</p>
+    </joo-prose-content>
+  </joo-paper-sheet>
+
+  <!-- The drawer is an overlay, so it needs a trigger that owns focus before it
+       opens — that key is what "focus returns to the trigger" has as its
+       referent. `joo-filter-drawer` itself renders nothing while closed. -->
+  <joo-hardware-key accent="cyan" (press)="filterDrawerOpen.set(true)">Filters</joo-hardware-key>
+
+  <joo-filter-drawer [(open)]="filterDrawerOpen" heading="Filters">
+    <p>Filter body content.</p>
+  </joo-filter-drawer>
+</joo-specimen-section>
+
+<joo-specimen-section label="Navigation">
+  <joo-breadcrumb-trail [crumbs]="crumbs" style="flex-basis: 100%" />
+  <joo-indicator-nav-list [items]="navItems" ariaLabel="Categories" style="flex-basis: 100%" />
+  <joo-pager [page]="2" [pageCount]="7" style="flex-basis: 100%" />
+</joo-specimen-section>
+
+<joo-specimen-section label="Page layouts">
+  <joo-toolbar-row style="flex-basis: 100%">
+    <joo-segment-selector [options]="sortOptions" value="relevance" ariaLabel="Sort order" />
+    <joo-count-chip toolbarTrailing [count]="128">Results</joo-count-chip>
+  </joo-toolbar-row>
+</joo-specimen-section>
+
+<joo-specimen-section label="Page templates">
+  @for (demo of templateDemos; track demo.path) {
+    <a class="specimen-page__template-link" [routerLink]="demo.path">{{ demo.label }}</a>
+  }
+</joo-specimen-section>

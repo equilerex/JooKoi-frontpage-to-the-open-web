@@ -1,0 +1,35 @@
+:host {
+  --jewel: var(--led-cyan);
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  flex: none;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--led-off), var(--surface-inset));
+  box-shadow:
+    0 0 0 2px var(--jewel-rim),
+    0 0 0 3px var(--key-edge);
+  transition: box-shadow var(--duration-state);
+}
+
+:host(.is-magenta) {
+  --jewel: var(--led-magenta);
+}
+:host(.is-amber) {
+  --jewel: var(--led-amber);
+}
+:host(.is-green) {
+  --jewel: var(--led-green);
+}
+
+:host(.is-lit) {
+  background: radial-gradient(
+    circle at 35% 30%,
+    color-mix(in srgb, white 60%, var(--jewel)),
+    var(--jewel) 65%
+  );
+  box-shadow:
+    0 0 0 2px var(--jewel-rim),
+    0 0 0 3px var(--key-edge),
+    0 0 12px var(--jewel);
+}

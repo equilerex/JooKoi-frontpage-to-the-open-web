@@ -1,0 +1,95 @@
+/* Ported from features/design-theme/components.css:576-658.
+ * `.console` -> :host, `.console:focus-within` -> :host(:focus-within),
+ * `.console--lg` -> :host(.is-large), `.console--compact` -> :host(.is-compact).
+ * `.console__prompt` and `.console__input` name real children of this
+ * component's template, so they survive as classes. */
+:host {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* A flex/grid parent clamps an item's automatic minimum size to its
+   * min-content, and the `<input>`'s intrinsic width makes that surprisingly
+   * wide — at 390px the host then overflows its container and the page scrolls
+   * sideways. `min-width: 0` lets the frame shrink instead; the input already
+   * carries its own `min-width: 0`, so the field shrinks and the text scrolls
+   * inside it rather than the layout breaking. */
+  min-width: 0;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  padding-left: var(--space-4);
+  background: var(--surface-inset);
+  border: 1px solid var(--border-chrome);
+  border-radius: var(--radius-panel);
+  box-shadow:
+    inset 0 2px 12px var(--shadow-deep),
+    0 0 0 3px var(--surface-panel),
+    0 0 0 4px var(--border-subtle);
+  transition:
+    box-shadow var(--duration-state),
+    border-color var(--duration-state);
+}
+
+:host(:focus-within) {
+  border-color: var(--focus-ring);
+  box-shadow:
+    inset 0 2px 12px var(--shadow-deep),
+    0 0 0 3px var(--surface-panel),
+    0 0 0 4px var(--focus-ring),
+    0 0 24px var(--glow-cyan);
+}
+
+.console__prompt {
+  font: 700 var(--text-lg) / 1 var(--font-mono);
+  color: var(--text-hot);
+  text-shadow: 0 0 8px var(--glow-magenta);
+}
+
+.console__input {
+  flex: 1;
+  min-width: 0;
+  min-height: 2.75rem;
+  padding: 0;
+  font: 500 var(--text-lg) / 1.2 var(--font-mono);
+  color: var(--text-primary);
+  caret-color: var(--text-hot);
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+
+.console__input::placeholder {
+  color: var(--text-dim);
+}
+
+:host(.is-large) .console__input {
+  min-height: 3.5rem;
+  font-size: var(--text-xl);
+}
+
+:host(.is-compact) {
+  padding: 3px;
+  padding-left: var(--space-3);
+  box-shadow: inset 0 2px 8px var(--shadow-deep);
+}
+
+:host(.is-compact:focus-within) {
+  box-shadow:
+    inset 0 2px 8px var(--shadow-deep),
+    0 0 16px var(--glow-cyan);
+}
+
+:host(.is-compact) .console__input {
+  min-height: 2.25rem;
+  font-size: var(--text-sm);
+}
+
+:host(.is-compact) .console__prompt {
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 767px) {
+  .console__input,
+  :host(.is-compact) .console__input {
+    font-size: 16px; /* stops iOS zoom on focus */
+  }
+}

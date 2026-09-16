@@ -1,0 +1,72 @@
+/*
+ * Ported from `features/design-theme/components.css` `.split` (:1433-1457): the
+ * base column with `align-items: start`, the 1024px `minmax(0, 1.4fr) minmax(0,
+ * 1fr)` split, and the 767px narrow gap.
+ *
+ * Two changes from that range, both structural:
+ *
+ * - Named areas replace source-order placement, so the crumbs and the head can
+ *   span both columns while the body and the aside share the second row.
+ * - `.split--aside-first > :last-child { order: -1 }` (:1452-1457) becomes a
+ *   reassignment of `grid-template-areas`. The mockup's rule cannot be ported:
+ *   `order` does not move an item between explicitly named areas (measured), and
+ *   a `> :last-child` child combinator here would compile with this component's
+ *   `_ngcontent` and silently match nothing against projected content. See the
+ *   component's doc comment.
+ *
+ * The modifier is keyed to the host class the `asideFirst` input binds.
+ */
+
+:host {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'crumbs'
+    'head'
+    'body'
+    'aside';
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.detail__crumbs {
+  grid-area: crumbs;
+}
+
+.detail__head {
+  grid-area: head;
+}
+
+.detail__body {
+  grid-area: body;
+}
+
+.detail__aside {
+  grid-area: aside;
+}
+
+@media (min-width: 1024px) {
+  :host {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    grid-template-areas:
+      'crumbs crumbs'
+      'head   head'
+      'body   aside';
+  }
+}
+
+@media (max-width: 767px) {
+  :host {
+    gap: var(--space-4);
+  }
+}
+
+@media (max-width: 1023px) {
+  :host(.is-aside-first) {
+    grid-template-areas:
+      'crumbs'
+      'head'
+      'aside'
+      'body';
+  }
+}

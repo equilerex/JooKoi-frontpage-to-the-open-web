@@ -1,0 +1,42 @@
+/*
+ * The frame's own box. `display: block` is explicit because nothing else
+ * supplies it: a custom element defaults to `inline`, and no global rule in
+ * `src/styles/` blockifies one. Its three children are a fixed backdrop, a
+ * sticky header and a fixed dock, all of which position against the viewport
+ * rather than against this box, so an inline host is harmless today — the
+ * `<main>` between them is a block box that also sizes against `body`. It is
+ * the same declaration, added for the same reason, as
+ * `heads-up-display-header.component.css`: an inline full-page wrapper is a
+ * trap for the first change that needs the host to have a box.
+ */
+:host {
+  display: block;
+}
+
+/*
+ * The page container, ported verbatim from `features/design-theme/components.css`
+ * `.page` (:91-103), including its `@media (max-width: 767px)` rule.
+ *
+ * It sits on `<main>` rather than on `:host` on purpose. On the host it would
+ * constrain the sticky header and the fixed dock to `--content-max`, so the HUD's
+ * background and its `border-bottom` would stop 80rem short of the viewport
+ * edges instead of spanning them; and it would nest a second content column
+ * inside `specimen.page.css`'s own, doubling its padding and its centring.
+ *
+ * The mobile rule's `calc(var(--dock-height) + var(--space-6))` bottom padding
+ * IS the dock clearance — nothing else pads for the dock, and adding a second
+ * clearance on top of it would double the gap.
+ */
+
+.page {
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding: var(--space-6) var(--space-6) var(--space-10);
+}
+
+@media (max-width: 767px) {
+  .page {
+    padding: var(--space-3) var(--space-3) calc(var(--dock-height) + var(--space-6));
+  }
+}

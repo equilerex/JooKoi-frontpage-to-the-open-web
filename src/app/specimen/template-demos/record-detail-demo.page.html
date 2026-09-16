@@ -1,0 +1,28 @@
+<joo-record-detail-template [asideFirst]="true">
+  <joo-breadcrumb-trail templateCrumbs [crumbs]="crumbs" />
+
+  <joo-eyebrow-label templateHead>Source record · reference documentation</joo-eyebrow-label>
+  <joo-tag-set templateHead>
+    <joo-capability-tag>Trusted</joo-capability-tag>
+    <joo-capability-tag>RSS</joo-capability-tag>
+    <joo-capability-tag>No tracking</joo-capability-tag>
+  </joo-tag-set>
+
+  <joo-readout-panel templateAside label="Specs">
+    <joo-spec-list [entries]="specEntries" />
+  </joo-readout-panel>
+
+  <joo-paper-sheet>
+    <joo-prose-content>
+      <h2>Why it is trusted</h2>
+      <p>
+        Open editorial process with public history. Browser vendors review compatibility data. No
+        paywall, no account needed, no content-farm SEO.
+      </p>
+      <p>
+        Demo copy for the template only. The record's real body arrives with the directory in Phase
+        3.
+      </p>
+    </joo-prose-content>
+  </joo-paper-sheet>
+</joo-record-detail-template>

@@ -1,0 +1,56 @@
+/*
+ * Ported from `features/design-theme/components.css` `.launcher` (:1396-1431).
+ * Every value is the mockup's; the only structural change is that `.launcher`
+ * moves from the panel element onto `:host`.
+ *
+ * `.launcher__lead` is the mockup's `.stack` (:104-112) — `--space-6` between
+ * items, `--space-4` below 768px — as a grid `gap` instead of the mockup's
+ * `> * + *` child combinator. The combinator cannot be ported: a child or
+ * descendant rule in this stylesheet compiles with THIS component's
+ * `_ngcontent`, and projected nodes carry the PARENT template's `_ngcontent`
+ * (measured: the projected key in `joo-readout-panel`'s head carries the
+ * consumer's `_ngcontent` while the panel's own `.panel__head` and
+ * `.panel__body` carry the panel's). A child combinator here would compile,
+ * match nothing, and silently leave the column at zero spacing. `gap` is
+ * layout rather than selector matching, so it reaches projected children
+ * regardless of encapsulation. Same shape as `toolbar-row.component.css`.
+ *
+ * Three rules from the mockup's narrow block are deliberately NOT ported:
+ * `.launcher .logotype` (:1418-1420), `.launcher .keygrid` (:1422-1426) and
+ * `.launcher .keycap` (:1428-1430). All three reach projected content, which in
+ * the app is `joo-logotype`, `joo-keycap-grid` and `joo-keycap` — components
+ * that own their own boxes and set their own narrow behaviour. They are owed to
+ * those components instead and are recorded in `_architecture/BACKLOG.md`.
+ */
+
+:host {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+  padding: var(--space-8);
+}
+
+.launcher__lead {
+  display: grid;
+  gap: var(--space-6);
+}
+
+@media (min-width: 1024px) {
+  :host {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    align-items: center;
+    gap: var(--space-10);
+    padding: var(--space-10);
+  }
+}
+
+@media (max-width: 767px) {
+  :host {
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-3);
+  }
+
+  .launcher__lead {
+    gap: var(--space-4);
+  }
+}

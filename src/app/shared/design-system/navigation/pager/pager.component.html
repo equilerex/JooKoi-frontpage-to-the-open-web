@@ -1,0 +1,3 @@
+<joo-hardware-key size="sm" [disabled]="!hasPrevious()" (press)="go(-1)">Previous</joo-hardware-key>
+<span class="pager__position">{{ page() }} / {{ pageCount() }}</span>
+<joo-hardware-key size="sm" [disabled]="!hasNext()" (press)="go(1)">Next</joo-hardware-key>

@@ -1,0 +1,7 @@
+<nav class="dock__nav" aria-label="Primary, mobile">
+  @for (item of navItems(); track item.href) {
+    <joo-hardware-key as="anchor" size="xs" [href]="item.href" [current]="item.active ?? false">
+      {{ item.label }}
+    </joo-hardware-key>
+  }
+</nav>

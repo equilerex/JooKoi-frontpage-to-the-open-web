@@ -1,0 +1,48 @@
+/*
+ * Ported from `features/design-theme/components.css` `.dock` (:776-826).
+ *
+ * The mockup's one `.dock` box splits in two here: the fixed bar's chrome lives
+ * on `:host` (which is what `position: fixed` has to be pinned to) and the grid
+ * that lays the items out lives on the inner `<nav>`. The mockup's
+ * `z-index: 20` becomes `var(--z-dock)` (100) — the tokens in
+ * `src/styles/design-tokens.css:190-196` are the one elevation scale.
+ *
+ * Not ported, because there is no element left to attach them to:
+ * `.dock__item` (:791-803), `.dock__item::before` (:805-811) and the two
+ * `[aria-current='page']` rules (:813-820). The items are `joo-hardware-key`,
+ * which owns its own slab, and `.dock__item` in this stylesheet would compile,
+ * lint clean and match nothing. See the component header for the consequence.
+ *
+ * `padding-bottom: env(safe-area-inset-bottom)` is load-bearing: without it the
+ * dock sits under the iOS home indicator. `env()`'s fallback is `0px` rather
+ * than `0` so the `calc()` in `height` stays valid on a platform that does not
+ * define the inset.
+ */
+
+:host {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: var(--z-dock);
+  height: calc(var(--dock-height) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--surface-hud);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border-chrome);
+}
+
+.dock__nav {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  height: 100%;
+  align-items: center;
+}
+
+/* The dock is the small-screen half of the same navigation the HUD shows wide,
+ * so exactly one of the two is ever displayed. */
+@media (min-width: 768px) {
+  :host {
+    display: none;
+  }
+}

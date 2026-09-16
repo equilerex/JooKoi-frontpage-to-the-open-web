@@ -1,0 +1,58 @@
+:host {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+  width: 100%;
+}
+
+/* The page container is the shell's `main.page` now (app-shell-layout), so the
+ * `max-width` / `margin-inline` / `padding` that used to sit on this host would
+ * be a second content column nested inside the first. */
+
+/* Element selectors are classed throughout this file on purpose. A bare `p`
+ * here compiles to `p[_ngcontent-page]`, which is unlayered and therefore beats
+ * `@layer components`'s `joo-prose-content p`, so it reaches into projected
+ * content decision 014 writes the rule for. A component's own markup can always
+ * carry a class; the only elements a bare selector reaches past that are its
+ * consumer's. */
+
+.specimen-page__title {
+  margin: 0;
+  font: 700 var(--text-xl) / 1.1 var(--font-display);
+  color: var(--text-primary);
+}
+
+.specimen-page__lede {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+/* The page templates cannot be demonstrated inline (each is a whole page), so
+ * the index links out to them instead of projecting them into a row. */
+.specimen-page__template-link {
+  padding: var(--space-2) var(--space-3);
+  font: 600 var(--text-xs) / 1 var(--font-display);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-primary);
+  background: var(--surface-chrome);
+  border: 1px solid var(--border-chrome);
+  border-radius: var(--radius-chip);
+}
+
+.specimen-page__template-link:hover {
+  border-color: var(--focus-ring);
+}
+
+/* The record grid's virtual-scroll demo needs a box with a height of its own.
+ * `scrollHeight="flex"` makes PrimeNG's table body fill its container, so
+ * against the section's `flex-wrap` row an auto-height parent would let the
+ * body grow to all 5,000 rows, the scroll would never engage and the
+ * virtualiser would have nothing to virtualise — the demo would look correct
+ * while proving nothing. */
+.specimen-page__grid-frame {
+  display: grid;
+  flex-basis: 100%;
+  height: 26rem;
+}

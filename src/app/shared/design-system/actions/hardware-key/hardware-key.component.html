@@ -1,0 +1,28 @@
+@if (this.as() === 'anchor') {
+  <a
+    class="key"
+    [href]="href()"
+    [attr.aria-current]="current() ? 'page' : null"
+    [attr.aria-pressed]="pressed()"
+    (click)="press.emit()"
+  >
+    <ng-container [ngTemplateOutlet]="body" />
+  </a>
+} @else {
+  <button
+    class="key"
+    [type]="type()"
+    [disabled]="disabled()"
+    [attr.aria-current]="current() ? 'page' : null"
+    [attr.aria-pressed]="pressed()"
+    (click)="press.emit()"
+  >
+    <ng-container [ngTemplateOutlet]="body" />
+  </button>
+}
+
+<!-- One <ng-content> placeholder, not one per branch. Angular compiles every
+     placeholder at build time and a duplicate catch-all placeholder swallows
+     the content for both branches, leaving the other one empty. The template
+     is instantiated into whichever element is live instead. -->
+<ng-template #body><ng-content /></ng-template>

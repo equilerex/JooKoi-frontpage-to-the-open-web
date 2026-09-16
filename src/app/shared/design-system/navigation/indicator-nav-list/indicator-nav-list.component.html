@@ -1,0 +1,13 @@
+@for (item of items(); track item.href) {
+  <joo-hardware-key as="anchor" [href]="item.href" [current]="item.active ?? false" [block]="true">
+    <!-- The mockup's active row forces its lamp to magenta
+         (components.css:1130-1135). That is a rule about what "you are here"
+         looks like, not per-item data, so it is encoded here and `lightColor`
+         stays the explicit override. -->
+    <joo-status-light
+      [color]="item.lightColor ?? (item.active ? 'magenta' : 'cyan')"
+      [on]="item.active ?? false"
+    />
+    <span class="navlist__label">{{ item.label }}</span>
+  </joo-hardware-key>
+}

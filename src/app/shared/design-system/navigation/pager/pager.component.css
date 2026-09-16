@@ -1,0 +1,45 @@
+/*
+ * Ported from `features/design-theme/components.css` `.pager` (:1459-1488).
+ *
+ * `max-width: var(--sheet-max)` and `margin-inline: auto` are the mockup's own
+ * (:1460-1461), kept so the two keys sit at the edges of a readable measure
+ * rather than the full width of whatever contains the pager.
+ * `align-items: center` is an addition: the mockup got the row's height from
+ * its large per-key cards, and with those gone the row would be as tall as its
+ * tallest item and the readout would hang at the top of it.
+ *
+ * DELIBERATE SIMPLIFICATION: the mockup's pager is a pair of large cards.
+ * `.pager .key` sets `flex: 1; max-width: 20rem; justify-content: flex-start;
+ * flex-direction: column; align-items: flex-start; min-height: 3.75rem;
+ * white-space: normal; text-align: left`, and `.pager .key + .key` flips the
+ * second one (:1467-1482). That is the CARD SHAPE, and none of it can be ported
+ * from here: `hardware-key`'s host is `display: contents`, so `.key` is a DOM
+ * child of this host but carries hardware-key's `_ngcontent`, and `.pager .key`
+ * written in this stylesheet compiles with THIS component's `_ngcontent` and
+ * silently matches nothing.
+ *
+ * So this is a `space-between` row of `size="sm"` keys with the position
+ * between them — the same navigation, a plainer control. The mockup's cards
+ * also stacked a `pager__dir` line ("← Previous") above a topic title
+ * (learn-topic.html:121-126); this pager counts pages, so the direction is the
+ * key's own label and the readout takes the title's place.
+ */
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  max-width: var(--sheet-max);
+  margin-inline: auto;
+}
+
+/* `.pager__dir`'s declarations (:1484-1487) under a name that says what the
+   element is: this is a position readout, not a direction. `tabular-nums` is
+   added — the mockup uses it for its other numeric readouts (`.readout`, :927)
+   and it keeps the readout from shifting as the page number changes width. */
+.pager__position {
+  font: 500 var(--text-2xs) / 1 var(--font-mono);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}

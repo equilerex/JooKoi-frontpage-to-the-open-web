@@ -1,0 +1,25 @@
+<joo-document-template>
+  <joo-breadcrumb-trail templateCrumbs [crumbs]="crumbs" />
+
+  <joo-paper-sheet>
+    <joo-prose-content>
+      <h1>Context windows</h1>
+      <p>
+        A model reads a fixed number of tokens per request. Everything it knows about your task has
+        to fit inside that budget: the system prompt, the conversation so far, tool output and the
+        files you pasted. The limit is set per model, for example <code>200k</code> tokens.
+      </p>
+      <blockquote>
+        A bigger window does not mean better recall. Details in the middle of a long context are
+        easier to miss than details near the start or end.
+      </blockquote>
+      <h2>What fills the window</h2>
+      <ul>
+        <li>Instructions that load on every turn, such as <code>AGENTS.md</code></li>
+        <li>The running conversation, including the model's own replies</li>
+        <li>Tool results, which are often the largest share</li>
+      </ul>
+      <p>Specimen copy for the template only. Real documents arrive in Phase 3.</p>
+    </joo-prose-content>
+  </joo-paper-sheet>
+</joo-document-template>

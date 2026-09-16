@@ -1,8 +1,8 @@
 # Architecture
 
-JooKoi: Front Page to the Open Web — an Angular 22 single-page app, prerendered to static files, that lists and links out to curated websites. This file is the structural reference: where code goes, what it's called, how it imports, and where state lives. The reasoning behind each rule is in `_architecture/plans/decisions/003-*` through `010-*`; the planning session that produced them is `_architecture/plans/2026-09-15-angular-foundation-phase-1.md`.
+JooKoi: Front Page to the Open Web — an Angular 22 single-page app, prerendered to static files, that lists and links out to curated websites. This file is the structural reference: where code goes, what it's called, how it imports, and where state lives. The reasoning behind each rule is in `_architecture/plans/decisions/003-*` through `015-*`; the Phase 1 planning session is `_architecture/plans/2026-09-15-angular-foundation-phase-1.md` and the Phase 2 one is `_architecture/plans/2026-09-15-angular-design-system-phase-2.md`.
 
-Written at the end of Phase 1 (foundation). Phase 2 is the design system, Phase 3 is content and features — see the last section.
+Phase 1 (foundation) and Phase 2 (design system) are both built. Phase 3 is content and features — see the last section.
 
 ## Stack
 
@@ -12,7 +12,7 @@ Written at the end of Phase 1 (foundation). Phase 2 is the design system, Phase 
 | Node / package manager | Node 24 (`.nvmrc`, `engines`), pnpm (`packageManager`) | 003 |
 | TypeScript             | `~6.0.3`                                               | 003 |
 | Rendering              | Static prerendering, `outputMode: static`, no server   | 004 |
-| Component behaviour    | Angular Aria + CDK (installed in Phase 2)              | 006 |
+| Component behaviour    | Angular Aria + CDK; PrimeNG 22.1.1 styled, custom preset | 006, 011 |
 | Styles                 | Plain CSS, explicit cascade layers, custom properties  | 007 |
 | Tests                  | Vitest browser mode (Playwright/Chromium), `~4.1.11`   | 008 |
 | State                  | Plain signals + `@ngrx/signals` `~22.0.1`              | 010 |
@@ -42,9 +42,9 @@ Static prerendering with no server (ADR 004). `ng build` emits prerendered HTML 
 
 ## Folder map
 
-This is the **target** map for the app described in `_architecture/sitemap.yaml`. Design-system component names are candidates taken from the mockup CSS classes; Phase 2 settles the final list. Parked areas are shown only to prove they have a home — they are not created.
+This is the **target** map for the app described in `_architecture/sitemap.yaml`. Parked areas are shown only to prove they have a home — they are not created.
 
-> **What actually exists after Phase 1:** `app.component.*`, `app.config.ts`, `app.config.server.ts`, `app.routes.ts` (two routes: `''` → `HomePage`, `**` → `NotFoundPage`), `app.routes.server.ts`, and `app-shell/` holding `home.page.*`, `not-found.page.*` and `app-shell-layout/`. Plus `src/styles/cascade-layers.css` and `src/styles/base-element-styles.css`. `src/app/shared/`, `src/app/shared/curated-websites/` and `src/app/shared/design-system/` exist as documentation scaffolding, each holding only a `CONTEXT.md` — no feature folder yet. Everything else below is the plan.
+> **What actually exists after Phase 2:** `app.component.*`, `app.config.ts`, `app.config.server.ts`, `app.routes.ts` (three route entries: `''` → `HomePage`, `specimen` → the dev-only parts kit, `**` → `NotFoundPage`), `app.routes.server.ts`, and `app-shell/` holding the three chrome components, `app-shell-layout/`, the two pages and `page-title.strategy.ts`. `src/app/specimen/` holds the parts kit. `shared/design-system/` holds ten folders — nine component sub-groups and `theme/` — listed below. `src/styles/` holds `cascade-layers.css`, `design-tokens.css`, `base-element-styles.css` and `fonts.css`, and `public/fonts/` holds the eleven self-hosted woff2 files. `src/styles.css` holds the global rules that cannot be encapsulated. No feature folder exists yet — everything from `launcher-home/` down is still the plan.
 
 ```
 src/
@@ -56,23 +56,36 @@ src/
 
     app-shell/                          # the frame rendered once around every page
       not-found.page.*                  #   wildcard route target
-      app-shell-layout/                 #   header + <router-outlet> + dock arrangement
+      home.page.*                       #   '' route target (placeholder until Phase 3)
+      app-shell-layout/                 #   backdrop + header + <router-outlet> + dock
       heads-up-display-header/          #   desktop HUD navigation (.hud)
       mobile-bottom-dock/               #   thumb-reach navigation below 768px (.dock)
       horizon-backdrop/                 #   perspective grid, desktop only
       page-title.strategy.ts            #   TitleStrategy: "<page> · JooKoi"
 
+    specimen/                           # dev-only parts kit at /specimen (ADR 004)
+      specimen.page.*                   #   the index: one section per component
+      specimen-section/                 #   the labelled frame each section uses
+      specimen.routes.ts                #   index + one sibling route per page template
+      template-demos/                   #   a demo page per page template
+
     shared/                             # used by two or more features, or by shell + a feature
-      design-system/                    #   domain-agnostic visual building blocks (Phase 2)
-        typography/                     #     logotype/, section-heading/, eyebrow-label/, stripe-rule/
-        indicators/                     #     status-light/ (.led), seven-segment-readout/ (.readout)
-        actions/                        #     hardware-key-button/ (.key), keycap-shortcut/ (.keycap), keycap-grid/
-        form-controls/                  #     command-console-input/ (.console), stompbox-toggle/ (.toggle),
-                                        #     rotary-segment-selector/ (.segment), chrome-select/, field-label/
-        surfaces/                       #     readout-panel/ (.panel), paper-sheet/ (.sheet), corner-brackets.directive.ts
-        navigation/                     #     breadcrumb-trail/, indicator-navigation-list/ (.navlist), pagination-control/ (.pager)
-        data-display/                   #     data-table/, tag-chip-list/ (.chips), specification-list/ (.spec), prose-content/
-        page-layouts/                   #     filter-rack-layout/ (.with-rack), two-column-split/, toolbar-row/
+      design-system/                    #   domain-agnostic visual building blocks (ADR 005, 012)
+        theme/                          #     elevation.ts (ELEVATION), jookoi-preset.ts (definePreset)
+        typography/                     #     logotype/, eyebrow-label/, stripe-rule/
+        indicators/                     #     status-light/ (.led), bezel-jewel/, segment-readout/ (.readout),
+                                        #     classification-badge/ (.trust, .sig)
+        actions/                        #     hardware-key/ (.key), keycap/ (.keycap), keycap-grid/ (.keygrid)
+        form-controls/                  #     console-input/ (.console), stompbox-toggle/ (.toggle),
+                                        #     segment-selector/ (.segment), chrome-select/ (PrimeNG), field-label/
+        surfaces/                       #     readout-panel/ (.panel), paper-sheet/ (.sheet), corner-brackets/,
+                                        #     filter-drawer/ (PrimeNG)
+        navigation/                     #     breadcrumb-trail/, indicator-nav-list/ (.navlist), pager/ (.pager)
+        data-display/                   #     record-grid/ (PrimeNG), tag-set/ (.chips), capability-tag/,
+                                        #     count-chip/, spec-list/ (.spec), prose-content/
+        page-layouts/                   #     toolbar-row/
+        page-templates/                 #     console-landing-template/, directory-browse-template/,
+                                        #     record-detail-template/, document-template/ (ADR 013)
 
       curated-websites/                 #   the domain: the websites this app lists and links out to
         curated-website.model.ts  website-category.model.ts  trust-tier.model.ts  capability-signal.model.ts
@@ -113,9 +126,10 @@ src/
     #   directory-stewardship/ (/health, /contribute, /export), personal-homepage/
 
   styles/
-    cascade-layers.css  design-tokens.css (Phase 2)  base-element-styles.css
+    cascade-layers.css  design-tokens.css  base-element-styles.css  fonts.css
+  styles.css                            # global rules that cannot be encapsulated (ADR 014)
   generated/                            # Phase 3: build-time data from scripts/, gitignored
-public/fonts/                           # Phase 2: self-hosted woff2
+public/fonts/                           # eleven self-hosted woff2 files
 ```
 
 `.page.*` means `.page.ts`, `.page.html`, `.page.css` and `.page.spec.ts`. Every normal component has its own folder, so a feature folder's root holds only the page, its routes file, and feature-local stores or functions.
@@ -187,9 +201,11 @@ Put code in the first place on this list that fits.
 - `shared/design-system` imports nothing from the app.
 - Other `shared/*` folders may import `shared/design-system`. They don't import each other unless ADR 005 is updated.
 - A feature may import `shared/*`. It never imports another feature. Cross-links go through router paths only.
-- `app-shell` may import `shared/*`. Only `app.routes.ts` and `app.component.ts` import `app-shell`.
+- `app-shell` may import `shared/*`. Only the three root files import `app-shell` — `app.config.ts`, `app.routes.ts`, `app.component.ts` (ADR 015).
 
 **Enforcement without a new dependency.** ESLint's built-in `no-restricted-imports`, configured in `eslint.config.js`, which reads the `src/app/` folder list with `node:fs` at lint time and generates one override block per feature, forbidding imports matching any other feature folder. A new feature folder is covered automatically. Sheriff and `eslint-plugin-boundaries` were rejected as extra dependencies for the same job (ADR 005).
+
+The patterns are **folder names under `src/app/`**, not package names — so the rule catches a relative import (`../../../../app-shell/…`) and does not catch `@angular/router`. The spec for Phase 2 proposed proving the boundary with a `RouterLink` import, which would never have fired for that reason; the check uses an `app-shell` import instead, and the rule was verified firing under Task 18.
 
 ## State
 
@@ -228,12 +244,14 @@ Global CSS in explicit cascade layers (ADR 007), declared in `src/styles/cascade
 @layer reset, tokens, base, components, utilities;
 ```
 
-- Tokens are CSS custom properties under `[data-theme]` on `<html>`; `data-theme="retro"` is set statically in `index.html`.
+- Tokens are CSS custom properties under `[data-theme]` on `<html>`; `data-theme="retro"` is set statically in `index.html`. Two layers of them: `--p-*` primitives (the raw ramp) and semantic tokens that reference them. A component reads semantic tokens only. PrimeNG's own variables are `--png-*` — a `prefix: 'png'` override, because its default `p` collides with our primitives (ADR 011).
 - Component styles use default `Emulated` encapsulation and read semantic tokens only.
 - No `::ng-deep`, and no `ViewEncapsulation.None` without an ADR.
 - Plain CSS. No Sass, no Tailwind.
 
-`design-tokens.css` arrives in Phase 2; Phase 1 ships only `cascade-layers.css` and `base-element-styles.css`.
+Four files, in the order they are imported: `cascade-layers.css` (declares `@layer reset, tokens, base, primeng, components, utilities`), `design-tokens.css`, `base-element-styles.css`, `fonts.css`.
+
+One exception to per-component styling: a rule that has to reach an element the component does not itself render — projected content, or an element a library's template created — cannot be encapsulated, and lives in `src/styles.css` inside `@layer components`, scoped by custom-element name (ADR 014). `src/styles.css` is also the only home for a global `joo-*` rule; `base-element-styles.css` holds the reset and nothing else.
 
 ## Conventions (framework defaults, not ADRs)
 
@@ -241,7 +259,7 @@ Global CSS in explicit cascade layers (ADR 007), declared in `src/styles/cascade
 - Signal Forms for any form.
 - `isDevMode()` instead of environment files — there's no API config to vary.
 - `ng add` for Angular libraries, `ng generate` for new code, so the `angular.json` suffix and prefix defaults apply.
-- `ng build` is the correctness gate after every change. `ng lint` alongside it.
+- Correctness gates are defined once, in `AGENTS.md`'s Iteration loop table. That table is the single source; do not restate it here.
 - Strictness beyond the generated strict set: `noUncheckedIndexedAccess`, `noImplicitOverride`, plus `strictTemplates` and `strictInjectionParameters`.
 
 Day-to-day commands and the how-to version of all of this live in `.agents/context/engineering-guidelines.md`.
@@ -254,28 +272,29 @@ Tests are added only where they help the agent iteration loop. No e2e suite in P
 
 ## Build budgets
 
-**Measured baseline** (2026-09-15):
-
-- Initial bundle size: 244.34 kB (main.js 244.23 kB + styles.css 116 bytes)
-- anyComponentStyle size: 0 kB (no component-scoped styles in current minimal app)
-
-**Budget values** (baseline + ~30%):
+**Budget values**:
 
 - Initial: warning 320 kB, error 500 kB
 - anyComponentStyle: warning 2 kB, error 4 kB
 
-These values were set after the first production build to allow for ~30% growth headroom while keeping the app lean. They are enforced by `ng build`, which is what makes them the CI gate once ADR 009's workflow exists.
+Set from the first production build's measured baseline (244.34 kB initial) plus ~30% headroom. They are enforced by `ng build`, which is what makes them the CI gate once ADR 009's workflow exists — and **CI is the only thing that measures them**; the agent loop runs no production build (`AGENTS.md`, Iteration loop).
 
-## Where Phase 2 and Phase 3 plug in
+**Both warns are currently exceeded, and that is a decision, not a defect to fix here.** The initial bundle crossed the 320 kB warn when PrimeNG landed, and two component stylesheets sit over the 2 kB warn. Resolving it means either raising a budget or trimming ported CSS, and that call belongs to the user — logged in `_architecture/BACKLOG.md`. No current bundle size is recorded here: the 244.34 kB above is the baseline the budgets were set from, and a stale measurement reads as a live one.
 
-Phase order and reasoning: `_architecture/plans/decisions/002-*`.
+## Where Phase 3 plugs in
 
-**Phase 2 — design system.** Extracts `features/design-theme/` (mockup `tokens.css` and `components.css`, six static pages) into the app:
+Phase order and reasoning: `_architecture/plans/decisions/002-*`. **Phase 1 (foundation) and Phase 2 (design system) are complete.**
 
-- `src/styles/design-tokens.css` under the `tokens` layer; `public/fonts/` for self-hosted woff2.
-- `src/app/shared/design-system/`, in the eight sub-groups listed in the folder map, each component styling against the mockup class it replaces.
-- `@angular/aria` and `@angular/cdk` installed here (ADR 006), not in Phase 1.
-- The `app-shell/` chrome components — `heads-up-display-header/`, `mobile-bottom-dock/`, `horizon-backdrop/`, `page-title.strategy.ts` — land here too.
+**The design system, as built.** `shared/design-system/` holds nine component sub-groups plus `theme/` — see the folder map. Two rules shape everything in it:
+
+- **Identity comes from visual role, not from the mockup's markup** (ADR 012). The mockup CSS is a paint source read after a boundary is settled, never a source of structure. The Phase 1 class map (`.led` → `status-light/`) is superseded.
+- **PrimeNG is the component base, styled, skinned by a custom preset** (ADR 011). Three components wrap it — `chrome-select`, `filter-drawer`, `record-grid` — and consumers never import a PrimeNG symbol. `theme/jookoi-preset.ts` maps PrimeNG's design tokens onto ours; `options.cssLayer` orders PrimeNG before our `components` layer, so our overrides win by layer rather than by specificity, with no `!important` and no `::ng-deep`. PrimeNG's variables are `--png-*` (its default `p` prefix collides with our primitives).
+
+**Elevation is one scale in two places.** `--z-*` tokens in `design-tokens.css` and `ELEVATION` in `theme/elevation.ts` carry the same numbers, because PrimeNG's overlay manager is JavaScript-side and cannot read a custom property. Change one, change the other.
+
+**Page templates are the ninth sub-group** (ADR 013): `page-layouts/` holds pieces composed inside a page, `page-templates/` holds the outermost grid a page *is*. Four templates, each a component with named projection slots and no routing or state of its own.
+
+**`/specimen` is the dev-only parts kit.** It renders every component in every state, and it is the only route in the app that is not part of the site.
 
 **Phase 3 — content and features.** Adds the feature folders (`launcher-home/`, `website-search/`, `category-browse/`, `website-detail/`), one lazy entry each in `app.routes.ts`, plus:
 
@@ -283,5 +302,6 @@ Phase order and reasoning: `_architecture/plans/decisions/002-*`.
 - The data pipeline: `sources/` → `scripts/` → `src/generated/` (gitignored), and the decision on how data reaches the service (bundled import vs `httpResource`).
 - `getPrerenderParams` for `website-detail`, fed from that generated data.
 - A `CONTEXT.md` per feature folder as it's built.
+- A page is a feature component that imports one template from `shared/design-system/page-templates/`, fills its slots, and owns the routing and state itself.
 
-Nothing in Phase 1 needs to change for either. The folder map already names their slots, the import rules already cover folders that don't exist yet, and the lint boundary blocks are generated from the folder listing, so a new feature folder is enforced the moment it appears.
+Nothing built so far needs to change for it. The folder map already names the slots, the import rules already cover folders that don't exist yet, and the lint boundary blocks are generated from the folder listing, so a new feature folder is enforced the moment it appears.

@@ -1,0 +1,36 @@
+/*
+ * Document paper. Typography inside it matches JooKoi-md-archive so rendered
+ * markdown reads the same in both apps; only the frame is themed.
+ *
+ * Ported from `features/design-theme/components.css` `.sheet` (:1496-1509) and
+ * its mobile override (:1514-1521). `display: block` matches the mockup, where
+ * `.sheet` sat on an `<article>`.
+ *
+ * The mockup's `.sheet :focus-visible` (:1510-1512) is not here — it reaches
+ * projected content, so it lives in `src/styles.css` under
+ * `@layer components`. Decision 014.
+ */
+
+:host {
+  display: block;
+  max-width: var(--sheet-max);
+  margin-inline: auto;
+  padding: var(--space-10) clamp(var(--space-6), 6vw, 4rem);
+  color: var(--sheet-text);
+  background: var(--surface-sheet);
+  border-radius: var(--radius-sheet);
+  box-shadow:
+    0 0 0 1px var(--border-panel),
+    0 0 0 6px var(--surface-panel),
+    0 0 0 7px var(--border-panel),
+    0 24px 60px var(--shadow-deep);
+}
+
+@media (max-width: 767px) {
+  :host {
+    margin-inline: calc(var(--space-3) * -1);
+    padding: var(--space-5) var(--space-4);
+    border-radius: 0;
+    box-shadow: none;
+  }
+}

@@ -1,0 +1,11 @@
+<joo-hardware-key [as]="href() ? 'anchor' : 'button'" [href]="href()" [block]="true">
+  <span class="keycap__body">
+    @if (fn()) {
+      <span class="keycap__fn">{{ fn() }}</span>
+    }
+    <span class="keycap__label">{{ label() }}</span>
+    @if (count() !== null) {
+      <span class="keycap__count">{{ count() }}</span>
+    }
+  </span>
+</joo-hardware-key>

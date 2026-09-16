@@ -10,13 +10,13 @@ Applies to `src/` only. Repo-level conventions are in `AGENTS.md`.
 | -------------------------- | ----------------------------------------------------- |
 | Install                    | `pnpm install` (CI: `pnpm install --frozen-lockfile`) |
 | Dev server                 | `pnpm start`                                          |
-| **Correctness gate**       | `pnpm run build` then `pnpm run lint`                 |
+| **Correctness gate**       | watch dev server — see `AGENTS.md`, Iteration loop    |
 | Tests (watch)              | `pnpm test`                                           |
 | Tests (headless, one shot) | `pnpm run test:ci`                                    |
 | Format                     | `pnpm run format` / `pnpm run format:check`           |
 | Serve the production build | `pnpm run build` then `pnpm run serve:static-build`   |
 
-`ng build` is the correctness gate after every change — strict TypeScript plus `strictTemplates` is what catches mistakes here, not a test suite. Tests run when asked, not on every change.
+The watch dev server is the correctness gate after every change — strict TypeScript plus `strictTemplates` is what catches mistakes here, not a test suite. Tests run when asked, not on every change. Production builds belong to CI; `AGENTS.md`'s Iteration loop table is the single source for the gate scheme.
 
 UI verification: check at **390px** and **1440px** in the preview browser.
 
@@ -33,6 +33,8 @@ Angular 22, zoneless, standalone. Use:
 - `ng add` for Angular libraries, `ng generate` for new code, so the `angular.json` prefix and suffix defaults apply. Don't hand-write files the schematics can produce.
 
 Strictness on top of the generated strict set: `noUncheckedIndexedAccess`, `noImplicitOverride`, `strictTemplates`, `strictInjectionParameters`. Don't relax any of them; fix the type.
+
+**Change detection is OnPush by default.** In Angular 22 `ChangeDetectionStrategy.OnPush` is `0`, the enum's zero value, so a component that does not declare `changeDetection` is already OnPush. Declaring it is redundant: a component that does is not wrong, and a component that omits it is not incomplete. Don't add the declaration to a new component, and don't "fix" its absence in an existing one.
 
 ## Where does this file go
 

@@ -1,0 +1,11 @@
+<p-select
+  [options]="selectOptions()"
+  [ngModel]="value()"
+  (ngModelChange)="value.set($event)"
+  optionLabel="label"
+  optionValue="value"
+  [placeholder]="placeholder()"
+  [ariaLabel]="ariaLabel()"
+  [inputId]="inputId()"
+  appendTo="body"
+/>

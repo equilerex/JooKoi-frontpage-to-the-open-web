@@ -1,0 +1,32 @@
+/* Everything else — surface, border, text, radius, padding, the overlay panel,
+ * the option states — comes from `jookoi-preset.ts` through `{form.field.*}`,
+ * measured in the browser before this file was written. Only the two gaps
+ * PrimeNG leaves are here.
+ *
+ * `p-select` is PrimeNG's own stable custom-element name, not one of its
+ * generated classes, and this component projects nothing — so per decision
+ * 014's corollary a bare element selector cannot leak into a consumer's DOM,
+ * exactly as with the bare `dt`/`dd` in `joo-spec-list`. */
+:host {
+  display: block;
+  /* Aura's `select.dropdown.color` is `{form.field.icon.color}`, which the
+   * preset does not set, so the chevron would fall back to Aura's
+   * `{surface.400}` grey. Scoped here rather than in the preset: nothing else
+   * in the app draws a select chevron, so there is no second component to
+   * correct. */
+  --png-select-dropdown-color: var(--text-accent);
+}
+
+/* PrimeNG declares no `select.width` token and `.p-select` is an inline-flex
+ * box with no width rule, so the control shrink-wraps and will not fill its
+ * row. Sizing our own child element is not the ban in the brief — that ban is
+ * on reaching into `.p-select .p-select-label`, which needs `::ng-deep`.
+ *
+ * `width` only: adding `display: block` here (as the brief's draft had it)
+ * overrides PrimeNG's own `display: inline-flex` on this same element and
+ * stacks `.p-select-label` above `.p-select-dropdown` — measured 52.33px tall
+ * with the value clipped to "Re", against 38.33px once the display rule is
+ * gone. The root's flex context is PrimeNG's, not ours to replace. */
+p-select {
+  width: 100%;
+}

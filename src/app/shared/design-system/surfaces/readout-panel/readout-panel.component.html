@@ -1,0 +1,9 @@
+<div class="panel__head">
+  @if (label()) {
+    <span class="panel__label">{{ label() }}</span>
+  }
+  <ng-content select="[panelHead]" />
+</div>
+<div class="panel__body">
+  <ng-content />
+</div>

@@ -1,0 +1,57 @@
+/*
+ * Ported from `features/design-theme/components.css` `.with-rack` (:1312-1334):
+ * the base column, its `align-items: start`, the 1024px two-column block with
+ * the sticky rack, and the 767px narrow gap.
+ *
+ * Named areas replace the mockup's source-order placement. The mockup's
+ * `.with-rack` had exactly two grid children and let them fall into place; this
+ * template has three, and naming them is what makes the toolbar span both
+ * columns at 1024px while the rack and the results stack in that order below it.
+ *
+ * The sticky offset is the mockup's own (`top: calc(var(--hud-height) +
+ * var(--space-4))`). `--hud-height` already exists in
+ * `src/styles/design-tokens.css` (:177, :201) — it is not redefined here.
+ */
+
+:host {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas:
+    'toolbar'
+    'rack'
+    'results';
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.browse__toolbar {
+  grid-area: toolbar;
+}
+
+.browse__rack {
+  grid-area: rack;
+}
+
+.browse__results {
+  grid-area: results;
+}
+
+@media (min-width: 1024px) {
+  :host {
+    grid-template-columns: 17rem minmax(0, 1fr);
+    grid-template-areas:
+      'toolbar toolbar'
+      'rack    results';
+  }
+
+  .browse__rack {
+    position: sticky;
+    top: calc(var(--hud-height) + var(--space-4));
+  }
+}
+
+@media (max-width: 767px) {
+  :host {
+    gap: var(--space-3);
+  }
+}
