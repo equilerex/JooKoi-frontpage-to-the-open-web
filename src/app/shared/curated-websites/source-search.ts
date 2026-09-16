@@ -45,8 +45,11 @@ function trustTier(trustScore: number): 0 | 1 | 2 {
 
 /** No stored `domain` on `Source` (model comment) — derived here the same
  *  way display will derive it. Falls back to the raw `url` if it doesn't
- *  parse, so a malformed record degrades rather than throwing mid-search. */
-function domainOf(url: string): string {
+ *  parse, so a malformed record degrades rather than throwing mid-search.
+ *  Exported so `home.page.ts`'s display-row mapping (Task 4) derives the
+ *  table's dim mono domain line the same way ranking does, instead of a
+ *  second copy of this logic. */
+export function domainOf(url: string): string {
   try {
     return new URL(url).hostname.replace(/^www\./, '');
   } catch {

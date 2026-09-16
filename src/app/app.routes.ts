@@ -2,6 +2,7 @@ import { isDevMode } from '@angular/core';
 import { Routes } from '@angular/router';
 import { HomePage } from './app-shell/home.page';
 import { NotFoundPage } from './app-shell/not-found.page';
+import { SearchPage } from './app-shell/search.page';
 
 /**
  * The specimen parts kit is a development tool, not a page of the site. The
@@ -11,6 +12,8 @@ import { NotFoundPage } from './app-shell/not-found.page';
  */
 export const routes: Routes = [
   { path: '', component: HomePage, title: 'Home' },
+  // Minimal placeholder (Task 4) — Task 5 builds the real page.
+  { path: 'search', component: SearchPage, title: 'Search' },
   ...(isDevMode()
     ? [
         {

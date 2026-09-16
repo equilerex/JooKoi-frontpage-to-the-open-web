@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { SOURCE_FIXTURE } from '../../shared/curated-websites/source-fixture';
 import { NavItem } from '../../shared/design-system/navigation/indicator-nav-list/indicator-nav-list.component';
 import { HeadsUpDisplayHeaderComponent } from '../heads-up-display-header/heads-up-display-header.component';
 import { HorizonBackdropComponent } from '../horizon-backdrop/horizon-backdrop.component';
@@ -20,10 +21,12 @@ import { MobileBottomDockComponent } from '../mobile-bottom-dock/mobile-bottom-d
  * three. A single shared list could satisfy one shape or the other but not
  * both, so this component owns two.
  *
- * `/search` and `/learn` are not routed yet (Tasks 5/6) — the wildcard route
- * sends them to `NotFoundPage` until then, which is an honest "not built yet"
- * rather than a dead `href="#"`. `/browse` stays `#`: it is `parked` (D2), not
- * scheduled.
+ * `/search` now has a minimal placeholder route (Task 4 — `search.page.ts`),
+ * so the header console, the home launcher console and the quick keys all
+ * have somewhere real to land; Task 5 replaces its contents. `/learn` is
+ * still not routed (Task 6) — the wildcard route sends it to `NotFoundPage`,
+ * an honest "not built yet" rather than a dead `href="#"`. `/browse` stays
+ * `#`: it is `parked` (D2), not scheduled.
  */
 @Component({
   imports: [
@@ -38,6 +41,8 @@ import { MobileBottomDockComponent } from '../mobile-bottom-dock/mobile-bottom-d
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppShellLayoutComponent {
+  private readonly router = inject(Router);
+
   protected readonly headerNavItems: readonly NavItem[] = [
     { label: 'Search', href: '/search' },
     { label: 'Browse', href: '#' },
@@ -51,11 +56,16 @@ export class AppShellLayoutComponent {
     { label: 'Learn', href: '/learn' },
   ];
 
-  /**
-   * Placeholder source count for the header status strip (backlog #1-3),
-   * matching `home.page.ts`'s current hard-coded `highlights.length` (4).
-   * Becomes accurate once Task 3/4 land the real fixture — do not read this
-   * as the real catalog size.
-   */
-  protected readonly statusText = '4 src online';
+  /** Header status strip (backlog #1-3) — real record count from the Task 3
+   *  fixture, not the earlier hard-coded placeholder. */
+  protected readonly statusText = `${SOURCE_FIXTURE.length} src online`;
+
+  /** The header's compact console (deviation, 2026-09-16 mid-build: it
+   *  appears on every page including home, not just inner pages) submits
+   *  straight to `/search?q=…` — independent of the home launcher console's
+   *  live in-place results (D4), which only `home.page.ts` implements. */
+  protected onHeaderSearch(query: string): void {
+    const q = query.trim();
+    void this.router.navigate(['/search'], { queryParams: q ? { q } : {} });
+  }
 }

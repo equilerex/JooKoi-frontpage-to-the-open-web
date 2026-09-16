@@ -21,15 +21,19 @@ import { LogotypeComponent } from '../../shared/design-system/typography/logotyp
  * host is what makes it a header landmark.
  *
  * `console` and `statusText` are new capabilities (Phase 3 task 1, backlog
- * #1-3): a compact search console for inner pages (mock's
- * `hud__search console console--compact`, absent on home per decision D4/the
- * plan's Search page notes) and the `412 SRC ONLINE` status strip. Wiring
- * real nav items, a real source count and real query state into this shell
- * is Task 2/5 — this component only has to be *capable* of showing them,
- * which `/specimen` demonstrates with fixture data. Staying agnostic
- * (decision 011/012's design-system rule): the query lives in a local
- * `model()`, submission is a plain `output()`, and the source count is a
- * plain string input — nothing here reaches into Router or a store.
+ * #1-3): a compact search console (mock's `hud__search console
+ * console--compact`) and the `412 SRC ONLINE` status strip. The plan's
+ * original Search-page notes had the console appear on inner pages only, not
+ * home; a mid-build user override (plan's "Implementation deviations",
+ * 2026-09-16) put it on every page instead, home included — Task 4 is the
+ * one that passes `[console]="true"` unconditionally from
+ * `app-shell-layout.component.html`. This component itself doesn't know or
+ * care which pages show it: real nav items, a real source count and real
+ * query-submit navigation are wired by the app shell (Task 2/4), and
+ * `/specimen` demonstrates the component itself with fixture data. Staying
+ * agnostic (decision 011/012's design-system rule): the query lives in a
+ * local `model()`, submission is a plain `output()`, and the source count is
+ * a plain string input — nothing here reaches into Router or a store.
  */
 @Component({
   selector: 'joo-heads-up-display-header',
@@ -41,8 +45,8 @@ import { LogotypeComponent } from '../../shared/design-system/typography/logotyp
 })
 export class HeadsUpDisplayHeaderComponent {
   readonly navItems = input.required<readonly NavItem[]>();
-  /** Shows the compact search console. Off by default (home has no header
-   *  search — the console landing page owns the query there instead). */
+  /** Shows the compact search console. Off by default; the app shell passes
+   *  `true` on every page, home included (deviation, 2026-09-16). */
   readonly console = input(false);
   readonly searchQuery = model('');
   readonly searchSubmitted = output<string>();

@@ -4,8 +4,14 @@
     <joo-logotype templateHero>Open <b>Web</b></joo-logotype>
     <p templateHero class="home-lede">Find the sites worth searching. Then search them directly.</p>
 
-    <joo-console-input templateConsole size="lg" placeholder="css grid, estonian news, rss readers">
-      <joo-hardware-key accent="hot">Launch</joo-hardware-key>
+    <joo-console-input
+      templateConsole
+      size="lg"
+      placeholder="css grid, estonian news, rss readers"
+      [(value)]="query"
+      (submitted)="onSubmit()"
+    >
+      <joo-hardware-key accent="hot" (press)="onSubmit()">Launch</joo-hardware-key>
     </joo-console-input>
     <joo-toolbar-row templateConsole>
       <joo-field-label>Scope</joo-field-label>
@@ -20,7 +26,7 @@
           [label]="key.label"
           [count]="key.count"
           [accent]="key.accent ?? 'neutral'"
-          href="#"
+          [href]="key.href"
         />
       }
     </joo-keycap-grid>
@@ -29,32 +35,34 @@
 
 <joo-stripe-rule />
 
-<joo-readout-panel [flush]="true" label="Trusted highlights" led="cyan">
-  <span panelHead class="panel-meta">recently verified</span>
+<joo-readout-panel [flush]="true" [label]="panelLabel()" led="cyan">
+  <span panelHead class="panel-meta">{{ panelMeta() }}</span>
   <joo-record-grid
-    [rows]="highlights"
+    [rows]="displayedRows()"
     [columns]="highlightColumns"
-    ariaLabel="Trusted highlights"
-    emptyMessage="No sources yet."
+    [ariaLabel]="panelLabel()"
+    emptyMessage="No matches. Try different terms."
   >
-    <ng-template jooRecordGridCell="name" [rows]="highlights" let-row>
-      <a class="src-name" href="#">{{ splitSourceCell(row.name).name }}</a>
-      <span class="src-domain">{{ splitSourceCell(row.name).domain }}</span>
+    <ng-template jooRecordGridCell="name" [rows]="displayedRows()" let-row>
+      <a class="src-name" [href]="row.url">{{ row.name }}</a>
+      <span class="src-domain">{{ row.domain }}</span>
     </ng-template>
-    <ng-template jooRecordGridCell="trust" [rows]="highlights" let-row>
-      <joo-classification-badge [variant]="row.trust === 'Trusted' ? 'solid' : 'double'">
+    <ng-template jooRecordGridCell="trust" [rows]="displayedRows()" let-row>
+      <joo-classification-badge
+        [variant]="row.trust === 'Trusted' ? 'solid' : row.trust === 'Known' ? 'dashed' : 'double'"
+      >
         {{ row.trust }}
       </joo-classification-badge>
     </ng-template>
-    <ng-template jooRecordGridCell="sig" [rows]="highlights" let-row>
+    <ng-template jooRecordGridCell="sig" [rows]="displayedRows()" let-row>
       <span class="sigs">
-        @for (signal of splitSignals(row.sig); track signal) {
-          <joo-capability-tag>{{ signal }}</joo-capability-tag>
+        @for (signal of row.sig; track signal) {
+          <joo-capability-tag>{{ capabilityLabel(signal) }}</joo-capability-tag>
         }
       </span>
     </ng-template>
-    <ng-template jooRecordGridCell="act" [rows]="highlights" let-row>
-      <joo-hardware-key size="xs" as="anchor" href="#">{{ row.act }}</joo-hardware-key>
+    <ng-template jooRecordGridCell="act" [rows]="displayedRows()" let-row>
+      <joo-hardware-key size="xs" as="anchor" [href]="row.url">{{ row.act }}</joo-hardware-key>
     </ng-template>
   </joo-record-grid>
 </joo-readout-panel>
