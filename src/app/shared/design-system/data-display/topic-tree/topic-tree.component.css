@@ -1,0 +1,30 @@
+/*
+ * Time-boxed skin check (decision 011, same box Phase 2 task 9 gave
+ * `chrome-select`/`filter-drawer`/`record-grid`). `jookoi-preset.ts`'s
+ * `content`/`text`/`primary` semantic overrides already reach `p-tree`'s
+ * root background, resting text colour and focus ring — measured in the
+ * browser before writing this file. What preset tokens alone do not reach,
+ * because Aura's `tree.node.*` block points at tokens the preset never
+ * touches (`content.hover.background`, `highlight.*`, `text.hover.color`):
+ * the row hover/selected surfaces and the toggle-button icon. Both are
+ * one-line `--png-tree-*` overrides, same mechanism as the select chevron
+ * fix in `chrome-select.component.css` — well inside the box, so this stays
+ * PrimeNG. No deviation to log.
+ */
+:host {
+  --png-tree-node-color: var(--text-muted);
+  --png-tree-node-hover-color: var(--text-primary);
+  --png-tree-node-hover-background: var(--surface-row-hover);
+  --png-tree-node-selected-color: var(--text-accent);
+  --png-tree-node-selected-background: var(--surface-inset);
+  --png-tree-node-icon-color: var(--text-muted);
+  --png-tree-node-icon-hover-color: var(--text-primary);
+  --png-tree-node-icon-selected-color: var(--text-accent);
+  --png-tree-node-toggle-button-color: var(--text-muted);
+  --png-tree-node-toggle-button-hover-color: var(--text-primary);
+  --png-tree-node-toggle-button-hover-background: var(--surface-row-hover);
+}
+
+p-tree {
+  display: block;
+}

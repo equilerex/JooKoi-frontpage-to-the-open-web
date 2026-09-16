@@ -27,7 +27,15 @@
   <ng-template #body let-row let-cols="columns">
     <tr (click)="rowActivate.emit(row)">
       @for (col of cols; track col.field) {
-      <td [attr.data-col]="col.field">{{ row[col.field] }}</td>
+      <td [attr.data-col]="col.field">
+        @if (cellTemplateByField().get(col.field); as cellTemplate) {
+          <ng-container
+            *ngTemplateOutlet="cellTemplate; context: { $implicit: row, row: row }"
+          />
+        } @else {
+          {{ row[col.field] }}
+        }
+      </td>
       }
     </tr>
   </ng-template>

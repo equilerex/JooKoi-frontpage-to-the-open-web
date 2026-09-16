@@ -1,12 +1,12 @@
 /*
  * Ported from `features/design-theme/components.css` `.hud` (:690-773).
- * `.hud` becomes `:host`; `.hud__inner`, `.hud__brand`, `.hud__mark` and
- * `.hud__nav` keep their names.
+ * `.hud` becomes `:host`; `.hud__inner`, `.hud__brand`, `.hud__mark`,
+ * `.hud__nav`, `.hud__search` and `.hud__status` keep their names.
  *
- * Not ported, with reasons:
- * - `.hud__search` (:740-744) and `.hud__status` (:751-752) — no element in the
- *   template, and both are Phase 3 content rather than chrome.
- * - The `.hud__status` and `.hud__search` lines of the media query below.
+ * `.hud__status`'s text styling is the mock's `.leds` class (:248-256),
+ * applied together with `.hud__status` at the use site (`index.html:36`)
+ * rather than as a separate reusable class here — nothing else in this
+ * component draws an LED readout row.
  *
  * The mockup's `z-index: 20` becomes `var(--z-hud)` (200): the tokens in
  * `src/styles/design-tokens.css:190-196` are the one elevation scale, and
@@ -78,10 +78,26 @@
     0 0 10px var(--glow-magenta);
 }
 
+.hud__search {
+  flex: 1;
+  max-width: 34rem;
+}
+
 .hud__nav {
   display: flex;
   gap: var(--space-2);
   margin-left: auto;
+}
+
+.hud__status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: none;
+  font: 500 var(--text-2xs) / 1 var(--font-mono);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 /* A media query, not a container query: this is chrome, and the rule that binds
@@ -94,11 +110,16 @@
     padding: var(--space-2) var(--space-3);
   }
 
-  .hud__nav {
+  .hud__nav,
+  .hud__status {
     display: none;
   }
 
   .hud__brand joo-logotype {
     display: none;
+  }
+
+  .hud__search {
+    max-width: none;
   }
 }

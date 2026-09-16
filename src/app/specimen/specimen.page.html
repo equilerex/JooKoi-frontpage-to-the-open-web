@@ -5,8 +5,11 @@
 
 <!-- Each task appends one <joo-specimen-section> here. Keep them in the
      order components were built: indicators, typography, actions,
-     form-controls, data-display, surfaces, navigation, page-layouts,
-     page-templates. -->
+     form-controls, data-display, surfaces, navigation, chrome, page-layouts,
+     page-templates. "Chrome" (app-shell/) is the one section here that is
+     not `shared/design-system/` — the parts kit demonstrates app-shell chrome
+     too, and specimen itself sits outside the design system's agnostic
+     boundary, so importing it here does not cross that rule. -->
 
 <joo-specimen-section label="Indicators">
   @for (color of lightColors; track color) {
@@ -51,6 +54,9 @@
     <joo-keycap fn="F1" label="Reference" [count]="42" href="#" />
     <joo-keycap fn="F2" label="Tools" [count]="17" href="#" />
     <joo-keycap label="No legend" />
+    <!-- The `accent` passthrough (backlog #8): the real F6 AI-marketplace key
+         carries this same `key--hot` treatment, wired up in Task 4. -->
+    <joo-keycap fn="F6" label="AI marketplace" [count]="12" accent="hot" href="#" />
   </joo-keycap-grid>
 </joo-specimen-section>
 
@@ -87,6 +93,17 @@
     <joo-capability-tag>No tracking</joo-capability-tag>
     <joo-count-chip [count]="128">Articles</joo-count-chip>
     <joo-count-chip [count]="9" [interactive]="true">Tools</joo-count-chip>
+  </joo-tag-set>
+
+  <!-- `joo-chip` (backlog #18): the flat, lowercase, single-row tag pill the
+       mock actually draws — distinct from both the tags above. Applying it to
+       the real tag panel, in place of the hardware-key/count-chip pairing
+       used there today, is Task 2. -->
+  <joo-tag-set style="flex-basis: 100%">
+    <joo-chip [count]="22">css</joo-chip>
+    <joo-chip [count]="9">accessibility</joo-chip>
+    <joo-chip [count]="5">privacy</joo-chip>
+    <joo-chip>no count</joo-chip>
   </joo-tag-set>
 
   <joo-spec-list [entries]="specEntries" style="flex-basis: 100%" />
@@ -138,6 +155,35 @@
     ariaLabel="Directory records, empty"
     style="flex-basis: 100%"
   />
+
+  <!-- The cell-template API (backlog #11-14): a template registered for a
+       column's field replaces the plain-text fallback for every row. Applying
+       this to the real home/search tables (bold name over dim domain, the
+       trust chip, the sig pills, the OPEN key) is Task 2. -->
+  <joo-record-grid
+    [rows]="recordRows"
+    [columns]="recordColumns"
+    ariaLabel="Directory records, templated cells"
+    style="flex-basis: 100%"
+  >
+    <ng-template jooRecordGridCell="trust" [rows]="recordRows" let-row>
+      <joo-classification-badge [variant]="row.trust === 'Trusted' ? 'solid' : 'double'">
+        {{ row.trust }}
+      </joo-classification-badge>
+    </ng-template>
+    <ng-template jooRecordGridCell="sig" [rows]="recordRows" let-row>
+      <joo-capability-tag>{{ row.sig }}</joo-capability-tag>
+    </ng-template>
+    <ng-template jooRecordGridCell="act" [rows]="recordRows" let-row>
+      <joo-hardware-key size="xs" as="anchor" href="#">{{ row.act }}</joo-hardware-key>
+    </ng-template>
+  </joo-record-grid>
+
+  <!-- `joo-topic-tree` wraps PrimeNG's `p-tree` for the `/learn` index — the
+       fourth sanctioned PrimeNG adoption (decision 011), time-boxed the same
+       way `chrome-select`/`filter-drawer`/`record-grid` were. Wiring the real
+       generated topic list is Task 7 (content pipeline). -->
+  <joo-topic-tree [nodes]="treeNodes" ariaLabel="Learn topics" style="flex-basis: 100%" />
 </joo-specimen-section>
 
 <joo-specimen-section label="Surfaces">
@@ -149,6 +195,17 @@
   <joo-readout-panel style="flex-basis: 100%">
     <joo-hardware-key panelHead size="xs">Refresh</joo-hardware-key>
     <p>Unlabelled panel body.</p>
+  </joo-readout-panel>
+
+  <!-- The `led` input (backlog #10/#17): a cyan LED beside the highlights
+       panel's title, a magenta one on the tag panel. Applying these to the
+       real panels is Task 2. -->
+  <joo-readout-panel label="Trusted highlights" led="cyan" style="flex-basis: 100%">
+    <p>recently verified</p>
+  </joo-readout-panel>
+
+  <joo-readout-panel label="Browse by tag" led="magenta" style="flex-basis: 100%">
+    <p>Panel body content.</p>
   </joo-readout-panel>
 
   <joo-readout-panel style="flex-basis: 100%">
@@ -188,6 +245,20 @@
   <joo-breadcrumb-trail [crumbs]="crumbs" style="flex-basis: 100%" />
   <joo-indicator-nav-list [items]="navItems" ariaLabel="Categories" style="flex-basis: 100%" />
   <joo-pager [page]="2" [pageCount]="7" style="flex-basis: 100%" />
+</joo-specimen-section>
+
+<joo-specimen-section label="Chrome">
+  <!-- `heads-up-display-header` capability work (backlog #1-3): nav items
+       (already supported — demonstrated here alongside the two new
+       capabilities), the compact search console for inner pages, and the
+       `412 SRC ONLINE` status strip. Wiring real nav items, a real query
+       store and a real source count into the app shell is Task 2/5. -->
+  <joo-heads-up-display-header
+    [navItems]="navItems"
+    [console]="true"
+    statusText="412 src online"
+    style="flex-basis: 100%"
+  />
 </joo-specimen-section>
 
 <joo-specimen-section label="Page layouts">

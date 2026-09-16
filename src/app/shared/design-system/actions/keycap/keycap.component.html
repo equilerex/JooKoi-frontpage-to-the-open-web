@@ -1,4 +1,9 @@
-<joo-hardware-key [as]="href() ? 'anchor' : 'button'" [href]="href()" [block]="true">
+<joo-hardware-key
+  [as]="href() ? 'anchor' : 'button'"
+  [href]="href()"
+  [block]="true"
+  [accent]="accent()"
+>
   <span class="keycap__body">
     @if (fn()) {
       <span class="keycap__fn">{{ fn() }}</span>

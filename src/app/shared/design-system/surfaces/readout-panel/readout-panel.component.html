@@ -1,4 +1,7 @@
 <div class="panel__head">
+  @if (led()) {
+    <joo-status-light [color]="led()!" [on]="true" />
+  }
   @if (label()) {
     <span class="panel__label">{{ label() }}</span>
   }

@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { TreeNode } from 'primeng/api';
+import { HeadsUpDisplayHeaderComponent } from '../app-shell/heads-up-display-header/heads-up-display-header.component';
 import { HardwareKeyComponent } from '../shared/design-system/actions/hardware-key/hardware-key.component';
 import { KeycapGridComponent } from '../shared/design-system/actions/keycap-grid/keycap-grid.component';
 import { KeycapComponent } from '../shared/design-system/actions/keycap/keycap.component';
 import { CapabilityTagComponent } from '../shared/design-system/data-display/capability-tag/capability-tag.component';
+import { ChipComponent } from '../shared/design-system/data-display/chip/chip.component';
 import { CountChipComponent } from '../shared/design-system/data-display/count-chip/count-chip.component';
 import { ProseContentComponent } from '../shared/design-system/data-display/prose-content/prose-content.component';
+import { RecordGridCellDirective } from '../shared/design-system/data-display/record-grid/record-grid-cell.directive';
 import {
   GridColumn,
   RecordGridComponent,
@@ -15,6 +19,7 @@ import {
   SpecListComponent,
 } from '../shared/design-system/data-display/spec-list/spec-list.component';
 import { TagSetComponent } from '../shared/design-system/data-display/tag-set/tag-set.component';
+import { TopicTreeComponent } from '../shared/design-system/data-display/topic-tree/topic-tree.component';
 import { ChromeSelectComponent } from '../shared/design-system/form-controls/chrome-select/chrome-select.component';
 import { ConsoleInputComponent } from '../shared/design-system/form-controls/console-input/console-input.component';
 import { FieldLabelComponent } from '../shared/design-system/form-controls/field-label/field-label.component';
@@ -83,11 +88,14 @@ interface DemoRecord {
     SegmentSelectorComponent,
     ChromeSelectComponent,
     CapabilityTagComponent,
+    ChipComponent,
     CountChipComponent,
     TagSetComponent,
     SpecListComponent,
     ProseContentComponent,
     RecordGridComponent,
+    RecordGridCellDirective,
+    TopicTreeComponent,
     ReadoutPanelComponent,
     PaperSheetComponent,
     CornerBracketsDirective,
@@ -96,6 +104,7 @@ interface DemoRecord {
     IndicatorNavListComponent,
     PagerComponent,
     ToolbarRowComponent,
+    HeadsUpDisplayHeaderComponent,
   ],
   templateUrl: './specimen.page.html',
   styleUrl: './specimen.page.css',
@@ -186,6 +195,29 @@ export class SpecimenPage {
     { label: 'Directory', href: '#directory', active: true },
     { label: 'Reference', href: '#reference', lightColor: 'amber' },
     { label: 'Tools', href: '#tools' },
+  ];
+  /** The `/learn` index's own shape: topics grouped under a couple of
+   *  sections, one topic pre-expanded. Representative of `topic-index.md`,
+   *  not the real generated content — that arrives with the content
+   *  pipeline (build order step 7). */
+  protected readonly treeNodes: readonly TreeNode[] = [
+    {
+      key: 'fundamentals',
+      label: 'Fundamentals',
+      expanded: true,
+      children: [
+        { key: '0', label: 'How LLMs actually work', leaf: true },
+        { key: '1', label: 'Prompting basics', leaf: true },
+      ],
+    },
+    {
+      key: 'tooling',
+      label: 'Tooling',
+      children: [
+        { key: '2', label: 'Agents and skills', leaf: true },
+        { key: '3', label: 'MCP servers', leaf: true },
+      ],
+    },
   ];
   /** The page templates cannot be shown inside this page's flex rows — each is
    *  the whole page — so they are links to their own routes instead. Paths are

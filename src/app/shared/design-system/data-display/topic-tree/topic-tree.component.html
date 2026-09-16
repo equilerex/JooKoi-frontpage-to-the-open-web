@@ -1,0 +1,6 @@
+<p-tree
+  [value]="nodes()"
+  selectionMode="single"
+  [ariaLabel]="ariaLabel() || undefined"
+  (onNodeSelect)="onNodeSelect($event)"
+/>

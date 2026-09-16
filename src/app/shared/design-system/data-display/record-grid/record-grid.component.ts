@@ -1,5 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChildren,
+  input,
+  output,
+} from '@angular/core';
 import { TableModule } from 'primeng/table';
+import { RecordGridCellDirective } from './record-grid-cell.directive';
 
 export interface GridColumn<T> {
   readonly field: keyof T & string;
@@ -9,7 +18,7 @@ export interface GridColumn<T> {
 
 @Component({
   selector: 'joo-record-grid',
-  imports: [TableModule],
+  imports: [TableModule, NgTemplateOutlet],
   templateUrl: './record-grid.component.html',
   styleUrl: './record-grid.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,6 +56,32 @@ export class RecordGridComponent<T> {
   readonly emptyMessage = input('No records.');
   readonly ariaLabel = input('');
   readonly rowActivate = output<T>();
+
+  /**
+   * Cell-template API (Phase 3 task 1, backlog #11-14): a consumer projects
+   * `<ng-template jooRecordGridCell="field">` for any column that needs more
+   * than `{{ row[col.field] }}` — the trust chip, the signal pills, the `OPEN`
+   * key. Columns with no matching template keep the plain-text fallback, so
+   * this is additive and every existing consumer keeps working unchanged.
+   *
+   * Chosen over a hand-written `.data-table` (the brief's other option)
+   * because the CSS this table needs is already ported and keyed to
+   * `.joo-record-grid`/`data-col` (`src/styles.css:242-360`), not to a
+   * `.data-table` class — bypassing the grid would either duplicate that CSS
+   * under a new selector or leave it unused. A template API reuses it as-is.
+   *
+   * A consumer that wants `let-row` typed as the real row rather than
+   * `unknown` also binds `[rows]` on the `<ng-template>` itself — see
+   * `RecordGridCellDirective`'s own doc comment for why.
+   */
+  private readonly cellTemplates = contentChildren(RecordGridCellDirective);
+  protected readonly cellTemplateByField = computed(() => {
+    const byField = new Map<string, RecordGridCellDirective['templateRef']>();
+    for (const template of this.cellTemplates()) {
+      byField.set(template.field(), template.templateRef);
+    }
+    return byField;
+  });
 
   protected readonly tableValue = computed(() => [...this.rows()]);
   protected readonly tableColumns = computed(() => [...this.columns()]);

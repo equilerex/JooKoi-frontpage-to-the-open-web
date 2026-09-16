@@ -1,0 +1,33 @@
+/*
+ * Ported from `features/design-theme/components.css` `.chip` (:945-960) and
+ * `.chip__count` (:967-970). The mock's `.chip` is an anchor; this component
+ * makes no assumption about the host element, so a consumer wraps it in
+ * whatever native element the use site needs (a link on the real tag panel,
+ * a plain element in `/specimen`).
+ */
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 2rem;
+  padding: 0 var(--space-3);
+  font: 500 var(--text-xs) / 1 var(--font-read);
+  color: var(--text-primary);
+  background: var(--surface-readout);
+  border: 1px solid var(--border-panel);
+  border-radius: var(--radius-chip);
+  transition:
+    border-color var(--duration-state),
+    color var(--duration-state);
+}
+
+:host(:hover) {
+  border-color: var(--text-accent);
+  color: var(--text-accent);
+}
+
+.chip__count {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+}

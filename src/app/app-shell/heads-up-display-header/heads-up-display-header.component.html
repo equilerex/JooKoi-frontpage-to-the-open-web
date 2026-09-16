@@ -3,6 +3,16 @@
     <span class="hud__mark" aria-hidden="true"></span>
     <joo-logotype size="sm">Joo<b>Koi</b></joo-logotype>
   </a>
+  @if (console()) {
+    <div class="hud__search">
+      <joo-console-input
+        size="compact"
+        placeholder="Search the open web"
+        [(value)]="searchQuery"
+        (submitted)="searchSubmitted.emit($event)"
+      />
+    </div>
+  }
   <nav class="hud__nav" aria-label="Primary">
     @for (item of navItems(); track item.href) {
       <joo-hardware-key as="anchor" size="sm" [href]="item.href" [current]="item.active ?? false">
@@ -11,4 +21,10 @@
       </joo-hardware-key>
     }
   </nav>
+  @if (statusText()) {
+    <div class="hud__status" aria-hidden="true">
+      <joo-status-light color="green" [on]="true" [blink]="true" />
+      {{ statusText() }}
+    </div>
+  }
 </div>
