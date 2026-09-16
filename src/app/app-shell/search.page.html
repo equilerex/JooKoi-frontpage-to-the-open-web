@@ -1,11 +1,133 @@
-<h1>Search</h1>
-<p>This page is a placeholder — the real search page (filters, sort, results) is Task 5.</p>
-<dl>
-  <dt>q</dt>
-  <dd>{{ q ?? '(none)' }}</dd>
-  <dt>category</dt>
-  <dd>{{ category ?? '(none)' }}</dd>
-  <dt>tag</dt>
-  <dd>{{ tag ?? '(none)' }}</dd>
-</dl>
-<a routerLink="/">Home</a>
+<joo-directory-browse-template>
+  <joo-toolbar-row templateToolbar>
+    <div>
+      <joo-eyebrow-label>Search results</joo-eyebrow-label>
+      @if (q()) {
+        <h1 class="search-title">Sources for <span class="mono">{{ q() }}</span></h1>
+      } @else {
+        <h1 class="search-title">All sources</h1>
+      }
+    </div>
+    <span toolbarTrailing class="search-count"
+      >{{ resultCount() }} source{{ resultCount() === 1 ? '' : 's' }}</span
+    >
+  </joo-toolbar-row>
+
+  <joo-readout-panel templateRack label="Filters" led="amber">
+    <div class="rack-group">
+      <joo-field-label>Trust</joo-field-label>
+      <joo-stompbox-toggle color="cyan" [on]="trustedOnly()" (onChange)="onTrustedToggle()">
+        Trusted only
+      </joo-stompbox-toggle>
+    </div>
+
+    <div class="rack-group">
+      <joo-field-label>Signals</joo-field-label>
+      @for (toggle of capabilityToggles; track toggle.value) {
+        <joo-stompbox-toggle
+          color="magenta"
+          [on]="caps().has(toggle.value)"
+          (onChange)="onCapabilityToggle(toggle.value)"
+        >
+          {{ toggle.label }}
+        </joo-stompbox-toggle>
+      }
+    </div>
+
+    <div class="rack-group">
+      <joo-field-label for="f-type">Type</joo-field-label>
+      <joo-chrome-select
+        inputId="f-type"
+        ariaLabel="Type"
+        [options]="typeOptions"
+        [value]="typeFilter()"
+        (valueChange)="onTypeChange($event)"
+      />
+    </div>
+
+    <div class="rack-group">
+      <joo-field-label for="f-region">Region</joo-field-label>
+      <joo-chrome-select
+        inputId="f-region"
+        ariaLabel="Region"
+        [options]="regionOptions"
+        [value]="regionFilter()"
+        (valueChange)="onRegionChange($event)"
+      />
+    </div>
+
+    <div class="rack-group">
+      <joo-field-label for="f-category">Category</joo-field-label>
+      <joo-chrome-select
+        inputId="f-category"
+        ariaLabel="Category"
+        [options]="categoryOptions"
+        [value]="categoryFilter()"
+        (valueChange)="onCategoryChange($event)"
+      />
+    </div>
+
+    @if (showLangFilter) {
+      <div class="rack-group">
+        <joo-field-label for="f-lang">Language</joo-field-label>
+        <joo-chrome-select
+          inputId="f-lang"
+          ariaLabel="Language"
+          [options]="langOptions"
+          [value]="langFilter()"
+          (valueChange)="onLangChange($event)"
+        />
+      </div>
+    }
+  </joo-readout-panel>
+
+  <joo-readout-panel [flush]="true" label="Results" led="cyan">
+    <span panelHead class="panel-meta">sources, not pages</span>
+
+    <joo-toolbar-row class="sort-toolbar">
+      <joo-field-label>Sort</joo-field-label>
+      <joo-segment-selector
+        [options]="sortOptions"
+        [value]="sortMode()"
+        ariaLabel="Sort"
+        (valueChange)="onSortChange($event)"
+      />
+    </joo-toolbar-row>
+
+    <joo-record-grid
+      [rows]="rows()"
+      [columns]="resultColumns"
+      ariaLabel="Search results"
+      emptyMessage="No matches. Try different filters."
+    >
+      <ng-template jooRecordGridCell="name" [rows]="rows()" let-row>
+        <a class="src-name" [href]="row.url">{{ row.name }}</a>
+        <span class="src-domain">{{ row.domain }}</span>
+      </ng-template>
+      <ng-template jooRecordGridCell="trust" [rows]="rows()" let-row>
+        <joo-classification-badge
+          [variant]="row.trust === 'Trusted' ? 'solid' : row.trust === 'Known' ? 'dashed' : 'double'"
+        >
+          {{ row.trust }}
+        </joo-classification-badge>
+      </ng-template>
+      <ng-template jooRecordGridCell="sig" [rows]="rows()" let-row>
+        <span class="sigs">
+          @for (signal of row.sig; track signal) {
+            <joo-capability-tag>{{ capabilityLabel(signal) }}</joo-capability-tag>
+          }
+        </span>
+      </ng-template>
+      <ng-template jooRecordGridCell="act" [rows]="rows()" let-row>
+        <joo-hardware-key
+          size="xs"
+          as="anchor"
+          [href]="row.actionHref"
+          [accent]="row.actionAccent"
+        >
+          {{ row.act }}
+        </joo-hardware-key>
+      </ng-template>
+    </joo-record-grid>
+  </joo-readout-panel>
+</joo-directory-browse-template>

@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { HardwareKeyAccent, HardwareKeyComponent } from '../shared/design-system/actions/hardware-key/hardware-key.component';
+import {
+  HardwareKeyAccent,
+  HardwareKeyComponent,
+} from '../shared/design-system/actions/hardware-key/hardware-key.component';
 import { KeycapGridComponent } from '../shared/design-system/actions/keycap-grid/keycap-grid.component';
 import { KeycapComponent } from '../shared/design-system/actions/keycap/keycap.component';
 import { CapabilityTagComponent } from '../shared/design-system/data-display/capability-tag/capability-tag.component';
@@ -27,7 +30,13 @@ import { LogotypeComponent } from '../shared/design-system/typography/logotype/l
 import { StripeRuleComponent } from '../shared/design-system/typography/stripe-rule/stripe-rule.component';
 import { SOURCE_FIXTURE } from '../shared/curated-websites/source-fixture';
 import { Capability, Source } from '../shared/curated-websites/source.model';
-import { domainOf, filterByQuery, sortByRelevance, sortByTrust } from '../shared/curated-websites/source-search';
+import {
+  domainOf,
+  filterByQuery,
+  sortByRelevance,
+  sortByTrust,
+  trustLabel,
+} from '../shared/curated-websites/source-search';
 
 interface QuickKey {
   readonly fn: string;
@@ -76,14 +85,6 @@ const CAPABILITY_LABEL: Record<Capability, string> = {
   'site-search': 'SRCH',
   'public-api': 'API',
 };
-
-/** Trust bands from `source.model.ts`'s doc comment (80-100 Trusted, 50-79
- *  Known, below 50 Discovered). Display-only; ranking uses the raw score. */
-function trustLabel(trustScore: number): HighlightRow['trust'] {
-  if (trustScore >= 80) return 'Trusted';
-  if (trustScore >= 50) return 'Known';
-  return 'Discovered';
-}
 
 /** The one display-row mapping this task's brief asks for: `Source` ->
  *  `HighlightRow`. `trustScore` -> `trust` (banded to a label), `capabilities`

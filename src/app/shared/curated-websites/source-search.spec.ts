@@ -7,6 +7,7 @@ import {
   sortByTrust,
   sortByVerified,
   sortSources,
+  trustLabel,
 } from './source-search';
 
 /** Small, purpose-built fixture — deliberately not the full
@@ -248,5 +249,16 @@ describe('sortSources dispatch', () => {
     const alpha = makeSource({ id: 'a', name: 'Alpha Weekly' });
     const beta = makeSource({ id: 'b', name: 'Beta' });
     expect(sortSources([beta, alpha], 'relevance', 'alpha').map((s) => s.id)).toEqual(['a', 'b']);
+  });
+});
+
+describe('trustLabel', () => {
+  it('bands scores per the model doc comment: 80-100 Trusted, 50-79 Known, below 50 Discovered', () => {
+    expect(trustLabel(100)).toBe('Trusted');
+    expect(trustLabel(80)).toBe('Trusted');
+    expect(trustLabel(79)).toBe('Known');
+    expect(trustLabel(50)).toBe('Known');
+    expect(trustLabel(49)).toBe('Discovered');
+    expect(trustLabel(0)).toBe('Discovered');
   });
 });

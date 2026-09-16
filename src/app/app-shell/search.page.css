@@ -1,1 +1,76 @@
-/* Placeholder page — no styling until Task 5 builds the real layout. */
+/*
+ * Layout is `joo-directory-browse-template` (toolbar/rack/results grid) plus
+ * `joo-readout-panel` for the filter rack and the results panel — this
+ * stylesheet only supplies what neither of those already does: the toolbar's
+ * title typography, the rack's internal grouping, and the two small content
+ * classes carried over from `home.page.css` for the results table's source
+ * cell and signal pills (kept in sync with that file rather than extracted,
+ * for the same reason `CAPABILITY_LABEL` in `search.page.ts` isn't).
+ */
+
+.search-title {
+  margin: 0;
+  font: 600 var(--text-lg) / 1.3 var(--font-display);
+  color: var(--text-primary);
+}
+
+.search-title .mono {
+  font-family: var(--font-mono);
+  color: var(--text-accent);
+}
+
+.search-count {
+  font: 500 var(--text-2xs) / 1 var(--font-mono);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.rack-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.rack-group + .rack-group {
+  margin-top: var(--space-4);
+}
+
+/* Mock `.panel__meta` (`components.css:868-872`): plain text, no icon. */
+.panel-meta {
+  font: 500 var(--text-2xs) / 1 var(--font-mono);
+  color: var(--text-muted);
+}
+
+/* `joo-readout-panel[flush]` drops all body padding (record-grid wants to
+ * fill the frame edge to edge) — this row sits above the table inside that
+ * same flush body, so it restores its own padding rather than the panel's. */
+.sort-toolbar {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Mock `.sigs` (`components.css:1042-1046`) — same as `home.page.css`. */
+.sigs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* Mock `.src-name`/`.src-domain` (`components.css:1195-1210`) — same as
+ * `home.page.css`. */
+.src-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.src-name:hover {
+  color: var(--text-accent);
+  text-decoration: underline;
+}
+
+.src-domain {
+  display: block;
+  font: 400 var(--text-xs) / 1.4 var(--font-mono);
+  color: var(--text-muted);
+}

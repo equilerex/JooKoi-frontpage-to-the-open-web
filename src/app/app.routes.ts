@@ -12,7 +12,6 @@ import { SearchPage } from './app-shell/search.page';
  */
 export const routes: Routes = [
   { path: '', component: HomePage, title: 'Home' },
-  // Minimal placeholder (Task 4) — Task 5 builds the real page.
   { path: 'search', component: SearchPage, title: 'Search' },
   ...(isDevMode()
     ? [

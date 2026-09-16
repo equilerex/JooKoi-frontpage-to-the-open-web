@@ -43,6 +43,18 @@ function trustTier(trustScore: number): 0 | 1 | 2 {
   return 0; // Discovered
 }
 
+/** Trust bands from `source.model.ts`'s doc comment (80-100 Trusted, 50-79
+ *  Known, below 50 Discovered). Display-only; ranking uses the raw score.
+ *  Shared between `home.page.ts` (Task 4) and `search.page.ts` (Task 5) —
+ *  the banding thresholds are domain logic, not page-specific presentation,
+ *  so it lives in this framework-free module rather than being duplicated
+ *  in each page's display-row mapping. */
+export function trustLabel(trustScore: number): 'Trusted' | 'Known' | 'Discovered' {
+  if (trustScore >= 80) return 'Trusted';
+  if (trustScore >= 50) return 'Known';
+  return 'Discovered';
+}
+
 /** No stored `domain` on `Source` (model comment) — derived here the same
  *  way display will derive it. Falls back to the raw `url` if it doesn't
  *  parse, so a malformed record degrades rather than throwing mid-search.
