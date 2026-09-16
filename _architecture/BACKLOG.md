@@ -169,10 +169,11 @@ Status: OPEN
 
 Four things tooling owes a decision on. Each is one call, none blocks anything today.
 
-- **The 320 kB bundle warn is exceeded** and so is the component-style warn. `ARCHITECTURE.md` records the fact and deliberately no number, because any figure here would be stale the moment `record-grid` landed. The decision is whether the warn lines move, whether `@defer` comes in, or whether the budget is dropped as a gate for a prototype.
+- **The 320 kB bundle warn is exceeded** and so is the component-style warn. `ARCHITECTURE.md` records the fact and deliberately no current number, because any figure here would be stale the moment `record-grid` landed. The decision is whether the warn lines move, whether `@defer` comes in, or whether the budget is dropped as a gate for a prototype.
 - **Component-style budget:** `hardware-key.component.css` is 2.44 kB and `console-input.component.css` about 2140 B, against PrimeNG's own stylesheet budget calc.
 - **`pnpm run format` rewrites tracked `pnpm-lock.yaml`** because there is no `.prettierignore`. Harmless but noisy; a one-line ignore fixes it.
 - **`src/styles.css:1` still carries the `ng new` CLI placeholder comment.** Removing it would have added an unlisted path to Task 18's commit, so it was left and recorded instead.
+- **Completed plans in `_architecture/plans/` carry pre-rule gate lines.** `2026-09-15-angular-foundation-phase-1.md` names `ng build` as the gate at several steps. These are the record of a finished phase that predated the Iteration loop rule, not instructions, and rewriting them would falsify that record. They were left deliberately. If a reader may copy them, the fix is a one-line banner at the top of the file, not an edit to its steps.
 
 ## Mockup patterns with no owner
 

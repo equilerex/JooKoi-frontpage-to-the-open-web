@@ -3119,7 +3119,7 @@ The new file covers:
 - The nine sub-groups and what belongs in each, one line apiece.
 - The derivation rule: identity comes from visual role, the mockup CSS is a paint source only. Link decision 012 and `.agents/skills/visual-component-derivation/SKILL.md`.
 - The PrimeNG boundary: which components wrap PrimeNG (`chrome-select`, `filter-drawer`, `record-grid`), that consumers never import a PrimeNG symbol directly, and the three-step adoption test. Link decision 011.
-- The styling rules that bit during the build: style the host not a wrapper; `:host(.is-x)` for variants; `display: contents` where a box would break the parent grid; the two documented exceptions (`hardware-key`'s inner element, `prose-content`'s `:host x` descendant rules); `--png-*` variables on the host are allowed, PrimeNG class selectors are not.
+- The styling rules that bit during the build: style the host not a wrapper; `:host(.is-x)` for variants; `display: contents` where a box would break the parent grid; the two documented exceptions (`hardware-key`'s inner element, `breadcrumb-trail`'s `:host ol` / `:host li`); `--png-*` variables on the host are allowed, PrimeNG class selectors are not.
 - The single global-CSS entry: `.joo-corner-brackets` and the `styleClass` targets, and why they cannot be encapsulated.
 
 - [ ] **Step 3: Write `app-shell/CONTEXT.md` and `specimen/CONTEXT.md`**

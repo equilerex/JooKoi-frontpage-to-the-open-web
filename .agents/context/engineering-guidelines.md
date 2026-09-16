@@ -10,13 +10,13 @@ Applies to `src/` only. Repo-level conventions are in `AGENTS.md`.
 | -------------------------- | ----------------------------------------------------- |
 | Install                    | `pnpm install` (CI: `pnpm install --frozen-lockfile`) |
 | Dev server                 | `pnpm start`                                          |
-| **Correctness gate**       | `pnpm run build` then `pnpm run lint`                 |
+| **Correctness gate**       | the watch dev server — see `AGENTS.md`, Iteration loop                 |
 | Tests (watch)              | `pnpm test`                                           |
 | Tests (headless, one shot) | `pnpm run test:ci`                                    |
 | Format                     | `pnpm run format` / `pnpm run format:check`           |
 | Serve the production build | `pnpm run build` then `pnpm run serve:static-build`   |
 
-`ng build` is the correctness gate after every change — strict TypeScript plus `strictTemplates` is what catches mistakes here, not a test suite. Tests run when asked, not on every change.
+The watch dev server is the correctness gate after every change — strict TypeScript plus `strictTemplates` is what catches mistakes here, not a test suite. Tests run when asked, not on every change. Production builds belong to CI; `AGENTS.md`'s Iteration loop table is the single source for the gate scheme.
 
 UI verification: check at **390px** and **1440px** in the preview browser.
 
