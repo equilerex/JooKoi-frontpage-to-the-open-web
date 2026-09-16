@@ -195,3 +195,23 @@ Two decision records describe the folder shape slightly differently from what sh
 - **014 (global layer)** names the projected-content cases it knew about; the shipped set is the four targets listed in `shared/design-system/CONTEXT.md`. Same treatment.
 
 Nothing is broken. Read the code, not the ADR, for the folder names.
+
+## Record grid: mobile card layout is keyed to consumer field names
+
+Status: OPEN
+
+The mobile card layout in `src/styles.css` assigns `grid-area` through `[data-col='name']`, `[data-col='desc']`, `[data-col='act']` and four more, and `data-col` is the wrapper's own binding from `col.field` — so the responsive layout binds to whatever the consumer named its columns. `GridColumn` in `record-grid.component.ts` carries `field`, `header` and `width` and no separate layout key, which is stated outright at `src/styles.css:339-343`: a consumer whose field names are not these gets the stacked layout without the areas.
+
+`CuratedWebsite` does not exist yet, so the fix is a Phase 3 call: either give `GridColumn` an explicit column role (name / desc / act) so the contract is typed rather than implied by string equality, or move these responsive rules out of `shared/design-system` into the feature that owns the schema.
+
+Raised by the Phase 2 whole-branch review and parked deliberately rather than fixed, because designing a public-interface contract against a guessed schema is worse than waiting for the real table to exist. Cost of leaving it: a Phase 3 table whose field names differ silently loses its card layout. Mitigated because the behaviour is documented in the stylesheet itself, not silent.
+
+## Unused design tokens and elevation entries
+
+Status: OPEN
+
+`--led-violet` (`--p-violet-400`), `--led-red` (`--p-red-400`) and `--metal-light` (`--p-chrome-100`) are defined in `src/styles/design-tokens.css:130,132,134` and referenced by no component. `ELEVATION.dock` and `ELEVATION.hud` in `theme/elevation.ts:8-9` are read nowhere — `app.config.ts` consumes only `menu`, `overlay`, `modal` and `tooltip`, while the comment in that file says to change one and change the other.
+
+The LED pair is currently unreachable rather than merely unused: the `StatusLightColor` and `BezelJewelColor` types expose only `cyan`, `magenta`, `amber` and `green`. Both the tokens and the two `ELEVATION` entries look like a faithful forward-port of the full mockup palette, waiting on Phase 3. Decide then: use them, or delete them so the token scale stays honest.
+
+Raised by the Phase 2 whole-branch review.
