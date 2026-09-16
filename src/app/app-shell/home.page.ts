@@ -76,6 +76,7 @@ interface HighlightRow {
 interface Tag {
   readonly label: string;
   readonly count: number;
+  readonly href: string;
 }
 
 /** Abbreviations the mock's `.sig` pills use — display-only, per
@@ -115,6 +116,30 @@ function countByTag(tag: string): number {
 
 function searchHref(params: Readonly<Record<string, string>>): string {
   return `/search?${new URLSearchParams(params).toString()}`;
+}
+
+/** How many tags the "Browse by tag" panel shows — same count as the
+ *  trusted-highlights panel above it (`HIGHLIGHT_COUNT`), preserving the
+ *  8-chip visual density the earlier placeholder markup had. */
+const TAG_PANEL_COUNT = 8;
+
+/** Real tag frequency across the fixture, most-used first (ties broken
+ *  alphabetically for a deterministic order), top `TAG_PANEL_COUNT` only.
+ *  Replaces the earlier hard-coded `tags` array, whose labels and counts
+ *  were invented and didn't match `SOURCE_FIXTURE` at all. Each entry's
+ *  `href` follows the same `searchHref({ tag })` pattern the F5 quick key
+ *  already uses. */
+function topTags(count: number): readonly Tag[] {
+  const counts = new Map<string, number>();
+  for (const source of SOURCE_FIXTURE) {
+    for (const tag of source.tags) {
+      counts.set(tag, (counts.get(tag) ?? 0) + 1);
+    }
+  }
+  return [...counts.entries()]
+    .sort(([labelA, countA], [labelB, countB]) => countB - countA || labelA.localeCompare(labelB))
+    .slice(0, count)
+    .map(([label, tagCount]) => ({ label, count: tagCount, href: searchHref({ tag: label }) }));
 }
 
 /** How many of the trust-sorted fixture the empty-query "Trusted highlights"
@@ -271,16 +296,7 @@ export class HomePage {
     return `${count} match${count === 1 ? '' : 'es'}`;
   });
 
-  protected readonly tags: readonly Tag[] = [
-    { label: 'css', count: 22 },
-    { label: 'accessibility', count: 9 },
-    { label: 'rss-friendly', count: 140 },
-    { label: 'no-tracking', count: 63 },
-    { label: 'estonia', count: 19 },
-    { label: 'preprints', count: 6 },
-    { label: 'small-web', count: 37 },
-    { label: 'datasets', count: 14 },
-  ];
+  protected readonly tags: readonly Tag[] = topTags(TAG_PANEL_COUNT);
 
   /** Enter in the console, or the Launch key — both land here (D4: "Submitting
    *  (Enter, or the Launch key) navigates to `/search?q=…`"). An empty query

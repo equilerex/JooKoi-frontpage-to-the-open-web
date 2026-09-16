@@ -1,6 +1,6 @@
 <joo-horizon-backdrop />
 <joo-heads-up-display-header
-  [navItems]="headerNavItems"
+  [navItems]="headerNavItems()"
   [statusText]="statusText"
   [console]="true"
   (searchSubmitted)="onHeaderSearch($event)"
@@ -8,4 +8,4 @@
 <main id="main-content" class="page">
   <router-outlet />
 </main>
-<joo-mobile-bottom-dock [navItems]="dockNavItems" />
+<joo-mobile-bottom-dock [navItems]="dockNavItems()" />

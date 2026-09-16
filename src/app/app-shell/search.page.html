@@ -103,7 +103,7 @@
       emptyMessage="No matches. Try different filters."
     >
       <ng-template jooRecordGridCell="name" [rows]="rows()" let-row>
-        <a class="src-name" [href]="row.url">{{ row.name }}</a>
+        <a class="src-name" [href]="row.url" target="_blank" rel="noopener">{{ row.name }}</a>
         <span class="src-domain">{{ row.domain }}</span>
       </ng-template>
       <ng-template jooRecordGridCell="trust" [rows]="rows()" let-row>

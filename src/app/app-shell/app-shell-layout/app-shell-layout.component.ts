@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { filter, map, startWith } from 'rxjs';
 import { SOURCE_FIXTURE } from '../../shared/curated-websites/source-fixture';
 import { NavItem } from '../../shared/design-system/navigation/indicator-nav-list/indicator-nav-list.component';
 import { HeadsUpDisplayHeaderComponent } from '../heads-up-display-header/heads-up-display-header.component';
@@ -42,18 +44,60 @@ import { MobileBottomDockComponent } from '../mobile-bottom-dock/mobile-bottom-d
 export class AppShellLayoutComponent {
   private readonly router = inject(Router);
 
-  protected readonly headerNavItems: readonly NavItem[] = [
+  /** Current URL, reactive to navigation. Seeded with `router.url` (the
+   *  value at construction) via `startWith` so the first render — before any
+   *  `NavigationEnd` has fired — already reflects the route the app landed
+   *  on, rather than defaulting to whatever a hard-coded `active` used to
+   *  say. */
+  private readonly currentUrl = toSignal(
+    this.router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map((event) => event.urlAfterRedirects),
+      startWith(this.router.url),
+    ),
+    { initialValue: this.router.url },
+  );
+
+  private readonly baseHeaderNavItems: readonly NavItem[] = [
     { label: 'Search', href: '/search' },
     { label: 'Browse', href: '#' },
     { label: 'Learn', href: '/learn' },
   ];
 
-  protected readonly dockNavItems: readonly NavItem[] = [
-    { label: 'Home', href: '/', active: true },
+  private readonly baseDockNavItems: readonly NavItem[] = [
+    { label: 'Home', href: '/' },
     { label: 'Search', href: '/search' },
     { label: 'Browse', href: '#' },
     { label: 'Learn', href: '/learn' },
   ];
+
+  /** `active` derived from the real current route instead of hard-coded.
+   *  `/` matches only the exact root (so `/search` etc. don't also light
+   *  "Home"); every other real href matches itself or a sub-path of itself
+   *  (`/learn` also lights for `/learn/some-topic`); `#` (the parked
+   *  `Browse` route) never matches anything. */
+  protected readonly headerNavItems = computed<readonly NavItem[]>(() =>
+    this.withActive(this.baseHeaderNavItems),
+  );
+
+  protected readonly dockNavItems = computed<readonly NavItem[]>(() =>
+    this.withActive(this.baseDockNavItems),
+  );
+
+  private withActive(items: readonly NavItem[]): readonly NavItem[] {
+    const url = this.currentUrl();
+    return items.map((item) => ({ ...item, active: this.matchesRoute(item.href, url) }));
+  }
+
+  private matchesRoute(href: string, url: string): boolean {
+    if (href === '#') {
+      return false;
+    }
+    if (href === '/') {
+      return url === '/' || url.startsWith('/?');
+    }
+    return url === href || url.startsWith(`${href}/`) || url.startsWith(`${href}?`);
+  }
 
   /** Header status strip (backlog #1-3) — real record count from the Task 3
    *  fixture, not the earlier hard-coded placeholder. */

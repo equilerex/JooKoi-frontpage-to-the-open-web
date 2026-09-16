@@ -44,7 +44,7 @@
     emptyMessage="No matches. Try different terms."
   >
     <ng-template jooRecordGridCell="name" [rows]="displayedRows()" let-row>
-      <a class="src-name" [href]="row.url">{{ row.name }}</a>
+      <a class="src-name" [href]="row.url" target="_blank" rel="noopener">{{ row.name }}</a>
       <span class="src-domain">{{ row.domain }}</span>
     </ng-template>
     <ng-template jooRecordGridCell="trust" [rows]="displayedRows()" let-row>
@@ -70,7 +70,7 @@
 <joo-readout-panel label="Browse by tag" led="magenta">
   <joo-tag-set>
     @for (tag of tags; track tag.label) {
-      <a class="chip-link" href="#">
+      <a class="chip-link" [href]="tag.href">
         <joo-chip [count]="tag.count">{{ tag.label }}</joo-chip>
       </a>
     }
