@@ -28,7 +28,7 @@
   - [x] 11–12 `scripts/serve-static-build.mjs` (Node built-ins only) + `.claude/launch.json` entries; `.mcp.json` with the Angular CLI MCP server and UI-verification notes in `AGENTS.md`.
   - [x] 13 Paper trail: decisions 003–010, `ARCHITECTURE.md`, area `CONTEXT.md` files, `.agents/context/engineering-guidelines.md`, `AGENTS.md` / `principles.md` / `TODO.md` / `BACKLOG.md` updates, plan deviations section.
 - [x] **Phase 2 planning session:** planned from `plans/2026-09-15-angular-design-system-phase-2-handoff.md`. Output: `plans/2026-09-15-angular-design-system-phase-2.md`, decisions 011–013.
-- [x] **Phase 2 implementation** — build order and detail in `plans/2026-09-15-angular-design-system-phase-2.md`. Gates are `AGENTS.md`'s Iteration loop table and nowhere else; UI checked at 390px and 1440px in the running dev server. All 18 tasks committed, one task per commit:
+- [x] **Phase 2 implementation** — build order and detail in `plans/2026-09-15-angular-design-system-phase-2.md`. Gates are `AGENTS.md`'s Iteration loop table and nowhere else. All 18 tasks committed, one task per commit:
   - [x] 1 Install `@angular/aria`, `@angular/cdk`, `primeng@~22.1.1`. Confirm resolution against Angular 22.1 and that no licence warning fires.
   - [x] 2 `src/styles/design-tokens.css` under the `tokens` layer (port `features/design-theme/tokens.css`, two layers intact) + self-hosted woff2 under `public/fonts/` with `@font-face` in the `base` layer. Verify no 404 in the prerendered build.
   - [x] 3 PrimeNG preset + layer config (decision 011): `definePreset` onto our semantic tokens, `prefix: 'png'` (collides with our `--p-*` otherwise), `cssLayer` order `reset, tokens, base, primeng, components, utilities`, `zIndex` tiers mapped to our elevation tokens. Nothing consumes PrimeNG before this.
@@ -37,6 +37,6 @@
   - [x] 6 Our own composite patterns — plan Part 1.
   - [x] 7 `app-shell/` chrome: `horizon-backdrop` → `heads-up-display-header` → `mobile-bottom-dock` → wire into `app-shell-layout`. Plus `page-title.strategy.ts` (verify `TitleStrategy` API first).
   - [x] 8 Four page templates in the new `page-templates/` sub-group (decision 013).
-  - [x] 9 Adopted PrimeNG components, each with a time-boxed skin check in `/specimen`; anything failing the adoption test moves to build-our-own and is logged in the plan's deviations. `record-grid` last — measure the bundle immediately after against the 320 kB warn line; `@defer` is the fix if it crosses.
-  - [x] 10 Hybrid interaction tests for the interactive parts only; harness only for `record-grid`. Confirm the `no-restricted-imports` boundary fails a real component.
+  - [x] 9 Adopted PrimeNG components, each with a time-boxed skin check in `/specimen`; anything failing the adoption test moves to build-our-own and is logged in the plan's deviations. `record-grid` last — size is CI's to measure; the 320 kB warn is a logged budget decision (`BACKLOG.md`), not a build step here.
+  - [x] 10 Hybrid interaction tests for the interactive parts only. No `*.harness.ts` was built — decision 008 makes a harness optional and none earned its place. Confirm the `no-restricted-imports` boundary fails a real component.
   - [x] 11 Paper trail: rewrite `shared/design-system/CONTEXT.md` (class map superseded by decision 012) and `app-shell/CONTEXT.md`; update `ARCHITECTURE.md` Phase 2 section and folder map.

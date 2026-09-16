@@ -44,7 +44,7 @@ Static prerendering with no server (ADR 004). `ng build` emits prerendered HTML 
 
 This is the **target** map for the app described in `_architecture/sitemap.yaml`. Parked areas are shown only to prove they have a home — they are not created.
 
-> **What actually exists after Phase 2:** `app.component.*`, `app.config.ts`, `app.config.server.ts`, `app.routes.ts` (three route entries: `''` → `HomePage`, `specimen` → the dev-only parts kit, `**` → `NotFoundPage`), `app.routes.server.ts`, and `app-shell/` holding the three chrome components, `app-shell-layout/`, the two pages and `page-title.strategy.ts`. `src/app/specimen/` holds the parts kit. `shared/design-system/` holds ten folders — nine component sub-groups and `theme/` — listed below. `src/styles/` holds `cascade-layers.css`, `design-tokens.css`, `base-element-styles.css` and `fonts.css`, and `public/fonts/` holds the ten self-hosted woff2 files. `src/styles.css` holds the global rules that cannot be encapsulated. No feature folder exists yet — everything from `launcher-home/` down is still the plan.
+> **What actually exists after Phase 2:** `app.component.*`, `app.config.ts`, `app.config.server.ts`, `app.routes.ts` (three route entries: `''` → `HomePage`, `specimen` → the dev-only parts kit, `**` → `NotFoundPage`), `app.routes.server.ts`, and `app-shell/` holding the three chrome components, `app-shell-layout/`, the two pages and `page-title.strategy.ts`. `src/app/specimen/` holds the parts kit. `shared/design-system/` holds ten folders — nine component sub-groups and `theme/` — listed below. `src/styles/` holds `cascade-layers.css`, `design-tokens.css`, `base-element-styles.css` and `fonts.css`, and `public/fonts/` holds the eleven self-hosted woff2 files. `src/styles.css` holds the global rules that cannot be encapsulated. No feature folder exists yet — everything from `launcher-home/` down is still the plan.
 
 ```
 src/
@@ -129,7 +129,7 @@ src/
     cascade-layers.css  design-tokens.css  base-element-styles.css  fonts.css
   styles.css                            # global rules that cannot be encapsulated (ADR 014)
   generated/                            # Phase 3: build-time data from scripts/, gitignored
-public/fonts/                           # ten self-hosted woff2 files
+public/fonts/                           # eleven self-hosted woff2 files
 ```
 
 `.page.*` means `.page.ts`, `.page.html`, `.page.css` and `.page.spec.ts`. Every normal component has its own folder, so a feature folder's root holds only the page, its routes file, and feature-local stores or functions.
@@ -259,7 +259,7 @@ One exception to per-component styling: a rule that has to reach an element the 
 - Signal Forms for any form.
 - `isDevMode()` instead of environment files — there's no API config to vary.
 - `ng add` for Angular libraries, `ng generate` for new code, so the `angular.json` suffix and prefix defaults apply.
-- The watch dev server is the per-change correctness gate; lint and format run on changed files at the end of a turn; the test suite runs at a batch boundary; **no production build in the agent loop** — CI owns it. The full scheme is `AGENTS.md`'s Iteration loop table, which is the single source for it.
+- Correctness gates are defined once, in `AGENTS.md`'s Iteration loop table. That table is the single source; do not restate it here.
 - Strictness beyond the generated strict set: `noUncheckedIndexedAccess`, `noImplicitOverride`, plus `strictTemplates` and `strictInjectionParameters`.
 
 Day-to-day commands and the how-to version of all of this live in `.agents/context/engineering-guidelines.md`.
@@ -279,7 +279,7 @@ Tests are added only where they help the agent iteration loop. No e2e suite in P
 
 Set from the first production build's measured baseline (244.34 kB initial) plus ~30% headroom. They are enforced by `ng build`, which is what makes them the CI gate once ADR 009's workflow exists — and **CI is the only thing that measures them**; the agent loop runs no production build (`AGENTS.md`, Iteration loop).
 
-**Both warns are currently exceeded, and that is a decision, not a defect to fix here.** The initial bundle crossed the 320 kB warn when PrimeNG landed, and two component stylesheets sit over the 2 kB warn. Resolving it means either raising a budget or trimming ported CSS, and that call belongs to the user — logged in `_architecture/BACKLOG.md` with the measured figures. No number is recorded here because a stale one reads as measured.
+**Both warns are currently exceeded, and that is a decision, not a defect to fix here.** The initial bundle crossed the 320 kB warn when PrimeNG landed, and two component stylesheets sit over the 2 kB warn. Resolving it means either raising a budget or trimming ported CSS, and that call belongs to the user — logged in `_architecture/BACKLOG.md` with the measured figures. No current bundle size is recorded here: the 244.34 kB above is the baseline the budgets were set from, and a stale measurement reads as a live one. The measured figures live in `_architecture/BACKLOG.md`.
 
 ## Where Phase 3 plugs in
 

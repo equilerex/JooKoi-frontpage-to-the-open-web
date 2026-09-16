@@ -202,10 +202,10 @@ Each adopted component gets a time-boxed skin check in `/specimen` against the m
 6. Our own composite patterns.
 7. `app-shell/` chrome, in the order given in Part 5.
 8. Page templates. Each one in `/specimen` with placeholder slot content, checked at 390px and 1440px.
-9. Adopted PrimeNG components, each with its time-boxed skin check. `record-grid` last of these — Table is the heaviest single import and the only step that can fail the bundle budget. Measure `pnpm run build` immediately after it.
+9. Adopted PrimeNG components, each with its time-boxed skin check. `record-grid` last of these — Table is the heaviest single import and the only step that can fail the bundle budget. Size is CI's to measure and report; the 320 kB warn is a logged budget decision, not a build step here.
 10. Paper trail: rewrite `shared/design-system/CONTEXT.md` and `app-shell/CONTEXT.md`, update `ARCHITECTURE.md`'s Phase 2 section and folder map.
 
-Gate at every step: `pnpm run build` and `pnpm run lint`. UI check at 390px and 1440px.
+Gates are `AGENTS.md`'s Iteration loop table and are not restated here.
 
 ## Not in Phase 2
 
