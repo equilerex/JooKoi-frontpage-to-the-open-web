@@ -269,3 +269,9 @@ Status: OPEN
 Status: OPEN
 
 toHighlightRow (home) and toSearchRow (search) independently compute identical row-action logic (canSearch, act label, actionHref's searchUrl substitution, actionAccent) -- line-for-line duplicated, not just similarly shaped. Flagged in fix-wave-2 review (2026-09-16); brief explicitly allowed replicating the pattern instead of importing it, so not a defect, but a small shared helper (e.g. resolveRowAction(source, query)) in source-search.ts or similar would remove the duplication before it drifts.
+
+## Collapsible filter drawer with active-filter count badge
+
+Status: OPEN
+
+Mock (features/design-theme/search.html) wraps the Filters panel in a collapsible <details class="drawer panel" open> with an active-filter count badge in its summary (2 on). Fix-wave-5 (2026-09-16) added individually-removable active-filter chips above the table instead, going further than the mock's simple count -- but left the panel itself always-open rather than collapsible. Worth revisiting whether the drawer/count treatment still adds value alongside the chip row, or whether the chips alone cover the need.
