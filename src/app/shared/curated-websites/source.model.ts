@@ -1,9 +1,12 @@
 /**
  * Data model for the app's one dataset — the websites this app lists and
- * links out to. Field names are chosen to match the `data-col` attributes
- * the ported table CSS in `src/styles.css:242-360` already keys on
- * (`desc`, `ver`, `act`, `lang`), so the grid needs no re-styling once
- * Task 4/5 bind these records into it.
+ * links out to. Field names do NOT match the `data-col` attributes the
+ * ported table CSS in `src/styles.css:242-360` keys on (`name`, `trust`,
+ * `type`, `sig`, `ver`, `act`, `lang`, `desc`). Several are renamed for
+ * clarity (`trust` -> `trustScore`, `sig` -> `capabilities`, `ver` ->
+ * `verified`), and `act` has no field here at all. Task 4/5 will need a
+ * display-row mapping layer from `Source` to grid columns — see
+ * `HighlightRow` in `home.page.ts` for the shape that mapping should take.
  *
  * Naming note: `shared/curated-websites/CONTEXT.md` had earlier ruled out
  * the bare word "source" in `src/app/` code, in favour of `CuratedWebsite`.
