@@ -30,7 +30,12 @@ import { LogotypeComponent } from '../shared/design-system/typography/logotype/l
 import { StripeRuleComponent } from '../shared/design-system/typography/stripe-rule/stripe-rule.component';
 import { SOURCE_FIXTURE } from '../shared/curated-websites/source-fixture';
 import { Capability, Source } from '../shared/curated-websites/source.model';
-import { domainOf, sortByTrust, trustLabel } from '../shared/curated-websites/source-search';
+import {
+  domainOf,
+  formatVerifiedDate,
+  sortByTrust,
+  trustLabel,
+} from '../shared/curated-websites/source-search';
 
 interface QuickKey {
   readonly fn: string;
@@ -295,7 +300,7 @@ export class HomePage {
       desc: source.desc,
       type: source.type,
       sig: source.capabilities,
-      ver: source.verified,
+      ver: formatVerifiedDate(source.verified),
       act: canSearch ? 'Search ↗' : 'Open',
       actionHref: canSearch ? source.searchUrl!.replace('{q}', encodeURIComponent(q)) : source.url,
       actionAccent: canSearch ? 'cyan' : 'neutral',

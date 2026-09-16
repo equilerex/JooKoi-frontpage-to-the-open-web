@@ -32,6 +32,7 @@ import { Capability, Source } from '../shared/curated-websites/source.model';
 import {
   domainOf,
   filterByQuery,
+  formatVerifiedDate,
   SortMode,
   sortSources,
   trustLabel,
@@ -337,7 +338,7 @@ export class SearchPage {
       type: source.type,
       sig: source.capabilities,
       lang: source.lang ? source.lang.toUpperCase() : '—',
-      ver: source.verified,
+      ver: formatVerifiedDate(source.verified),
       act: canSearch ? 'Search ↗' : 'Open',
       actionHref: canSearch ? source.searchUrl!.replace('{q}', encodeURIComponent(q)) : source.url,
       actionAccent: canSearch ? 'cyan' : 'neutral',

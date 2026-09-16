@@ -55,6 +55,28 @@ export function trustLabel(trustScore: number): 'Trusted' | 'Known' | 'Discovere
   return 'Discovered';
 }
 
+/** Short, locale-aware rendering of `verified` (an ISO `YYYY-MM-DD` string,
+ *  `source.model.ts`) for the results table — the raw ISO string is too wide
+ *  for the `Verified` column at 1440px+. `timeZone: 'UTC'` pins the
+ *  formatted day/month/year to the ISO string's own calendar date rather
+ *  than reinterpreting it in the browser's local offset (`new Date` parses a
+ *  date-only ISO string as UTC midnight, so without this a negative-offset
+ *  timezone would roll it back a day); the locale itself is left as the
+ *  browser default (`undefined`), which is what makes the day/month order
+ *  and separator follow the viewer rather than a fixed European reading.
+ *  Shared by `home.page.ts` (`toHighlightRow`) and `search.page.ts`
+ *  (`toSearchRow`) — both render the same `verified` field the same way. */
+const VERIFIED_DATE_FORMAT = new Intl.DateTimeFormat(undefined, {
+  year: '2-digit',
+  month: '2-digit',
+  day: '2-digit',
+  timeZone: 'UTC',
+});
+
+export function formatVerifiedDate(iso: string): string {
+  return VERIFIED_DATE_FORMAT.format(new Date(iso));
+}
+
 /** No stored `domain` on `Source` (model comment) — derived here the same
  *  way display will derive it. Falls back to the raw `url` if it doesn't
  *  parse, so a malformed record degrades rather than throwing mid-search.

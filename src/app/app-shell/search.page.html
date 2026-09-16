@@ -98,6 +98,14 @@
     <span panelHead class="panel-meta">sources, not pages</span>
 
     <joo-toolbar-row class="sort-toolbar">
+      <joo-field-label for="f-keyword-results">Keyword</joo-field-label>
+      <joo-console-input
+        inputId="f-keyword-results"
+        size="compact"
+        placeholder="Filter results"
+        [value]="kw()"
+        (submitted)="onKeywordChange($event)"
+      />
       <joo-field-label>Sort</joo-field-label>
       <joo-segment-selector
         [options]="sortOptions"
