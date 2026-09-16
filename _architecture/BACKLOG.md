@@ -167,7 +167,7 @@ Fix them only if the difference is visible in the running app at 390px or 1440px
 
 Status: OPEN
 
-Four things tooling owes a decision on. Each is one call, none blocks anything today.
+Five things tooling owes a decision on. Each is one call, none blocks anything today.
 
 - **The 320 kB bundle warn is exceeded** and so is the component-style warn. `ARCHITECTURE.md` records the fact and deliberately no current number, because any figure here would be stale the moment `record-grid` landed. The decision is whether the warn lines move, whether `@defer` comes in, or whether the budget is dropped as a gate for a prototype.
 - **Component-style budget:** `hardware-key.component.css` is 2.44 kB and `console-input.component.css` about 2140 B, against PrimeNG's own stylesheet budget calc.
