@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -231,6 +238,19 @@ export class SearchPage {
   });
 
   protected readonly q = computed(() => this.queryParamMap().get('q') ?? '');
+  /** Local, two-way-bound copy of `q` for the large console above the
+   *  results (fix wave 4). `joo-console-input`'s `[(value)]` needs a
+   *  writable model to reflect live typing before submit — `q` itself is a
+   *  read-only `computed` off the URL, so this signal mirrors it and the
+   *  `effect` below keeps the two in sync whenever `q` changes from
+   *  elsewhere (header search, a shared link), without fighting text the
+   *  user is mid-typing here (this component only ever writes to `q` on
+   *  submit, so the effect and typing never race). */
+  protected readonly queryInput = signal(this.q());
+
+  constructor() {
+    effect(() => this.queryInput.set(this.q()));
+  }
   /** New sidebar keyword filter (fix wave 2) — replaces `q` as the thing
    *  that actually filters the table (`filteredSources` below) and feeds
    *  the `Relevance` sort (`sortSources`'s third argument). Own URL param,
@@ -351,17 +371,41 @@ export class SearchPage {
 
   /** Every filter/sort control funnels through this: merge one or more
    *  params into the current URL, `null` to remove one, everything else
-   *  (`q`, and every other filter) left untouched by `merge` handling. */
-  private updateQueryParams(params: Record<string, string | null>): void {
+   *  (`q`, and every other filter) left untouched by `merge` handling.
+   *  `replaceUrl` (fix wave 4): the sidebar keyword field calls this on
+   *  every keystroke now, and a `navigate` per keystroke would otherwise
+   *  push one back-button entry per character typed — `replaceUrl: true`
+   *  swaps the current history entry in place instead, so the URL still
+   *  ends up correct (shareable/linkable `kw`) without the history spam. */
+  private updateQueryParams(
+    params: Record<string, string | null>,
+    options?: { readonly replaceUrl?: boolean },
+  ): void {
     void this.router.navigate([], {
       relativeTo: this.route,
       queryParams: params,
       queryParamsHandling: 'merge',
+      replaceUrl: options?.replaceUrl ?? false,
     });
   }
 
+  /** Sidebar Keyword field (fix wave 4: live, not Enter-gated) — fires on
+   *  every keystroke (`joo-console-input`'s `value` is a `model()`, so its
+   *  `valueChange` emits per character) and filters the table immediately
+   *  via `kw`/`filteredSources`, `replaceUrl`d so typing doesn't spam
+   *  history. Unrelated to `q`: see the class doc's fix-wave-2 note. */
   protected onKeywordChange(value: string): void {
-    this.updateQueryParams({ kw: value.trim() || null });
+    this.updateQueryParams({ kw: value.trim() || null }, { replaceUrl: true });
+  }
+
+  /** New large console above the results (fix wave 4, replaces fix wave
+   *  3's `kw`-mirror input) — sets `q` directly from this page, on submit
+   *  only (not live: it doesn't filter the table, `onKeywordChange` above
+   *  still owns that). `q` is what `toSearchRow` substitutes into each
+   *  row's Search↗ action, so this lets someone land on `/search` with one
+   *  query and retarget that action without leaving the page. */
+  protected onQueryChange(value: string): void {
+    this.updateQueryParams({ q: value.trim() || null });
   }
 
   protected onTrustedToggle(): void {

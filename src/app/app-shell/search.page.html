@@ -23,7 +23,7 @@
         size="compact"
         placeholder="Filter results"
         [value]="kw()"
-        (submitted)="onKeywordChange($event)"
+        (valueChange)="onKeywordChange($event)"
       />
     </div>
 
@@ -97,15 +97,22 @@
   <joo-readout-panel [flush]="true" label="Results" led="cyan">
     <span panelHead class="panel-meta">sources, not pages</span>
 
-    <joo-toolbar-row class="sort-toolbar">
-      <joo-field-label for="f-keyword-results">Keyword</joo-field-label>
+    <div class="rack-group query-group">
+      <joo-field-label for="f-query">Query</joo-field-label>
       <joo-console-input
-        inputId="f-keyword-results"
-        size="compact"
-        placeholder="Filter results"
-        [value]="kw()"
-        (submitted)="onKeywordChange($event)"
-      />
+        inputId="f-query"
+        size="lg"
+        placeholder="css grid, estonian news, rss readers"
+        [(value)]="queryInput"
+        (submitted)="onQueryChange($event)"
+      >
+        <joo-hardware-key accent="hot" (press)="onQueryChange(queryInput())"
+          >Update</joo-hardware-key
+        >
+      </joo-console-input>
+    </div>
+
+    <joo-toolbar-row class="sort-toolbar">
       <joo-field-label>Sort</joo-field-label>
       <joo-segment-selector
         [options]="sortOptions"

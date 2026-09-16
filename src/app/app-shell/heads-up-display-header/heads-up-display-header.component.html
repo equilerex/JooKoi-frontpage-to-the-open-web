@@ -9,11 +9,9 @@
         size="compact"
         placeholder="Search the open web"
         [(value)]="searchQuery"
-        (submitted)="searchSubmitted.emit($event)"
+        (submitted)="onSearchSubmit()"
       >
-        <joo-hardware-key accent="hot" size="xs" (press)="searchSubmitted.emit(searchQuery())"
-          >Go</joo-hardware-key
-        >
+        <joo-hardware-key accent="hot" size="xs" (press)="onSearchSubmit()">Go</joo-hardware-key>
       </joo-console-input>
     </div>
   }

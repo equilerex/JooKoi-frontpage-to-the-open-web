@@ -49,6 +49,15 @@
   border-bottom: 1px solid var(--border-subtle);
 }
 
+/* Fix wave 4: the large `q` console above the table sits in the same flush
+ * body as `.sort-toolbar` and needs the same padding restored. `.rack-group`
+ * already gives it the label-above-input column layout; this only adds the
+ * padding/divider `.sort-toolbar` has. */
+.query-group {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
 /* Mock `.sigs` (`components.css:1042-1046`) — same as `home.page.css`. */
 .sigs {
   display: inline-flex;

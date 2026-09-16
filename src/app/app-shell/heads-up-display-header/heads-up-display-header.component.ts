@@ -50,6 +50,16 @@ export class HeadsUpDisplayHeaderComponent {
   readonly console = input(false);
   readonly searchQuery = model('');
   readonly searchSubmitted = output<string>();
+
+  /** Submit handler for both the Enter key (`joo-console-input`'s
+   *  `submitted`) and the `Go` key (`press`) — fix wave 4: this console is
+   *  a one-shot shortcut into `/search?q=…`, not a field that mirrors `q`
+   *  once there, so it clears its own value right after emitting rather
+   *  than continuing to display what was typed. */
+  protected onSearchSubmit(): void {
+    this.searchSubmitted.emit(this.searchQuery());
+    this.searchQuery.set('');
+  }
   /** Empty (the default) omits the status strip entirely, same reasoning as
    *  `readout-panel`'s `led`: an unlit status readout with no count behind it
    *  yet is not a state worth shipping unasked. */
