@@ -279,7 +279,7 @@ Tests are added only where they help the agent iteration loop. No e2e suite in P
 
 Set from the first production build's measured baseline (244.34 kB initial) plus ~30% headroom. They are enforced by `ng build`, which is what makes them the CI gate once ADR 009's workflow exists — and **CI is the only thing that measures them**; the agent loop runs no production build (`AGENTS.md`, Iteration loop).
 
-**Both warns are currently exceeded, and that is a decision, not a defect to fix here.** The initial bundle crossed the 320 kB warn when PrimeNG landed, and two component stylesheets sit over the 2 kB warn. Resolving it means either raising a budget or trimming ported CSS, and that call belongs to the user — logged in `_architecture/BACKLOG.md` with the measured figures. No current bundle size is recorded here: the 244.34 kB above is the baseline the budgets were set from, and a stale measurement reads as a live one. The measured figures live in `_architecture/BACKLOG.md`.
+**Both warns are currently exceeded, and that is a decision, not a defect to fix here.** The initial bundle crossed the 320 kB warn when PrimeNG landed, and two component stylesheets sit over the 2 kB warn. Resolving it means either raising a budget or trimming ported CSS, and that call belongs to the user — logged in `_architecture/BACKLOG.md`. No current bundle size is recorded here: the 244.34 kB above is the baseline the budgets were set from, and a stale measurement reads as a live one.
 
 ## Where Phase 3 plugs in
 
