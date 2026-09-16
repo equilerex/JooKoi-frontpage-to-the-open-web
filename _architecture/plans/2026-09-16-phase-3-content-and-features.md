@@ -264,3 +264,33 @@ Nothing in this plan is left undecided. These were considered and pushed out on 
 
 <!-- Added once the build diverges from what this plan said. Future reads reconcile
      against this section, not just the sections above. -->
+
+- **2026-09-16, mid-build (after Task 2, during Task 3):** user overrode the "Search — /search?q="
+  section's implicit design (header console appears on inner pages only, not home) after seeing
+  the built home page and finding the missing header search bar confusing there too. Decision:
+  the compact header console (`hud__search console console--compact`) appears on **every** page,
+  home included, submitting straight to `/search?q=…`. Home therefore keeps two search entry
+  points: the large launcher console (live in-place results per D4) and the small header one.
+  Task 2 built the header without this on home — folded into Task 4's brief as a fix, since
+  Task 4 already touches `home.page.*` and the live-console behaviour.
+
+- **2026-09-16, mid-build (after Task 5, during Task 6):** user asked that every outbound
+  result-row link (home table's `OPEN` key, search page's `OPEN` key, and the per-row
+  direct-search action D1 built) open in a new tab (`target="_blank" rel="noopener"`)
+  rather than navigating the app away. Small fix, queued to apply after Task 6 completes
+  (touches `home.page.html`/`search.page.html`, which Task 6 doesn't).
+
+- **2026-09-16, after the final whole-branch review, reverses D4/ADR 020:** the search
+  query (`q`) no longer filters the results table on **either** page. Strict scope,
+  confirmed by the user: home's table always shows the curated "Trusted highlights" set
+  (D4's live in-place swap-to-ranked-results-on-typing behaviour is dropped); `/search`'s
+  table is driven only by the sidebar filters, never by `q`. `q` still does two things on
+  both pages: it's what Enter/Launch/the header console submits into `/search?q=…`, and
+  it's what gets substituted into a row's direct-search action (D1's `searchUrl`
+  mechanism) — so home's plain `OPEN` key needs to become the same query-aware
+  Search↗/Open action `/search` already has. `Relevance` as a sort option on `/search`
+  becomes meaningless without query-filtering feeding it real matches — resolve this in
+  the same pass (drop it, or repurpose/rename it; controller's call at implementation
+  time). ADR update owed alongside/instead of ADR 020 at the next paper-trail pass —
+  logged to `BACKLOG.md` in the meantime, not written here since this is mid-fix, not a
+  planning session.
