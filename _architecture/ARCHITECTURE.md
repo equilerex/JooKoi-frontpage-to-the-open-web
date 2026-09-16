@@ -2,7 +2,7 @@
 
 JooKoi: Front Page to the Open Web — an Angular 22 single-page app, prerendered to static files, that lists and links out to curated websites. This file is the structural reference: where code goes, what it's called, how it imports, and where state lives. The reasoning behind each rule is in `_architecture/plans/decisions/003-*` through `015-*`; the Phase 1 planning session is `_architecture/plans/2026-09-15-angular-foundation-phase-1.md` and the Phase 2 one is `_architecture/plans/2026-09-15-angular-design-system-phase-2.md`.
 
-Phase 1 (foundation) and Phase 2 (design system) are both built. Phase 3 is content and features — see the last section.
+Phase 1 (foundation), Phase 2 (design system) and Phase 3 (content and features) are all built — see the last section for what Phase 3 added.
 
 ## Stack
 
@@ -24,9 +24,10 @@ The workspace sits at the **repo root**, next to `sources/`, `data/`, `scripts/`
 
 ## Domain vocabulary
 
-The things this app lists and links out to are **curated websites**. Code never uses the bare word "source" for them, because in an engineering context it reads as source code.
+The things this app lists and links out to are **curated websites**. Code never uses the bare word "source" for them, because in an engineering context it reads as source code — with one named exception.
 
-- Model: `CuratedWebsite`. Folder: `curated-websites/`. Components: `website-*`.
+- Folder: `curated-websites/`. Components (planned): `website-*`.
+- **Data model is `Source`, not `CuratedWebsite`** (ADR 026): `source.model.ts`, `source-fixture.ts`, `source-search.ts`. A narrow, dated exception from the Phase 3 plan's data-model section, not a reversion of the rule — the store, service and components this folder eventually gets still follow `CuratedWebsite`/`website-*`.
 - The word "source" is still correct for `sources/` (human-authored input data) and the `source-ingest` skill. Those are outside `src/app/` and keep their names for now.
 - `sitemap.yaml` still says `source_detail` and `/source/:id`. Renaming the public route is a product call, logged in `BACKLOG.md`.
 
@@ -44,7 +45,7 @@ Static prerendering with no server (ADR 004). `ng build` emits prerendered HTML 
 
 This is the **target** map for the app described in `_architecture/sitemap.yaml`. Parked areas are shown only to prove they have a home — they are not created.
 
-> **What actually exists after Phase 2:** `app.component.*`, `app.config.ts`, `app.config.server.ts`, `app.routes.ts` (three route entries: `''` → `HomePage`, `specimen` → the dev-only parts kit, `**` → `NotFoundPage`), `app.routes.server.ts`, and `app-shell/` holding the three chrome components, `app-shell-layout/`, the two pages and `page-title.strategy.ts`. `src/app/specimen/` holds the parts kit. `shared/design-system/` holds ten folders — nine component sub-groups and `theme/` — listed below. `src/styles/` holds `cascade-layers.css`, `design-tokens.css`, `base-element-styles.css` and `fonts.css`, and `public/fonts/` holds the eleven self-hosted woff2 files. `src/styles.css` holds the global rules that cannot be encapsulated. No feature folder exists yet — everything from `launcher-home/` down is still the plan.
+> **What actually exists after Phase 3:** `app.routes.ts` has five entries: `''` → `HomePage`, `search` → `SearchPage`, `learn` → `LearnPage`, `learn/:topic` → `LearnTopicPage`, `specimen` → the dev-only parts kit (dev mode only), `**` → `NotFoundPage`. All four real pages live flat in `app-shell/` (`home.page.*`, `search.page.*`, `learn.page.*`, `learn-topic.page.*`) alongside the three chrome components, `app-shell-layout/` and `page-title.strategy.ts` — Phase 3 did not create the `launcher-home/`, `website-search/` or `learning/` feature folders this map originally planned; the pages sit in `app-shell/` instead (deviation from this map, not from D2's page scope). `browse` and `source_detail` are still unbuilt (D2), so `category-browse/` and `website-detail/` below stay illustrative. `shared/curated-websites/` holds `source.model.ts`, `source-fixture.ts` and `source-search.ts` (+ spec) — a hand-written fixture and pure search functions (ADR 017, 026); the store, service and components under "Planned contents" are still unbuilt. `shared/learn-content/` holds `learn-content.generated.ts`, gitignored, rebuilt by `scripts/build-learn-content.mjs` from `content/learn/` on every build (ADR 021, 022). `shared/design-system/` holds ten folders — nine component sub-groups and `theme/` — listed below, including Phase 3's two additions, `data-display/chip/` and `data-display/topic-tree/`. `src/styles/` holds `cascade-layers.css`, `design-tokens.css`, `base-element-styles.css` and `fonts.css`, and `public/fonts/` holds the eleven self-hosted woff2 files. `src/styles.css` holds the global rules that cannot be encapsulated.
 
 ```
 src/
@@ -54,9 +55,12 @@ src/
     app.routes.ts                       # one lazy entry per feature, nothing else
     app.routes.server.ts                # render mode per route (ADR 004)
 
-    app-shell/                          # the frame rendered once around every page
+    app-shell/                          # the frame rendered once around every page, plus the pages themselves
       not-found.page.*                  #   wildcard route target
-      home.page.*                       #   '' route target (placeholder until Phase 3)
+      home.page.*                       #   '' route target — live search console, quick keys
+      search.page.*                     #   /search?q= route target — filter rack, sort, results
+      learn.page.*                      #   /learn route target — topic-tree index
+      learn-topic.page.*                #   /learn/:topic route target — rendered article
       app-shell-layout/                 #   backdrop + header + <router-outlet> + dock
       heads-up-display-header/          #   desktop HUD navigation (.hud)
       mobile-bottom-dock/               #   thumb-reach navigation below 768px (.dock)
@@ -81,55 +85,51 @@ src/
         surfaces/                       #     readout-panel/ (.panel), paper-sheet/ (.sheet), corner-brackets/,
                                         #     filter-drawer/ (PrimeNG)
         navigation/                     #     breadcrumb-trail/, indicator-nav-list/ (.navlist), pager/ (.pager)
-        data-display/                   #     record-grid/ (PrimeNG), tag-set/ (.chips), capability-tag/,
-                                        #     count-chip/, spec-list/ (.spec), prose-content/
+        data-display/                   #     record-grid/ (PrimeNG, cell-template API), tag-set/ (.chips),
+                                        #     capability-tag/, count-chip/, spec-list/ (.spec), prose-content/,
+                                        #     chip/ (.chip), topic-tree/ (PrimeNG p-tree)
         page-layouts/                   #     toolbar-row/
         page-templates/                 #     console-landing-template/, directory-browse-template/,
                                         #     record-detail-template/, document-template/ (ADR 013)
 
       curated-websites/                 #   the domain: the websites this app lists and links out to
-        curated-website.model.ts  website-category.model.ts  trust-tier.model.ts  capability-signal.model.ts
-        curated-websites-data.service.ts  #   data access: how build-time data arrives (Phase 3 decides the mechanism)
-        curated-websites.store.ts       #     root SignalStore: websites and categories as signals, uses the service
-        website-filtering.ts            #     pure filter + sort functions (trust, language, region, type, RSS, site search)
-        site-search-url.ts              #     sitemap site_search_launch: query → the website's own search URL
-        website-result-card/  trust-tier-badge/  capability-signal-list/
-        outbound-website-link/  direct-site-search-form/
+        source.model.ts                 #     Source type — exception to CuratedWebsite naming (ADR 026)
+        source-fixture.ts               #     hand-written fixture, ~50-60 records (ADR 017)
+        source-search.ts  source-search.spec.ts  #  pure ranked-search module, no Angular imports
+        # store, service and components below are still unbuilt — see "Planned contents"
+        # and src/app/shared/curated-websites/CONTEXT.md
+
+      learn-content/                    #   generated learn-article data (gitignored)
+        learn-content.generated.ts      #     rebuilt by scripts/build-learn-content.mjs from content/learn/ (ADR 021, 022)
 
       keyboard-shortcuts/               #   global hotkey registry (HUD keycaps), used by shell + features
       # parked: browser-storage/ (local-only persistence), local-preferences/ (personal homepage settings)
 
-    launcher-home/                      # /
-      launcher-home.routes.ts
-      launcher-home.page.*
-      trusted-website-highlights/  quick-category-keys/
+    # home (/), search (/search?q=) and learn (/learn, /learn/:topic) are built, but as pages
+    # flat in app-shell/ above, not as their own feature folders — this map's launcher-home/,
+    # website-search/ and learning/ folders were never created (see the callout above).
 
-    website-search/                     # /search?q=
-      website-search.routes.ts
-      website-search.page.*
-      website-search-query.store.ts     #   route-scoped SignalStore, URL-backed
-      search-filter-rack/  search-sort-selector/
-
-    category-browse/                    # /browse/:category?
+    category-browse/                    # /browse/:category?  — still parked (D2)
       category-browse.routes.ts
       category-browse.page.*
       category-tree-navigation/  related-category-links/
 
-    website-detail/                     # /source/:id in the current sitemap (see open points)
+    website-detail/                     # /source/:id in the current sitemap — still parked (D2)
       website-detail.routes.ts
       website-detail.page.*
       website-detail-prerender-parameters.ts
       website-specification-sheet/  related-website-list/
 
     # parked features, same level: collection-view/, graph-explore/, federated-search/,
-    #   learning/ (/learn, /learn/:topic), local-utilities/ (/tools),
-    #   directory-stewardship/ (/health, /contribute, /export), personal-homepage/
+    #   local-utilities/ (/tools), directory-stewardship/ (/health, /contribute, /export),
+    #   personal-homepage/
 
   styles/
     cascade-layers.css  design-tokens.css  base-element-styles.css  fonts.css
   styles.css                            # global rules that cannot be encapsulated (ADR 014)
-  generated/                            # Phase 3: build-time data from scripts/, gitignored
 public/fonts/                           # eleven self-hosted woff2 files
+content/learn/                          # vendored learn markdown, source for learn-content.generated.ts (ADR 021)
+scripts/build-learn-content.mjs         # reads content/learn/, emits the gitignored generated module
 ```
 
 `.page.*` means `.page.ts`, `.page.html`, `.page.css` and `.page.spec.ts`. Every normal component has its own folder, so a feature folder's root holds only the page, its routes file, and feature-local stores or functions.
@@ -234,7 +234,7 @@ Two tiers (ADR 010):
 
 The URL holds shareable view state so a filtered search can be bookmarked, shared, prerendered or restored. The store is a typed view of the URL, not a second source of truth.
 
-No store code exists yet. The first real store is written in Phase 3.
+No `SignalStore` code exists yet. Phase 3's `/search` page holds query, filters and sort as plain signals synced to the URL through `ActivatedRoute`/`Router` directly, in the page component — not through a route-scoped `website-search-query.store.ts`. The two-tier table above stays the target; the first real `SignalStore` is still unwritten.
 
 ## Styles
 
@@ -283,7 +283,7 @@ Set from the first production build's measured baseline (244.34 kB initial) plus
 
 ## Where Phase 3 plugs in
 
-Phase order and reasoning: `_architecture/plans/decisions/002-*`. **Phase 1 (foundation) and Phase 2 (design system) are complete.**
+Phase order and reasoning: `_architecture/plans/decisions/002-*`. **Phase 1 (foundation), Phase 2 (design system) and Phase 3 (content and features) are all complete.**
 
 **The design system, as built.** `shared/design-system/` holds nine component sub-groups plus `theme/` — see the folder map. Two rules shape everything in it:
 
@@ -296,12 +296,11 @@ Phase order and reasoning: `_architecture/plans/decisions/002-*`. **Phase 1 (fou
 
 **`/specimen` is the dev-only parts kit.** It renders every component in every state, and it is the only route in the app that is not part of the site.
 
-**Phase 3 — content and features.** Adds the feature folders (`launcher-home/`, `website-search/`, `category-browse/`, `website-detail/`), one lazy entry each in `app.routes.ts`, plus:
+**Phase 3 — content and features, as built.** Home (`/`), search (`/search?q=`) and learn (`/learn`, `/learn/:topic`) are real routes (D2, ADR 018) — four new entries in `app.routes.ts`, pages flat in `app-shell/` rather than in per-feature folders (see the folder map callout above). `browse` and `source_detail` stay parked.
 
-- `shared/curated-websites/` — models, data service, root store, pure filtering functions.
-- The data pipeline: `sources/` → `scripts/` → `src/generated/` (gitignored), and the decision on how data reaches the service (bundled import vs `httpResource`).
-- `getPrerenderParams` for `website-detail`, fed from that generated data.
-- A `CONTEXT.md` per feature folder as it's built.
-- A page is a feature component that imports one template from `shared/design-system/page-templates/`, fills its slots, and owns the routing and state itself.
+- `shared/curated-websites/` holds a hand-written `Source` fixture and a pure, framework-free ranked-search module (ADR 017, 026) — no data service, root store or components yet. The originally planned data pipeline (`sources/` → `scripts/` → `src/generated/`) was not built this phase; `BACKLOG.md`'s "Data pipeline: `sources/` to `src/generated/`" item stays open.
+- `shared/learn-content/` holds a gitignored generated module, rebuilt from vendored markdown in `content/learn/` by `scripts/build-learn-content.mjs` (ADR 021, 022) — the same gitignored-module-built-by-a-chained-script shape this repo already uses for secrets materialisation. `/learn/:topic`'s route list for prerendering comes from that generated module.
+- Two new `shared/design-system/data-display/` components: `chip/` (flat tag pill) and `topic-tree/` (PrimeNG `p-tree` wrapper for the learn index) — the fourth and fifth sanctioned PrimeNG adoptions after `chrome-select`, `filter-drawer` and `record-grid`. `record-grid` gained a cell-template API to render the source table's trust chips, capability pills and outbound-open keys.
+- No `getPrerenderParams`, `website-detail` page, or per-feature `CONTEXT.md` — those stay with `browse`/`source_detail`, still parked.
 
-Nothing built so far needs to change for it. The folder map already names the slots, the import rules already cover folders that don't exist yet, and the lint boundary blocks are generated from the folder listing, so a new feature folder is enforced the moment it appears.
+`category-browse/` and `website-detail/` in the folder map are still the plan, not the build. The import rules and generated lint boundary blocks already cover folders that don't exist yet, so either one is enforced automatically the moment it appears.

@@ -233,3 +233,27 @@ The Phase 3 plan renders the crash-course index as a PrimeNG p-tree, which is a 
 Status: OPEN
 
 src/styles/base-element-styles.css carried only margin:0 out of the mockup's body rule, dropping background, color and font. The canvas fell back to the UA dark-mode default instead of --bg-page and all inherited text fell back to the UA serif, which read as a green cast and Times New Roman body copy. Fixed 2026-09-16 by porting the body, html, a and :focus-visible rules. Logged because the same class of omission may exist elsewhere in the Phase 2 port: the mockup's .sr-only utility is still unported, and no check exists that a ported stylesheet is complete.
+
+## Bulk-open multiple result rows
+
+Status: OPEN
+
+User wants a way to open several source links at once from a results table (e.g. all visible AI-marketplace rows) without one click per row. Raised 2026-09-16 during Phase 3 search-page work. Unscoped: a checkbox-per-row plus one bulk-open button trades N clicks for N+1 (checkbox each row, then the open button), which may not be a net win over just clicking OPEN on each row directly. Needs a real UX mechanism before this is buildable — not designed here.
+
+## Separate search input for filtering results vs. direct-search query
+
+Status: OPEN
+
+Currently the console/header search query (q) both filters the results table AND feeds the per-row direct-search action (D1's searchUrl substitution) on home and /search. User raised 2026-09-16 wanting these split: one input whose text only carries through to the direct-search action (doesn't touch table filtering), and table filtering handled separately (by the existing sidebar filters, or a second dedicated filter input). User was thinking out loud, not decided on a mechanism -- explicitly deferred rather than reworking Task 5's shipped filtering behavior. Design the actual split (one input vs two, where each lives) before building.
+
+## Stale folder CONTEXT.md files after Phase 3
+
+Status: OPEN
+
+src/app/app-shell/CONTEXT.md still describes home.page.* as a Phase 3 placeholder and lists only two pages, missing search.page.*/learn.page.*/learn-topic.page.* (all built in Phase 3). src/app/shared/design-system/CONTEXT.md's data-display/ inventory omits chip/ and topic-tree/ (both built in Task 1). Flagged during Task 7's paper-trail pass but out of that task's declared working-tree scope -- needs a targeted CONTEXT.md update in each folder.
+
+## sitemap.yaml: browse/source_detail still status:mvp, contradicts D2
+
+Status: OPEN
+
+Phase 3's own plan (D2, and its Open points section) treats browse and source_detail as already parked/deferred, but _architecture/sitemap.yaml still lists both at status: mvp. Flagged during Task 7's paper-trail pass; left untouched per that task's brief (avoid touching routes explicitly out of scope) -- needs its own small fix to set both to parked, matching D2.

@@ -16,7 +16,7 @@
   path: /
   status: mvp
   purpose: Entry point — search bar plus quick access to trusted sources and top categories.
-  components: search bar; trusted highlights; quick category chips
+  components: live-bound search console (swaps trusted highlights for ranked results in place); quick category keys, incl. AI marketplace
   links_to: search_results, browse, source_detail, education_home, collection_view
 
 - id: search_results
@@ -24,7 +24,7 @@
   path: /search?q=
   status: mvp
   purpose: Source-level results for a query — which sites are worth looking at, not page hits.
-  components: result cards; filters (trusted only, language, region, type, has-RSS, has-search); sort
+  components: results table (trust chips, capability pills, direct-search action); filters (trusted only, has-RSS, has-search, has-API, type, region, category); sort (relevance, trust, verified, A-Z); state in the URL
   links_to: source_detail, site_search_launch
 
 - id: browse
@@ -115,9 +115,9 @@
   title: Developer AI 101 (landing)
   path: /learn
   type: page
-  status: parked
+  status: mvp
   purpose: Landing page for the AI-tooling crash course — what it covers, suggested reading order, link into the topic index.
-  components: intro; topic index; suggested path for a first read
+  components: topic index rendered as a tree (PrimeNG p-tree, wrapped as topic-tree/)
   links_to: education_topic
   source_repo: JooKoi-developer-stack/ai-tooling-crash-course-for-developers
 
@@ -125,9 +125,9 @@
   title: Crash-Course Topic (templated)
   path: /learn/:topic
   type: content
-  status: parked
-  purpose: Renders one topic doc. Currently 19 files under topics/ plus one intro doc (how-llms-actually-work) — real content already written, not stubs, just not yet surfaced as app pages.
-  components: rendered markdown; prev/next topic nav; back to /learn
+  status: mvp
+  purpose: Renders one topic doc. All 20 files ship (19 topics plus the how-llms-actually-work intro doc), vendored into content/learn/ and rendered to HTML at build time.
+  components: rendered markdown (breadcrumb, prose article, pager); prerendered per route
   source_repo: JooKoi-developer-stack/ai-tooling-crash-course-for-developers/topics
 
 - id: probe_url_script
