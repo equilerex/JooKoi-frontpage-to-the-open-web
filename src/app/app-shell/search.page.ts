@@ -15,6 +15,7 @@ import {
   SelectOption,
   ChromeSelectComponent,
 } from '../shared/design-system/form-controls/chrome-select/chrome-select.component';
+import { ConsoleInputComponent } from '../shared/design-system/form-controls/console-input/console-input.component';
 import { FieldLabelComponent } from '../shared/design-system/form-controls/field-label/field-label.component';
 import {
   SegmentOption,
@@ -182,13 +183,21 @@ const LANG_OPTIONS = toSelectOptions(
  * "clear" affordance) is what keeps F5 a working link without building
  * unrequested UI for it — logged in the report as a judgment call.
  *
- * **Relevance sort with an empty query never gets special-cased.**
+ * **Relevance sort with an empty keyword never gets special-cased.**
  * `sortByRelevance(sources, '')` (`source-search.ts`) already degrades to
  * its tie-break chain — trust tier, then verified date — because an empty
  * query has no terms for `relevanceWeight` to score, so every record ties
  * at weight 0. That fallback is a real, previously-defined ordering, not a
  * placeholder, so `Relevance` stays the default sort and stays enabled
- * whether or not `q` is present, rather than being hidden or disabled.
+ * whether or not `kw` is present, rather than being hidden or disabled.
+ *
+ * **Fix wave 2 (reverses D4/ADR 020, see the plan's "Implementation
+ * deviations"):** `q` no longer filters this table — `filteredSources` is
+ * now driven only by the sidebar filters, `kw` (the new keyword filter)
+ * included. `q` still means "what the user searched for" (it's what
+ * `/search?q=…` carries in, and it still feeds each row's Search↗/Open
+ * action via `toSearchRow`) but it no longer touches the result set or the
+ * `Relevance` sort — `kw` does both now.
  */
 @Component({
   selector: 'joo-search-page',
@@ -200,6 +209,7 @@ const LANG_OPTIONS = toSelectOptions(
     FieldLabelComponent,
     StompboxToggleComponent,
     ChromeSelectComponent,
+    ConsoleInputComponent,
     SegmentSelectorComponent,
     RecordGridComponent,
     RecordGridCellDirective,
@@ -220,6 +230,14 @@ export class SearchPage {
   });
 
   protected readonly q = computed(() => this.queryParamMap().get('q') ?? '');
+  /** New sidebar keyword filter (fix wave 2) — replaces `q` as the thing
+   *  that actually filters the table (`filteredSources` below) and feeds
+   *  the `Relevance` sort (`sortSources`'s third argument). Own URL param,
+   *  `kw`, distinct from `q`: `q` keeps meaning "what the user searched
+   *  for" (still feeds the header/launcher consoles and each row's
+   *  Search↗/Open action), `kw` means "what's currently filtering this
+   *  table" — conflating the two was exactly what D4/ADR 020 got wrong. */
+  protected readonly kw = computed(() => this.queryParamMap().get('kw') ?? '');
   protected readonly trustedOnly = computed(() => this.queryParamMap().get('trusted') === '1');
   /** Unrecognised values (a hand-edited or stale URL) are silently inert —
    *  the `.has()` check below never matches a `Capability` that a stray
@@ -290,15 +308,15 @@ export class SearchPage {
     if (tag) {
       sources = sources.filter((source) => source.tags.includes(tag));
     }
-    const q = this.q();
-    if (q.trim()) {
-      sources = filterByQuery(sources, q);
+    const kw = this.kw();
+    if (kw.trim()) {
+      sources = filterByQuery(sources, kw);
     }
     return sources;
   });
 
   protected readonly sortedSources = computed(() =>
-    sortSources(this.filteredSources(), this.sortMode(), this.q()),
+    sortSources(this.filteredSources(), this.sortMode(), this.kw()),
   );
 
   protected readonly rows = computed<readonly SearchRow[]>(() =>
@@ -339,6 +357,10 @@ export class SearchPage {
       queryParams: params,
       queryParamsHandling: 'merge',
     });
+  }
+
+  protected onKeywordChange(value: string): void {
+    this.updateQueryParams({ kw: value.trim() || null });
   }
 
   protected onTrustedToggle(): void {

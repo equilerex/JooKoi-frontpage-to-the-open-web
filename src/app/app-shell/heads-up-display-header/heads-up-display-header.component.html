@@ -10,7 +10,14 @@
         placeholder="Search the open web"
         [(value)]="searchQuery"
         (submitted)="searchSubmitted.emit($event)"
-      />
+      >
+        <joo-hardware-key
+          accent="hot"
+          size="xs"
+          (press)="searchSubmitted.emit(searchQuery())"
+          >Go</joo-hardware-key
+        >
+      </joo-console-input>
     </div>
   }
   <nav class="hud__nav" aria-label="Primary">

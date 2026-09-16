@@ -2,9 +2,9 @@
   <joo-toolbar-row templateToolbar>
     <div>
       <joo-eyebrow-label>Search results</joo-eyebrow-label>
-      @if (q()) {
+      @if (kw()) {
         <h1 class="search-title">
-          Sources for <span class="mono">{{ q() }}</span>
+          Sources for <span class="mono">{{ kw() }}</span>
         </h1>
       } @else {
         <h1 class="search-title">All sources</h1>
@@ -16,6 +16,17 @@
   </joo-toolbar-row>
 
   <joo-readout-panel templateRack label="Filters" led="amber">
+    <div class="rack-group">
+      <joo-field-label for="f-keyword">Keyword</joo-field-label>
+      <joo-console-input
+        inputId="f-keyword"
+        size="compact"
+        placeholder="Filter results"
+        [value]="kw()"
+        (submitted)="onKeywordChange($event)"
+      />
+    </div>
+
     <div class="rack-group">
       <joo-field-label>Trust</joo-field-label>
       <joo-stompbox-toggle color="cyan" [on]="trustedOnly()" (onChange)="onTrustedToggle()">
@@ -123,7 +134,13 @@
         </span>
       </ng-template>
       <ng-template jooRecordGridCell="act" [rows]="rows()" let-row>
-        <joo-hardware-key size="xs" as="anchor" [href]="row.actionHref" target="_blank" [accent]="row.actionAccent">
+        <joo-hardware-key
+          size="xs"
+          as="anchor"
+          [href]="row.actionHref"
+          target="_blank"
+          [accent]="row.actionAccent"
+        >
           {{ row.act }}
         </joo-hardware-key>
       </ng-template>

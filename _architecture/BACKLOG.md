@@ -257,3 +257,15 @@ src/app/app-shell/CONTEXT.md still describes home.page.* as a Phase 3 placeholde
 Status: OPEN
 
 Phase 3's own plan (D2, and its Open points section) treats browse and source_detail as already parked/deferred, but _architecture/sitemap.yaml still lists both at status: mvp. Flagged during Task 7's paper-trail pass; left untouched per that task's brief (avoid touching routes explicitly out of scope) -- needs its own small fix to set both to parked, matching D2.
+
+## ADR update: q no longer filters results tables (reverses D4/ADR 020)
+
+Status: OPEN
+
+2026-09-16, after final whole-branch review: user reversed D4 (home's live in-place search swap) and the /search page's query-filtering. q now only feeds the /search?q=... submit and the per-row direct-search action (D1's searchUrl substitution) -- it no longer filters either table's contents; only the sidebar filters do that on /search, and home's table always shows curated Trusted highlights. Recorded as a plan deviation for now (see Implementation deviations section). Needs a proper ADR (superseding or amending ADR 020) at the next paper-trail pass.
+
+## Extract shared row-action logic from home.page.ts/search.page.ts
+
+Status: OPEN
+
+toHighlightRow (home) and toSearchRow (search) independently compute identical row-action logic (canSearch, act label, actionHref's searchUrl substitution, actionAccent) -- line-for-line duplicated, not just similarly shaped. Flagged in fix-wave-2 review (2026-09-16); brief explicitly allowed replicating the pattern instead of importing it, so not a defect, but a small shared helper (e.g. resolveRowAction(source, query)) in source-search.ts or similar would remove the duplication before it drifts.

@@ -30,13 +30,7 @@ import { LogotypeComponent } from '../shared/design-system/typography/logotype/l
 import { StripeRuleComponent } from '../shared/design-system/typography/stripe-rule/stripe-rule.component';
 import { SOURCE_FIXTURE } from '../shared/curated-websites/source-fixture';
 import { Capability, Source } from '../shared/curated-websites/source.model';
-import {
-  domainOf,
-  filterByQuery,
-  sortByRelevance,
-  sortByTrust,
-  trustLabel,
-} from '../shared/curated-websites/source-search';
+import { domainOf, sortByTrust, trustLabel } from '../shared/curated-websites/source-search';
 
 interface QuickKey {
   readonly fn: string;
@@ -60,6 +54,12 @@ interface QuickKey {
  * now a real `Capability[]`, not the old placeholder's comma-joined string.
  * `domain` and `url` aren't columns; they're extra data the `name`/`act`
  * cell templates need and a plain interface is free to carry.
+ *
+ * `act`/`actionHref`/`actionAccent` mirror `search.page.ts`'s `SearchRow` —
+ * fix wave 2 makes home's row action query-aware the same way `/search`'s
+ * already is (Search↗ when the launcher's `query` is non-empty and the
+ * record has a `searchUrl`, plain `Open` otherwise), so the fields line up
+ * on purpose. See `toHighlightRow` below.
  */
 interface HighlightRow {
   readonly name: string;
@@ -71,6 +71,8 @@ interface HighlightRow {
   readonly sig: readonly Capability[];
   readonly ver: string;
   readonly act: string;
+  readonly actionHref: string;
+  readonly actionAccent: HardwareKeyAccent;
 }
 
 interface Tag {
@@ -86,25 +88,6 @@ const CAPABILITY_LABEL: Record<Capability, string> = {
   'site-search': 'SRCH',
   'public-api': 'API',
 };
-
-/** The one display-row mapping this task's brief asks for: `Source` ->
- *  `HighlightRow`. `trustScore` -> `trust` (banded to a label), `capabilities`
- *  -> `sig` (kept as an array, no longer parsed from a string), `verified`
- *  -> `ver`. `act` has no `Source` field — it's the row action, synthesized
- *  as a constant label backed by the record's own `url`. */
-function toHighlightRow(source: Source): HighlightRow {
-  return {
-    name: source.name,
-    domain: domainOf(source.url),
-    url: source.url,
-    trust: trustLabel(source.trustScore),
-    desc: source.desc,
-    type: source.type,
-    sig: source.capabilities,
-    ver: source.verified,
-    act: 'Open',
-  };
-}
 
 function countByCategory(category: string): number {
   return SOURCE_FIXTURE.filter((source) => source.category === category).length;
@@ -154,17 +137,21 @@ const HIGHLIGHT_COUNT = 8;
  * the header and mobile dock, so this page owns only the launcher, the
  * trusted-highlights/search-results table and the tag chips.
  *
- * Task 4 behaviour (plan D4, brief "Home page behaviour"):
- *   - The launcher console (`query`, a signal bound two-way to
- *     `joo-console-input`) drives `displayedRows` in place. Empty query ->
- *     the curated `curatedHighlights` set; non-empty -> `filterByQuery` +
- *     `sortByRelevance` over the real fixture, same panel, retitled, with a
- *     match count. No overlay, no outside-click handling, no focus trap —
- *     per D4, the swap is the same component staying in the same position.
+ * Task 4 behaviour (plan D4, brief "Home page behaviour"), **reversed by fix
+ * wave 2** (see the plan's "Implementation deviations", 2026-09-16 entry
+ * after the final review): D4's live in-place swap — typing in the launcher
+ * re-filtering this table to ranked results — is gone. The table always
+ * shows the curated `curatedSources` set (top `HIGHLIGHT_COUNT` by trust
+ * score). `query` still exists (the launcher console, bound two-way to
+ * `joo-console-input`) but now only feeds two things:
  *   - Submitting (Enter on the console, or the Launch key's `press`)
- *     navigates to `/search?q=…`. `/search` is a Task 5 page; this task adds
- *     a minimal placeholder route (`search.page.ts`) so the navigation lands
- *     somewhere real instead of the wildcard 404.
+ *     navigates to `/search?q=…`.
+ *   - It makes each row's action query-aware, the same way `/search`'s
+ *     `toSearchRow` already does: `Search ↗` (opens `source.searchUrl` with
+ *     `query` substituted in) when `query` is non-empty and the record has a
+ *     `searchUrl`, plain `Open` (the landing page) otherwise. See
+ *     `toHighlightRow` below — same pattern, not shared code, since the two
+ *     pages' row shapes (`HighlightRow` vs `SearchRow`) differ.
  *   - `quickKeys` (F1-F6) are real `href`s into pre-filtered search. The
  *     fixture's real `category` values (`developer-reference`, `news`,
  *     `open-web`, `inspiration`, `ai-marketplace`) don't total five without
@@ -263,47 +250,56 @@ export class HomePage {
     { field: 'act', header: '' },
   ];
 
-  /** Empty-query panel content — top `HIGHLIGHT_COUNT` by trust score. */
-  private readonly curatedHighlights: readonly HighlightRow[] = sortByTrust(SOURCE_FIXTURE)
-    .slice(0, HIGHLIGHT_COUNT)
-    .map(toHighlightRow);
+  /** Curated panel content — top `HIGHLIGHT_COUNT` by trust score. Fixed
+   *  (fix wave 2 drops D4's live swap): this is the only set the table ever
+   *  shows, regardless of `query`. */
+  private readonly curatedSources: readonly Source[] = sortByTrust(SOURCE_FIXTURE).slice(
+    0,
+    HIGHLIGHT_COUNT,
+  );
 
-  /** Live-bound launcher query (D4). */
+  /** Live-bound launcher query. No longer drives the table (fix wave 2) —
+   *  feeds `onSubmit`'s navigation and each row's query-aware action instead
+   *  (`toHighlightRow`). */
   protected readonly query = signal('');
 
-  protected readonly isSearching = computed(() => this.query().trim().length > 0);
-
-  private readonly searchResults = computed<readonly Source[]>(() => {
-    const q = this.query();
-    return q.trim() ? sortByRelevance(filterByQuery(SOURCE_FIXTURE, q), q) : [];
-  });
-
-  /** The one panel, in place: highlights or results, same shape either way
-   *  (D4 — "no overlay... content swaps"). */
   protected readonly displayedRows = computed<readonly HighlightRow[]>(() =>
-    this.isSearching() ? this.searchResults().map(toHighlightRow) : this.curatedHighlights,
+    this.curatedSources.map((source) => this.toHighlightRow(source)),
   );
 
-  protected readonly panelLabel = computed(() =>
-    this.isSearching() ? 'Search results' : 'Trusted highlights',
-  );
-
-  protected readonly panelMeta = computed(() => {
-    if (!this.isSearching()) {
-      return 'recently verified';
-    }
-    const count = this.searchResults().length;
-    return `${count} match${count === 1 ? '' : 'es'}`;
-  });
+  protected readonly panelLabel = 'Trusted highlights';
+  protected readonly panelMeta = 'recently verified';
 
   protected readonly tags: readonly Tag[] = topTags(TAG_PANEL_COUNT);
 
-  /** Enter in the console, or the Launch key — both land here (D4: "Submitting
-   *  (Enter, or the Launch key) navigates to `/search?q=…`"). An empty query
-   *  still navigates, just without `q`, so Launch always does something. */
+  /** Enter in the console, or the Launch key — both land here. An empty
+   *  query still navigates, just without `q`, so Launch always does
+   *  something. */
   protected onSubmit(): void {
     const q = this.query().trim();
     void this.router.navigate(['/search'], { queryParams: q ? { q } : {} });
+  }
+
+  /** Same pattern as `search.page.ts`'s `toSearchRow`: `Search ↗` (open
+   *  `source.searchUrl` with `query` substituted in) when `query` is
+   *  non-empty and the record has a `searchUrl`, plain `Open` (the landing
+   *  page) otherwise. */
+  private toHighlightRow(source: Source): HighlightRow {
+    const q = this.query().trim();
+    const canSearch = q.length > 0 && !!source.searchUrl;
+    return {
+      name: source.name,
+      domain: domainOf(source.url),
+      url: source.url,
+      trust: trustLabel(source.trustScore),
+      desc: source.desc,
+      type: source.type,
+      sig: source.capabilities,
+      ver: source.verified,
+      act: canSearch ? 'Search ↗' : 'Open',
+      actionHref: canSearch ? source.searchUrl!.replace('{q}', encodeURIComponent(q)) : source.url,
+      actionAccent: canSearch ? 'cyan' : 'neutral',
+    };
   }
 
   protected capabilityLabel(capability: Capability): string {

@@ -35,12 +35,12 @@
 
 <joo-stripe-rule />
 
-<joo-readout-panel [flush]="true" [label]="panelLabel()" led="cyan">
-  <span panelHead class="panel-meta">{{ panelMeta() }}</span>
+<joo-readout-panel [flush]="true" [label]="panelLabel" led="cyan">
+  <span panelHead class="panel-meta">{{ panelMeta }}</span>
   <joo-record-grid
     [rows]="displayedRows()"
     [columns]="highlightColumns"
-    [ariaLabel]="panelLabel()"
+    [ariaLabel]="panelLabel"
     emptyMessage="No matches. Try different terms."
   >
     <ng-template jooRecordGridCell="name" [rows]="displayedRows()" let-row>
@@ -62,7 +62,15 @@
       </span>
     </ng-template>
     <ng-template jooRecordGridCell="act" [rows]="displayedRows()" let-row>
-      <joo-hardware-key size="xs" as="anchor" [href]="row.url" target="_blank">{{ row.act }}</joo-hardware-key>
+      <joo-hardware-key
+        size="xs"
+        as="anchor"
+        [href]="row.actionHref"
+        target="_blank"
+        [accent]="row.actionAccent"
+      >
+        {{ row.act }}
+      </joo-hardware-key>
     </ng-template>
   </joo-record-grid>
 </joo-readout-panel>
