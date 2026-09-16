@@ -53,6 +53,9 @@ export class HardwareKeyComponent {
   readonly current = input(false);
   readonly as = input<'button' | 'anchor'>('button');
   readonly href = input('');
+  /** Passed through to the anchor's `target` when `as="anchor"`. Defaults to
+   * normal same-tab navigation so every existing consumer is unaffected. */
+  readonly target = input<string | null>(null);
   readonly type = input<'button' | 'submit'>('button');
   readonly disabled = input(false);
   readonly press = output<void>();

@@ -2,6 +2,8 @@
   <a
     class="key"
     [href]="href()"
+    [attr.target]="target()"
+    [attr.rel]="target() === '_blank' ? 'noopener' : null"
     [attr.aria-current]="current() ? 'page' : null"
     [attr.aria-pressed]="pressed()"
     (click)="press.emit()"

@@ -62,7 +62,7 @@
       </span>
     </ng-template>
     <ng-template jooRecordGridCell="act" [rows]="displayedRows()" let-row>
-      <joo-hardware-key size="xs" as="anchor" [href]="row.url">{{ row.act }}</joo-hardware-key>
+      <joo-hardware-key size="xs" as="anchor" [href]="row.url" target="_blank">{{ row.act }}</joo-hardware-key>
     </ng-template>
   </joo-record-grid>
 </joo-readout-panel>

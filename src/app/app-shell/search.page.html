@@ -3,7 +3,9 @@
     <div>
       <joo-eyebrow-label>Search results</joo-eyebrow-label>
       @if (q()) {
-        <h1 class="search-title">Sources for <span class="mono">{{ q() }}</span></h1>
+        <h1 class="search-title">
+          Sources for <span class="mono">{{ q() }}</span>
+        </h1>
       } @else {
         <h1 class="search-title">All sources</h1>
       }
@@ -106,7 +108,9 @@
       </ng-template>
       <ng-template jooRecordGridCell="trust" [rows]="rows()" let-row>
         <joo-classification-badge
-          [variant]="row.trust === 'Trusted' ? 'solid' : row.trust === 'Known' ? 'dashed' : 'double'"
+          [variant]="
+            row.trust === 'Trusted' ? 'solid' : row.trust === 'Known' ? 'dashed' : 'double'
+          "
         >
           {{ row.trust }}
         </joo-classification-badge>
@@ -119,12 +123,7 @@
         </span>
       </ng-template>
       <ng-template jooRecordGridCell="act" [rows]="rows()" let-row>
-        <joo-hardware-key
-          size="xs"
-          as="anchor"
-          [href]="row.actionHref"
-          [accent]="row.actionAccent"
-        >
+        <joo-hardware-key size="xs" as="anchor" [href]="row.actionHref" target="_blank" [accent]="row.actionAccent">
           {{ row.act }}
         </joo-hardware-key>
       </ng-template>
