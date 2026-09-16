@@ -13,6 +13,7 @@ import {
   HardwareKeyComponent,
 } from '../shared/design-system/actions/hardware-key/hardware-key.component';
 import { CapabilityTagComponent } from '../shared/design-system/data-display/capability-tag/capability-tag.component';
+import { ChipComponent } from '../shared/design-system/data-display/chip/chip.component';
 import { RecordGridCellDirective } from '../shared/design-system/data-display/record-grid/record-grid-cell.directive';
 import {
   GridColumn,
@@ -98,6 +99,14 @@ const SORT_OPTIONS: readonly SegmentOption[] = [
 
 function uniqueSorted(values: readonly string[]): readonly string[] {
   return [...new Set(values)].sort((a, b) => a.localeCompare(b));
+}
+
+/** Active-filter chip labels (fix wave 5) read the same options list the
+ *  matching select already renders, so "Type: Blog" etc. shows the select's
+ *  own label rather than the raw fixture slug. Falls back to the raw value
+ *  for a hand-edited/stale URL param that matches no known option. */
+function labelFor(options: readonly SelectOption[], value: string): string {
+  return options.find((option) => option.value === value)?.label ?? value;
 }
 
 /** Readable labels for the category slugs the fixture actually holds — the
@@ -224,6 +233,7 @@ const LANG_OPTIONS = toSelectOptions(
     ClassificationBadgeComponent,
     CapabilityTagComponent,
     HardwareKeyComponent,
+    ChipComponent,
   ],
   templateUrl: './search.page.html',
   styleUrl: './search.page.css',
@@ -285,6 +295,10 @@ export class SearchPage {
   protected readonly regionOptions = REGION_OPTIONS;
   protected readonly categoryOptions = CATEGORY_OPTIONS;
   protected readonly langOptions = LANG_OPTIONS;
+  /** Category rendered as chips (fix wave 5), not a select — the "Any
+   *  category" sentinel `CATEGORY_OPTIONS` carries for the select has no
+   *  chip: an active chip toggling itself off is what clears the filter. */
+  protected readonly categoryChipOptions = CATEGORY_OPTIONS.filter((option) => option.value);
 
   protected readonly resultColumns: readonly GridColumn<SearchRow>[] = [
     { field: 'name', header: 'Source' },
@@ -345,6 +359,72 @@ export class SearchPage {
   );
 
   protected readonly resultCount = computed(() => this.rows().length);
+
+  /** Active-filter chip row above the table (fix wave 5). Mirrors the
+   *  mock's `.panel__meta` "2 on" count, but per the user's request goes
+   *  further: every active filter renders as its own chip, and each
+   *  chip's `clear` calls the exact same setter its own control uses, so
+   *  clicking one chip removes only that filter — never the whole set. Tag
+   *  is deliberately absent: it has no UI control on this page (see the
+   *  class doc's note on `tagFilter`), so there is nothing for a chip here
+   *  to mirror. */
+  protected readonly activeFilters = computed<
+    readonly { readonly key: string; readonly label: string; readonly clear: () => void }[]
+  >(() => {
+    const filters: { key: string; label: string; clear: () => void }[] = [];
+
+    if (this.trustedOnly()) {
+      filters.push({ key: 'trusted', label: 'Trusted only', clear: () => this.onTrustedToggle() });
+    }
+    for (const cap of this.caps()) {
+      filters.push({
+        key: `cap-${cap}`,
+        label: this.capabilityLabel(cap),
+        clear: () => this.onCapabilityToggle(cap),
+      });
+    }
+    const type = this.typeFilter();
+    if (type) {
+      filters.push({
+        key: 'type',
+        label: `Type: ${labelFor(TYPE_OPTIONS, type)}`,
+        clear: () => this.onTypeChange(null),
+      });
+    }
+    const region = this.regionFilter();
+    if (region) {
+      filters.push({
+        key: 'region',
+        label: `Region: ${labelFor(REGION_OPTIONS, region)}`,
+        clear: () => this.onRegionChange(null),
+      });
+    }
+    const category = this.categoryFilter();
+    if (category) {
+      filters.push({
+        key: 'category',
+        label: `Category: ${labelFor(CATEGORY_OPTIONS, category)}`,
+        clear: () => this.onCategoryChange(null),
+      });
+    }
+    const lang = this.langFilter();
+    if (lang) {
+      filters.push({
+        key: 'lang',
+        label: `Language: ${labelFor(LANG_OPTIONS, lang)}`,
+        clear: () => this.onLangChange(null),
+      });
+    }
+    const kw = this.kw();
+    if (kw) {
+      filters.push({
+        key: 'kw',
+        label: `Keyword: ${kw}`,
+        clear: () => this.onKeywordChange(''),
+      });
+    }
+    return filters;
+  });
 
   private toSearchRow(source: Source): SearchRow {
     const q = this.q().trim();
@@ -436,6 +516,15 @@ export class SearchPage {
 
   protected onCategoryChange(value: string | null): void {
     this.updateQueryParams({ category: value || null });
+  }
+
+  /** Category chip click (fix wave 5) — single-select toggle: clicking the
+   *  already-active chip clears the filter (back to "Any category"),
+   *  clicking a different one switches to it. Routes through
+   *  `onCategoryChange` so the URL write and the "Any" collapse
+   *  (`value || null`) stay the one code path the select used before. */
+  protected onCategoryChipClick(value: string): void {
+    this.onCategoryChange(this.categoryFilter() === value ? null : value);
   }
 
   protected onLangChange(value: string | null): void {

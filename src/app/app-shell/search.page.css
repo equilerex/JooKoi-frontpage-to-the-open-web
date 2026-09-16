@@ -58,6 +58,31 @@
   border-bottom: 1px solid var(--border-subtle);
 }
 
+/* Fix wave 5: the Category filter's chip row, and the active-filter chip
+ * row above the table. `.chip-btn` follows the same convention
+ * `.chip-link` (below) already uses for the tag panel's anchor — `joo-chip`
+ * renders the pill and owns no interactive element, so the click target
+ * wraps it, `display: contents` so the wrapper adds no box of its own for
+ * the pill's own border/padding to double up against. */
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.chip-btn {
+  display: contents;
+  cursor: pointer;
+}
+
+/* The active-filter row sits in the results panel's flush body, same as
+ * `.sort-toolbar`/`.query-group` above — restores the padding the flush
+ * panel drops. */
+.active-filters {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
 /* Mock `.sigs` (`components.css:1042-1046`) — same as `home.page.css`. */
 .sigs {
   display: inline-flex;

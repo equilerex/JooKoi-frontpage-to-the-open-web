@@ -54,6 +54,7 @@
         ariaLabel="Type"
         [options]="typeOptions"
         [value]="typeFilter()"
+        [filter]="true"
         (valueChange)="onTypeChange($event)"
       />
     </div>
@@ -65,19 +66,25 @@
         ariaLabel="Region"
         [options]="regionOptions"
         [value]="regionFilter()"
+        [filter]="true"
         (valueChange)="onRegionChange($event)"
       />
     </div>
 
     <div class="rack-group">
-      <joo-field-label for="f-category">Category</joo-field-label>
-      <joo-chrome-select
-        inputId="f-category"
-        ariaLabel="Category"
-        [options]="categoryOptions"
-        [value]="categoryFilter()"
-        (valueChange)="onCategoryChange($event)"
-      />
+      <joo-field-label id="f-category-label">Category</joo-field-label>
+      <div class="chip-row" role="group" aria-labelledby="f-category-label">
+        @for (option of categoryChipOptions; track option.value) {
+          <button
+            type="button"
+            class="chip-btn"
+            [attr.aria-pressed]="categoryFilter() === option.value"
+            (click)="onCategoryChipClick(option.value)"
+          >
+            <joo-chip [active]="categoryFilter() === option.value">{{ option.label }}</joo-chip>
+          </button>
+        }
+      </div>
     </div>
 
     @if (showLangFilter) {
@@ -88,6 +95,7 @@
           ariaLabel="Language"
           [options]="langOptions"
           [value]="langFilter()"
+          [filter]="true"
           (valueChange)="onLangChange($event)"
         />
       </div>
@@ -121,6 +129,21 @@
         (valueChange)="onSortChange($event)"
       />
     </joo-toolbar-row>
+
+    @if (activeFilters().length) {
+      <div class="chip-row active-filters" role="group" aria-label="Active filters">
+        @for (filter of activeFilters(); track filter.key) {
+          <button
+            type="button"
+            class="chip-btn"
+            [attr.aria-label]="'Remove filter: ' + filter.label"
+            (click)="filter.clear()"
+          >
+            <joo-chip>{{ filter.label }} <span aria-hidden="true">✕</span></joo-chip>
+          </button>
+        }
+      </div>
+    }
 
     <joo-record-grid
       [rows]="rows()"

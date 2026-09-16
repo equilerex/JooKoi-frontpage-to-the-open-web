@@ -31,3 +31,13 @@
   font-family: var(--font-mono);
   color: var(--text-muted);
 }
+
+/* Fix wave 5: selected state for the Category chips (`chip.component.ts`'s
+ * `active` input). Same accent the hover state already uses, made
+ * persistent, plus a faint tint so the selected chip still reads at a
+ * glance once the pointer moves away. */
+:host(.chip--active) {
+  color: var(--text-accent);
+  background: color-mix(in srgb, var(--text-accent) 14%, var(--surface-readout));
+  border-color: var(--text-accent);
+}

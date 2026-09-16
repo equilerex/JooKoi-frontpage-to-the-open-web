@@ -52,6 +52,13 @@ export class ChromeSelectComponent {
   readonly placeholder = input('');
   readonly ariaLabel = input('');
   readonly inputId = input('');
+  /**
+   * Pass-through to `p-select`'s own `[filter]` — a searchable/typeahead
+   * text box inside the overlay panel. Default `false` so every existing
+   * `joo-chrome-select` consumer is unaffected; `/search`'s Type/Region/
+   * Language selects opt in (fix wave 5).
+   */
+  readonly filter = input(false);
 
   /**
    * `Select.options` is typed `any[] | null | undefined`, so the readonly

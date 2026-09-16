@@ -15,7 +15,16 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   templateUrl: './chip.component.html',
   styleUrl: './chip.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    // Same convention as `joo-stompbox-toggle`'s `[class.is-on]` — a boolean
+    // input toggling a host state class, not a variant baked into a new
+    // selector. Fix wave 5: the search page's Category chips need a
+    // selected look, and this is the minimal extension the brief called for
+    // rather than a second component.
+    '[class.chip--active]': 'active()',
+  },
 })
 export class ChipComponent {
   readonly count = input<number | null>(null);
+  readonly active = input(false);
 }
