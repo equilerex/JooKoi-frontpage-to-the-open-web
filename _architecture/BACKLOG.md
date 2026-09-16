@@ -215,3 +215,9 @@ Status: OPEN
 The LED pair is currently unreachable rather than merely unused: the `StatusLightColor` and `BezelJewelColor` types expose only `cyan`, `magenta`, `amber` and `green`. Both the tokens and the two `ELEVATION` entries look like a faithful forward-port of the full mockup palette, waiting on Phase 3. Decide then: use them, or delete them so the token scale stays honest.
 
 Raised by the Phase 2 whole-branch review.
+
+## Nav list has no list semantics
+
+Status: OPEN
+
+indicator-nav-list renders its rows as bare joo-hardware-key anchors directly under the navigation landmark — a template-level @for with no ul or li wrapper — so assistive tech reports the rows as individual links with no list and no item count. The mockup used ul and li for these rows in features/design-theme/browse.html, so this is a divergence rather than a deliberate simplification. Parked in Task 11 because the landmark defect it was found beside was the one worth fixing then, and changing the wrapper touches the key [block] layout. Decide in Phase 3 alongside the nav-list entry above: the port already renders each row as a key slab rather than a flat mockup row, and both questions are the same one — how far the row should follow the mockup.
