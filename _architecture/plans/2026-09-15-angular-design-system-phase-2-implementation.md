@@ -504,8 +504,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 @Component({
   selector: 'joo-specimen-section',
   templateUrl: './specimen-section.component.html',
-  styleUrl: './specimen-section.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './specimen-section.component.css'
 })
 export class SpecimenSectionComponent {
   readonly label = input.required<string>();
@@ -560,8 +559,7 @@ import { SpecimenSectionComponent } from './specimen-section/specimen-section.co
   selector: 'joo-specimen-page',
   imports: [SpecimenSectionComponent],
   templateUrl: './specimen.page.html',
-  styleUrl: './specimen.page.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './specimen.page.css'
 })
 export class SpecimenPage {}
 ```
@@ -720,7 +718,6 @@ export type StatusLightColor = 'off' | 'cyan' | 'magenta' | 'amber' | 'green';
   selector: 'joo-status-light',
   template: '',
   styleUrl: './status-light.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'img',
     '[attr.aria-label]': 'label() || null',
@@ -813,7 +810,6 @@ export type BezelJewelColor = 'cyan' | 'magenta' | 'amber' | 'green';
   selector: 'joo-bezel-jewel',
   template: '',
   styleUrl: './bezel-jewel.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'aria-hidden': 'true',
     '[class.is-magenta]': "color() === 'magenta'",
@@ -881,7 +877,6 @@ export type SegmentReadoutColor = 'cyan' | 'magenta' | 'amber';
   selector: 'joo-segment-readout',
   template: '<ng-content />',
   styleUrl: './segment-readout.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.is-magenta]': "color() === 'magenta'",
     '[class.is-amber]': "color() === 'amber'",
@@ -908,7 +903,6 @@ export type ClassificationVariant = 'solid' | 'dashed' | 'double';
   selector: 'joo-classification-badge',
   template: '<ng-content />',
   styleUrl: './classification-badge.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.is-dashed]': "variant() === 'dashed'",
     '[class.is-double]': "variant() === 'double'",
@@ -991,8 +985,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-eyebrow-label',
   template: '<ng-content />',
-  styleUrl: './eyebrow-label.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './eyebrow-label.component.css'
 })
 export class EyebrowLabelComponent {}
 ```
@@ -1010,7 +1003,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'joo-stripe-rule',
   template: '',
   styleUrl: './stripe-rule.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { role: 'separator' },
 })
 export class StripeRuleComponent {}
@@ -1027,7 +1019,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   selector: 'joo-logotype',
   template: '<ng-content />',
   styleUrl: './logotype.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.is-small]': "size() === 'sm'" },
 })
 export class LogotypeComponent {
@@ -1088,7 +1079,6 @@ export type HardwareKeyAccent = 'neutral' | 'hot' | 'cyan';
   selector: 'joo-hardware-key',
   templateUrl: './hardware-key.component.html',
   styleUrl: './hardware-key.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.is-xs]': "size() === 'xs'",
     '[class.is-sm]': "size() === 'sm'",
@@ -1210,8 +1200,7 @@ import { HardwareKeyComponent } from '../hardware-key/hardware-key.component';
   selector: 'joo-keycap',
   imports: [HardwareKeyComponent],
   templateUrl: './keycap.component.html',
-  styleUrl: './keycap.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './keycap.component.css'
 })
 export class KeycapComponent {
   readonly fn = input('');
@@ -1247,8 +1236,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-keycap-grid',
   template: '<ng-content />',
-  styleUrl: './keycap-grid.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './keycap-grid.component.css'
 })
 export class KeycapGridComponent {}
 ```
@@ -1314,8 +1302,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 @Component({
   selector: 'joo-field-label',
   template: '<label [attr.for]="for()"><ng-content /></label>',
-  styleUrl: './field-label.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './field-label.component.css'
 })
 export class FieldLabelComponent {
   readonly for = input('');
@@ -1340,8 +1327,7 @@ import { ConsoleInputComponent } from './console-input.component';
   template: `
     <joo-console-input [(value)]="query" inputId="q" placeholder="Search" />
     <p>echo: {{ query() }}</p>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  `
 })
 class ConsoleInputHost {
   readonly query = signal('');
@@ -1376,7 +1362,6 @@ export type ConsoleInputSize = 'compact' | 'md' | 'lg';
   selector: 'joo-console-input',
   templateUrl: './console-input.component.html',
   styleUrl: './console-input.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.is-compact]': "size() === 'compact'",
     '[class.is-large]': "size() === 'lg'",
@@ -1434,8 +1419,7 @@ import { StompboxToggleComponent } from './stompbox-toggle.component';
 @Component({
   selector: 'joo-stompbox-toggle-host',
   imports: [StompboxToggleComponent],
-  template: `<joo-stompbox-toggle [(on)]="active">Has feed</joo-stompbox-toggle>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<joo-stompbox-toggle [(on)]="active">Has feed</joo-stompbox-toggle>`
 })
 class StompboxToggleHost {
   readonly active = signal(false);
@@ -1479,7 +1463,6 @@ import {
   imports: [BezelJewelComponent],
   templateUrl: './stompbox-toggle.component.html',
   styleUrl: './stompbox-toggle.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.is-on]': 'on()' },
 })
 export class StompboxToggleComponent {
@@ -1523,8 +1506,7 @@ import { SegmentSelectorComponent } from './segment-selector.component';
   template: `
     <joo-segment-selector [options]="sorts" [(value)]="sort" ariaLabel="Sort order" />
     <p>sort: {{ sort() }}</p>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  `
 })
 class SegmentSelectorHost {
   readonly sorts = [
@@ -1573,7 +1555,6 @@ export interface SegmentOption {
   selector: 'joo-segment-selector',
   templateUrl: './segment-selector.component.html',
   styleUrl: './segment-selector.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { role: 'group', '[attr.aria-label]': 'ariaLabel() || null' },
 })
 export class SegmentSelectorComponent {
@@ -1678,8 +1659,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-capability-tag',
   template: '<ng-content />',
-  styleUrl: './capability-tag.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './capability-tag.component.css'
 })
 export class CapabilityTagComponent {}
 ```
@@ -1695,7 +1675,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   selector: 'joo-count-chip',
   templateUrl: './count-chip.component.html',
   styleUrl: './count-chip.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.is-interactive]': 'interactive()' },
 })
 export class CountChipComponent {
@@ -1725,8 +1704,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-tag-set',
   template: '<ng-content />',
-  styleUrl: './tag-set.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './tag-set.component.css'
 })
 export class TagSetComponent {}
 ```
@@ -1755,8 +1733,7 @@ export interface SpecEntry {
 @Component({
   selector: 'joo-spec-list',
   templateUrl: './spec-list.component.html',
-  styleUrl: './spec-list.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './spec-list.component.css'
 })
 export class SpecListComponent {
   readonly entries = input.required<readonly SpecEntry[]>();
@@ -1788,8 +1765,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-prose-content',
   template: '<ng-content />',
-  styleUrl: './prose-content.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './prose-content.component.css'
 })
 export class ProseContentComponent {}
 ```
@@ -1880,7 +1856,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   selector: 'joo-readout-panel',
   templateUrl: './readout-panel.component.html',
   styleUrl: './readout-panel.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.is-flush]': 'flush()' },
 })
 export class ReadoutPanelComponent {
@@ -1913,8 +1888,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-paper-sheet',
   template: '<ng-content />',
-  styleUrl: './paper-sheet.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './paper-sheet.component.css'
 })
 export class PaperSheetComponent {}
 ```
@@ -1980,7 +1954,6 @@ export interface Crumb {
   selector: 'joo-breadcrumb-trail',
   templateUrl: './breadcrumb-trail.component.html',
   styleUrl: './breadcrumb-trail.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { role: 'navigation', 'aria-label': 'Breadcrumb' },
 })
 export class BreadcrumbTrailComponent {
@@ -2032,7 +2005,6 @@ export interface NavItem {
   imports: [HardwareKeyComponent, StatusLightComponent],
   templateUrl: './indicator-nav-list.component.html',
   styleUrl: './indicator-nav-list.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { role: 'navigation' },
 })
 export class IndicatorNavListComponent {
@@ -2066,7 +2038,6 @@ import { HardwareKeyComponent } from '../../actions/hardware-key/hardware-key.co
   imports: [HardwareKeyComponent],
   templateUrl: './pager.component.html',
   styleUrl: './pager.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { role: 'navigation', 'aria-label': 'Pagination' },
 })
 export class PagerComponent {
@@ -2148,8 +2119,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-toolbar-row',
   templateUrl: './toolbar-row.component.html',
-  styleUrl: './toolbar-row.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './toolbar-row.component.css'
 })
 export class ToolbarRowComponent {}
 ```
@@ -2233,7 +2203,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'joo-horizon-backdrop',
   template: '',
   styleUrl: './horizon-backdrop.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { 'aria-hidden': 'true' },
 })
 export class HorizonBackdropComponent {}
@@ -2274,7 +2243,6 @@ import { StatusLightComponent } from '../../shared/design-system/indicators/stat
   imports: [LogotypeComponent, HardwareKeyComponent, StatusLightComponent],
   templateUrl: './heads-up-display-header.component.html',
   styleUrl: './heads-up-display-header.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { role: 'banner' },
 })
 export class HeadsUpDisplayHeaderComponent {
@@ -2311,8 +2279,7 @@ import { NavItem } from '../../shared/design-system/navigation/indicator-nav-lis
   selector: 'joo-mobile-bottom-dock',
   imports: [HardwareKeyComponent],
   templateUrl: './mobile-bottom-dock.component.html',
-  styleUrl: './mobile-bottom-dock.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './mobile-bottom-dock.component.css'
 })
 export class MobileBottomDockComponent {
   readonly navItems = input.required<readonly NavItem[]>();
@@ -2437,8 +2404,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-console-landing-template',
   templateUrl: './console-landing-template.component.html',
-  styleUrl: './console-landing-template.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './console-landing-template.component.css'
 })
 export class ConsoleLandingTemplateComponent {}
 ```
@@ -2636,8 +2602,7 @@ import { CountChipComponent } from '../../shared/design-system/data-display/coun
     StompboxToggleComponent,
     CountChipComponent,
   ],
-  templateUrl: './directory-browse-demo.page.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './directory-browse-demo.page.html'
 })
 export class DirectoryBrowseDemoPage {
   protected readonly sortOptions: readonly SegmentOption[] = [
@@ -2723,8 +2688,7 @@ export interface SelectOption {
   selector: 'joo-chrome-select',
   imports: [Select],
   templateUrl: './chrome-select.component.html',
-  styleUrl: './chrome-select.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './chrome-select.component.css'
 })
 export class ChromeSelectComponent {
   readonly options = input.required<readonly SelectOption[]>();
@@ -2811,8 +2775,7 @@ import { Drawer } from 'primeng/drawer';
   selector: 'joo-filter-drawer',
   imports: [Drawer],
   templateUrl: './filter-drawer.component.html',
-  styleUrl: './filter-drawer.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './filter-drawer.component.css'
 })
 export class FilterDrawerComponent {
   readonly open = model(false);
@@ -2899,8 +2862,7 @@ interface DemoRow {
       (rowActivate)="activated = $event.name"
     />
     <p>activated: {{ activated }}</p>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  `
 })
 class RecordGridHost {
   readonly rows: readonly DemoRow[] = [
@@ -2953,8 +2915,7 @@ export interface GridColumn<T> {
   selector: 'joo-record-grid',
   imports: [TableModule],
   templateUrl: './record-grid.component.html',
-  styleUrl: './record-grid.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './record-grid.component.css'
 })
 export class RecordGridComponent<T> {
   /**

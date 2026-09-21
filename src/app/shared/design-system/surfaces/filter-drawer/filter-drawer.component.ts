@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 import { Drawer } from 'primeng/drawer';
 
 /**
@@ -67,8 +67,7 @@ import { Drawer } from 'primeng/drawer';
   selector: 'joo-filter-drawer',
   imports: [Drawer],
   templateUrl: './filter-drawer.component.html',
-  styleUrl: './filter-drawer.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './filter-drawer.component.css'
 })
 export class FilterDrawerComponent {
   readonly open = model(false);

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   HardwareKeyAccent,
@@ -28,11 +28,12 @@ import { ReadoutPanelComponent } from '../shared/design-system/surfaces/readout-
 import { EyebrowLabelComponent } from '../shared/design-system/typography/eyebrow-label/eyebrow-label.component';
 import { LogotypeComponent } from '../shared/design-system/typography/logotype/logotype.component';
 import { StripeRuleComponent } from '../shared/design-system/typography/stripe-rule/stripe-rule.component';
-import { SOURCE_FIXTURE } from '../shared/curated-websites/source-fixture';
+import { ALL_SOURCES } from '../shared/curated-websites/source-fixture';
 import { Capability, Source } from '../shared/curated-websites/source.model';
 import {
   domainOf,
   formatVerifiedDate,
+  outboundSearchHref,
   sortByTrust,
   trustLabel,
 } from '../shared/curated-websites/source-search';
@@ -66,6 +67,11 @@ interface QuickKey {
  * record has a `searchUrl`, plain `Open` otherwise), so the fields line up
  * on purpose. See `toHighlightRow` below.
  */
+interface CapabilitySignal {
+  readonly id: Capability;
+  readonly label: string;
+}
+
 interface HighlightRow {
   readonly name: string;
   readonly domain: string;
@@ -73,8 +79,11 @@ interface HighlightRow {
   readonly trust: 'Trusted' | 'Known' | 'Discovered';
   readonly desc: string;
   readonly type: string;
-  readonly sig: readonly Capability[];
+  readonly sig: readonly CapabilitySignal[];
   readonly ver: string;
+  /** Optional GitHub/source URL. Empty when unknown — `src` is the cell label. */
+  readonly sourceUrl: string;
+  readonly src: string;
   readonly act: string;
   readonly actionHref: string;
   readonly actionAccent: HardwareKeyAccent;
@@ -95,11 +104,11 @@ const CAPABILITY_LABEL: Record<Capability, string> = {
 };
 
 function countByCategory(category: string): number {
-  return SOURCE_FIXTURE.filter((source) => source.category === category).length;
+  return ALL_SOURCES.filter((source) => source.category === category).length;
 }
 
 function countByTag(tag: string): number {
-  return SOURCE_FIXTURE.filter((source) => source.tags.includes(tag)).length;
+  return ALL_SOURCES.filter((source) => source.tags.includes(tag)).length;
 }
 
 function searchHref(params: Readonly<Record<string, string>>): string {
@@ -119,7 +128,7 @@ const TAG_PANEL_COUNT = 8;
  *  already uses. */
 function topTags(count: number): readonly Tag[] {
   const counts = new Map<string, number>();
-  for (const source of SOURCE_FIXTURE) {
+  for (const source of ALL_SOURCES) {
     for (const tag of source.tags) {
       counts.set(tag, (counts.get(tag) ?? 0) + 1);
     }
@@ -191,8 +200,7 @@ const HIGHLIGHT_COUNT = 8;
     TagSetComponent,
   ],
   styleUrl: './home.page.css',
-  templateUrl: './home.page.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './home.page.html'
 })
 export class HomePage {
   private readonly router = inject(Router);
@@ -252,13 +260,14 @@ export class HomePage {
     { field: 'type', header: 'Type' },
     { field: 'sig', header: 'Signals' },
     { field: 'ver', header: 'Verified' },
+    { field: 'src', header: 'Src' },
     { field: 'act', header: '' },
   ];
 
   /** Curated panel content — top `HIGHLIGHT_COUNT` by trust score. Fixed
    *  (fix wave 2 drops D4's live swap): this is the only set the table ever
    *  shows, regardless of `query`. */
-  private readonly curatedSources: readonly Source[] = sortByTrust(SOURCE_FIXTURE).slice(
+  private readonly curatedSources: readonly Source[] = sortByTrust(ALL_SOURCES).slice(
     0,
     HIGHLIGHT_COUNT,
   );
@@ -285,13 +294,13 @@ export class HomePage {
     void this.router.navigate(['/search'], { queryParams: q ? { q } : {} });
   }
 
-  /** Same pattern as `search.page.ts`'s `toSearchRow`: `Search ↗` (open
-   *  `source.searchUrl` with `query` substituted in) when `query` is
-   *  non-empty and the record has a `searchUrl`, plain `Open` (the landing
-   *  page) otherwise. */
+  /** Same pattern as `search.page.ts`'s `toSearchRow`: the right-hand key
+   *  always follows `searchUrl` when present (Search↗ with `{q}` filled, or
+   *  Open to that marketplace landing). `url` is Name only — GitHub/home. */
   private toHighlightRow(source: Source): HighlightRow {
     const q = this.query().trim();
-    const canSearch = q.length > 0 && !!source.searchUrl;
+    const canSearch = !!source.searchUrl;
+    const sourceUrl = source.sourceUrl ?? '';
     return {
       name: source.name,
       domain: domainOf(source.url),
@@ -299,15 +308,13 @@ export class HomePage {
       trust: trustLabel(source.trustScore),
       desc: source.desc,
       type: source.type,
-      sig: source.capabilities,
+      sig: source.capabilities.map((id) => ({ id, label: CAPABILITY_LABEL[id] })),
       ver: formatVerifiedDate(source.verified),
+      sourceUrl,
+      src: sourceUrl ? domainOf(sourceUrl) : '',
       act: canSearch ? 'Search ↗' : 'Open',
-      actionHref: canSearch ? source.searchUrl!.replace('{q}', encodeURIComponent(q)) : source.url,
+      actionHref: outboundSearchHref(source, q),
       actionAccent: canSearch ? 'cyan' : 'neutral',
     };
-  }
-
-  protected capabilityLabel(capability: Capability): string {
-    return CAPABILITY_LABEL[capability];
   }
 }

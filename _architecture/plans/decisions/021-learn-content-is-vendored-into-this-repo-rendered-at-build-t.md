@@ -28,4 +28,4 @@ Reading across a sibling path hard-codes a machine-specific path like `D:\repos\
 
 ## Next step
 
-Duplication is an accepted, deliberate cost. Re-sync is manual — see decision 024. All 20 documents ship (19 topics plus the intro doc).
+Duplication is an accepted, deliberate cost. Re-sync is `pnpm run content:sync` (decision 028, which superseded 024). The build still does not read a sibling path.

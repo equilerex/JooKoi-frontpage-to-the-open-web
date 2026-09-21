@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * The wrapping row that holds capability tags and count chips.
@@ -10,7 +10,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-tag-set',
   template: '<ng-content />',
-  styleUrl: './tag-set.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './tag-set.component.css'
 })
 export class TagSetComponent {}

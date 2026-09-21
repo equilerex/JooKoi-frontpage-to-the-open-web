@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 export type SegmentReadoutColor = 'cyan' | 'magenta' | 'amber';
 
@@ -6,7 +6,6 @@ export type SegmentReadoutColor = 'cyan' | 'magenta' | 'amber';
   selector: 'joo-segment-readout',
   template: '<ng-content />',
   styleUrl: './segment-readout.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.is-magenta]': "color() === 'magenta'",
     '[class.is-amber]': "color() === 'amber'",

@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 export type HardwareKeySize = 'xs' | 'sm' | 'md' | 'lg';
 export type HardwareKeyAccent = 'neutral' | 'hot' | 'cyan';
@@ -34,7 +34,6 @@ export type HardwareKeyAccent = 'neutral' | 'hot' | 'cyan';
   imports: [NgTemplateOutlet],
   templateUrl: './hardware-key.component.html',
   styleUrl: './hardware-key.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.is-xs]': "size() === 'xs'",
     '[class.is-sm]': "size() === 'sm'",

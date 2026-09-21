@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * A long-form document: breadcrumbs, then a single centred measure of prose.
@@ -20,7 +20,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-document-template',
   templateUrl: './document-template.component.html',
-  styleUrl: './document-template.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './document-template.component.css'
 })
 export class DocumentTemplateComponent {}

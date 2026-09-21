@@ -176,13 +176,15 @@
     /* Size */
     --hud-height: 64px;
     --dock-height: 64px;
-    --content-max: 80rem;
+    --content-max: 90rem;
     --sheet-max: 950px;
 
-    /* Motion */
+    /* Motion — see shared/design-system/CONTEXT.md (motion recipes). */
     --key-travel: 3px;
     --duration-press: 70ms;
     --duration-state: 160ms;
+    --duration-route: 240ms;
+    --duration-shell: 240ms;
 
     /* Elevation. One scale for the whole app; PrimeNG's zIndex tiers are
      * configured from the matching numbers in

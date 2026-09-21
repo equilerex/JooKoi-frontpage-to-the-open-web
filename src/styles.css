@@ -12,6 +12,58 @@
     font-style: italic;
   }
 
+  /*
+   * Shell route transitions (Home / Search / Library). Pseudo-elements live on
+   * the document. Chrome stays put (`app-chrome`); main cross-fades (`app-main`).
+   * Library-internal navigations skip VT in app.config (ADR 031 reader CSS).
+   */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+
+  ::view-transition-group(app-chrome),
+  ::view-transition-group(app-dock) {
+    animation: none;
+  }
+
+  ::view-transition-old(app-main) {
+    animation: app-main-out var(--duration-route) ease both;
+  }
+
+  ::view-transition-new(app-main) {
+    animation: app-main-in var(--duration-route) ease both;
+  }
+
+  @keyframes app-main-out {
+    to {
+      opacity: 0;
+      transform: translateY(-0.4rem);
+    }
+  }
+
+  @keyframes app-main-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.5rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(app-main),
+    ::view-transition-new(app-main) {
+      animation: none;
+    }
+  }
+
+  /* PrimeNG renders `.p-tree-node-label` inside `p-tree`, which
+   * `joo-topic-tree` does not own, so a component stylesheet cannot
+   * reach it (decision 014). Long section titles have to wrap in the
+   * library sidebar or they overflow the 22rem column. */
+  joo-topic-tree .p-tree-node-label {
+    white-space: normal;
+  }
+
   /* Same reason, at length. `joo-prose-content`'s whole template is
    * `<ng-content />` and its contract is that it styles whatever long-form HTML
    * the consumer projects into it, so every descendant rule it needs has this
@@ -30,20 +82,21 @@
     margin-top: 0;
   }
 
+  /* em so a host base size (library reader at 0.8rem) scales the type ladder. */
   joo-prose-content h1 {
-    font-size: 1.4rem;
+    font-size: 1.4em;
   }
 
   joo-prose-content h2 {
-    font-size: 1.3rem;
+    font-size: 1.3em;
   }
 
   joo-prose-content h3 {
-    font-size: 1.25rem;
+    font-size: 1.25em;
   }
 
   joo-prose-content h4 {
-    font-size: 1.125rem;
+    font-size: 1.125em;
   }
 
   joo-prose-content p {
@@ -80,7 +133,7 @@
   joo-prose-content pre {
     margin: 0 0 1rem;
     padding: 1rem;
-    font-size: 0.85rem;
+    font-size: 0.85em;
     line-height: 1.5;
     white-space: pre-wrap;
     color: var(--sheet-code-text);
@@ -138,8 +191,20 @@
     joo-prose-content table {
       display: block;
       overflow-x: auto;
-      font-size: 0.75rem;
+      font-size: 0.75em;
     }
+  }
+
+  /*
+   * Tree filter input is PrimeNG's inner control (no width/skin token we own).
+   * Same decision-014 landing as prose/drawer: host name scopes the reach-in,
+   * no ::ng-deep (decision 007).
+   */
+  /* Filter UI is `joo-console-input` on the library layout (store-backed). Hide
+   * PrimeNG's built-in filter field; filtering still runs via the tree API. */
+  joo-topic-tree .p-iconfield,
+  joo-topic-tree .p-tree-filter {
+    display: none;
   }
 
   /* Same reason, for a directive. A directive has no stylesheet of its own, so
@@ -265,11 +330,10 @@
    * counterpart here: it is a plain wrapper `<div>` in the mockup and this
    * component renders no such element. `/specimen` records the consequence. */
   .joo-record-grid {
-    /* `width: 100%` is the mockup's (`components.css:1154`) and PrimeNG's
-     * `.p-datatable-table` already sets it; `min-width` is the addition, so the
-     * table fills a flex or grid parent that would otherwise let it shrink. */
-    min-width: 100%;
+    /* Fill the panel; grow past it only when columns cannot shrink further.
+     * Horizontal scroll lives on `joo-record-grid`'s host (`overflow-x: auto`). */
     width: 100%;
+    table-layout: auto;
     /* PrimeNG's `.p-datatable-table` is `border-collapse: separate`
      * (`@primeuix/styles/dist/datatable`); the mockup's `.data-table` is
      * `collapse` (`components.css:1155`). Ported for fidelity. It is a visual
@@ -287,14 +351,24 @@
     text-transform: uppercase;
     text-align: left;
     white-space: nowrap;
+    padding: var(--space-2) var(--space-3);
     color: var(--text-muted);
     background: var(--surface-readout);
     border-bottom: 1px solid var(--border-panel);
   }
 
   .joo-record-grid td {
+    padding: var(--space-2) var(--space-3);
     vertical-align: top;
     border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .joo-record-grid td[data-col='name'] {
+    overflow-wrap: anywhere;
+  }
+
+  .joo-record-grid td[data-col='type'] {
+    overflow-wrap: anywhere;
   }
 
   .joo-record-grid tbody tr:last-child td {
@@ -320,18 +394,41 @@
   }
 
   .joo-record-grid td[data-col='desc'] {
-    min-width: 14rem;
-    max-width: 40ch;
+    min-width: 0;
+    max-width: none;
     color: var(--text-muted);
+    overflow-wrap: anywhere;
   }
 
   .joo-record-grid td[data-col='act'] {
     text-align: right;
   }
 
-  /* Secondary columns drop first when the table gets tight. */
+  .joo-record-grid td[data-col='src'] {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    white-space: nowrap;
+  }
+
+  .joo-record-grid td[data-col='src'] .src-repo {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .joo-record-grid td[data-col='src'] .src-repo:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+  }
+
+  /* Secondary columns drop only when the row really cannot hold them. */
   @media (max-width: 1439px) {
     .joo-record-grid [data-col='lang'] {
+      display: none;
+    }
+  }
+
+  @media (max-width: 899px) {
+    .joo-record-grid [data-col='src'] {
       display: none;
     }
   }

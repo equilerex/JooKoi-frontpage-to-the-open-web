@@ -2,7 +2,7 @@
 
 Date: 2026-09-15
 
-Status: DEFERRED
+Status: DEFERRED (CI part built in decision 033; hosting still deferred)
 
 <!-- Status is one of: DECIDED | TRIAL | REJECTED | DEFERRED | SUPERSEDED
      A superseding decision gets its own number. The superseded file's status changes

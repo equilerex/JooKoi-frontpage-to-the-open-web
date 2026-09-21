@@ -2,7 +2,9 @@
 
 Date: 2026-09-16
 
-Status: DECIDED
+Status: SUPERSEDED
+
+Superseded by `028-vendored-learn-content-is-re-synced-by-a-script-urls-follow-.md`. The copy went stale (missing `_inspiration-and-staying-current.md` and `_ai-tooling-recommendations.md`) and the flatten of `topics/` made the library tree diverge from the source.
 
 <!-- Status is one of: DECIDED | TRIAL | REJECTED | DEFERRED | SUPERSEDED
      A superseding decision gets its own number. The superseded file's status changes

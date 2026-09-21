@@ -1,0 +1,56 @@
+{
+  "ts": "2026-09-21T21:19:54.099Z",
+  "commit": "4e8d0ba",
+  "dirty": true,
+  "angular": "22.1.6",
+  "lighthouse": "13.5.0",
+  "runsPerUrl": 3,
+  "pages": [
+    {
+      "path": "/",
+      "runs": 3,
+      "score": 0.73,
+      "lcp": 4446,
+      "cls": 0,
+      "tbt": 221,
+      "fcp": 3483,
+      "transferBytes": 479088
+    },
+    {
+      "path": "/search",
+      "runs": 3,
+      "score": 0.55,
+      "lcp": 5103,
+      "cls": 0,
+      "tbt": 690,
+      "fcp": 3931.5,
+      "transferBytes": 566478
+    },
+    {
+      "path": "/library",
+      "runs": 3,
+      "score": 0.81,
+      "lcp": 3944,
+      "cls": 0,
+      "tbt": 146,
+      "fcp": 2813.5,
+      "transferBytes": 376847
+    },
+    {
+      "path": "/library/ai-tooling-crash-course-for-developers/README",
+      "runs": 3,
+      "score": 0.69,
+      "lcp": 5049,
+      "cls": 0,
+      "tbt": 220,
+      "fcp": 3754.5,
+      "transferBytes": 515942
+    }
+  ],
+  "bundle": {
+    "initialRawBytes": 536312,
+    "mainRawBytes": 321319,
+    "lazyChunks": 143,
+    "largestLazyRawBytes": 684626
+  }
+}

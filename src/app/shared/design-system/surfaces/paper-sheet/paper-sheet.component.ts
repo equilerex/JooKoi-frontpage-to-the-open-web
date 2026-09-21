@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Document paper. Ported from `features/design-theme/components.css` `.sheet`
@@ -16,7 +16,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-paper-sheet',
   template: '<ng-content />',
-  styleUrl: './paper-sheet.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './paper-sheet.component.css'
 })
 export class PaperSheetComponent {}

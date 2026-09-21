@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
+import { Component, computed, input, model } from '@angular/core';
 import {
   BezelJewelComponent,
   BezelJewelColor,
@@ -9,7 +9,6 @@ import {
   imports: [BezelJewelComponent],
   templateUrl: './stompbox-toggle.component.html',
   styleUrl: './stompbox-toggle.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.is-on]': 'on()',
     // The mockup set --toggle-color from `.toggle--<colour>` modifier classes.

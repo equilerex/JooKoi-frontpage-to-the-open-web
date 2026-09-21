@@ -23,6 +23,20 @@ export type TrustScore = number;
 /** Named for what it is, not for the four-letter chip the table draws. */
 export type Capability = 'rss-feed' | 'site-search' | 'public-api';
 
+export interface FeedEndpoint {
+  readonly url: string;
+  readonly name: string;
+  readonly desc?: string;
+  readonly format?: 'rss' | 'atom' | 'json';
+}
+
+export interface WebOutlet {
+  readonly name: string;
+  readonly url: string;
+  readonly category: string;
+  readonly description: string;
+  readonly feeds?: readonly FeedEndpoint[];
+}
 export interface Source {
   readonly id: string; // slug, stable, used in URLs later
   readonly name: string; // "MDN Web Docs"
@@ -34,7 +48,11 @@ export interface Source {
   readonly trustScore: TrustScore;
   readonly capabilities: readonly Capability[];
   readonly verified: string; // ISO date
-  readonly searchUrl?: string; // {q} template; absent = open the landing page
+  readonly feeds?: readonly FeedEndpoint[];
+  readonly searchUrl?: string; // {q} template for the right-hand key; absent = key falls back to url
+  /** Optional source-code / GitHub README URL. Distinct from `url` (the
+   *  marketplace or project home the name column opens). Empty when unknown. */
+  readonly sourceUrl?: string;
   readonly lang?: string; // nice-to-have, not vital
   readonly region?: string; // nice-to-have, not vital
 }

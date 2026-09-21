@@ -1,26 +1,5 @@
-/* Only the two values PrimeNG parameterises and this design overrides. Every
- * other rule in the port targets PrimeNG's inner `<table>` or the rows and
- * cells it renders, which are outside this component's encapsulation — see the
- * global block in `src/styles.css` for the reason, and the component's header.
- *
- * The token names are the real Aura paths, not invented ones: PrimeNG's
- * `datatable` preset object declares `headerCell.padding` and `bodyCell.padding`
- * (`@primeuix/themes/dist/aura/datatable/index.mjs`), which `dt()` resolves to
- * `--png-datatable-header-cell-padding` and `--png-datatable-body-cell-padding`
- * under this app's `prefix: 'png'`. PrimeNG's own `.p-datatable-thead > tr > th`
- * and `.p-datatable-tbody > tr > td` rules read those two variables, so setting
- * them here reaches the header and body cells of the inner table by
- * inheritance without a single descendant selector.
- *
- * The value is the mockup's, not Aura's: `.data-table th` and `.data-table td`
- * both carry `padding: var(--space-3)` (`components.css:1161`, `:1173`), against
- * Aura's `0.5rem 0.875rem`. This is the load-bearing override Step 5 predicted.
- *
- * `display: block` is here for the same reason `chrome-select` has it: the host
- * is an unknown element, so without it the wrapper is an inline box and the
- * block-level `.p-datatable` inside it lays out against an anonymous block. */
 :host {
   display: block;
-  --png-datatable-header-cell-padding: var(--space-3);
-  --png-datatable-body-cell-padding: var(--space-3);
+  max-width: 100%;
+  overflow-x: auto;
 }

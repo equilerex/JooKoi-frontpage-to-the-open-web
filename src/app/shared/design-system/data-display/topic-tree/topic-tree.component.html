@@ -2,5 +2,10 @@
   [value]="nodes()"
   selectionMode="single"
   [ariaLabel]="ariaLabel() || undefined"
+  [selectionKeys]="selectionKeys()"
+  [highlightOnSelect]="true"
+  [filter]="true"
+  filterBy="label"
+  filterMode="lenient"
   (onNodeSelect)="onNodeSelect($event)"
 />

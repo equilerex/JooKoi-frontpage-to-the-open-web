@@ -1,4 +1,4 @@
-import { Source } from './source.model';
+import { Source, WebOutlet } from './source.model';
 
 /**
  * Hand-authored `Source` records (D1 — a typed fixture, not a `sources/`
@@ -26,7 +26,41 @@ import { Source } from './source.model';
 export const SOURCE_FIXTURE: readonly Source[] = [
   // ---------------------------------------------------------------------
   // 1. AI skill marketplaces
+  // Name = author's GitHub repo if known, otherwise homepage.
+  // Search↗ always has a query param. Never GitHub, never a listing path.
+  //   1. That row's marketplace search URL if it takes ?q= (Vercel: https://www.skills.sh/?q={q}).
+  //   2. Else https://mcpservers.org/agent-skills/author/{github-owner}?q={q}
+  // sourceUrl = GitHub only when Name is not already the repo.
   // ---------------------------------------------------------------------
+  {
+    id: 'skills-sh',
+    name: 'skills.sh',
+    url: 'https://www.skills.sh',
+    desc: "Vercel's agent-skills marketplace — install counts and per-repo listings, searchable with ?q=.",
+    type: 'AI skill marketplace',
+    category: 'ai-marketplace',
+    tags: ['ai-tooling', 'skills', 'marketplace', 'vercel'],
+    trustScore: 86,
+    capabilities: ['site-search'],
+    verified: '2026-09-18',
+    searchUrl: 'https://www.skills.sh/?q={q}',
+    sourceUrl: 'https://github.com/vercel-labs/skills',
+    lang: 'en',
+  },
+  {
+    id: 'mcpservers-org',
+    name: 'MCP Servers',
+    url: 'https://mcpservers.org',
+    desc: 'MCP server catalog with rich listings and a global query search across thousands of servers.',
+    type: 'MCP marketplace',
+    category: 'ai-marketplace',
+    tags: ['ai-tooling', 'mcp', 'marketplace', 'servers'],
+    trustScore: 84,
+    capabilities: ['site-search'],
+    verified: '2026-09-18',
+    searchUrl: 'https://mcpservers.org/search?query={q}',
+    lang: 'en',
+  },
   {
     id: 'mdskills-ai',
     name: 'mdskills.ai',
@@ -38,6 +72,7 @@ export const SOURCE_FIXTURE: readonly Source[] = [
     trustScore: 60,
     capabilities: ['site-search'],
     verified: '2026-08-22',
+    searchUrl: 'https://www.mdskills.ai/skills?q={q}',
     lang: 'en',
   },
   {
@@ -51,6 +86,7 @@ export const SOURCE_FIXTURE: readonly Source[] = [
     trustScore: 58,
     capabilities: ['site-search'],
     verified: '2026-08-22',
+    searchUrl: 'https://www.agensi.io/search?q={q}',
     lang: 'en',
   },
   {
@@ -64,6 +100,7 @@ export const SOURCE_FIXTURE: readonly Source[] = [
     trustScore: 68,
     capabilities: ['site-search'],
     verified: '2026-08-22',
+    searchUrl: 'https://mcpmarket.com/search?q={q}',
     lang: 'en',
   },
   {
@@ -77,6 +114,7 @@ export const SOURCE_FIXTURE: readonly Source[] = [
     trustScore: 88,
     capabilities: ['rss-feed', 'site-search', 'public-api'],
     verified: '2026-08-22',
+    searchUrl: 'https://mcpservers.org/agent-skills/author/obra?q={q}',
     lang: 'en',
   },
   {
@@ -90,6 +128,7 @@ export const SOURCE_FIXTURE: readonly Source[] = [
     trustScore: 90,
     capabilities: ['rss-feed', 'site-search', 'public-api'],
     verified: '2026-08-22',
+    searchUrl: 'https://mcpservers.org/agent-skills/author/addyosmani?q={q}',
     lang: 'en',
   },
   {
@@ -103,6 +142,7 @@ export const SOURCE_FIXTURE: readonly Source[] = [
     trustScore: 85,
     capabilities: ['rss-feed', 'site-search', 'public-api'],
     verified: '2026-08-22',
+    searchUrl: 'https://mcpservers.org/agent-skills/author/mattpocock?q={q}',
     lang: 'en',
   },
   {
@@ -116,6 +156,7 @@ export const SOURCE_FIXTURE: readonly Source[] = [
     trustScore: 88,
     capabilities: ['rss-feed', 'site-search', 'public-api'],
     verified: '2026-08-22',
+    searchUrl: 'https://www.skills.sh/?q={q}',
     lang: 'en',
   },
   {
@@ -129,6 +170,21 @@ export const SOURCE_FIXTURE: readonly Source[] = [
     trustScore: 90,
     capabilities: ['rss-feed', 'site-search', 'public-api'],
     verified: '2026-08-23',
+    searchUrl: 'https://mcpservers.org/agent-skills/author/cloudflare?q={q}',
+    lang: 'en',
+  },
+  {
+    id: 'gh-openai-plugins',
+    name: 'openai/plugins',
+    url: 'https://github.com/openai/plugins',
+    desc: 'OpenAI plugin and agent-skill collection.',
+    type: 'Skill library repo',
+    category: 'ai-marketplace',
+    tags: ['ai-tooling', 'skills', 'github', 'openai'],
+    trustScore: 82,
+    capabilities: ['site-search'],
+    verified: '2026-09-18',
+    searchUrl: 'https://mcpservers.org/agent-skills/author/openai?q={q}',
     lang: 'en',
   },
 
@@ -718,4 +774,3191 @@ export const SOURCE_FIXTURE: readonly Source[] = [
     verified: '2026-09-10',
     lang: 'en',
   },
+
 ];
+
+// The Source interface from your architectural plan doesn't include an `rssUrl` field,
+// relying instead on the `capabilities: ['rss-feed']` flag to signal feed availability.
+// However, I have populated the `searchUrl` field with the exact `{q}` routing
+// required for direct site search integrations based on how these sites handle queries.
+
+export const enrichedTechAndCultureSources: Source[] = [
+  {
+    id: 'simon-willison',
+    name: "Simon Willison's Weblog",
+    url: 'https://simonwillison.net',
+    desc: 'Extensive technical documentation, experimentation with local LLMs, prompt engineering, and building agentic workflows.',
+    type: 'Developer weblog',
+    category: 'technology',
+    tags: ['ai', 'local-llms', 'architecture'],
+    trustScore: 94,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://simonwillison.net/search/?q={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'latent-space',
+    name: 'Latent Space',
+    url: 'https://www.latent.space',
+    desc: 'Deep dives into the emerging field of AI engineering, covering model architectures, local inference, and R&D.',
+    type: 'AI engineering journal',
+    category: 'technology',
+    tags: ['ai', 'engineering', 'research'],
+    trustScore: 90,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.latent.space/search?q={q}',
+    lang: 'en',
+    region: 'United States'
+  },
+  {
+    id: 'hugging-face-blog',
+    name: 'Hugging Face Blog',
+    url: 'https://huggingface.co/blog',
+    desc: 'Bleeding edge research, model release notes, and tutorials on open-source AI weights and local implementation.',
+    type: 'R&D journal',
+    category: 'technology',
+    tags: ['ai', 'machine-learning', 'open-source'],
+    trustScore: 93,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://huggingface.co/search/full-text?q={q}&f=blog',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'model-context-protocol',
+    name: 'Model Context Protocol',
+    url: 'https://modelcontextprotocol.io',
+    desc: 'Official specifications, SDK updates, and architectural patterns for connecting AI models to local data sources and tools.',
+    type: 'Technical specification',
+    category: 'technology',
+    tags: ['ai', 'mcp', 'architecture'],
+    trustScore: 95,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://modelcontextprotocol.io/search?q={q}',
+    sourceUrl: 'https://github.com/modelcontextprotocol',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'web-dev',
+    name: 'web.dev',
+    url: 'https://web.dev',
+    desc: 'Direct from browser engineers detailing upcoming Web APIs, WebGPU, WASM, and baseline performance standards.',
+    type: 'Technical documentation',
+    category: 'technology',
+    tags: ['frontend', 'web-standards', 'performance'],
+    trustScore: 96,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://web.dev/search/?q={q}',
+    sourceUrl: 'https://github.com/GoogleChrome/web.dev',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: '404-media',
+    name: '404 Media',
+    url: 'https://www.404media.co',
+    desc: 'Independent technology publication founded by former Motherboard journalists focused on surveillance and digital culture.',
+    type: 'Independent tech journalism',
+    category: 'technology',
+    tags: ['tech', 'investigative', 'culture'],
+    trustScore: 89,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.404media.co/search/?q={q}',
+    lang: 'en',
+    region: 'United States'
+  },
+  {
+    id: 'bytebytego',
+    name: 'ByteByteGo',
+    url: 'https://blog.bytebytego.com',
+    desc: 'Visual breakdowns of complex distributed systems, enterprise software architecture, and massive-scale data processing.',
+    type: 'Architecture analysis',
+    category: 'technology',
+    tags: ['architecture', 'system-design', 'backend'],
+    trustScore: 89,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://blog.bytebytego.com/search?q={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'the-new-stack',
+    name: 'The New Stack',
+    url: 'https://thenewstack.io',
+    desc: 'News and analysis heavily focused on software architecture, containerization, and backend developer ecosystems at scale.',
+    type: 'Tech journalism',
+    category: 'technology',
+    tags: ['architecture', 'infrastructure', 'devops'],
+    trustScore: 86,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://thenewstack.io/search/?q={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'angular-dev',
+    name: 'Angular.dev',
+    url: 'https://angular.dev',
+    desc: 'The bleeding edge of enterprise frontend framework development, focusing heavily on fine-grained reactivity and state synchronization.',
+    type: 'Framework documentation',
+    category: 'technology',
+    tags: ['frontend', 'architecture', 'reactivity'],
+    trustScore: 93,
+    capabilities: ['rss-feed', 'site-search', 'public-api'],
+    verified: '2026-09-19',
+    searchUrl: 'https://angular.dev/search?q={q}',
+    sourceUrl: 'https://github.com/angular/angular',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'lobsters',
+    name: 'Lobsters',
+    url: 'https://lobste.rs',
+    desc: 'Community focused computing centric link aggregator featuring technical discussions.',
+    type: 'Forum',
+    category: 'technology',
+    tags: ['programming', 'architecture'],
+    trustScore: 88,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://lobste.rs/search?q={q}&what=stories',
+    sourceUrl: 'https://github.com/lobsters/lobsters',
+    lang: 'en',
+    region: 'Global'
+  }
+];
+
+export const bleedingEdgeTechSources: Source[] = [
+  {
+    id: 'simon-willison',
+    name: "Simon Willison's Weblog",
+    url: 'https://simonwillison.net',
+    desc: 'Extensive technical documentation, experimentation with local LLMs, prompt engineering, and building agentic workflows.',
+    type: 'Developer weblog',
+    category: 'technology',
+    tags: ['ai', 'local-llms', 'architecture'],
+    trustScore: 94,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://simonwillison.net/search/?q={q}',
+    sourceUrl: 'https://github.com/simonw/simonwillisonblog',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'Everything',
+        url: 'https://simonwillison.net/atom/everything/',
+        desc: 'All articles, link commentary, and quotations',
+        format: 'atom'
+      },
+      {
+        name: 'Articles Only',
+        url: 'https://simonwillison.net/atom/entries/',
+        desc: 'Long-form essays and in-depth writeups only',
+        format: 'atom'
+      }
+    ]
+  },
+  {
+    id: 'latent-space',
+    name: 'Latent Space',
+    url: 'https://www.latent.space',
+    desc: 'Deep dives into the emerging field of AI engineering, covering model architectures, local inference, and R&D.',
+    type: 'AI engineering journal',
+    category: 'technology',
+    tags: ['ai', 'engineering', 'research'],
+    trustScore: 90,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.latent.space/search?q={q}',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      {
+        name: 'Main Publication',
+        url: 'https://www.latent.space/feed',
+        desc: 'Full articles, newsletters, and essay breakdowns',
+        format: 'rss'
+      },
+      {
+        name: 'Podcast Feed',
+        url: 'https://api.substack.com/feed/podcast/1084089.rss',
+        desc: 'Direct audio episodes and interview transcripts',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: '404-media',
+    name: '404 Media',
+    url: 'https://www.404media.co',
+    desc: 'Independent technology publication founded by former Motherboard journalists focused on surveillance and digital culture.',
+    type: 'Independent tech journalism',
+    category: 'technology',
+    tags: ['tech', 'investigative', 'culture'],
+    trustScore: 89,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.404media.co/search/?q={q}',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      {
+        name: 'Standard Feed',
+        url: 'https://www.404media.co/rss/',
+        desc: 'Public reporting and story dispatches',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: 'hugging-face-blog',
+    name: 'Hugging Face Blog',
+    url: 'https://huggingface.co/blog',
+    desc: 'Bleeding edge research, model release notes, and tutorials on open-source AI weights and local implementation.',
+    type: 'R&D journal',
+    category: 'technology',
+    tags: ['ai', 'machine-learning', 'open-source'],
+    trustScore: 93,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://huggingface.co/search/full-text?q={q}&f=blog',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'Blog Feed',
+        url: 'https://huggingface.co/blog/feed.xml',
+        desc: 'Technical writeups, open weight releases, and research benchmarks',
+        format: 'atom'
+      }
+    ]
+  },
+  {
+    id: 'angular-dev',
+    name: 'Angular.dev',
+    url: 'https://angular.dev',
+    desc: 'The bleeding edge of enterprise frontend framework development, focusing heavily on fine-grained reactivity and state synchronization.',
+    type: 'Framework documentation',
+    category: 'technology',
+    tags: ['frontend', 'architecture', 'reactivity'],
+    trustScore: 93,
+    capabilities: ['rss-feed', 'site-search', 'public-api'],
+    verified: '2026-09-19',
+    searchUrl: 'https://angular.dev/search?q={q}',
+    sourceUrl: 'https://github.com/angular/angular',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'Official Blog',
+        url: 'https://blog.angular.dev/feed',
+        desc: 'Release announcements, framework updates, and architectural guides',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: 'lobsters',
+    name: 'Lobsters',
+    url: 'https://lobste.rs',
+    desc: 'Community focused computing centric link aggregator featuring technical discussions.',
+    type: 'Forum',
+    category: 'technology',
+    tags: ['programming', 'architecture'],
+    trustScore: 88,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://lobste.rs/search?q={q}&what=stories',
+    sourceUrl: 'https://github.com/lobsters/lobsters',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'Hottest Stories',
+        url: 'https://lobste.rs/rss',
+        desc: 'Top voted submissions and ongoing comment threads',
+        format: 'rss'
+      },
+      {
+        name: 'Newest Submissions',
+        url: 'https://lobste.rs/newest.rss',
+        desc: 'Chronological firehose of all incoming links',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: 'bytebytego',
+    name: 'ByteByteGo',
+    url: 'https://blog.bytebytego.com',
+    desc: 'Visual breakdowns of complex distributed systems, enterprise software architecture, and massive-scale data processing.',
+    type: 'Architecture analysis',
+    category: 'technology',
+    tags: ['architecture', 'system-design', 'backend'],
+    trustScore: 89,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://blog.bytebytego.com/search?q={q}',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'Newsletter Feed',
+        url: 'https://blog.bytebytego.com/feed',
+        desc: 'Weekly system design diagrams and architectural analysis',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: 'the-new-stack',
+    name: 'The New Stack',
+    url: 'https://thenewstack.io',
+    desc: 'News and analysis heavily focused on software architecture, containerization, and backend developer ecosystems at scale.',
+    type: 'Tech journalism',
+    category: 'technology',
+    tags: ['architecture', 'infrastructure', 'devops'],
+    trustScore: 86,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://thenewstack.io/search/?q={q}',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'Main Feed',
+        url: 'https://thenewstack.io/feed/',
+        desc: 'Daily technical reporting on cloud infrastructure and development',
+        format: 'rss'
+      }
+    ]
+  }
+];
+
+
+export const eclecticWeirdWebSources: Source[] = [
+  {
+    id: 'neal-fun',
+    name: 'Neal.fun',
+    url: 'https://neal.fun',
+    desc: 'Interactive micro-games, deep internet toys, and visual data experiments built with clean browser technology.',
+    type: 'Interactive web experiments',
+    category: 'culture',
+    tags: ['interactive', 'experiments', 'games'],
+    trustScore: 92,
+    capabilities: [],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States'
+  },
+  {
+    id: 'the-useless-web',
+    name: 'The Useless Web',
+    url: 'https://theuselessweb.com',
+    desc: 'One-click portal routing users to absurd, single-serving, and purposeless websites from across the open web.',
+    type: 'Random link portal',
+    category: 'culture',
+    tags: ['weird-web', 'portal', 'random'],
+    trustScore: 84,
+    capabilities: [],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'radio-garden',
+    name: 'Radio Garden',
+    url: 'https://radio.garden',
+    desc: 'Interactive 3D globe allowing exploration of thousands of live local radio stations broadcasting across the planet.',
+    type: 'Interactive audio map',
+    category: 'culture',
+    tags: ['audio', 'radio', 'map'],
+    trustScore: 94,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://radio.garden/search?q={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'melonland',
+    name: 'MelonLand',
+    url: 'https://melonland.net',
+    desc: 'A central hub of the modern web revival movement, fostering early-internet creativity, personal zines, and chaotic art.',
+    type: 'Web revival community',
+    category: 'culture',
+    tags: ['web-revival', 'indie-web', 'retro'],
+    trustScore: 88,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'Forum & News Feed',
+        url: 'https://forum.melonland.net/index.php?action=.xml;type=rss',
+        desc: 'Community projects, zine releases, and web revival updates',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: 'windows-93',
+    name: 'Windows 93',
+    url: 'https://www.windows93.net',
+    desc: 'Nostalgic, surreal parody OS running entirely in the browser, packed with glitch art, sound toys, and hidden games.',
+    type: 'In-browser OS simulation',
+    category: 'technology',
+    tags: ['retro', 'simulation', 'glitch-art'],
+    trustScore: 86,
+    capabilities: [],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Europe'
+  },
+  {
+    id: 'zoomquilt',
+    name: 'Zoomquilt',
+    url: 'https://zoomquilt.org',
+    desc: 'Infinitely zooming, seamlessly looping digital fantasy painting created collaboratively by an online artist collective.',
+    type: 'Digital art project',
+    category: 'culture',
+    tags: ['art', 'endless-zoom', 'collaborative'],
+    trustScore: 90,
+    capabilities: [],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'pointer-pointer',
+    name: 'Pointer Pointer',
+    url: 'https://pointerpointer.com',
+    desc: 'Tracks the user mouse cursor anywhere on screen and displays a real photograph of someone pointing precisely at it.',
+    type: 'Novelty web toy',
+    category: 'culture',
+    tags: ['interactive', 'cursor-toy', 'humor'],
+    trustScore: 82,
+    capabilities: [],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Netherlands'
+  },
+  {
+    id: 'zombo-com',
+    name: 'Zombo.com',
+    url: 'https://html5zombo.com',
+    desc: 'Legendary HTML5 preservation of the early-2000s meme site where the only limit is yourself and nothing ever happens.',
+    type: 'Web artifact',
+    category: 'culture',
+    tags: ['internet-history', 'satire', 'classic'],
+    trustScore: 85,
+    capabilities: [],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States'
+  },
+  {
+    id: 'every-noise-at-once',
+    name: 'Every Noise at Once',
+    url: 'https://everynoise.com',
+    desc: 'Algorithmically-generated, readable scatter-plot map tracking thousands of micro-genres of music across the globe.',
+    type: 'Music data visualization',
+    category: 'culture',
+    tags: ['music', 'data-viz', 'curation'],
+    trustScore: 91,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://everynoise.com/lookup.cgi?who={q}',
+    lang: 'en',
+    region: 'United States'
+  },
+  {
+    id: 'status-cafe',
+    name: 'Status.Cafe',
+    url: 'https://status.cafe',
+    desc: 'Lightweight, ad-free microblogging social space in the small web movement where posts are kept strictly short and human.',
+    type: 'Small web social',
+    category: 'culture',
+    tags: ['small-web', 'microblog', 'minimalist'],
+    trustScore: 89,
+    capabilities: ['rss-feed'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'Recent Updates',
+        url: 'https://status.cafe/feed.atom',
+        desc: 'Global firehose of user status updates',
+        format: 'atom'
+      }
+    ]
+  }
+];
+export const makerAndPropCraftingSources: Source[] = [
+  {
+    id: 'the-rpf',
+    name: 'The Replica Prop Forum',
+    url: 'https://www.therpf.com',
+    desc: 'The definitive classic community for screen-accurate movie prop replication, costume builds, molding, and physical fabrication.',
+    type: 'Maker community forum',
+    category: 'culture',
+    tags: ['props', 'cosplay', 'movie-replicas', 'fabrication'],
+    trustScore: 94,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.therpf.com/forums/search/?q={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'tested',
+    name: 'Tested',
+    url: 'https://www.tested.com',
+    desc: 'Adam Savage and team exploring hands-on maker techniques, kitbashing, mold-making, tooling, and film industry practical effects.',
+    type: 'Maker media outlet',
+    category: 'culture',
+    tags: ['maker', 'practical-effects', 'tooling', 'prototyping'],
+    trustScore: 92,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.tested.com/?s={q}',
+    lang: 'en',
+    region: 'United States'
+  },
+  {
+    id: 'kamui-cosplay',
+    name: 'Kamui Cosplay',
+    url: 'https://www.kamuicosplay.com',
+    desc: 'Deep technical tutorials on EVA foam fabrication, sonic cutters, airbrush weathering, 3D printing, and wearable LED systems.',
+    type: 'Independent craft journal',
+    category: 'culture',
+    tags: ['cosplay', 'led-wearables', 'eva-foam', 'crafting'],
+    trustScore: 91,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.kamuicosplay.com/?s={q}',
+    lang: 'en',
+    region: 'Europe',
+    feeds: [
+      {
+        name: 'Blog & Project Guides',
+        url: 'https://www.kamuicosplay.com/feed/',
+        desc: 'Build logs, painting techniques, and wearable electronics guides',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: 'adafruit-wearables',
+    name: 'Adafruit Wearables & Cosplay',
+    url: 'https://learn.adafruit.com/category/wearables',
+    desc: 'Exhaustive open-source schematics, code, and guides for addressable RGB LEDs, motion-reactive costumes, and prop soundboards.',
+    type: 'Open-source hardware guides',
+    category: 'technology',
+    tags: ['led-wearables', 'neopixels', 'props', 'microcontrollers'],
+    trustScore: 96,
+    capabilities: ['rss-feed', 'site-search', 'public-api'],
+    verified: '2026-09-19',
+    searchUrl: 'https://learn.adafruit.com/search?q={q}',
+    sourceUrl: 'https://github.com/adafruit',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      {
+        name: 'Wearables Learn Guide Feed',
+        url: 'https://learn.adafruit.com/feed/wearables',
+        desc: 'New wearable hardware project tutorials and wiring guides',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: 'foamsmithing-punished-props',
+    name: 'Punished Props Academy',
+    url: 'https://www.punishedprops.com',
+    desc: 'Comprehensive blueprints and guides for CNC milling, laser cutting, mold-making, casting, and finishing high-durability armor.',
+    type: 'Fabrication educational academy',
+    category: 'culture',
+    tags: ['props', 'mold-making', 'cnc', 'laser-cutting'],
+    trustScore: 89,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.punishedprops.com/?s={q}',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      {
+        name: 'Academy Build Articles',
+        url: 'https://www.punishedprops.com/feed/',
+        desc: 'Free blueprints, finishing recipes, and tool walkthroughs',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: 'openbuilds',
+    name: 'OpenBuilds',
+    url: 'https://openbuilds.com',
+    desc: 'Community and open-source modular hardware ecosystem for DIY CNC routers, drag-knives, vibrating blades, and laser tables.',
+    type: 'Open-source hardware platform',
+    category: 'technology',
+    tags: ['cnc', 'laser-cutters', 'hardware', 'motion-control'],
+    trustScore: 90,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://openbuilds.com/search/?q={q}',
+    sourceUrl: 'https://github.com/OpenBuilds',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'stan-winston-school',
+    name: 'Stan Winston School of Character Arts',
+    url: 'https://www.stanwinstonschool.com',
+    desc: 'Masterclass tutorials and documentation directly from Hollywood practical effects artists on animatronics, sculpting, and prosthetics.',
+    type: 'Industry masterclass',
+    category: 'culture',
+    tags: ['practical-effects', 'animatronics', 'prosthetics', 'hollywood'],
+    trustScore: 95,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.stanwinstonschool.com/search?q={q}',
+    lang: 'en',
+    region: 'United States'
+  },
+  {
+    id: 'instructables-workshop',
+    name: 'Instructables Workshop',
+    url: 'https://www.instructables.com/workshop/',
+    desc: 'Dense crowd-sourced archive of step-by-step builds featuring CNC router tables, hot-wire foam cutters, and power carving setups.',
+    type: 'Project repository',
+    category: 'technology',
+    tags: ['diy', 'workshop', 'cnc', 'woodworking'],
+    trustScore: 87,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.instructables.com/search?q={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'fab-academy',
+    name: 'Fab Academy',
+    url: 'https://fabacademy.org',
+    desc: 'Documentation archive from the global Fab Lab network focusing on rapid prototyping, digital fabrication, precision laser cutters, and embedded sensors.',
+    type: 'Academic fabrication network',
+    category: 'technology',
+    tags: ['digital-fabrication', 'rapid-prototyping', 'cnc', 'laser-cutters'],
+    trustScore: 93,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://fabacademy.org/search.html?q={q}',
+    sourceUrl: 'https://gitlab.fabcloud.org/academany/fabacademy',
+    lang: 'en',
+    region: 'Global'
+  }
+];
+export const deepOpenWebSources: Source[] = [
+  {
+    id: 'marginalia',
+    name: 'Marginalia Search',
+    url: 'https://search.marginalia.nu',
+    desc: 'Independent discovery engine crawling the text heavy obscure and noncommercial web while actively penalizing modern bloat',
+    type: 'Search engine',
+    category: 'technology',
+    tags: ['search', 'discovery', 'indie', 'text'],
+    trustScore: 94,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://search.marginalia.nu/search?query={q}',
+    lang: 'en',
+    region: 'Sweden'
+  },
+  {
+    id: 'lowtech',
+    name: 'Low Tech Magazine',
+    url: 'https://solar.lowtechmagazine.com',
+    desc: 'Radical solar powered publication hosted on a server in Barcelona that physically goes offline during bad weather',
+    type: 'Publication',
+    category: 'culture',
+    tags: ['sustainability', 'solar', 'minimalism'],
+    trustScore: 92,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'en',
+    region: 'Spain',
+    feeds: [
+      {
+        name: 'Atom Feed',
+        url: 'https://solar.lowtechmagazine.com/feeds/all.atom.xml',
+        format: 'atom'
+      }
+    ]
+  },
+  {
+    id: 'monoskop',
+    name: 'Monoskop',
+    url: 'https://monoskop.org',
+    desc: 'Collaborative wiki and digital archive dedicated to media arts avant garde theory and obscure humanities',
+    type: 'Digital archive',
+    category: 'culture',
+    tags: ['archive', 'art', 'theory', 'humanities'],
+    trustScore: 89,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://monoskop.org/index.php?search={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'ubuweb',
+    name: 'UbuWeb',
+    url: 'https://ubu.com',
+    desc: 'Ancient hard coded HTML archive hosting terabytes of underground sound poetry concrete video art and forgotten avant garde media',
+    type: 'Digital archive',
+    category: 'culture',
+    tags: ['archive', 'art', 'poetry', 'underground'],
+    trustScore: 91,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'tildeclub',
+    name: 'Tilde Club',
+    url: 'https://tilde.club',
+    desc: 'Public access UNIX system where users build raw HTML pages creating a massive brutalist and highly personal underground web community',
+    type: 'Web community',
+    category: 'technology',
+    tags: ['unix', 'community', 'retro', 'minimalism'],
+    trustScore: 86,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'hundredrabbits',
+    name: 'Hundred Rabbits',
+    url: 'https://100r.co',
+    desc: 'Nomadic artist collective living on a sailboat building offline first open source software and esoteric tools for a post collapse world',
+    type: 'Digital studio',
+    category: 'technology',
+    tags: ['nomadic', 'software', 'art', 'resilience'],
+    trustScore: 95,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'Links Feed',
+        url: 'https://100r.co/links/rss.xml',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: 'cryptome',
+    name: 'Cryptome',
+    url: 'https://cryptome.org',
+    desc: 'Minimalist public library hosting intelligence documents cryptography research and surveillance archives',
+    type: 'Public library',
+    category: 'news',
+    tags: ['cryptography', 'surveillance', 'archive', 'leaks'],
+    trustScore: 88,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'en',
+    region: 'United States'
+  },
+  {
+    id: 'wiby',
+    name: 'Wiby',
+    url: 'https://wiby.me',
+    desc: 'Search engine strictly indexing lightweight classic web pages to preserve the surfing experience of the early web without modern bloat',
+    type: 'Search engine',
+    category: 'technology',
+    tags: ['search', 'retro', 'lightweight', 'preservation'],
+    trustScore: 87,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://wiby.me/?q={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'solarprotocol',
+    name: 'Solar Protocol',
+    url: 'http://solarprotocol.net',
+    desc: 'Planetary network of solar powered servers where web traffic is dynamically routed to whichever server has the most sunlight at that exact moment',
+    type: 'Network experiment',
+    category: 'technology',
+    tags: ['solar', 'network', 'experiment', 'art'],
+    trustScore: 90,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'en',
+    region: 'Global'
+  }
+]
+
+export const europeanOnlineShops: Source[] = [
+  {
+    id: 'proshop',
+    name: 'Proshop',
+    url: 'https://www.proshop.dk',
+    desc: 'Major Nordic and European retailer specializing in electronics hardware and smart home gear with extremely competitive pricing',
+    type: 'Electronics retailer',
+    category: 'technology',
+    tags: ['ecommerce', 'electronics', 'hardware'],
+    trustScore: 92,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.proshop.dk/?s={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'amazonDe',
+    name: 'Amazon Germany',
+    url: 'https://www.amazon.de',
+    desc: 'The primary Amazon hub for Danish shoppers offering free delivery to Denmark on eligible orders and a massive pan European inventory',
+    type: 'General marketplace',
+    category: 'technology',
+    tags: ['ecommerce', 'marketplace', 'general'],
+    trustScore: 95,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.amazon.de/s?k={q}',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'galaxus',
+    name: 'Galaxus',
+    url: 'https://www.galaxus.de',
+    desc: 'Rapidly expanding Swiss and German marketplace often called the Amazon of Switzerland with a huge catalog and transparent price history',
+    type: 'General marketplace',
+    category: 'technology',
+    tags: ['ecommerce', 'electronics', 'home'],
+    trustScore: 89,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.galaxus.de/search?q={q}',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'allegro',
+    name: 'Allegro',
+    url: 'https://allegro.pl',
+    desc: 'Polands massive ecommerce giant functioning as a major marketplace for Central Europe with highly competitive prices and EU wide delivery',
+    type: 'General marketplace',
+    category: 'technology',
+    tags: ['ecommerce', 'marketplace', 'deals'],
+    trustScore: 88,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://allegro.pl/listing?string={q}',
+    lang: 'en',
+    region: 'Poland'
+  },
+  {
+    id: 'aliexpress',
+    name: 'AliExpress',
+    url: 'https://www.aliexpress.com',
+    desc: 'Global marketplace with extensive European warehouse networks and IOSS compliance ensuring smooth customs clearance for EU buyers',
+    type: 'Global marketplace',
+    category: 'technology',
+    tags: ['ecommerce', 'imports', 'electronics'],
+    trustScore: 82,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.aliexpress.com/wholesale?SearchText={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'temu',
+    name: 'Temu',
+    url: 'https://www.temu.com',
+    desc: 'Rapidly growing marketplace offering steep discounts on general goods and electronics with full EU tax compliance for frictionless delivery',
+    type: 'Global marketplace',
+    category: 'technology',
+    tags: ['ecommerce', 'deals', 'general'],
+    trustScore: 75,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.temu.com/search_result.html?search_key={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'thomann',
+    name: 'Thomann',
+    url: 'https://www.thomann.de',
+    desc: 'Europes largest retailer for musical instruments studio gear and audio electronics boasting legendary customer service and fast shipping',
+    type: 'Audio retailer',
+    category: 'technology',
+    tags: ['audio', 'music', 'electronics'],
+    trustScore: 98,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.thomann.de/intl/search_dir.html?sw={q}',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'komplett',
+    name: 'Komplett',
+    url: 'https://www.komplett.dk',
+    desc: 'Leading Nordic online retailer dedicated to PC building gaming hardware and consumer electronics with excellent warranty support',
+    type: 'Electronics retailer',
+    category: 'technology',
+    tags: ['pc', 'gaming', 'hardware'],
+    trustScore: 91,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.komplett.dk/search?q={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'computeruniverse',
+    name: 'Computeruniverse',
+    url: 'https://www.computeruniverse.net',
+    desc: 'German technology retailer highly popular across Europe for computing components and appliances with reliable international shipping',
+    type: 'Electronics retailer',
+    category: 'technology',
+    tags: ['hardware', 'electronics', 'computing'],
+    trustScore: 86,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.computeruniverse.net/en/search?query={q}',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'elgiganten',
+    name: 'Elgiganten',
+    url: 'https://www.elgiganten.dk',
+    desc: 'Denmarks biggest electronics retailer offering massive online inventory ranging from household appliances to the latest gaming hardware',
+    type: 'Electronics retailer',
+    category: 'technology',
+    tags: ['appliances', 'electronics', 'retail'],
+    trustScore: 89,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.elgiganten.dk/search/{q}',
+    lang: 'da',
+    region: 'Denmark'
+  }
+]
+export const europeanDeepDiveShops: Source[] = [
+  {
+    id: 'alzashop',
+    name: 'Alza',
+    url: 'https://www.alzashop.com',
+    desc: 'Massive Czech retail giant offering huge stock of tech hardware and general goods across the continent',
+    type: 'General marketplace',
+    category: 'technology',
+    tags: ['ecommerce', 'electronics', 'general'],
+    trustScore: 88,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.alzashop.com/search.htm?exps={q}',
+    lang: 'en',
+    region: 'Czech Republic'
+  },
+  {
+    id: 'reichelt',
+    name: 'Reichelt Elektronik',
+    url: 'https://www.reichelt.com',
+    desc: 'German electronics distributor known for highly competitive pricing on maker gear networking equipment and industrial tools',
+    type: 'Electronics distributor',
+    category: 'technology',
+    tags: ['electronics', 'components', 'tools'],
+    trustScore: 94,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.reichelt.com/de/en/search.html?q={q}',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'tme',
+    name: 'Transfer Multisort Elektronik',
+    url: 'https://www.tme.eu',
+    desc: 'Massive Polish warehouse processing thousands of daily shipments of raw electronic components dev boards and robotics gear',
+    type: 'Electronics distributor',
+    category: 'technology',
+    tags: ['components', 'robotics', 'hardware'],
+    trustScore: 92,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.tme.eu/en/katalog/?search={q}',
+    lang: 'en',
+    region: 'Poland'
+  },
+  {
+    id: 'caseking',
+    name: 'Caseking',
+    url: 'https://www.caseking.de',
+    desc: 'Specialist German retailer focused heavily on enthusiast PC building custom liquid cooling setups and boutique mechanical keyboards',
+    type: 'Enthusiast PC hardware',
+    category: 'technology',
+    tags: ['pc', 'gaming', 'cooling'],
+    trustScore: 90,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.caseking.de/search?sSearch={q}',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'tradeinn',
+    name: 'Tradeinn',
+    url: 'https://www.tradeinn.com',
+    desc: 'Spanish network of heavily specialized mega stores offering aggressive pricing on consumer electronics outdoor gear and apparel',
+    type: 'Specialized mega store network',
+    category: 'culture',
+    tags: ['electronics', 'outdoor', 'apparel'],
+    trustScore: 85,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.tradeinn.com/techinn/en/search?products_search[query]={q}',
+    lang: 'en',
+    region: 'Spain'
+  },
+  {
+    id: 'cdiscount',
+    name: 'Cdiscount',
+    url: 'https://www.cdiscount.com',
+    desc: 'Heavyweight French marketplace competing aggressively with global giants on tech appliances and domestic goods',
+    type: 'General marketplace',
+    category: 'technology',
+    tags: ['ecommerce', 'marketplace', 'deals'],
+    trustScore: 81,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.cdiscount.com/search/10/{q}.html',
+    lang: 'fr',
+    region: 'France'
+  },
+  {
+    id: 'berrybase',
+    name: 'BerryBase',
+    url: 'https://www.berrybase.de',
+    desc: 'Excellent German maker shop stocking incredibly cheap microcontrollers sensors and single board computers',
+    type: 'Maker electronics',
+    category: 'technology',
+    tags: ['maker', 'embedded', 'hardware'],
+    trustScore: 89,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.berrybase.de/search?sSearch={q}',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'backMarket',
+    name: 'Back Market',
+    url: 'https://www.backmarket.com',
+    desc: 'Unified European storefront connecting shoppers directly to certified refurbishers for deeply discounted used electronics',
+    type: 'Refurbished marketplace',
+    category: 'technology',
+    tags: ['refurbished', 'electronics', 'sustainability'],
+    trustScore: 87,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.backmarket.com/en-gb/search?q={q}',
+    lang: 'en',
+    region: 'France'
+  },
+  {
+    id: 'computersalg',
+    name: 'ComputerSalg',
+    url: 'https://www.computersalg.dk',
+    desc: 'Danish store that aggressively expanded from computing hardware into a massive digital department store shipping region wide',
+    type: 'Mega retailer',
+    category: 'technology',
+    tags: ['hardware', 'retail', 'home'],
+    trustScore: 86,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.computersalg.dk/l/0/s?sq={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'botland',
+    name: 'Botland',
+    url: 'https://botland.store',
+    desc: 'Polish warehouse packed with affordable robotics parts 3D printing supplies and development boards',
+    type: 'Maker robotics',
+    category: 'technology',
+    tags: ['robotics', '3dprinting', 'maker'],
+    trustScore: 91,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://botland.store/search?s={q}',
+    lang: 'en',
+    region: 'Poland'
+  }
+]
+export const europeanAlternativeMenswear: Source[] = [
+  {
+    id: 'fantasmagoria',
+    name: 'Fantasmagoria',
+    url: 'https://fantasmagoria.shop',
+    desc: 'Lithuania-based massive retailer for darkwear, techwear, post-apocalyptic, and gothic styles. Ships EU-wide with zero customs hassle.',
+    type: 'Alternative retailer',
+    category: 'lifestyle',
+    tags: ['darkwear', 'techwear', 'goth', 'menswear'],
+    trustScore: 92,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://fantasmagoria.shop/search?q={q}',
+    lang: 'en',
+    region: 'Lithuania'
+  },
+  {
+    id: 'emp-denmark',
+    name: 'EMP Shop',
+    url: 'https://www.emp-shop.dk',
+    desc: 'German heavyweight operating a dedicated Danish storefront. Specializes in metal, rock, gaming, and alternative streetwear brands.',
+    type: 'Alternative merchandise',
+    category: 'lifestyle',
+    tags: ['streetwear', 'band-merch', 'alternative'],
+    trustScore: 95,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.emp-shop.dk/search?q={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'impericon',
+    name: 'Impericon',
+    url: 'https://www.impericon.com',
+    desc: 'Major European hub for hardcore, metalcore, and skate styles. Huge selection of aggressive streetwear and band merchandise.',
+    type: 'Streetwear & merch',
+    category: 'lifestyle',
+    tags: ['hardcore', 'skate', 'streetwear'],
+    trustScore: 90,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.impericon.com/search?q={q}',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'disturbia-eu',
+    name: 'Disturbia EU',
+    url: 'https://www.disturbia.eu',
+    desc: 'UK-based grunge and post-punk fashion label operating a dedicated EU site to bypass Brexit customs. Heavily focused on edgy, graphic-heavy casualwear.',
+    type: 'Independent label',
+    category: 'lifestyle',
+    tags: ['grunge', 'punk', 'casual', 'edgy'],
+    trustScore: 88,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.disturbia.eu/search?q={q}',
+    lang: 'en',
+    region: 'Europe'
+  },
+  {
+    id: 'blue-tomato',
+    name: 'Blue Tomato',
+    url: 'https://www.blue-tomato.com',
+    desc: 'Austria-based board sports empire. The best European source for playful, colorful skate, surf, and snow streetwear from independent brands.',
+    type: 'Boardsports retailer',
+    category: 'lifestyle',
+    tags: ['skate', 'streetwear', 'casual', 'colorful'],
+    trustScore: 94,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.blue-tomato.com/en-DK/products/search/?q={q}',
+    lang: 'en',
+    region: 'Austria'
+  },
+  {
+    id: 'attitude-europe',
+    name: 'Attitude Europe',
+    url: 'https://www.attitude-europe.com',
+    desc: 'Dutch mainstay for alternative lifestyles since 1999. Covers everything from psychobilly and emo to festival outfits and platform boots.',
+    type: 'Alternative retailer',
+    category: 'lifestyle',
+    tags: ['festival', 'punk', 'emo', 'footwear'],
+    trustScore: 89,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.attitude-europe.com/search?q={q}',
+    lang: 'en',
+    region: 'Netherlands'
+  },
+  {
+    id: 'killstar-eu',
+    name: 'Killstar EU',
+    url: 'https://eu.killstar.com',
+    desc: 'The biggest name in modern occult goth and alternative darkwear. Operates a dedicated EU warehouse for frictionless continental shipping.',
+    type: 'Alternative label',
+    category: 'lifestyle',
+    tags: ['goth', 'occult', 'darkwear', 'edgy'],
+    trustScore: 93,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://eu.killstar.com/pages/search-results-page?q={q}',
+    lang: 'en',
+    region: 'Europe'
+  },
+  {
+    id: 'defshop',
+    name: 'DefShop',
+    url: 'https://en.def-shop.com',
+    desc: 'Berlin-based massive urban streetwear catalog. Excellent for oversized fits, baggy skate jeans, hip-hop styles, and loud graphic hoodies.',
+    type: 'Urban streetwear',
+    category: 'lifestyle',
+    tags: ['urban', 'hip-hop', 'oversized', 'streetwear'],
+    trustScore: 87,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://en.def-shop.com/search/?q={q}',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'cyberdog',
+    name: 'Cyberdog',
+    url: 'https://www.cyberdog.net',
+    desc: 'Legendary Camden-based rave and cyberpunk retailer. UV-reactive fabrics, futuristic cuts, and festival gear. Pre-collects EU taxes at checkout for smooth delivery.',
+    type: 'Rave & festival wear',
+    category: 'lifestyle',
+    tags: ['cyberpunk', 'rave', 'uv-reactive', 'festival'],
+    trustScore: 86,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.cyberdog.net/search?q={q}',
+    lang: 'en',
+    region: 'United Kingdom'
+  },
+  {
+    id: 'psylo-fashion',
+    name: 'Psylo Fashion',
+    url: 'https://psylofashion.com',
+    desc: 'Ethical, tribal, and post-apocalyptic streetwear heavily rooted in psytrance and underground festival culture. EU orders ship DDP (Duties Delivered Paid).',
+    type: 'Festival & tribal streetwear',
+    category: 'lifestyle',
+    tags: ['tribal', 'festival', 'psytrance', 'ethical'],
+    trustScore: 85,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://psylofashion.com/search?q={q}',
+    lang: 'en',
+    region: 'United Kingdom'
+  }
+];
+export const europeanPlayfulEdgyMenswear: Source[] = [
+  {
+    id: 'carnebollente',
+    name: 'Carne Bollente',
+    url: 'https://carnebollente.com',
+    desc: 'Parisian independent brand famous for highly playful sex positive embroidery colorful streetwear and queer friendly edgy casualwear',
+    type: 'Independent label',
+    category: 'lifestyle',
+    tags: ['streetwear', 'playful', 'edgy'],
+    trustScore: 92,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://carnebollente.com/search?q={q}',
+    lang: 'en',
+    region: 'France'
+  },
+  {
+    id: 'kaotiko',
+    name: 'Kaotiko BCN',
+    url: 'https://www.kaotikobcn.eu',
+    desc: 'Barcelona affordable streetwear mixing retro aesthetics very colorful graphics and playful skate culture vibes',
+    type: 'Streetwear label',
+    category: 'lifestyle',
+    tags: ['skate', 'retro', 'colorful', 'affordable'],
+    trustScore: 88,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://www.kaotikobcn.eu/search?q={q}',
+    lang: 'en',
+    region: 'Spain'
+  },
+  {
+    id: 'wastedparis',
+    name: 'Wasted Paris',
+    url: 'https://wasted.fr',
+    desc: 'French skate brand deeply influenced by grunge punk and underground culture Extremely edgy affordable graphic tees and oversized fits',
+    type: 'Skate & streetwear',
+    category: 'lifestyle',
+    tags: ['skate', 'grunge', 'punk', 'edgy'],
+    trustScore: 89,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://wasted.fr/search?q={q}',
+    lang: 'en',
+    region: 'France'
+  },
+  {
+    id: 'lazyoaf',
+    name: 'Lazy Oaf',
+    url: 'https://www.lazyoaf.com',
+    desc: 'London born independent label specializing in weird cartoonish irreverent and aggressively playful streetwear Ships to the EU with duties paid',
+    type: 'Independent label',
+    category: 'lifestyle',
+    tags: ['weird', 'cartoon', 'playful', 'colorful'],
+    trustScore: 91,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://www.lazyoaf.com/search?q={q}',
+    lang: 'en',
+    region: 'United Kingdom'
+  },
+  {
+    id: 'disturbiaeu',
+    name: 'Disturbia EU',
+    url: 'https://www.disturbia.eu',
+    desc: 'UK post punk and grunge alternative fashion label operating a dedicated EU site Heavily focused on edgy graphic heavy dark casualwear',
+    type: 'Alternative label',
+    category: 'lifestyle',
+    tags: ['grunge', 'punk', 'casual', 'edgy'],
+    trustScore: 88,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://www.disturbia.eu/search?q={q}',
+    lang: 'en',
+    region: 'Europe'
+  },
+  {
+    id: 'iriedaily',
+    name: 'Iriedaily',
+    url: 'https://www.iriedaily.de',
+    desc: 'Berlin skate and streetwear brand deeply rooted in DIY culture street art and antifascist movements Affordable colorful and ethical',
+    type: 'Streetwear label',
+    category: 'lifestyle',
+    tags: ['berlin', 'skate', 'ethical'],
+    trustScore: 90,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://www.iriedaily.de/en/search/?q={q}',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'plazmalab',
+    name: 'Plazmalab',
+    url: 'https://plazmalab.com',
+    desc: 'Psychedelic visionary art collective producing highly intricate alternative and edgy festival streetwear Ships worldwide with an EU warehouse',
+    type: 'Alternative festival wear',
+    category: 'lifestyle',
+    tags: ['psychedelic', 'festival', 'art', 'edgy'],
+    trustScore: 86,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://plazmalab.com/search?q={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'dailypaper',
+    name: 'Daily Paper',
+    url: 'https://www.dailypaperclothing.com',
+    desc: 'Amsterdam fashion label mixing African heritage with modern playful and edgy European streetwear',
+    type: 'Urban streetwear',
+    category: 'lifestyle',
+    tags: ['amsterdam', 'urban', 'heritage', 'playful'],
+    trustScore: 93,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://www.dailypaperclothing.com/search?q={q}',
+    lang: 'en',
+    region: 'Netherlands'
+  },
+  {
+    id: 'freshlabels',
+    name: 'Freshlabels',
+    url: 'https://www.freshlabels.com',
+    desc: 'Highly curated Prague retailer focusing on indie sustainable and alternative European streetwear brands over mainstream giants',
+    type: 'Curated retailer',
+    category: 'lifestyle',
+    tags: ['indie', 'curated', 'sustainable', 'streetwear'],
+    trustScore: 87,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://www.freshlabels.com/search/?q={q}',
+    lang: 'en',
+    region: 'Czech Republic'
+  },
+  {
+    id: 'fantasmagoria',
+    name: 'Fantasmagoria',
+    url: 'https://fantasmagoria.shop',
+    desc: 'Lithuanian massive retailer for darkwear techwear post apocalyptic and gothic styles Highly alternative and edgy',
+    type: 'Alternative retailer',
+    category: 'lifestyle',
+    tags: ['darkwear', 'techwear', 'goth', 'menswear'],
+    trustScore: 92,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://fantasmagoria.shop/search?q={q}',
+    lang: 'en',
+    region: 'Lithuania'
+  },
+  {
+    id: 'dedicatedbrand',
+    name: 'Dedicated',
+    url: 'https://www.dedicatedbrand.com',
+    desc: 'Swedish sustainable streetwear brand known for loud fun and culturally relevant graphic tees colorful patterns and ethical production',
+    type: 'Sustainable streetwear',
+    category: 'lifestyle',
+    tags: ['sustainable', 'graphic', 'colorful', 'swedish'],
+    trustScore: 89,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://www.dedicatedbrand.com/en/search?q={q}',
+    lang: 'en',
+    region: 'Sweden'
+  },
+  {
+    id: 'cleptomanicx',
+    name: 'Cleptomanicx',
+    url: 'https://www.cleptomanicx.com',
+    desc: 'Hamburg skate brand combining maritime northern German aesthetics with bizarre humorous and playful cartoon graphics',
+    type: 'Skate label',
+    category: 'lifestyle',
+    tags: ['skate', 'humor', 'hamburg', 'playful'],
+    trustScore: 85,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://www.cleptomanicx.com/search?sSearch={q}',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'empdenmark',
+    name: 'EMP Shop',
+    url: 'https://www.emp-shop.dk',
+    desc: 'German heavyweight operating a dedicated Danish storefront Specializes in metal rock gaming and loud alternative streetwear brands',
+    type: 'Alternative merchandise',
+    category: 'lifestyle',
+    tags: ['streetwear', 'alternative'],
+    trustScore: 95,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://www.emp-shop.dk/search?q={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'defshop',
+    name: 'DefShop',
+    url: 'https://en.def-shop.com',
+    desc: 'Berlin massive urban streetwear catalog Excellent for oversized fits baggy skate jeans hip hop styles and loud graphic hoodies',
+    type: 'Urban streetwear',
+    category: 'lifestyle',
+    tags: ['urban', 'oversized', 'streetwear'],
+    trustScore: 87,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://en.def-shop.com/search/?q={q}',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'bluetomato',
+    name: 'Blue Tomato',
+    url: 'https://www.blue-tomato.com',
+    desc: 'Austrian board sports empire The best European source for playful colorful skate surf and snow streetwear from independent brands',
+    type: 'Boardsports retailer',
+    category: 'lifestyle',
+    tags: ['skate', 'streetwear', 'casual', 'colorful'],
+    trustScore: 94,
+    capabilities: ['site-search'],
+    verified: '20260919',
+    searchUrl: 'https://www.blue-tomato.com/en-DK/products/search/?q={q}',
+    lang: 'en',
+    region: 'Austria'
+  }
+]
+
+export const alternativeMenswearGlobal = [
+  {
+    id: 'carneBollente',
+    name: 'Carne Bollente',
+    url: 'https://carnebollente.com',
+    desc: 'Parisian independent brand famous for highly playful sex positive embroidery colorful streetwear and queer friendly edgy casualwear',
+    type: 'Independent label',
+    category: 'lifestyle',
+    tags: ['streetwear', 'playful', 'edgy'],
+    trustScore: 92,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://carnebollente.com/search?q={q}',
+    lang: 'en',
+    region: 'France'
+  },
+  {
+    id: 'lazyOaf',
+    name: 'Lazy Oaf',
+    url: 'https://www.lazyoaf.com',
+    desc: 'London born independent label specializing in weird cartoonish irreverent and aggressively playful streetwear inspired by youth nostalgia and rebellion',
+    type: 'Independent label',
+    category: 'lifestyle',
+    tags: ['weird', 'cartoon', 'playful', 'colorful'],
+    trustScore: 91,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.lazyoaf.com/search?q={q}',
+    lang: 'en',
+    region: 'United Kingdom'
+  },
+  {
+    id: 'dropDead',
+    name: 'Drop Dead',
+    url: 'https://dropdead.world',
+    desc: 'Sheffield based heavyweight alternative brand mixing metalcore aesthetics with post apocalyptic gaming and grunge aesthetics',
+    type: 'Alternative streetwear',
+    category: 'lifestyle',
+    tags: ['grunge', 'gaming', 'alternative', 'edgy'],
+    trustScore: 89,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://dropdead.world/search?q={q}',
+    lang: 'en',
+    region: 'United Kingdom'
+  },
+  {
+    id: 'brainDead',
+    name: 'Brain Dead',
+    url: 'https://wearebraindead.com',
+    desc: 'Global creative collective bringing bizarre psychedelic graphics and underground comic aesthetics to high quality streetwear',
+    type: 'Creative collective',
+    category: 'lifestyle',
+    tags: ['psychedelic', 'art', 'streetwear', 'weird'],
+    trustScore: 94,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://wearebraindead.com/search?q={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'stayColdApparel',
+    name: 'Stay Cold Apparel',
+    url: 'https://staycoldapparel.com',
+    desc: 'Berlin streetwear heavily inspired by traditional tattoo culture occult themes and hardcore punk music with ethical manufacturing',
+    type: 'Tattoo streetwear',
+    category: 'lifestyle',
+    tags: ['tattoo', 'occult', 'punk', 'berlin'],
+    trustScore: 90,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://staycoldapparel.com/search?q={q}',
+    lang: 'en',
+    region: 'Germany'
+  },
+  {
+    id: 'badMonday',
+    name: 'Bad Monday',
+    url: 'https://badmonday.co.uk',
+    desc: 'Extremely popular and affordable UK brand blending traditional tattoo flash art with everyday comfortable casualwear',
+    type: 'Casual alternative',
+    category: 'lifestyle',
+    tags: ['tattoo', 'casual', 'affordable', 'art'],
+    trustScore: 88,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://badmonday.co.uk/search?q={q}',
+    lang: 'en',
+    region: 'United Kingdom'
+  },
+  {
+    id: 'wastedParis',
+    name: 'Wasted Paris',
+    url: 'https://wasted.fr',
+    desc: 'French skate brand deeply influenced by nineties grunge punk and underground culture with edgy affordable graphic tees',
+    type: 'Skate streetwear',
+    category: 'lifestyle',
+    tags: ['skate', 'grunge', 'punk', 'edgy'],
+    trustScore: 89,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://wasted.fr/search?q={q}',
+    lang: 'en',
+    region: 'France'
+  },
+  {
+    id: 'psyloFashion',
+    name: 'Psylo Fashion',
+    url: 'https://psylofashion.com',
+    desc: 'Ethical tribal and post apocalyptic streetwear heavily rooted in psytrance and underground festival culture',
+    type: 'Festival streetwear',
+    category: 'lifestyle',
+    tags: ['tribal', 'festival', 'ethical', 'underground'],
+    trustScore: 85,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://psylofashion.com/search?q={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'kaotiko',
+    name: 'Kaotiko BCN',
+    url: 'https://www.kaotikobcn.eu',
+    desc: 'Barcelona affordable streetwear mixing retro aesthetics very colorful graphics and playful skate culture vibes',
+    type: 'Streetwear label',
+    category: 'lifestyle',
+    tags: ['skate', 'retro', 'colorful', 'affordable'],
+    trustScore: 88,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.kaotikobcn.eu/search?q={q}',
+    lang: 'en',
+    region: 'Spain'
+  },
+  {
+    id: 'mokuyobi',
+    name: 'Mokuyobi',
+    url: 'https://mokuyobi.com',
+    desc: 'Outrageously colorful retro futuristic apparel and bags made entirely in the USA focusing on unapologetic fun and color blocking',
+    type: 'Colorful retro',
+    category: 'lifestyle',
+    tags: ['colorful', 'retro', 'fun', 'apparel'],
+    trustScore: 91,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://mokuyobi.com/search?q={q}',
+    lang: 'en',
+    region: 'United States'
+  },
+  {
+    id: 'dangerfield',
+    name: 'Dangerfield',
+    url: 'https://dangerfield.com.au',
+    desc: 'Massive Australian alternative label blending vintage rockabilly nineties grunge and intensely colorful playful pop punk aesthetics',
+    type: 'Alternative retailer',
+    category: 'lifestyle',
+    tags: ['vintage', 'punk', 'colorful', 'retro'],
+    trustScore: 87,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://dangerfield.com.au/search?q={q}',
+    lang: 'en',
+    region: 'Australia'
+  },
+  {
+    id: 'plazmalab',
+    name: 'Plazmalab',
+    url: 'https://plazmalab.com',
+    desc: 'Psychedelic visionary art collective producing highly intricate alternative and edgy festival streetwear',
+    type: 'Alternative festival wear',
+    category: 'lifestyle',
+    tags: ['psychedelic', 'festival', 'art', 'edgy'],
+    trustScore: 86,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://plazmalab.com/search?q={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'cleptomanicx',
+    name: 'Cleptomanicx',
+    url: 'https://www.cleptomanicx.com',
+    desc: 'Hamburg skate brand combining maritime northern German aesthetics with bizarre humorous and playful cartoon graphics',
+    type: 'Skate label',
+    category: 'lifestyle',
+    tags: ['skate', 'humor', 'playful'],
+    trustScore: 85,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.cleptomanicx.com/search?sSearch={q}',
+    lang: 'en',
+    region: 'Germany'
+  }
+]
+
+export const internetWonders = [
+  {
+    id: 'wikipedia',
+    name: 'Wikipedia',
+    url: 'https://wikipedia.org',
+    desc: 'The largest collaborative encyclopedia in human history freely accessible to anyone',
+    type: 'Encyclopedia',
+    category: 'culture',
+    tags: ['knowledge', 'wiki', 'crowdsourced'],
+    trustScore: 99,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://en.wikipedia.org/wiki/Special:Search?search={q}',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'Featured Article Atom Feed',
+        url: 'https://en.wikipedia.org/w/api.php?action=featuredfeed&feed=featured&feedformat=atom',
+        format: 'atom'
+      }
+    ]
+  },
+  {
+    id: 'internetArchive',
+    name: 'Internet Archive',
+    url: 'https://archive.org',
+    desc: 'A massive non profit library preserving billions of web pages books audio and video files',
+    type: 'Digital library',
+    category: 'culture',
+    tags: ['archive', 'history', 'preservation'],
+    trustScore: 98,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://archive.org/search?query={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'projectGutenberg',
+    name: 'Project Gutenberg',
+    url: 'https://gutenberg.org',
+    desc: 'The oldest digital library offering thousands of free public domain eBooks',
+    type: 'Digital library',
+    category: 'culture',
+    tags: ['books', 'literature', 'publicdomain'],
+    trustScore: 95,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.gutenberg.org/ebooks/search/?query={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'openStreetMap',
+    name: 'OpenStreetMap',
+    url: 'https://openstreetmap.org',
+    desc: 'A collaborative project creating a free editable map of the world built by a community of mappers',
+    type: 'Mapping platform',
+    category: 'technology',
+    tags: ['maps', 'geospatial', 'collaborative'],
+    trustScore: 94,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.openstreetmap.org/search?query={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'github',
+    name: 'GitHub',
+    url: 'https://github.com',
+    desc: 'The largest host of source code in the world enabling global software collaboration',
+    type: 'Code repository',
+    category: 'technology',
+    tags: ['programming', 'opensource', 'collaboration'],
+    trustScore: 97,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://github.com/search?q={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'arxiv',
+    name: 'arXiv',
+    url: 'https://arxiv.org',
+    desc: 'An open access archive for scholarly articles in physics mathematics and computer science',
+    type: 'Academic repository',
+    category: 'technology',
+    tags: ['science', 'research', 'physics'],
+    trustScore: 96,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://arxiv.org/search/?query={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'linuxKernelArchives',
+    name: 'Linux Kernel Archives',
+    url: 'https://kernel.org',
+    desc: 'The primary site for the Linux kernel source code powering millions of servers and devices worldwide',
+    type: 'Code repository',
+    category: 'technology',
+    tags: ['linux', 'kernel', 'opensource'],
+    trustScore: 99,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'en',
+    region: 'Global'
+  }
+]
+
+export const internetTimeCapsules = [
+  {
+    id: 'waybackMachine',
+    name: 'Wayback Machine',
+    url: 'https://web.archive.org',
+    desc: 'The defining digital preservation initiative capturing billions of webpage snapshots over decades',
+    type: 'Web archive',
+    category: 'technology',
+    tags: ['preservation', 'history', 'archive'],
+    trustScore: 99,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://web.archive.org/web/*/{q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'archiveToday',
+    name: 'Archive Today',
+    url: 'https://archive.today',
+    desc: 'On demand snapshot tool that bypasses dynamic paywalls and preserves visual fidelity alongside raw text',
+    type: 'Snapshot tool',
+    category: 'technology',
+    tags: ['snapshot', 'preservation', 'bypass'],
+    trustScore: 92,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://archive.today/{q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'ghostArchive',
+    name: 'Ghostarchive',
+    url: 'https://ghostarchive.org',
+    desc: 'Fast indie archiving tool capable of capturing complex media like YouTube videos while avoiding heavy commercial dependencies',
+    type: 'Snapshot tool',
+    category: 'technology',
+    tags: ['video', 'snapshot', 'indie'],
+    trustScore: 90,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://ghostarchive.org/search?term={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'oldWebToday',
+    name: 'OldWeb Today',
+    url: 'https://oldweb.today',
+    desc: 'Runs full legacy browser emulation directly in the browser to accurately render historical websites exactly as they appeared',
+    type: 'Emulation sandbox',
+    category: 'technology',
+    tags: ['emulation', 'retro', 'history'],
+    trustScore: 95,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'permaCc',
+    name: 'Perma cc',
+    url: 'https://perma.cc',
+    desc: 'Academic and legal preservation service run by Harvard Library to prevent link rot in scholarly citations',
+    type: 'Academic archive',
+    category: 'technology',
+    tags: ['academia', 'legal', 'preservation'],
+    trustScore: 98,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'en',
+    region: 'United States'
+  },
+  {
+    id: 'conifer',
+    name: 'Conifer',
+    url: 'https://conifer.rhizome.org',
+    desc: 'High fidelity interactive web archiving platform focused on preserving complex interactive art and dynamic digital objects',
+    type: 'Interactive archive',
+    category: 'culture',
+    tags: ['art', 'preservation', 'interactive'],
+    trustScore: 94,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'en',
+    region: 'United States'
+  }
+]
+
+export const esp32HackerSources: Source[] = [
+  {
+    id: 'hackaday-esp32',
+    name: 'Hackaday ESP32',
+    url: 'https://hackaday.com/tag/esp32/',
+    desc: 'Hardware hacks, teardowns, custom firmware, and offbeat engineering projects powered by ESP32 chips.',
+    type: 'Hardware hacking blog',
+    category: 'technology',
+    tags: ['hardware', 'esp32', 'diy', 'microcontrollers'],
+    trustScore: 92,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://hackaday.com/?s={q}',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'ESP32 Tag Feed',
+        url: 'https://hackaday.com/tag/esp32/feed/',
+        desc: 'Direct RSS feed for all ESP32-tagged build logs and reverse-engineering articles',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: 'random-nerd-tutorials',
+    name: 'Random Nerd Tutorials',
+    url: 'https://randomnerdtutorials.com',
+    desc: 'Deeply detailed, practical build guides for ESP32 and ESP8266 IoT, web servers, sensors, and peripherals.',
+    type: 'Hardware project guides',
+    category: 'technology',
+    tags: ['esp32', 'iot', 'sensors', 'tutorials'],
+    trustScore: 90,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://randomnerdtutorials.com/?s={q}',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'Main Feed',
+        url: 'https://randomnerdtutorials.com/feed/',
+        desc: 'New hardware writeups, tutorials, and firmware walkthroughs',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: 'hackster-esp32',
+    name: 'Hackster.io ESP32 Hub',
+    url: 'https://www.hackster.io/esp',
+    desc: 'Community project showcase spanning open-source home automation, robotics, and experimental wireless rigs.',
+    type: 'Maker project platform',
+    category: 'technology',
+    tags: ['maker', 'esp32', 'open-source', 'community'],
+    trustScore: 88,
+    capabilities: ['site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.hackster.io/search?q={q}',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'espressif-news',
+    name: 'Espressif News & Updates',
+    url: 'https://www.espressif.com/en/news',
+    desc: 'Official silicon announcements, technical silicon errata, new ESP-IDF framework releases, and roadmap dispatches.',
+    type: 'Manufacturer news',
+    category: 'technology',
+    tags: ['silicon', 'esp32', 'espressif', 'firmware'],
+    trustScore: 96,
+    capabilities: ['rss-feed', 'site-search', 'public-api'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.espressif.com/en/search/node/{q}',
+    sourceUrl: 'https://github.com/espressif/esp-idf',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'Official RSS',
+        url: 'https://www.espressif.com/en/company/news/rss',
+        desc: 'Silicon announcements and official engineering blogs',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: 'esp32-forum',
+    name: 'ESP32 Official Forum',
+    url: 'https://esp32.com',
+    desc: 'The definitive bulletin board for hardware debugging, peripheral registers, ESP-IDF edge releases, and bare-metal quirks.',
+    type: 'Technical community forum',
+    category: 'technology',
+    tags: ['forum', 'esp32', 'embedded', 'debugging'],
+    trustScore: 94,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://esp32.com/search.php?keywords={q}',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'News & Announcements Feed',
+        url: 'https://esp32.com/feed.php?f=23',
+        desc: 'New releases, tools, and critical firmware notifications',
+        format: 'atom'
+      }
+    ]
+  },
+  {
+    id: 'adafruit-blog-esp32',
+    name: 'Adafruit Blog (ESP32)',
+    url: 'https://blog.adafruit.com/category/esp32/',
+    desc: 'Daily curation of eccentric microcontroller builds, CircuitPython on ESP32, modular breakouts, and wearable tech.',
+    type: 'Maker culture & hardware blog',
+    category: 'technology',
+    tags: ['maker', 'circuitpython', 'diy', 'hardware'],
+    trustScore: 91,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://blog.adafruit.com/?s={q}',
+    sourceUrl: 'https://github.com/adafruit',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      {
+        name: 'ESP32 Category Feed',
+        url: 'https://blog.adafruit.com/category/esp32/feed/',
+        desc: 'Daily hardware experiments, maker spotlights, and board guides',
+        format: 'rss'
+      }
+    ]
+  },
+  {
+    id: 'cnxt-software',
+    name: 'CNX Software',
+    url: 'https://www.cnx-software.com',
+    desc: 'Embedded systems news tracking fresh development boards, RISC-V variants, benchmarks, and new silicon announcements.',
+    type: 'Embedded systems news',
+    category: 'technology',
+    tags: ['embedded', 'sbc', 'silicon', 'hardware'],
+    trustScore: 89,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    searchUrl: 'https://www.cnx-software.com/?s={q}',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      {
+        name: 'Main Feed',
+        url: 'https://www.cnx-software.com/feed/',
+        desc: 'Daily reporting on embedded hardware, dev boards, and processors',
+        format: 'rss'
+      }
+    ]
+  }
+];
+
+
+export const quintessentialDanishWebsites = [
+  {
+    id: 'borger',
+    name: 'Borger',
+    url: 'https://www.borger.dk',
+    desc: 'The central digital portal for all public and government services in Denmark',
+    type: 'Government portal',
+    category: 'public',
+    tags: ['government', 'services', 'denmark'],
+    trustScore: 99,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.borger.dk/Sider/Soeg.aspx?q={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'sundhed',
+    name: 'Sundhed',
+    url: 'https://www.sundhed.dk',
+    desc: 'The national eHealth portal providing access to personal medical records and test results',
+    type: 'Health portal',
+    category: 'public',
+    tags: ['health', 'medical', 'denmark'],
+    trustScore: 98,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'skat',
+    name: 'Skat',
+    url: 'https://skat.dk',
+    desc: 'The Danish Customs and Tax Administration portal where all citizens manage their taxes',
+    type: 'Tax portal',
+    category: 'finance',
+    tags: ['tax', 'government', 'finance'],
+    trustScore: 98,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'mitid',
+    name: 'MitID',
+    url: 'https://www.mitid.dk',
+    desc: 'The universal digital signature and authentication system used across all Danish banks and public sites',
+    type: 'Digital identity',
+    category: 'technology',
+    tags: ['security', 'authentication', 'denmark'],
+    trustScore: 99,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'rejseplanen',
+    name: 'Rejseplanen',
+    url: 'https://www.rejseplanen.dk',
+    desc: 'The definitive national journey planner for all trains buses and ferries across the country',
+    type: 'Journey planner',
+    category: 'transport',
+    tags: ['travel', 'transport', 'denmark'],
+    trustScore: 96,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'dmi',
+    name: 'DMI',
+    url: 'https://www.dmi.dk',
+    desc: 'The Danish Meteorological Institute providing the most trusted local weather forecasts and warnings',
+    type: 'Weather portal',
+    category: 'science',
+    tags: ['weather', 'forecast', 'denmark'],
+    trustScore: 97,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'dba',
+    name: 'DBA',
+    url: 'https://www.dba.dk',
+    desc: 'The largest online marketplace and classifieds site in Denmark for buying and selling second hand goods',
+    type: 'Classifieds',
+    category: 'lifestyle',
+    tags: ['marketplace', 'shopping', 'denmark'],
+    trustScore: 90,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.dba.dk/soeg/?soeg={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'dr',
+    name: 'DR',
+    url: 'https://www.dr.dk',
+    desc: 'The Danish Broadcasting Corporation offering national news television streaming and radio',
+    type: 'Public broadcaster',
+    category: 'news',
+    tags: ['news', 'media', 'denmark'],
+    trustScore: 95,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.dr.dk/soeg?query={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'boligsiden',
+    name: 'Boligsiden',
+    url: 'https://www.boligsiden.dk',
+    desc: 'The primary national portal for real estate listings and housing market statistics',
+    type: 'Real estate portal',
+    category: 'lifestyle',
+    tags: ['housing', 'realestate', 'denmark'],
+    trustScore: 92,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'mobilepay',
+    name: 'MobilePay',
+    url: 'https://www.mobilepay.dk',
+    desc: 'The universally used mobile payment application platform that essentially eliminated cash in Denmark',
+    type: 'Payment platform',
+    category: 'finance',
+    tags: ['payments', 'finance', 'denmark'],
+    trustScore: 98,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'da',
+    region: 'Denmark'
+  }
+]
+
+
+export const danishCultureAndIndependentMedia = [
+  {
+    id: 'zetland',
+    name: 'Zetland',
+    url: 'https://www.zetland.dk',
+    desc: 'Digital newspaper focused on deep journalism audio and community over breaking news bloat',
+    type: 'Digital newspaper',
+    category: 'news',
+    tags: ['journalism', 'audio', 'community'],
+    trustScore: 92,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.zetland.dk/soeg?q={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'kunstenNu',
+    name: 'Kunsten',
+    url: 'https://kunsten.nu',
+    desc: 'Independent online magazine covering contemporary art across Denmark with reviews and exhibition guides',
+    type: 'Art magazine',
+    category: 'culture',
+    tags: ['art', 'reviews', 'exhibitions'],
+    trustScore: 94,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://kunsten.nu/?s={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'passiveAggressive',
+    name: 'Passive Aggressive',
+    url: 'https://passiveaggressive.dk',
+    desc: 'Non profit zine and web platform documenting the Danish underground music and experimental cassette culture',
+    type: 'Music zine',
+    category: 'culture',
+    tags: ['underground', 'music', 'zine'],
+    trustScore: 88,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://passiveaggressive.dk/?s={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'danwatch',
+    name: 'Danwatch',
+    url: 'https://danwatch.dk',
+    desc: 'Award winning independent investigative media center focusing on human rights corporate accountability and the environment',
+    type: 'Investigative journalism',
+    category: 'news',
+    tags: ['investigative', 'humanRights', 'environment'],
+    trustScore: 95,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://danwatch.dk/?s={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'kultunaut',
+    name: 'Kultunaut',
+    url: 'https://www.kultunaut.dk',
+    desc: 'The absolute largest digital aggregator for cultural events concerts and local happenings across all of Denmark',
+    type: 'Event aggregator',
+    category: 'culture',
+    tags: ['events', 'aggregator', 'calendar'],
+    trustScore: 90,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'povInternational',
+    name: 'POV International',
+    url: 'https://pov.international',
+    desc: 'Independent collective of writers and journalists publishing daily deep dives opinions and cultural essays',
+    type: 'Media collective',
+    category: 'news',
+    tags: ['essays', 'opinion', 'journalism'],
+    trustScore: 89,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://pov.international/?s={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'heartbeats',
+    name: 'Heartbeats',
+    url: 'https://heartbeats.dk',
+    desc: 'Modern Danish cultural media and podcast platform covering music lifestyle and societal trends',
+    type: 'Culture platform',
+    category: 'culture',
+    tags: ['podcasts', 'lifestyle', 'music'],
+    trustScore: 86,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://heartbeats.dk/?s={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'seismograf',
+    name: 'Seismograf',
+    url: 'https://seismograf.org',
+    desc: 'Deeply specialized independent online magazine focused on contemporary sound art and experimental music',
+    type: 'Sound art magazine',
+    category: 'culture',
+    tags: ['soundArt', 'experimental', 'music'],
+    trustScore: 91,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://seismograf.org/search/node/{q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'foljeton',
+    name: 'Foljeton',
+    url: 'https://foljeton.dk',
+    desc: 'Independent digital daily bringing sharp witty and alternative political and cultural analysis designed for mobile',
+    type: 'Digital daily',
+    category: 'news',
+    tags: ['politics', 'analysis', 'indie'],
+    trustScore: 87,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'iDoArt',
+    name: 'I DO ART',
+    url: 'https://www.idoart.dk',
+    desc: 'Youthful and visual platform documenting the Danish contemporary art scene gallery openings and creative collectives',
+    type: 'Art platform',
+    category: 'culture',
+    tags: ['art', 'galleries', 'youth'],
+    trustScore: 85,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://www.idoart.dk/search?q={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'solidaritet',
+    name: 'Solidaritet',
+    url: 'https://solidaritet.dk',
+    desc: 'Independent left wing media portal gathering alternative political news grassroots activism and critical debate',
+    type: 'Political media',
+    category: 'news',
+    tags: ['politics', 'activism', 'leftWing'],
+    trustScore: 84,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://solidaritet.dk/?s={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'migOgKbh',
+    name: 'MigOgKbh',
+    url: 'https://migogkbh.dk',
+    desc: 'Highly popular hyper local digital guide to underground eateries pop up events and city culture in Copenhagen',
+    type: 'City guide',
+    category: 'culture',
+    tags: ['copenhagen', 'guide', 'events'],
+    trustScore: 88,
+    capabilities: [],
+    verified: '20260919',
+    searchUrl: 'https://migogkbh.dk/?s={q}',
+    lang: 'da',
+    region: 'Denmark'
+  },
+  {
+    id: 'magasinetKunst',
+    name: 'Magasinet Kunst',
+    url: 'https://www.magasinetkunst.dk',
+    desc: 'Leading independent print and digital magazine covering the broader Danish and international art ecosystem',
+    type: 'Art magazine',
+    category: 'culture',
+    tags: ['art', 'magazine', 'exhibitions'],
+    trustScore: 93,
+    capabilities: [],
+    verified: '20260919',
+    lang: 'da',
+    region: 'Denmark'
+  }
+]
+export const openInternetDirectory: WebOutlet[] = [
+  {
+    name: "Kottke.org",
+    url: "https://kottke.org",
+    category: "culture",
+    description: "One of the longest-running independent weblogs, curated with eclectic links spanning design, science, and digital culture.",
+    feeds: [
+      { name: "Kottke Main Feed", url: "https://feeds.kottke.org/main", format: "rss" }
+    ]
+  },
+  {
+    name: "Techmeme",
+    url: "https://www.techmeme.com",
+    category: "aggregator",
+    description: "Human-and-algorithm hybrid aggregation of essential technology news, tracking breaking stories without algorithmic social media bloat.",
+    feeds: [
+      { name: "Techmeme Top News", url: "https://www.techmeme.com/feed.xml", format: "rss" }
+    ]
+  },
+  {
+    name: "Waxy.org",
+    url: "https://waxy.org",
+    category: "culture",
+    description: "Andy Baio's long-running personal site highlighting web curiosities, data experiments, and deep internet history.",
+    feeds: [
+      { name: "Waxy Main Feed", url: "https://waxy.org/feed/", format: "rss" }
+    ]
+  },
+  {
+    name: "Lobsters",
+    url: "https://lobste.rs",
+    category: "technology",
+    description: "A community-focussed, computing-centric link aggregator featuring technical discussions and strict moderation free of mainstream noise.",
+    feeds: [
+      { name: "Hottest Stories", url: "https://lobste.rs/rss", format: "rss" },
+      { name: "Newest Submissions", url: "https://lobste.rs/newest.rss", format: "rss" }
+    ]
+  },
+  {
+    name: "Arts & Letters Daily",
+    url: "https://www.aldaily.com",
+    category: "news",
+    description: "A minimalist daily aggregator of intellectual essays, philosophy, book reviews, and academic journalism from across the web.",
+    feeds: [
+      { name: "ALDaily Feed", url: "https://aldaily.com/feed/", format: "rss" }
+    ]
+  },
+  {
+    name: "Hacker News",
+    url: "https://news.ycombinator.com",
+    category: "aggregator",
+    description: "Y Combinator's text-dense community link forum prioritizing software engineering, startups, and raw technical discourse.",
+    feeds: [
+      { name: "Front Page (Official)", url: "https://news.ycombinator.com/rss", format: "rss" },
+      { name: "Front Page (HNRSS)", url: "https://hnrss.org/frontpage", format: "rss" }
+    ]
+  },
+  {
+    name: "Daring Fireball",
+    url: "https://daringfireball.net",
+    category: "technology",
+    description: "John Gruber's independent commentary site tracking technology, Apple, and web standards via a curated link-blog format.",
+    feeds: [
+      { name: "Daring Fireball Main", url: "https://daringfireball.net/feeds/main", format: "atom" }
+    ]
+  }
+];
+
+export const openInternetSources: Source[] = [
+  {
+    id: "kottke",
+    name: "Kottke.org",
+    url: "https://kottke.org",
+    desc: "Independent weblog curated with eclectic links spanning design science and digital culture",
+    type: "weblog",
+    category: "culture",
+    tags: ["blog", "curation"],
+    trustScore: 90,
+    capabilities: ["rss-feed"],
+    verified: "2026-09-19",
+    feeds: [
+      { name: "Kottke Main Feed", url: "https://feeds.kottke.org/main", format: "rss" }
+    ]
+  },
+  {
+    id: "techmeme",
+    name: "Techmeme",
+    url: "https://www.techmeme.com",
+    desc: "Human and algorithm hybrid aggregation of essential technology news",
+    type: "aggregator",
+    category: "news",
+    tags: ["tech", "news"],
+    trustScore: 85,
+    capabilities: ["rss-feed", "site-search"],
+    verified: "2026-09-19",
+    feeds: [
+      { name: "Techmeme Top News", url: "https://www.techmeme.com/feed.xml", format: "rss" }
+    ]
+  },
+  {
+    id: "lobsters",
+    name: "Lobsters",
+    url: "https://lobste.rs",
+    desc: "Community focused computing centric link aggregator featuring technical discussions",
+    type: "forum",
+    category: "technology",
+    tags: ["programming"],
+    trustScore: 88,
+    capabilities: ["rss-feed", "site-search"],
+    verified: "2026-09-19",
+    feeds: [
+      { name: "Hottest Stories", url: "https://lobste.rs/rss", format: "rss" },
+      { name: "Newest Submissions", url: "https://lobste.rs/newest.rss", format: "rss" }
+    ]
+  },
+  {
+    id: "aldaily",
+    name: "Arts & Letters Daily",
+    url: "https://www.aldaily.com",
+    desc: "Minimalist daily aggregator of intellectual essays philosophy and book reviews",
+    type: "aggregator",
+    category: "culture",
+    tags: ["essays", "philosophy"],
+    trustScore: 92,
+    capabilities: ["rss-feed"],
+    verified: "2026-09-19",
+    feeds: [
+      { name: "Arts & Letters Daily", url: "https://aldaily.com/feed/", format: "rss" }
+    ]
+  }
+];
+
+export const additionalSources: Source[] = [
+  {
+    id: 'propublica',
+    name: 'ProPublica',
+    url: 'https://www.propublica.org',
+    desc: 'Independent non-profit newsroom producing investigative journalism in the public interest.',
+    type: 'Investigative newsroom',
+    category: 'news',
+    tags: ['investigative', 'united-states'],
+    trustScore: 91,
+    capabilities: ['rss-feed', 'site-search', 'public-api'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "ProPublica Main Feed", url: "https://www.propublica.org/feeds/propublica/main", format: "rss" }
+    ]
+  },
+  {
+    id: 'yle-news',
+    name: 'Yle News',
+    url: 'https://yle.fi/news',
+    desc: 'Finnish public broadcasting company providing independent news coverage in English.',
+    type: 'Public broadcaster',
+    category: 'news',
+    tags: ['news', 'finland'],
+    trustScore: 88,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Finland',
+    feeds: [
+      { name: "Yle News English", url: "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_NEWS", format: "rss" }
+    ]
+  }
+];
+
+export const curatedSources: Source[] = [
+  {
+    id: 'the-intercept',
+    name: 'The Intercept',
+    url: 'https://theintercept.com',
+    desc: 'Fearless adversarial journalism that holds the powerful accountable',
+    type: 'Investigative newsroom',
+    category: 'news',
+    tags: ['investigative', 'politics', 'security'],
+    trustScore: 88,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "The Intercept", url: "https://theintercept.com/feed/?lang=en", format: "rss" }
+    ]
+  },
+  {
+    id: '404-media',
+    name: '404 Media',
+    url: 'https://www.404media.co',
+    desc: 'Independent technology publication founded by former Motherboard journalists focused on surveillance and digital culture',
+    type: 'Independent tech journalism',
+    category: 'technology',
+    tags: ['tech', 'investigative', 'culture'],
+    trustScore: 89,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "404 Media RSS", url: "https://www.404media.co/rss/", format: "rss" }
+    ]
+  },
+  {
+    id: 'defector',
+    name: 'Defector',
+    url: 'https://defector.com',
+    desc: 'Worker owned sports and culture website created by former Deadspin writers',
+    type: 'Independent sports and culture',
+    category: 'culture',
+    tags: ['sports', 'culture', 'politics'],
+    trustScore: 85,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "Defector Articles", url: "https://defector.com/feed/", format: "rss" }
+    ]
+  },
+  {
+    id: 'rest-of-world',
+    name: 'Rest of World',
+    url: 'https://restofworld.org',
+    desc: 'Nonprofit publication exploring the impact of technology in regions outside the Western bubble',
+    type: 'Global tech journalism',
+    category: 'technology',
+    tags: ['tech', 'global', 'investigative'],
+    trustScore: 92,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      { name: "Rest of World", url: "https://restofworld.org/feed/", format: "rss" }
+    ]
+  },
+  {
+    id: 'the-markup',
+    name: 'The Markup',
+    url: 'https://themarkup.org',
+    desc: 'Nonprofit newsroom that investigates how powerful institutions are using technology to change society',
+    type: 'Investigative newsroom',
+    category: 'technology',
+    tags: ['tech', 'privacy', 'investigative'],
+    trustScore: 93,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "The Markup", url: "https://themarkup.org/feeds/rss.xml", format: "rss" }
+    ]
+  },
+  {
+    id: 'longform',
+    name: 'Longform',
+    url: 'https://longform.org',
+    desc: 'Aggregator dedicated to recommending new and classic non fiction articles from across the web',
+    type: 'Aggregator',
+    category: 'culture',
+    tags: ['journalism', 'essays', 'curation'],
+    trustScore: 90,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      { name: "Longform Articles", url: "https://longform.org/feed.rss", format: "rss" }
+    ]
+  },
+  {
+    id: 'the-marshall-project',
+    name: 'The Marshall Project',
+    url: 'https://www.themarshallproject.org',
+    desc: 'Nonpartisan nonprofit news organization that seeks to create and sustain a sense of national urgency about the US criminal justice system',
+    type: 'Investigative newsroom',
+    category: 'news',
+    tags: ['justice', 'investigative', 'united-states'],
+    trustScore: 94,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "Recent Stories", url: "https://www.themarshallproject.org/rss/recent.rss", format: "rss" }
+    ]
+  },
+  {
+    id: 'arena',
+    name: 'Are.na',
+    url: 'https://www.are.na',
+    desc: 'Visual collaboration platform and ad free social network for creative thinking and research curation',
+    type: 'Curation network',
+    category: 'culture',
+    tags: ['curation', 'research', 'design'],
+    trustScore: 82,
+    capabilities: ['rss-feed', 'site-search', 'public-api'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      { name: "Are.na Blog", url: "https://www.are.na/blog/feed.xml", format: "rss" }
+    ]
+  },
+  {
+    id: 'marginal-revolution',
+    name: 'Marginal Revolution',
+    url: 'https://marginalrevolution.com',
+    desc: 'Prominent economics blog run by Tyler Cowen and Alex Tabarrok offering eclectic daily links and analysis',
+    type: 'Economics blog',
+    category: 'culture',
+    tags: ['economics', 'academia', 'curation'],
+    trustScore: 84,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "Marginal Revolution", url: "https://feeds.feedburner.com/marginalrevolution/feed", format: "rss" }
+    ]
+  },
+  {
+    id: 'pluralistic',
+    name: 'Pluralistic',
+    url: 'https://pluralistic.net',
+    desc: 'Daily link blog by Cory Doctorow focusing on surveillance capitalism digital rights and technology monopolies',
+    type: 'Tech policy blog',
+    category: 'technology',
+    tags: ['tech-policy', 'digital-rights', 'curation'],
+    trustScore: 87,
+    capabilities: ['rss-feed'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Canada',
+    feeds: [
+      { name: "Pluralistic Daily", url: "https://pluralistic.net/feed/", format: "rss" }
+    ]
+  },
+  {
+    id: 'de-correspondent',
+    name: 'De Correspondent',
+    url: 'https://decorrespondent.nl',
+    desc: 'Ad free Dutch journalism platform focusing on structural societal developments rather than daily news cycles',
+    type: 'Quality press',
+    category: 'news',
+    tags: ['journalism', 'netherlands', 'analysis'],
+    trustScore: 86,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'nl',
+    region: 'Netherlands',
+    feeds: [
+      { name: "De Correspondent", url: "https://decorrespondent.nl/feed", format: "rss" }
+    ]
+  },
+  {
+    id: 'nieman-lab',
+    name: 'Nieman Lab',
+    url: 'https://www.niemanlab.org',
+    desc: 'Attempt to figure out how quality journalism can survive and thrive in the internet age',
+    type: 'Media analysis',
+    category: 'news',
+    tags: ['journalism', 'media', 'analysis'],
+    trustScore: 91,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "Nieman Lab Feed", url: "https://www.niemanlab.org/feed/", format: "rss" }
+    ]
+  },
+  {
+    id: 'ars-technica',
+    name: 'Ars Technica',
+    url: 'https://arstechnica.com',
+    desc: 'Deep technical analysis and news coverage of technology science and policy',
+    type: 'Tech journalism',
+    category: 'technology',
+    tags: ['tech', 'science', 'policy'],
+    trustScore: 89,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "Ars Technica", url: "https://feeds.arstechnica.com/arstechnica/index", format: "rss" }
+    ]
+  },
+  {
+    id: 'a-list-apart',
+    name: 'A List Apart',
+    url: 'https://alistapart.com',
+    desc: 'Explores the design development and meaning of web content with a focus on web standards and best practices',
+    type: 'Web design journal',
+    category: 'technology',
+    tags: ['web-design', 'development', 'standards'],
+    trustScore: 85,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      { name: "A List Apart Articles", url: "https://alistapart.com/main/feed/", format: "rss" }
+    ]
+  },
+  {
+    id: 'quanta-magazine',
+    name: 'Quanta Magazine',
+    url: 'https://www.quantamagazine.org',
+    desc: 'Editorially independent online publication illuminating complex science and math research through public interest journalism',
+    type: 'Science journalism',
+    category: 'culture',
+    tags: ['science', 'mathematics', 'physics'],
+    trustScore: 95,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "Quanta Feed", url: "https://api.quantamagazine.org/feed/", format: "rss" }
+    ]
+  },
+  {
+    id: 'first-monday',
+    name: 'First Monday',
+    url: 'https://firstmonday.org',
+    desc: 'One of the first openly accessible peer reviewed journals on the internet devoted solely to the internet',
+    type: 'Academic journal',
+    category: 'technology',
+    tags: ['academia', 'internet-studies', 'peer-reviewed'],
+    trustScore: 90,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      { name: "First Monday Updates", url: "https://firstmonday.org/ojs/index.php/fm/gateway/plugin/WebFeedGatewayPlugin/rss2", format: "rss" }
+    ]
+  },
+  {
+    id: 'public-books',
+    name: 'Public Books',
+    url: 'https://www.publicbooks.org',
+    desc: 'Digital magazine bringing scholarly ideas to a public audience through essays and reviews',
+    type: 'Literary magazine',
+    category: 'culture',
+    tags: ['books', 'essays', 'academia'],
+    trustScore: 84,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "Public Books Articles", url: "https://www.publicbooks.org/feed/", format: "rss" }
+    ]
+  },
+  {
+    id: 'public-domain-review',
+    name: 'The Public Domain Review',
+    url: 'https://publicdomainreview.org',
+    desc: 'Online journal showcasing compelling out of copyright works from the history of art literature and ideas',
+    type: 'Digital archive curation',
+    category: 'culture',
+    tags: ['history', 'art', 'public-domain'],
+    trustScore: 92,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United Kingdom',
+    feeds: [
+      { name: "PDR Main Feed", url: "https://publicdomainreview.org/feed.xml", format: "rss" }
+    ]
+  },
+  {
+    id: 'icij',
+    name: 'ICIJ',
+    url: 'https://www.icij.org',
+    desc: 'Global network of investigative journalists collaborating on in depth cross border stories',
+    type: 'Investigative network',
+    category: 'news',
+    tags: ['investigative', 'global', 'corruption'],
+    trustScore: 94,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      { name: "ICIJ Investigations", url: "https://www.icij.org/feed/", format: "rss" }
+    ]
+  },
+  {
+    id: 'cir',
+    name: 'Center for Investigative Reporting',
+    url: 'https://www.cir.org',
+    desc: 'Nonprofit news organization producing investigative reporting across multiple formats and platforms',
+    type: 'Investigative newsroom',
+    category: 'news',
+    tags: ['investigative', 'united-states', 'nonprofit'],
+    trustScore: 91,
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "Reveal News Feed", url: "https://revealnews.org/feed/", format: "rss" }
+    ]
+  }
+];
+
+export const countercultureSources: Source[] = [
+  {
+    id: 'dirt',
+    name: 'Dirt',
+    url: 'https://dirt.fyi',
+    desc: 'Daily publication covering digital pop culture internet aesthetics and tech theory',
+    type: 'Digital culture',
+    category: 'culture',
+    tags: ['culture', 'aesthetics', 'internet'],
+    trustScore: 82,
+    capabilities: ['rss-feed'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      { name: "Dirt Daily", url: "https://dirt.fyi/feed", format: "rss" }
+    ]
+  },
+  {
+    id: 'logicsMag',
+    name: 'Logics Magazine',
+    url: 'https://logicmag.io',
+    desc: 'Critical tech publication focusing on ethical queer and theoretical perspectives on computing',
+    type: 'Tech theory',
+    category: 'technology',
+    tags: ['ethics', 'theory', 'technology'],
+    trustScore: 88,
+    capabilities: ['rss-feed'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      { name: "Logic Magazine", url: "https://logicmag.io/feed.xml", format: "rss" }
+    ]
+  },
+  {
+    id: 'doNotResearch',
+    name: 'Do Not Research',
+    url: 'https://donotresearch.net',
+    desc: 'Collaborative platform for internet culture analysis meme theory and underground digital aesthetics',
+    type: 'Digital culture',
+    category: 'culture',
+    tags: ['theory', 'aesthetics', 'research'],
+    trustScore: 78,
+    capabilities: [],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'kernelMag',
+    name: 'Kernel Magazine',
+    url: 'https://kernelmag.io',
+    desc: 'Publication exploring optimistic and critical futures for technology and society',
+    type: 'Tech culture',
+    category: 'technology',
+    tags: ['optimism', 'culture', 'future'],
+    trustScore: 85,
+    capabilities: ['rss-feed'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      { name: "Kernel RSS", url: "https://kernelmag.io/rss.xml", format: "rss" }
+    ]
+  },
+  {
+    id: 'newModels',
+    name: 'New Models',
+    url: 'https://newmodels.io',
+    desc: 'Media node and community analyzing the emergent shifts in tech culture and digital media theory',
+    type: 'Tech theory',
+    category: 'culture',
+    tags: ['theory', 'media', 'analysis'],
+    trustScore: 80,
+    capabilities: ['rss-feed'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Europe',
+    feeds: [
+      { name: "New Models Feed", url: "https://newmodels.io/feed", format: "rss" }
+    ]
+  },
+  {
+    id: 'aftermath',
+    name: 'Aftermath',
+    url: 'https://aftermath.site',
+    desc: 'Worker owned website covering video games internet culture and the human side of the tech industry',
+    type: 'Independent tech journalism',
+    category: 'technology',
+    tags: ['gaming', 'culture', 'labor'],
+    trustScore: 89,
+    capabilities: ['rss-feed'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "Aftermath", url: "https://aftermath.site/feed", format: "rss" }
+    ]
+  },
+  {
+    id: 'bloodKnife',
+    name: 'Blood Knife',
+    url: 'https://bloodknife.com',
+    desc: 'Critical magazine covering cyberpunk realities digital dystopias and contemporary culture',
+    type: 'Digital culture',
+    category: 'culture',
+    tags: ['theory', 'cyberpunk', 'criticism'],
+    trustScore: 81,
+    capabilities: ['rss-feed'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global',
+    feeds: [
+      { name: "Blood Knife Articles", url: "https://bloodknife.com/feed/", format: "rss" }
+    ]
+  },
+  {
+    id: 'htmlReview',
+    name: 'The HTML Review',
+    url: 'https://thehtml.review',
+    desc: 'Annual journal of experimental digital literature and interactive web art',
+    type: 'Digital art',
+    category: 'culture',
+    tags: ['art', 'literature', 'web'],
+    trustScore: 86,
+    capabilities: [],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'Global'
+  },
+  {
+    id: 'hellGate',
+    name: 'Hell Gate',
+    url: 'https://hellgatenyc.com',
+    desc: 'Worker owned news outlet focused on urban culture accountability and independent journalism',
+    type: 'Independent newsroom',
+    category: 'news',
+    tags: ['urban', 'accountability', 'independent'],
+    trustScore: 87,
+    capabilities: ['rss-feed'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "Hell Gate NYC", url: "https://hellgatenyc.com/rss/", format: "rss" }
+    ]
+  },
+  {
+    id: 'rhizome',
+    name: 'Rhizome',
+    url: 'https://rhizome.org',
+    desc: 'Born digital art organization publishing essays and theory on internet art and net culture',
+    type: 'Digital archive curation',
+    category: 'culture',
+    tags: ['art', 'history', 'theory'],
+    trustScore: 92,
+    capabilities: ['rss-feed'],
+    verified: '2026-09-19',
+    lang: 'en',
+    region: 'United States',
+    feeds: [
+      { name: "Rhizome Feed", url: "https://rhizome.org/rss/", format: "rss" }
+    ]
+  }
+];
+
+function outletToSource(outlet: WebOutlet): Source {
+  const id = outlet.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  return {
+    id,
+    name: outlet.name,
+    url: outlet.url,
+    desc: outlet.description,
+    type: outlet.category === 'aggregator' ? 'Aggregator' : 'Weblog',
+    category: outlet.category === 'aggregator' ? 'news' : outlet.category,
+    tags: [outlet.category, 'open-web'],
+    trustScore: 88,
+    capabilities: outlet.feeds && outlet.feeds.length > 0 ? ['rss-feed'] : [],
+    verified: '2026-09-19',
+    feeds: outlet.feeds,
+    lang: 'en',
+  };
+}
+
+/**
+ * Merged collection of all curated sources across all thematic exports.
+ * Deduplicates by source id and incorporates entries from openInternetDirectory.
+ */
+function compileAllSources(): readonly Source[] {
+  const collections: readonly (readonly Source[] | readonly any[])[] = [
+    SOURCE_FIXTURE,
+    enrichedTechAndCultureSources,
+    bleedingEdgeTechSources,
+    eclecticWeirdWebSources,
+    makerAndPropCraftingSources,
+    deepOpenWebSources,
+    europeanOnlineShops,
+    europeanDeepDiveShops,
+    europeanAlternativeMenswear,
+    europeanPlayfulEdgyMenswear,
+    alternativeMenswearGlobal,
+    internetWonders,
+    internetTimeCapsules,
+    esp32HackerSources,
+    quintessentialDanishWebsites,
+    danishCultureAndIndependentMedia,
+    openInternetSources,
+    additionalSources,
+    curatedSources,
+    countercultureSources,
+  ];
+
+  const map = new Map<string, Source>();
+  for (const collection of collections) {
+    for (const item of collection) {
+      if (item && item.id) {
+        let verified = item.verified;
+        if (typeof verified === 'string' && /^\d{8}$/.test(verified)) {
+          verified = `${verified.slice(0, 4)}-${verified.slice(4, 6)}-${verified.slice(6, 8)}`;
+        }
+        const normalizedItem = verified !== item.verified ? { ...item, verified } : item;
+        const existing = map.get(item.id);
+        if (existing) {
+          map.set(item.id, { ...existing, ...normalizedItem });
+        } else {
+          map.set(item.id, normalizedItem as Source);
+        }
+      }
+    }
+  }
+
+  for (const outlet of openInternetDirectory) {
+    const s = outletToSource(outlet);
+    const existing = [...map.values()].find(
+      (x) => x.url.replace(/\/$/, '') === outlet.url.replace(/\/$/, ''),
+    );
+    if (!existing) {
+      map.set(s.id, s);
+    }
+  }
+
+  return Object.freeze([...map.values()]);
+}
+
+export const ALL_SOURCES: readonly Source[] = compileAllSources();

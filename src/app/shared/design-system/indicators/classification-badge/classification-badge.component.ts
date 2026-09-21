@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 /** Border treatment, not colour. The shape is what carries the meaning. */
 export type ClassificationVariant = 'solid' | 'dashed' | 'double';
@@ -7,7 +7,6 @@ export type ClassificationVariant = 'solid' | 'dashed' | 'double';
   selector: 'joo-classification-badge',
   template: '<ng-content />',
   styleUrl: './classification-badge.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.is-dashed]': "variant() === 'dashed'",
     '[class.is-double]': "variant() === 'double'",

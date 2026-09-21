@@ -1,0 +1,14 @@
+{
+  "_comment": "Lab limits for ux-lab.mjs. `absolute` values are targets: exceeding one is reported but never fails a run. `regression` tolerances compare against the newest committed baseline in _architecture/perf-baselines/ and fail `--strict` (CI). Lab numbers use Lighthouse's default mobile throttling on a brotli-compressed static preview, so compare this repo with itself, not with field data. Tighten the tolerances once several baselines show the real run-to-run noise.",
+  "absolute": {
+    "cls": 0.1,
+    "tbtMs": 300,
+    "lcpMs": 4000
+  },
+  "regression": {
+    "lcpPct": 25,
+    "tbtMs": 100,
+    "cls": 0.02,
+    "initialBundlePct": 10
+  }
+}

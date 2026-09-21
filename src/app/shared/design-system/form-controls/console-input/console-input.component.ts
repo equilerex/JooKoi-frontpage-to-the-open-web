@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, model, output } from '@angular/core';
+import { Component, input, model, output } from '@angular/core';
 
 export type ConsoleInputSize = 'compact' | 'md' | 'lg';
 
@@ -6,7 +6,6 @@ export type ConsoleInputSize = 'compact' | 'md' | 'lg';
   selector: 'joo-console-input',
   templateUrl: './console-input.component.html',
   styleUrl: './console-input.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.is-compact]': "size() === 'compact'",
     '[class.is-large]': "size() === 'lg'",
@@ -18,6 +17,7 @@ export class ConsoleInputComponent {
   readonly inputId = input('');
   readonly value = model('');
   readonly submitted = output<string>();
+  readonly blurred = output<string>();
 
   protected onInput(event: Event): void {
     this.value.set((event.target as HTMLInputElement).value);
@@ -25,5 +25,9 @@ export class ConsoleInputComponent {
 
   protected onEnter(): void {
     this.submitted.emit(this.value());
+  }
+
+  protected onBlur(): void {
+    this.blurred.emit(this.value());
   }
 }

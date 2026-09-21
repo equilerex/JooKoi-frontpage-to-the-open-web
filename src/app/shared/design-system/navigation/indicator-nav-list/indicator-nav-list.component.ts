@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { HardwareKeyComponent } from '../../actions/hardware-key/hardware-key.component';
 import {
   StatusLightColor,
@@ -36,7 +36,6 @@ export interface NavItem {
   imports: [HardwareKeyComponent, StatusLightComponent],
   templateUrl: './indicator-nav-list.component.html',
   styleUrl: './indicator-nav-list.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { role: 'navigation', '[attr.aria-label]': 'ariaLabel() || null' },
 })
 export class IndicatorNavListComponent {

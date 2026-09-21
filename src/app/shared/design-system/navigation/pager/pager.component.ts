@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { HardwareKeyComponent } from '../../actions/hardware-key/hardware-key.component';
 
 /**
@@ -18,7 +18,6 @@ import { HardwareKeyComponent } from '../../actions/hardware-key/hardware-key.co
   imports: [HardwareKeyComponent],
   templateUrl: './pager.component.html',
   styleUrl: './pager.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { role: 'navigation', 'aria-label': 'Pagination' },
 })
 export class PagerComponent {

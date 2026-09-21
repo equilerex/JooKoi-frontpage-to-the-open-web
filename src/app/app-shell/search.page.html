@@ -39,7 +39,7 @@
       @for (toggle of capabilityToggles; track toggle.value) {
         <joo-stompbox-toggle
           color="magenta"
-          [on]="caps().has(toggle.value)"
+          [on]="isCapActive()[toggle.value]"
           (onChange)="onCapabilityToggle(toggle.value)"
         >
           {{ toggle.label }}
@@ -47,17 +47,6 @@
       }
     </div>
 
-    <div class="rack-group">
-      <joo-field-label for="f-type">Type</joo-field-label>
-      <joo-chrome-select
-        inputId="f-type"
-        ariaLabel="Type"
-        [options]="typeOptions"
-        [value]="typeFilter()"
-        [filter]="true"
-        (valueChange)="onTypeChange($event)"
-      />
-    </div>
 
     <div class="rack-group">
       <joo-field-label for="f-region">Region</joo-field-label>
@@ -102,6 +91,161 @@
     }
   </joo-readout-panel>
 
+  <joo-readout-panel label="Type & Filter Funnel" led="magenta">
+    <span panelHead class="panel-meta">{{ funnelMeta() }}</span>
+
+    <div class="funnel-container">
+      <!-- Funnel Layer 1: Type Bucket (Inheritance Root) -->
+      <div class="funnel-tier">
+        <div class="funnel-tier__header">
+          <span class="funnel-tier__label">Type Bucket</span>
+          @if (categoryFilter() || typeFilter() || regionFilter() || trustedOnly() || caps().size) {
+            <button
+              type="button"
+              class="funnel-reset-btn"
+              (click)="onResetFunnel()"
+              title="Reset all type and filter selections"
+            >
+              Reset filters
+            </button>
+          }
+        </div>
+        <div class="funnel-tier__chips" role="group" aria-label="Type Bucket">
+          <button
+            type="button"
+            class="chip-btn"
+            [attr.aria-pressed]="!categoryFilter()"
+            (click)="onCategoryFunnelClick('')"
+          >
+            <joo-chip [count]="totalSourceCount" [active]="!categoryFilter()">
+              All types
+            </joo-chip>
+          </button>
+          @for (cat of funnelCategories(); track cat.id) {
+            <button
+              type="button"
+              class="chip-btn"
+              [attr.aria-pressed]="categoryFilter() === cat.id"
+              (click)="onCategoryFunnelClick(cat.id)"
+            >
+              <joo-chip [count]="cat.count" [active]="categoryFilter() === cat.id">
+                {{ cat.label }}
+              </joo-chip>
+            </button>
+          }
+        </div>
+      </div>
+
+      <!-- Funnel Layer 2: Specific Types (Revealed when a bucket is chosen) -->
+      @if (categoryFilter() && funnelSubTypes().length > 0) {
+        <div class="funnel-tier funnel-tier--nested">
+          <div class="funnel-tier__header">
+            <span class="funnel-tier__label">
+              Specific Types in {{ activeCategoryLabel() }}
+            </span>
+            @if (typeFilter()) {
+              <button
+                type="button"
+                class="funnel-clear-sub-btn"
+                (click)="onTypeFunnelClick(typeFilter())"
+              >
+                All {{ activeCategoryLabel() }} types
+              </button>
+            }
+          </div>
+          <div class="funnel-tier__chips" role="group" aria-label="Specific Types">
+            @for (sub of funnelSubTypes(); track sub.value) {
+              <button
+                type="button"
+                class="chip-btn"
+                [attr.aria-pressed]="typeFilter() === sub.value"
+                (click)="onTypeFunnelClick(sub.value)"
+              >
+                <joo-chip [count]="sub.count" [active]="typeFilter() === sub.value">
+                  {{ sub.label }}
+                </joo-chip>
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <!-- Funnel Layer 3: Contextual Facet Filters (Region, Signals, Trust) -->
+      @if (categoryFilter()) {
+        <div class="funnel-tier funnel-tier--nested funnel-tier--facets">
+          <div class="funnel-facets-row">
+            <!-- Region facet filter -->
+            @if (funnelRegions().length > 0) {
+              <div class="funnel-facet-group">
+                <span class="funnel-tier__label">Region</span>
+                <div class="funnel-tier__chips" role="group" aria-label="Region filter">
+                  <button
+                    type="button"
+                    class="chip-btn"
+                    [attr.aria-pressed]="!regionFilter()"
+                    (click)="onRegionFunnelClick('')"
+                  >
+                    <joo-chip [active]="!regionFilter()">All</joo-chip>
+                  </button>
+                  @for (reg of funnelRegions(); track reg.value) {
+                    <button
+                      type="button"
+                      class="chip-btn"
+                      [attr.aria-pressed]="regionFilter() === reg.value"
+                      (click)="onRegionFunnelClick(reg.value)"
+                    >
+                      <joo-chip [count]="reg.count" [active]="regionFilter() === reg.value">
+                        {{ reg.label }}
+                      </joo-chip>
+                    </button>
+                  }
+                </div>
+              </div>
+            }
+
+            <!-- Signals and Trust toggles -->
+            <div class="funnel-facet-group">
+              <span class="funnel-tier__label">Signals & Trust</span>
+              <div class="funnel-tier__chips">
+                <joo-stompbox-toggle
+                  color="cyan"
+                  [on]="trustedOnly()"
+                  (onChange)="onTrustedToggle()"
+                >
+                  Trusted ({{ funnelSignalCounts().trusted }})
+                </joo-stompbox-toggle>
+
+                <joo-stompbox-toggle
+                  color="magenta"
+                  [on]="isCapActive()['rss-feed']"
+                  (onChange)="onCapabilityToggle('rss-feed')"
+                >
+                  RSS ({{ funnelSignalCounts().rss }})
+                </joo-stompbox-toggle>
+
+                <joo-stompbox-toggle
+                  color="magenta"
+                  [on]="isCapActive()['site-search']"
+                  (onChange)="onCapabilityToggle('site-search')"
+                >
+                  Search ({{ funnelSignalCounts().search }})
+                </joo-stompbox-toggle>
+
+                <joo-stompbox-toggle
+                  color="magenta"
+                  [on]="isCapActive()['public-api']"
+                  (onChange)="onCapabilityToggle('public-api')"
+                >
+                  API ({{ funnelSignalCounts().api }})
+                </joo-stompbox-toggle>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </joo-readout-panel>
+
   <joo-readout-panel [flush]="true" label="Results" led="cyan">
     <span panelHead class="panel-meta">sources, not pages</span>
 
@@ -111,12 +255,12 @@
         inputId="f-query"
         size="lg"
         placeholder="css grid, estonian news, rss readers"
-        [(value)]="queryInput"
-        (submitted)="onQueryChange($event)"
+        [value]="queryInput()"
+        (valueChange)="queryInput.set($event)"
+        (blurred)="onQueryCommit($event)"
+        (submitted)="onQueryCommit($event)"
       >
-        <joo-hardware-key accent="hot" (press)="onQueryChange(queryInput())"
-          >Update</joo-hardware-key
-        >
+        <joo-hardware-key accent="hot" (press)="onBulkOpen()">Update</joo-hardware-key>
       </joo-console-input>
     </div>
 
@@ -166,10 +310,17 @@
       </ng-template>
       <ng-template jooRecordGridCell="sig" [rows]="rows()" let-row>
         <span class="sigs">
-          @for (signal of row.sig; track signal) {
-            <joo-capability-tag>{{ capabilityLabel(signal) }}</joo-capability-tag>
+          @for (signal of row.sig; track signal.id) {
+            <joo-capability-tag>{{ signal.label }}</joo-capability-tag>
           }
         </span>
+      </ng-template>
+      <ng-template jooRecordGridCell="src" [rows]="rows()" let-row>
+        @if (row.sourceUrl) {
+          <a class="src-repo" [href]="row.sourceUrl" target="_blank" rel="noopener">{{
+            row.src
+          }}</a>
+        }
       </ng-template>
       <ng-template jooRecordGridCell="act" [rows]="rows()" let-row>
         <joo-hardware-key

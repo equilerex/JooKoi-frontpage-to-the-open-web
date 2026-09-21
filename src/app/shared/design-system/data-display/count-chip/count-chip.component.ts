@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 /**
  * A labelled count in the readout surface's chip shape.
@@ -11,7 +11,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   selector: 'joo-count-chip',
   templateUrl: './count-chip.component.html',
   styleUrl: './count-chip.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.is-interactive]': 'interactive()' },
 })
 export class CountChipComponent {

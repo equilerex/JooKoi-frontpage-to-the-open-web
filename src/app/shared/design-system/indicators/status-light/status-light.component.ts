@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 export type StatusLightColor = 'off' | 'cyan' | 'magenta' | 'amber' | 'green';
 
@@ -6,7 +6,6 @@ export type StatusLightColor = 'off' | 'cyan' | 'magenta' | 'amber' | 'green';
   selector: 'joo-status-light',
   template: '',
   styleUrl: './status-light.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'img',
     '[attr.aria-label]': 'label() || null',

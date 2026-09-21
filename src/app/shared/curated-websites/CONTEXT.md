@@ -6,6 +6,12 @@ Rules: ADRs `005` (vocabulary, folders) and `010` (state). Full map: `_architect
 
 > **Phase 3 task 3 started this folder.** `source.model.ts`, `source-fixture.ts` and `source-search.ts` (+ spec) exist; the store, service and components below are still unbuilt.
 
+## Outbound links on a `Source`
+
+- `url` — Name column. Author landing: GitHub repo if known, otherwise that row's homepage. Not the right-hand key.
+- `searchUrl` — `{q}` template for the right-hand key. Always a search URL with a query param, never GitHub, never a listing path. If that row's marketplace accepts `?q=` (e.g. `https://www.skills.sh/?q={q}`), use it. Else `https://mcpservers.org/agent-skills/author/{github-owner}?q={q}`. `{q}` stays in the URL even when empty.
+- `sourceUrl` — optional GitHub/README link for the Src column. Leave unset when there is no known source repo. Do not duplicate `url` here when `url` is already the repo.
+
 ## Vocabulary — superseded for the data model, still true for everything else
 
 The things this app lists are **curated websites**. In code, **never** the bare word "source": in an engineering context it reads as source code, and an earlier draft that used it produced `source-directory/` and a `Source` model that nobody could read at a glance.

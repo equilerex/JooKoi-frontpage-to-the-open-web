@@ -1,0 +1,75 @@
+:host {
+  display: block;
+  /* Fallback when View Transitions API is unavailable; VT owns the swap otherwise. */
+  animation: library-folder-in var(--duration-route) ease;
+}
+
+@supports (view-transition-name: none) {
+  :host {
+    animation: none;
+  }
+}
+
+.stack {
+  display: grid;
+  gap: var(--space-6);
+}
+
+@keyframes library-folder-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.45rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none;
+  }
+}
+
+.library-title {
+  margin: 0;
+  font: 600 var(--text-xl) / 1.2 var(--font-display);
+  color: var(--text-primary);
+}
+
+.library-lede,
+.library-empty {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.eyebrow {
+  margin: 0;
+  font: 600 var(--text-2xs) / 1.2 var(--font-display);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.library-intro {
+  max-width: 60ch;
+}
+
+.library-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.library-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-panel);
+  border-radius: var(--radius-chip);
+  background: var(--surface-inset);
+  font: 500 var(--text-2xs) / 1 var(--font-mono);
+  color: var(--text-muted);
+}

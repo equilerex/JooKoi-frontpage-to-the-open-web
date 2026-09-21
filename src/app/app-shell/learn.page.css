@@ -1,7 +1,0 @@
-/* Mock `.panel__meta` (`components.css:868-872`): plain text, no icon. Same
- * rule as `home.page.css`/`search.page.css` — page-local, not extracted
- * (three occurrences of a two-line rule isn't worth a shared class yet). */
-.panel-meta {
-  font: 500 var(--text-2xs) / 1 var(--font-mono);
-  color: var(--text-muted);
-}

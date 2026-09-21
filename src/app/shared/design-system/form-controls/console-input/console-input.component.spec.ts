@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { ConsoleInputComponent } from './console-input.component';
@@ -9,8 +9,7 @@ import { ConsoleInputComponent } from './console-input.component';
   template: `
     <joo-console-input [(value)]="query" inputId="q" placeholder="Search" />
     <p>echo: {{ query() }}</p>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  `
 })
 class ConsoleInputHost {
   readonly query = signal('');

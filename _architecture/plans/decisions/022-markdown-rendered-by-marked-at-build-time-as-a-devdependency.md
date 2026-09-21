@@ -29,3 +29,5 @@ This content is static and fully known at build time, unlike `JooKoi-md-archive`
 ## Next step
 
 None. This mirrors the existing secrets-materialisation pattern already in this repo — a gitignored module built by a script chained into the build.
+
+**Amended by decision 027** (2026-09-16): the library section splits this into a committed index plus per-document files, no longer gitignored. Build-time `marked` rendering itself is unchanged.

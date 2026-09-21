@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en" data-theme="retro">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Open Web · Library (mockup)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,500;0,600;0,700;1,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="tokens.css" />
+    <link rel="stylesheet" href="components.css" />
+    <style>
+      .library-mock__nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+        margin-bottom: var(--space-6);
+      }
+      .library-mock__section {
+        display: none;
+      }
+      .library-mock__section.is-active {
+        display: grid;
+        gap: var(--space-6);
+      }
+      .library-mock__tiles .keycap {
+        min-height: 4.5rem;
+      }
+      .library-mock__filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: var(--space-2);
+      }
+      .library-mock__tree {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font: 500 var(--text-sm) / 1.4 var(--font-mono);
+        color: var(--text-muted);
+      }
+      .library-mock__tree ul {
+        list-style: none;
+        margin: 0;
+        padding: 0 0 0 var(--space-4);
+      }
+      .library-mock__tree a,
+      .library-mock__tree span {
+        display: block;
+        padding: var(--space-1) 0;
+        color: inherit;
+        text-decoration: none;
+      }
+      .library-mock__tree a:hover,
+      .library-mock__tree [aria-current='page'] {
+        color: var(--text-accent);
+      }
+      .library-mock__browse {
+        display: grid;
+        gap: var(--space-6);
+        align-items: start;
+      }
+      @media (min-width: 1024px) {
+        .library-mock__browse {
+          grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hud">
+      <div class="hud__inner">
+        <a class="hud__brand" href="index.html"
+          ><span class="hud__mark" aria-hidden="true"></span
+          ><span class="logotype logotype--sm">Open<b>Web</b></span></a
+        >
+        <nav class="hud__nav" aria-label="Main">
+          <a class="key key--sm" href="search.html"
+            ><span class="led" aria-hidden="true"></span>Search</a
+          >
+          <a class="key key--sm" href="browse.html"
+            ><span class="led" aria-hidden="true"></span>Browse</a
+          >
+          <a class="key key--sm" href="library.html" aria-current="page"
+            ><span class="led" aria-hidden="true"></span>Library</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main class="page stack">
+      <nav class="library-mock__nav" aria-label="Mock surfaces">
+        <button type="button" class="key key--sm" data-show="landing" aria-pressed="true">
+          Landing
+        </button>
+        <button type="button" class="key key--sm" data-show="folder" aria-pressed="false">
+          Folder
+        </button>
+        <button type="button" class="key key--sm" data-show="document" aria-pressed="false">
+          Document
+        </button>
+      </nav>
+
+      <section id="landing" class="library-mock__section is-active" aria-label="Library landing">
+        <ol class="breadcrumb">
+          <li><a href="index.html">Home</a></li>
+          <li aria-current="page">Library</li>
+        </ol>
+        <div class="library-mock__browse">
+          <aside class="panel">
+            <div class="panel__head"><span class="panel__title">Files</span></div>
+            <div class="panel__body">
+              <ul class="library-mock__tree">
+                <li>
+                  <span>Learn</span>
+                  <ul>
+                    <li><span>Topics</span></li>
+                    <li><a href="#document" data-show="document">Agent Sandboxing</a></li>
+                    <li><a href="#document" data-show="document">Topic Index</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </aside>
+          <div class="stack">
+            <p class="eyebrow">Your writing · entryway</p>
+            <h1 class="logotype">Library</h1>
+            <p class="lede">Tiles open a collection’s index notes. Tree stays on the left.</p>
+            <div class="keygrid library-mock__tiles">
+              <a class="key keycap" href="#document" data-show="document"
+                ><span class="keycap__fn">AI tooling crash course</span
+                ><span class="keycap__label">Learn</span><span class="keycap__count">23</span></a
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="folder" class="library-mock__section" aria-label="Library folder">
+        <ol class="breadcrumb">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#landing" data-show="landing">Library</a></li>
+          <li aria-current="page">Learn</li>
+        </ol>
+        <div class="library-mock__browse">
+          <aside class="panel">
+            <div class="panel__head"><span class="panel__title">Files</span></div>
+            <div class="panel__body">
+              <ul class="library-mock__tree">
+                <li>
+                  <span>Learn</span>
+                  <ul>
+                    <li><span>Topics</span></li>
+                    <li><a href="#document" data-show="document">Agent Sandboxing</a></li>
+                    <li><span>Topic Index</span></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </aside>
+          <div class="stack">
+            <div class="prose" style="max-width: 60ch">
+              <h1>Learn</h1>
+              <p>Intro from <code>index.md</code>. Tree stays on the left.</p>
+            </div>
+            <div class="library-mock__filters" aria-label="Filters (inert)">
+              <span class="chip">sandbox</span>
+              <span class="chip">skills</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="document" class="library-mock__section" aria-label="Library document">
+        <ol class="breadcrumb">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#landing" data-show="landing">Library</a></li>
+          <li><a href="#folder" data-show="folder">Learn</a></li>
+          <li aria-current="page">Topic Index</li>
+        </ol>
+        <div class="library-mock__browse">
+          <aside class="panel">
+            <div class="panel__head"><span class="panel__title">Files</span></div>
+            <div class="panel__body">
+              <ul class="library-mock__tree">
+                <li>
+                  <span>Learn</span>
+                  <ul>
+                    <li><span>Topics</span></li>
+                    <li><a href="#document" data-show="document">Agent Sandboxing</a></li>
+                    <li>
+                      <a href="#document" data-show="document" aria-current="page">Topic Index</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </aside>
+          <div class="stack">
+            <article class="sheet prose">
+              <h1>Topic Index</h1>
+              <p>Index notes that link into the collection. File tree stays on the left.</p>
+            </article>
+            <nav class="pager" aria-label="Documents">
+              <a class="key" href="#document"><span class="pager__dir">← Previous</span>…</a>
+              <a class="key" href="#document"><span class="pager__dir">Next →</span>…</a>
+            </nav>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="dock" aria-label="Main">
+      <a class="dock__item" href="index.html">Home</a>
+      <a class="dock__item" href="search.html">Search</a>
+      <a class="dock__item" href="browse.html">Browse</a>
+      <a class="dock__item" href="library.html" aria-current="page">Library</a>
+    </nav>
+    <script>
+      const sections = [...document.querySelectorAll('.library-mock__section')];
+      const buttons = [...document.querySelectorAll('[data-show]')];
+      function show(id) {
+        sections.forEach((s) => s.classList.toggle('is-active', s.id === id));
+        document.querySelectorAll('.library-mock__nav [data-show]').forEach((b) => {
+          b.setAttribute('aria-pressed', String(b.getAttribute('data-show') === id));
+        });
+        history.replaceState(null, '', '#' + id);
+      }
+      buttons.forEach((b) =>
+        b.addEventListener('click', (e) => {
+          e.preventDefault();
+          show(b.getAttribute('data-show'));
+        }),
+      );
+      const hash = location.hash.slice(1);
+      if (hash && sections.some((s) => s.id === hash)) show(hash);
+    </script>
+  </body>
+</html>

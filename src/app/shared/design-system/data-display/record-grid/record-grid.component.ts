@@ -1,13 +1,11 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   computed,
   contentChildren,
   input,
   output,
 } from '@angular/core';
-import { TableModule } from 'primeng/table';
 import { RecordGridCellDirective } from './record-grid-cell.directive';
 
 export interface GridColumn<T> {
@@ -18,15 +16,14 @@ export interface GridColumn<T> {
 
 @Component({
   selector: 'joo-record-grid',
-  imports: [TableModule, NgTemplateOutlet],
+  imports: [NgTemplateOutlet],
   templateUrl: './record-grid.component.html',
-  styleUrl: './record-grid.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './record-grid.component.css'
 })
 export class RecordGridComponent<T> {
   /**
-   * Neither array is `input.required`, and the reason is not style. The two
-   * `computed`s below read them, and a `computed` that reads a required input
+   * Neither array is `input.required`, and the reason is not style. A `computed`
+   * (or template) that reads a required input
    * before it is set throws `NG0950`. Normal rendering is unaffected — inputs
    * are applied before the template renders — but Angular's SSR error-
    * **recovery** path calls `recreate()` without re-applying inputs, so on a
@@ -36,14 +33,6 @@ export class RecordGridComponent<T> {
    * default anyway; the same reasoning is written out in `chrome-select` and
    * `pager`, which were bitten by it for real.
    *
-   * The copies exist because `Table.value` and `Table.columns` are both typed
-   * `any[] | undefined`, so a `readonly` array is rejected outright (TS4104).
-   * Calling these inputs `readonly` is the right public contract — the
-   * component never mutates either one — so the copy happens here rather than
-   * by weakening the interface to a mutable array and pushing the problem onto
-   * every caller. `computed` memoises, so the identity PrimeNG sees changes
-   * only when the data does.
-   *
    * Row activation is `(click)` only. A row is not focusable and there is no
    * key handler, so the grid is not operable from the keyboard today. That is
    * a recorded gap rather than an oversight: a row that can be activated needs
@@ -51,8 +40,6 @@ export class RecordGridComponent<T> {
    */
   readonly rows = input<readonly T[]>([]);
   readonly columns = input<readonly GridColumn<T>[]>([]);
-  readonly rowHeight = input(44);
-  readonly virtual = input(false);
   readonly emptyMessage = input('No records.');
   readonly ariaLabel = input('');
   readonly rowActivate = output<T>();
@@ -82,7 +69,4 @@ export class RecordGridComponent<T> {
     }
     return byField;
   });
-
-  protected readonly tableValue = computed(() => [...this.rows()]);
-  protected readonly tableColumns = computed(() => [...this.columns()]);
 }

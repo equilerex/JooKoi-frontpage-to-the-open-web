@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * The front page's outermost grid: the identity block and the search console in
@@ -22,7 +22,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-console-landing-template',
   templateUrl: './console-landing-template.component.html',
-  styleUrl: './console-landing-template.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './console-landing-template.component.css'
 })
 export class ConsoleLandingTemplateComponent {}

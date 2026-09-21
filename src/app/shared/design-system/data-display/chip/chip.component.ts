@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 /**
  * A flat pill with an optional inline dim count — the mock's `.chip`
@@ -14,7 +14,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   selector: 'joo-chip',
   templateUrl: './chip.component.html',
   styleUrl: './chip.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     // Same convention as `joo-stompbox-toggle`'s `[class.is-on]` — a boolean
     // input toggling a host state class, not a variant baked into a new

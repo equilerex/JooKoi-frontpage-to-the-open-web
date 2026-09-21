@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { CapabilityTagComponent } from '../../shared/design-system/data-display/capability-tag/capability-tag.component';
 import { ProseContentComponent } from '../../shared/design-system/data-display/prose-content/prose-content.component';
 import {
@@ -41,8 +41,7 @@ import { EyebrowLabelComponent } from '../../shared/design-system/typography/eye
     ProseContentComponent,
     SpecListComponent,
   ],
-  templateUrl: './record-detail-demo.page.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './record-detail-demo.page.html'
 })
 export class RecordDetailDemoPage {
   protected readonly crumbs: readonly Crumb[] = [

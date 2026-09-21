@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { GridColumn, RecordGridComponent } from './record-grid.component';
@@ -19,8 +19,7 @@ interface DemoRow {
       (rowActivate)="activated = $event.name"
     />
     <p>activated: {{ activated }}</p>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  `
 })
 class RecordGridHost {
   readonly rows: readonly DemoRow[] = [

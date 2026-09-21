@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 export type BezelJewelColor = 'cyan' | 'magenta' | 'amber' | 'green';
 
@@ -6,7 +6,6 @@ export type BezelJewelColor = 'cyan' | 'magenta' | 'amber' | 'green';
   selector: 'joo-bezel-jewel',
   template: '',
   styleUrl: './bezel-jewel.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'aria-hidden': 'true',
     '[class.is-magenta]': "color() === 'magenta'",

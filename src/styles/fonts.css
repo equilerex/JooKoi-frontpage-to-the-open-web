@@ -1,79 +1,85 @@
 @layer base {
+  /*
+   * `optional`: use the face if it is ready in the first ~100ms, otherwise keep
+   * the fallback for this page load. Avoids the late metric jump from `swap`
+   * once spacing has already settled. Pair with preloads in index.html so the
+   * first-paint faces usually win that window.
+   */
   @font-face {
     font-family: 'Chakra Petch';
     font-style: normal;
     font-weight: 500;
-    font-display: swap;
+    font-display: optional;
     src: url('/fonts/chakra-petch-500.woff2') format('woff2');
   }
   @font-face {
     font-family: 'Chakra Petch';
     font-style: normal;
     font-weight: 600;
-    font-display: swap;
+    font-display: optional;
     src: url('/fonts/chakra-petch-600.woff2') format('woff2');
   }
   @font-face {
     font-family: 'Chakra Petch';
     font-style: normal;
     font-weight: 700;
-    font-display: swap;
+    font-display: optional;
     src: url('/fonts/chakra-petch-700.woff2') format('woff2');
   }
   @font-face {
     font-family: 'Chakra Petch';
     font-style: italic;
     font-weight: 700;
-    font-display: swap;
+    font-display: optional;
     src: url('/fonts/chakra-petch-700-italic.woff2') format('woff2');
   }
   @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
-    font-display: swap;
+    font-display: optional;
     src: url('/fonts/inter-400.woff2') format('woff2');
   }
   @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
-    font-display: swap;
+    font-display: optional;
     src: url('/fonts/inter-500.woff2') format('woff2');
   }
   @font-face {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
-    font-display: swap;
+    font-display: optional;
     src: url('/fonts/inter-600.woff2') format('woff2');
   }
   @font-face {
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 400;
-    font-display: swap;
+    font-display: optional;
     src: url('/fonts/jetbrains-mono-400.woff2') format('woff2');
   }
   @font-face {
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 500;
-    font-display: swap;
+    font-display: optional;
     src: url('/fonts/jetbrains-mono-500.woff2') format('woff2');
   }
   @font-face {
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 600;
-    font-display: swap;
+    font-display: optional;
     src: url('/fonts/jetbrains-mono-600.woff2') format('woff2');
   }
   @font-face {
     font-family: 'JetBrains Mono';
     font-style: normal;
     font-weight: 700;
-    font-display: swap;
+    font-display: optional;
     src: url('/fonts/jetbrains-mono-700.woff2') format('woff2');
   }
 }

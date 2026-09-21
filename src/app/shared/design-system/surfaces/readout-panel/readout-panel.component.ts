@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import {
   StatusLightColor,
   StatusLightComponent,
@@ -27,7 +27,6 @@ import {
   imports: [StatusLightComponent],
   templateUrl: './readout-panel.component.html',
   styleUrl: './readout-panel.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.is-flush]': 'flush()' },
 })
 export class ReadoutPanelComponent {

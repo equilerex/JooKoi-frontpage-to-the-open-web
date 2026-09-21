@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, model, output } from '@angular/core';
+import { Component, input, model, output } from '@angular/core';
 import { HardwareKeyComponent } from '../../shared/design-system/actions/hardware-key/hardware-key.component';
 import { ConsoleInputComponent } from '../../shared/design-system/form-controls/console-input/console-input.component';
 import { StatusLightComponent } from '../../shared/design-system/indicators/status-light/status-light.component';
@@ -40,7 +40,6 @@ import { LogotypeComponent } from '../../shared/design-system/typography/logotyp
   imports: [LogotypeComponent, HardwareKeyComponent, StatusLightComponent, ConsoleInputComponent],
   templateUrl: './heads-up-display-header.component.html',
   styleUrl: './heads-up-display-header.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { role: 'banner' },
 })
 export class HeadsUpDisplayHeaderComponent {

@@ -2,6 +2,7 @@ import { Source } from './source.model';
 import {
   filterByQuery,
   matchesQuery,
+  outboundSearchHref,
   sortByName,
   sortByRelevance,
   sortByTrust,
@@ -81,6 +82,31 @@ describe('matchesQuery / filterByQuery', () => {
     expect(filterByQuery(fixture, 'science')).toEqual([arxiv]);
     expect(filterByQuery(fixture, 'reference')).toEqual([mdn]);
     expect(filterByQuery(fixture, 'nonexistent-term-xyz')).toEqual([]);
+  });
+});
+
+describe('outboundSearchHref', () => {
+  const openai = makeSource({
+    id: 'openai',
+    url: 'https://github.com/openai/plugins',
+    searchUrl: 'https://mcpservers.org/agent-skills/author/openai?q={q}',
+  });
+
+  it('fills {q} on the marketplace template, never the GitHub url', () => {
+    expect(outboundSearchHref(openai, 'test')).toBe(
+      'https://mcpservers.org/agent-skills/author/openai?q=test',
+    );
+  });
+
+  it('keeps the ?q= syntax when the query is empty', () => {
+    expect(outboundSearchHref(openai, '')).toBe(
+      'https://mcpservers.org/agent-skills/author/openai?q=',
+    );
+  });
+
+  it('falls back to url only when there is no searchUrl', () => {
+    const homeOnly = makeSource({ id: 'mdskills', url: 'https://www.mdskills.ai' });
+    expect(outboundSearchHref(homeOnly, 'test')).toBe('https://www.mdskills.ai');
   });
 });
 

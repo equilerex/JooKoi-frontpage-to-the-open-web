@@ -1,0 +1,26 @@
+@if (folder(); as f) {
+  @if (isRoot()) {
+    <div class="underlay-stack">
+      <p class="eyebrow">Your writing · entryway</p>
+      <h2 class="underlay-title">Library</h2>
+      <p class="underlay-lede">Open a collection to its index notes, or pick any file from the tree.</p>
+      <joo-keycap-grid class="underlay-tiles">
+        @for (c of collections(); track c.path) {
+          <joo-keycap
+            [label]="c.title"
+            [fn]="c.summary || 'Collection'"
+            [count]="c.docCount"
+          />
+        }
+      </joo-keycap-grid>
+    </div>
+  } @else {
+    <div class="underlay-stack">
+      @if (f.introHtml) {
+        <joo-prose-content class="underlay-intro" [innerHTML]="f.introHtml" />
+      } @else {
+        <h2 class="underlay-title">{{ f.title }}</h2>
+      }
+    </div>
+  }
+}

@@ -1,0 +1,36 @@
+# Dependencies & build caches
+node_modules/
+.angular/
+dist/
+out-tsc/
+coverage/
+tmp/
+.vitest-attachments/
+graphify-out/
+
+# Agent harnesses, local tool configs, and IDE scratch
+.serena/
+.superpowers/
+.ollamassist/
+.claude/
+.idea/
+.vscode/
+.mcp.json
+*.jsonl
+
+# Build-generated code & data
+*.generated.ts
+*.generated.*
+
+# Flushed archives (historical, non-current)
+_architecture/archive/
+
+# Package locks & credentials
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+.env*
+.primeui-license
+
+# Non-extractable compiler configs
+tsconfig*.json

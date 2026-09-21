@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { providePrimeNG } from 'primeng/config';
 import { page, userEvent } from 'vitest/browser';
@@ -17,8 +17,7 @@ import { ChromeSelectComponent } from './chrome-select.component';
       placeholder="Sort by"
     />
     <p>sort: {{ sort() }}</p>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  `
 })
 class ChromeSelectHost {
   readonly sorts = [

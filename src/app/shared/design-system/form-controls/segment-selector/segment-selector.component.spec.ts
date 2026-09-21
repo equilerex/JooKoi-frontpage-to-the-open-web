@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { SegmentSelectorComponent } from './segment-selector.component';
@@ -9,8 +9,7 @@ import { SegmentSelectorComponent } from './segment-selector.component';
   template: `
     <joo-segment-selector [options]="sorts" [(value)]="sort" ariaLabel="Sort order" />
     <p>sort: {{ sort() }}</p>
-  `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  `
 })
 class SegmentSelectorHost {
   readonly sorts = [

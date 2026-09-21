@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
+import { Component, computed, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Select } from 'primeng/select';
 
@@ -32,8 +32,7 @@ export interface SelectOption {
   selector: 'joo-chrome-select',
   imports: [Select, FormsModule],
   templateUrl: './chrome-select.component.html',
-  styleUrl: './chrome-select.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './chrome-select.component.css'
 })
 export class ChromeSelectComponent {
   /**

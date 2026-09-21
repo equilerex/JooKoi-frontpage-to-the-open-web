@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * The horizon: a perspective grid floor and a radial glow, fixed behind every
@@ -29,7 +29,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'joo-horizon-backdrop',
   template: '',
   styleUrl: './horizon-backdrop.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { 'aria-hidden': 'true' },
 })
 export class HorizonBackdropComponent {}

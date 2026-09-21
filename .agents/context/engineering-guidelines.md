@@ -13,12 +13,14 @@ Applies to `src/` only. Repo-level conventions are in `AGENTS.md`.
 | **Correctness gate**       | watch dev server — see `AGENTS.md`, Iteration loop    |
 | Tests (watch)              | `pnpm test`                                           |
 | Tests (headless, one shot) | `pnpm run test:ci`                                    |
+| UX smoke (UI/layout/route) | `pnpm run ux:smoke` — needs `pnpm start` already up   |
+| UX lab (occasional)        | `pnpm run ux:lab` — needs static preview on :4321     |
 | Format                     | `pnpm run format` / `pnpm run format:check`           |
 | Serve the production build | `pnpm run build` then `pnpm run serve:static-build`   |
 
 The watch dev server is the correctness gate after every change — strict TypeScript plus `strictTemplates` is what catches mistakes here, not a test suite. Tests run when asked, not on every change. Production builds belong to CI; `AGENTS.md`'s Iteration loop table is the single source for the gate scheme.
 
-UI verification: check at **390px** and **1440px** in the preview browser.
+UI verification during work: check at **390px** and **1440px** in the preview browser. Run `pnpm run ux:smoke` only at the end of a UI project or when hunting a reported glitch — not per change.
 
 ## Conventions
 
@@ -112,7 +114,9 @@ Provision: root domain data `providedIn: 'root'`; route-scoped view state in the
 
 Shareable view state (search query, filters, sort, page) lives **in the URL**, with the store as a typed view over it — reads query params into state, writes back with `router.navigate`. Not a second source of truth.
 
-No store exists yet. The first one is written in Phase 3.
+**Layered drill-in (decision 031):** detail/document is a visual layer over the browse surface; Back uses browser history; ephemeral UI (scroll, local filter text) lives in a layout- or route-scoped store. Library is the proof (`LibraryLayoutStore` on the library layout route). Search/browse adopt the same rule when they grow a detail layer. Do not invent a second navigation stack beside the URL.
+
+`LibraryLayoutStore` is the first SignalStore in the app.
 
 ## Writing a test
 

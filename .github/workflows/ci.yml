@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium (unit tests and Lighthouse)
+        run: pnpm exec playwright install --with-deps chromium
+
+      - run: pnpm run format:check
+      - run: pnpm run lint
+      - run: pnpm run test:ci
+
+      # The production build enforces the bundle and component-style budgets
+      # in angular.json and writes dist/jookoi-frontpage/stats.json.
+      - run: pnpm run build
+
+      # Lab audit of the static build against the newest committed baseline in
+      # _architecture/perf-baselines/. Fails only on a regression beyond the
+      # tolerances in scripts/ux-lab.budgets.json. Absolute targets are printed,
+      # not enforced.
+      - name: Serve the static build
+        run: |
+          node scripts/serve-static-build.mjs &
+          for i in $(seq 1 30); do curl -sf http://localhost:4321/ >/dev/null && break; sleep 1; done
+
+      # Non-blocking until a baseline recorded on a CI runner is committed: the
+      # current baseline comes from a developer machine, and CPU differences
+      # would make the comparison meaningless. Download the ux-lab artifact,
+      # record from it, then remove continue-on-error.
+      - name: Lighthouse regression check
+        continue-on-error: true
+        run: pnpm run ux:lab:ci | tee ux-lab-report.txt
+
+      - name: Keep the report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ux-lab
+          path: |
+            ux-lab-report.txt
+            dist/jookoi-frontpage/stats.json
+          if-no-files-found: ignore

@@ -1,0 +1,42 @@
+@if (folder(); as f) {
+  @if (isRoot()) {
+    <div class="library-landing stack">
+      <p class="eyebrow">Your writing · entryway</p>
+      <h1 class="library-title">Library</h1>
+      <p class="library-lede">
+        Open a collection to its index notes, or pick any file from the tree.
+      </p>
+      <joo-keycap-grid class="library-tiles">
+        @for (collection of collections(); track collection.path) {
+          <joo-keycap
+            [fn]="collection.summary || 'Collection'"
+            [label]="collection.title"
+            [count]="collection.docCount"
+            (click)="openCollection(collection.path)"
+          />
+        }
+      </joo-keycap-grid>
+      @if (collections().length === 0) {
+        <p class="library-empty">No collections yet.</p>
+      }
+    </div>
+  } @else {
+    <div class="library-folder stack">
+      @if (f.introHtml) {
+        <joo-prose-content class="library-intro" [innerHTML]="f.introHtml" />
+      } @else {
+        <h1 class="library-title">{{ f.title }}</h1>
+      }
+
+      @if (filterChips().length > 0) {
+        <div class="library-filters" aria-label="Filters">
+          @for (chip of filterChips(); track chip) {
+            <span class="library-filter-chip">{{ chip }}</span>
+          }
+        </div>
+      }
+    </div>
+  }
+} @else {
+  <p class="library-empty">Not found.</p>
+}

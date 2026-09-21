@@ -1,0 +1,29 @@
+@if (doc()) {
+  <!--
+    Sheet stays opaque white during loads (no is-pending fade — that flashed the
+    dark reader panel through). Content swaps in place; do not remount on path.
+  -->
+  <joo-paper-sheet
+    class="library-doc__sheet"
+    [attr.aria-busy]="html.isLoading() ? true : null"
+  >
+    @if (displayedHtml(); as content) {
+      <joo-prose-content
+        class="library-doc__body"
+        [class.is-pending]="html.isLoading()"
+        [innerHTML]="content"
+      />
+    } @else {
+      <div class="library-doc__slot" aria-hidden="true"></div>
+    }
+  </joo-paper-sheet>
+
+  <joo-pager [page]="page()" [pageCount]="pageCount()" (pageChange)="onPageChange($event)" />
+} @else {
+  <joo-paper-sheet class="library-doc__sheet">
+    <joo-prose-content>
+      <h1>Document not found</h1>
+      <p><a href="/library">Back to Library</a></p>
+    </joo-prose-content>
+  </joo-paper-sheet>
+}

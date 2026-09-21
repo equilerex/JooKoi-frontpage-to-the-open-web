@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { CountChipComponent } from '../../shared/design-system/data-display/count-chip/count-chip.component';
 import {
   SegmentOption,
@@ -25,8 +25,7 @@ import { ReadoutPanelComponent } from '../../shared/design-system/surfaces/reado
     StompboxToggleComponent,
     CountChipComponent,
   ],
-  templateUrl: './directory-browse-demo.page.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './directory-browse-demo.page.html'
 })
 export class DirectoryBrowseDemoPage {
   protected readonly sortOptions: readonly SegmentOption[] = [

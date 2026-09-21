@@ -74,7 +74,19 @@ const VERIFIED_DATE_FORMAT = new Intl.DateTimeFormat(undefined, {
 });
 
 export function formatVerifiedDate(iso: string): string {
-  return VERIFIED_DATE_FORMAT.format(new Date(iso));
+  try {
+    let dateStr = iso;
+    if (/^\d{8}$/.test(iso)) {
+      dateStr = `${iso.slice(0, 4)}-${iso.slice(4, 6)}-${iso.slice(6, 8)}`;
+    }
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) {
+      return iso;
+    }
+    return VERIFIED_DATE_FORMAT.format(d);
+  } catch {
+    return iso;
+  }
 }
 
 /** No stored `domain` on `Source` (model comment) — derived here the same
@@ -89,6 +101,23 @@ export function domainOf(url: string): string {
   } catch {
     return url;
   }
+}
+
+/**
+ * Right-hand key href. GitHub/home lives on Name (`source.url`) and is
+ * never this button when `searchUrl` exists. `{q}` is always substituted
+ * (empty string if the box is empty) so the marketplace query-param syntax
+ * stays in the URL — e.g. `.../author/openai?q=`.
+ */
+export function outboundSearchHref(
+  source: Pick<Source, 'url' | 'searchUrl'>,
+  query: string,
+): string {
+  const template = source.searchUrl;
+  if (!template) {
+    return source.url;
+  }
+  return template.replace('{q}', encodeURIComponent(query.trim()));
 }
 
 /** Case-insensitive, whitespace-split query terms. Collapses repeated

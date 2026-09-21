@@ -5,6 +5,6 @@ import { RouterLink } from '@angular/router';
   imports: [RouterLink],
   selector: 'joo-not-found-page',
   styleUrl: './not-found.page.css',
-  templateUrl: './not-found.page.html',
+  templateUrl: './not-found.page.html'
 })
 export class NotFoundPage {}

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { StompboxToggleComponent } from './stompbox-toggle.component';
@@ -6,8 +6,7 @@ import { StompboxToggleComponent } from './stompbox-toggle.component';
 @Component({
   selector: 'joo-stompbox-toggle-host',
   imports: [StompboxToggleComponent],
-  template: `<joo-stompbox-toggle [(on)]="active">Has feed</joo-stompbox-toggle>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `<joo-stompbox-toggle [(on)]="active">Has feed</joo-stompbox-toggle>`
 })
 class StompboxToggleHost {
   readonly active = signal(false);

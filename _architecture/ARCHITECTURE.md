@@ -18,7 +18,8 @@ Phase 1 (foundation), Phase 2 (design system) and Phase 3 (content and features)
 | State                  | Plain signals + `@ngrx/signals` `~22.0.1`              | 010 |
 | Lint / format          | `angular-eslint` + Prettier + `eslint-config-prettier` | —   |
 | Import boundaries      | generated `no-restricted-imports` rules                | 005 |
-| CI / hosting           | Designed, not built                                    | 009 |
+| CI                     | GitHub Actions `ci.yml` (Lighthouse step non-blocking) | 009, 033 |
+| Hosting                | Not chosen                                             | 009 |
 
 The workspace sits at the **repo root**, next to `sources/`, `data/`, `scripts/`, `features/` and `.agents/`. It's a single app — no Nx, no monorepo (ADR 005).
 
@@ -39,13 +40,13 @@ Static prerendering with no server (ADR 004). `ng build` emits prerendered HTML 
 - Parameterised routes (`website-detail`) will use `getPrerenderParams` fed from build-time data, with `PrerenderFallback.Client`.
 - Search stays client-rendered.
 - The theme attribute `data-theme="retro"` is written statically into `index.html` so prerendered HTML has no theme flash.
-- `scripts/serve-static-build.mjs` (Node built-ins only) serves `dist/jookoi-frontpage/browser` locally via `pnpm run serve:static-build`. For an unmatched path it serves the CSR fallback page rather than a literal HTTP 404 — the `**` wildcard route needs the Angular app to mount before it can show the not-found page.
+- `scripts/serve-static-build.mjs` (Node built-ins only) serves `dist/jookoi-frontpage/browser` locally via `pnpm run serve:static-build`. A prerendered route resolves to `<route>/index.html`, and text files are brotli-compressed when the client accepts it (as a static host does, decision 033). For an unmatched path it serves the CSR fallback page rather than a literal HTTP 404 — the `**` wildcard route needs the Angular app to mount before it can show the not-found page.
 
 ## Folder map
 
 This is the **target** map for the app described in `_architecture/sitemap.yaml`. Parked areas are shown only to prove they have a home — they are not created.
 
-> **What actually exists after Phase 3:** `app.routes.ts` has five entries: `''` → `HomePage`, `search` → `SearchPage`, `learn` → `LearnPage`, `learn/:topic` → `LearnTopicPage`, `specimen` → the dev-only parts kit (dev mode only), `**` → `NotFoundPage`. All four real pages live flat in `app-shell/` (`home.page.*`, `search.page.*`, `learn.page.*`, `learn-topic.page.*`) alongside the three chrome components, `app-shell-layout/` and `page-title.strategy.ts` — Phase 3 did not create the `launcher-home/`, `website-search/` or `learning/` feature folders this map originally planned; the pages sit in `app-shell/` instead (deviation from this map, not from D2's page scope). `browse` and `source_detail` are still unbuilt (D2), so `category-browse/` and `website-detail/` below stay illustrative. `shared/curated-websites/` holds `source.model.ts`, `source-fixture.ts` and `source-search.ts` (+ spec) — a hand-written fixture and pure search functions (ADR 017, 026); the store, service and components under "Planned contents" are still unbuilt. `shared/learn-content/` holds `learn-content.generated.ts`, gitignored, rebuilt by `scripts/build-learn-content.mjs` from `content/learn/` on every build (ADR 021, 022). `shared/design-system/` holds ten folders — nine component sub-groups and `theme/` — listed below, including Phase 3's two additions, `data-display/chip/` and `data-display/topic-tree/`. `src/styles/` holds `cascade-layers.css`, `design-tokens.css`, `base-element-styles.css` and `fonts.css`, and `public/fonts/` holds the eleven self-hosted woff2 files. `src/styles.css` holds the global rules that cannot be encapsulated.
+> **What actually exists after Phase 3 + the library-archive section:** `app.routes.ts` has: `''` → `HomePage`, `search` → `SearchPage`, `learn` and `learn/:topic` → redirects into `/library/...` (D8), `library` → `libraryRoutes` (`app-shell/library/`, one literal `Route` per known path, generated — no `:param`), `specimen` → the dev-only parts kit (dev mode only), `**` → `NotFoundPage`. Home and search live flat in `app-shell/` (`home.page.*`, `search.page.*`) alongside the three chrome components, `app-shell-layout/` and `page-title.strategy.ts`; the library pages live in `app-shell/library/` — Phase 3 did not create the `launcher-home/`, `website-search/` or `learning/` feature folders this map originally planned (deviation from this map, not from D2's page scope). `browse` and `source_detail` are still unbuilt (D2), so `category-browse/` and `website-detail/` below stay illustrative. `shared/curated-websites/` holds `source.model.ts`, `source-fixture.ts` and `source-search.ts` (+ spec) — a hand-written fixture and pure search functions (ADR 017, 026); the store, service and components under "Planned contents" are still unbuilt. `shared/library-content/` holds the generated content index plus one generated file per document, all committed (ADR 027), built by `scripts/build-library-content.mjs` from `content/library/` — run by `pnpm run build` and by hand via `pnpm run content`, not by `start`/`watch`. `shared/design-system/` holds ten folders — nine component sub-groups and `theme/` — listed below, including Phase 3's two additions, `data-display/chip/` and `data-display/topic-tree/`. `src/styles/` holds `cascade-layers.css`, `design-tokens.css`, `base-element-styles.css` and `fonts.css`, and `public/fonts/` holds the eleven self-hosted woff2 files. `src/styles.css` holds the global rules that cannot be encapsulated.
 
 ```
 src/
@@ -59,8 +60,12 @@ src/
       not-found.page.*                  #   wildcard route target
       home.page.*                       #   '' route target — live search console, quick keys
       search.page.*                     #   /search?q= route target — filter rack, sort, results
-      learn.page.*                      #   /learn route target — topic-tree index
-      learn-topic.page.*                #   /learn/:topic route target — rendered article
+      library/                          #   /library section (library-archive-section plan) — literal routes
+        library-layout.page.*           #     breadcrumb + left file tree + outlet
+        library-folder.page.*           #     landing tiles / folder intro+filters (right pane)
+        library-document.page.*         #     document sheet + pager (right pane)
+        library-tree.ts                 #     tree builders + entry-doc helper
+        library.routes.ts               #     layout parent, one literal child Route per path
       app-shell-layout/                 #   backdrop + header + <router-outlet> + dock
       heads-up-display-header/          #   desktop HUD navigation (.hud)
       mobile-bottom-dock/               #   thumb-reach navigation below 768px (.dock)
@@ -85,7 +90,7 @@ src/
         surfaces/                       #     readout-panel/ (.panel), paper-sheet/ (.sheet), corner-brackets/,
                                         #     filter-drawer/ (PrimeNG)
         navigation/                     #     breadcrumb-trail/, indicator-nav-list/ (.navlist), pager/ (.pager)
-        data-display/                   #     record-grid/ (PrimeNG, cell-template API), tag-set/ (.chips),
+        data-display/                   #     record-grid/ (plain table, cell-template API), tag-set/ (.chips),
                                         #     capability-tag/, count-chip/, spec-list/ (.spec), prose-content/,
                                         #     chip/ (.chip), topic-tree/ (PrimeNG p-tree)
         page-layouts/                   #     toolbar-row/
@@ -99,15 +104,17 @@ src/
         # store, service and components below are still unbuilt — see "Planned contents"
         # and src/app/shared/curated-websites/CONTEXT.md
 
-      learn-content/                    #   generated learn-article data (gitignored)
-        learn-content.generated.ts      #     rebuilt by scripts/build-learn-content.mjs from content/learn/ (ADR 021, 022)
+      library-content/                  #   generated content data, committed (ADR 027)
+        library-index.generated.ts      #     small: folder tree + per-doc metadata, no HTML
+        library-lookup.ts               #     hand-written Map lookups over the generated data
+        docs/*.generated.ts             #     one file per document, HTML only — lazy-loaded per route
 
       keyboard-shortcuts/               #   global hotkey registry (HUD keycaps), used by shell + features
       # parked: browser-storage/ (local-only persistence), local-preferences/ (personal homepage settings)
 
-    # home (/), search (/search?q=) and learn (/learn, /learn/:topic) are built, but as pages
-    # flat in app-shell/ above, not as their own feature folders — this map's launcher-home/,
-    # website-search/ and learning/ folders were never created (see the callout above).
+    # home (/) and search (/search?q=) are built, but as pages flat in app-shell/ above, not
+    # as their own feature folders — this map's launcher-home/ and website-search/ folders
+    # were never created (see the callout above). /learn now redirects into app-shell/library/.
 
     category-browse/                    # /browse/:category?  — still parked (D2)
       category-browse.routes.ts
@@ -128,8 +135,8 @@ src/
     cascade-layers.css  design-tokens.css  base-element-styles.css  fonts.css
   styles.css                            # global rules that cannot be encapsulated (ADR 014)
 public/fonts/                           # eleven self-hosted woff2 files
-content/learn/                          # vendored learn markdown, source for learn-content.generated.ts (ADR 021)
-scripts/build-learn-content.mjs         # reads content/learn/, emits the gitignored generated module
+content/library/<collection>/           # markdown per collection; crash course is vendored as ai-tooling-crash-course-for-developers (ADR 021/028/029)
+scripts/build-library-content.mjs       # reads content/library/, emits the committed generated modules (ADR 027)
 ```
 
 `.page.*` means `.page.ts`, `.page.html`, `.page.css` and `.page.spec.ts`. Every normal component has its own folder, so a feature folder's root holds only the page, its routes file, and feature-local stores or functions.
@@ -251,6 +258,8 @@ Global CSS in explicit cascade layers (ADR 007), declared in `src/styles/cascade
 
 Four files, in the order they are imported: `cascade-layers.css` (declares `@layer reset, tokens, base, primeng, components, utilities`), `design-tokens.css`, `base-element-styles.css`, `fonts.css`.
 
+**Motion** is four duration tokens in `design-tokens.css`: `--duration-press` (70ms), `--duration-state` (160ms), `--duration-route` (240ms), `--duration-shell` (240ms). Recipes (route pane view-transitions, shell width ease, pending-without-wipe, font preload/`optional`) live in `src/app/shared/design-system/CONTEXT.md`. Plan: `_architecture/plans/2026-09-18-local-ux-quality-and-motion-system.md`. Do not invent a fifth duration for a one-off animation.
+
 One exception to per-component styling: a rule that has to reach an element the component does not itself render — projected content, or an element a library's template created — cannot be encapsulated, and lives in `src/styles.css` inside `@layer components`, scoped by custom-element name (ADR 014). `src/styles.css` is also the only home for a global `joo-*` rule; `base-element-styles.css` holds the reset and nothing else.
 
 ## Conventions (framework defaults, not ADRs)
@@ -270,16 +279,21 @@ Vitest browser mode (Playwright/Chromium). Tests are hybrid interaction tests: r
 
 Tests are added only where they help the agent iteration loop. No e2e suite in Phase 1.
 
+**Local UX smoke** (`pnpm run ux:smoke` → `scripts/ux-smoke.mjs`) is a separate gate from Vitest: app-wide route matrix, forbidden loading flashes, CLS/FCP/long-task budgets (`scripts/ux-smoke.budgets.json`), soft motion checks, and a gitignored metrics log under `.local/ux-smoke/`. Trigger and rules live only in `AGENTS.md`'s Iteration loop table. Ship a new page → add a scenario row. Occasional cold-load lab: `pnpm run ux:lab` against `serve:static-build` (:4321). Plan: `plans/2026-09-18-app-quality-harness.md`.
+
 ## Build budgets
 
 **Budget values**:
 
-- Initial: warning 320 kB, error 500 kB
-- anyComponentStyle: warning 2 kB, error 4 kB
+- Initial: warning 600 kB, error 750 kB (raw bytes; Angular budgets are not compressed sizes)
+- anyScript (any single script): warning 700 kB, error 1 MB
+- anyComponentStyle: warning 4 kB, error 8 kB
 
-Set from the first production build's measured baseline (244.34 kB initial) plus ~30% headroom. They are enforced by `ng build`, which is what makes them the CI gate once ADR 009's workflow exists — and **CI is the only thing that measures them**; the agent loop runs no production build (`AGENTS.md`, Iteration loop).
+Re-set on 2026-09-21 from a measured build (536 kB initial raw, 130 kB transferred) after the first Phase 3 build failed the old 320/500 kB budget at 1.31 MB. The cause and the fixes are in decision 032. They are enforced by `ng build` in CI (`.github/workflows/ci.yml`, decision 033). The agent loop runs no production build (`AGENTS.md`, Iteration loop). No current bundle size is recorded here: read it from the newest file in `_architecture/perf-baselines/`.
 
-**Both warns are currently exceeded, and that is a decision, not a defect to fix here.** The initial bundle crossed the 320 kB warn when PrimeNG landed, and two component stylesheets sit over the 2 kB warn. Resolving it means either raising a budget or trimming ported CSS, and that call belongs to the user — logged in `_architecture/BACKLOG.md`. No current bundle size is recorded here: the 244.34 kB above is the baseline the budgets were set from, and a stale measurement reads as a live one.
+**Performance baselines** (decision 033): `pnpm run ux:lab:record` writes one JSON per commit into `_architecture/perf-baselines/` (Lighthouse median of 3 runs per page plus bundle sizes from `dist/jookoi-frontpage/stats.json`, which `pnpm run build` now writes). `pnpm run ux:lab -- --compare` diffs against the newest one, and CI runs `ux:lab:ci`, which fails only on regression beyond `scripts/ux-lab.budgets.json`. Absolute limits there are targets. The lab measures a static preview (`serve:static-build`) that serves each route's prerendered `index.html` with brotli; without both, the numbers are about 2x too slow.
+
+**Landing-page weight rule** (decision 032): a route in `app.routes.ts` is lazy unless it is a few kB. `record-grid` is a plain table, so nothing in `main` may import PrimeNG's table code. The shell must not import data-sized modules: the source count is read from the fixture after first render.
 
 ## Where Phase 3 plugs in
 
@@ -288,7 +302,7 @@ Phase order and reasoning: `_architecture/plans/decisions/002-*`. **Phase 1 (fou
 **The design system, as built.** `shared/design-system/` holds nine component sub-groups plus `theme/` — see the folder map. Two rules shape everything in it:
 
 - **Identity comes from visual role, not from the mockup's markup** (ADR 012). The mockup CSS is a paint source read after a boundary is settled, never a source of structure. The Phase 1 class map (`.led` → `status-light/`) is superseded.
-- **PrimeNG is the component base, styled, skinned by a custom preset** (ADR 011). Three components wrap it — `chrome-select`, `filter-drawer`, `record-grid` — and consumers never import a PrimeNG symbol. `theme/jookoi-preset.ts` maps PrimeNG's design tokens onto ours; `options.cssLayer` orders PrimeNG before our `components` layer, so our overrides win by layer rather than by specificity, with no `!important` and no `::ng-deep`. PrimeNG's variables are `--png-*` (its default `p` prefix collides with our primitives).
+- **PrimeNG is the component base, styled, skinned by a custom preset** (ADR 011). Two components wrap it — `chrome-select`, `filter-drawer` (`record-grid` stopped wrapping `p-table` in decision 032) — and consumers never import a PrimeNG symbol. `theme/jookoi-preset.ts` maps PrimeNG's design tokens onto ours; `options.cssLayer` orders PrimeNG before our `components` layer, so our overrides win by layer rather than by specificity, with no `!important` and no `::ng-deep`. PrimeNG's variables are `--png-*` (its default `p` prefix collides with our primitives).
 
 **Elevation is one scale in two places.** `--z-*` tokens in `design-tokens.css` and `ELEVATION` in `theme/elevation.ts` carry the same numbers, because PrimeNG's overlay manager is JavaScript-side and cannot read a custom property. Change one, change the other.
 
@@ -296,11 +310,17 @@ Phase order and reasoning: `_architecture/plans/decisions/002-*`. **Phase 1 (fou
 
 **`/specimen` is the dev-only parts kit.** It renders every component in every state, and it is the only route in the app that is not part of the site.
 
-**Phase 3 — content and features, as built.** Home (`/`), search (`/search?q=`) and learn (`/learn`, `/learn/:topic`) are real routes (D2, ADR 018) — four new entries in `app.routes.ts`, pages flat in `app-shell/` rather than in per-feature folders (see the folder map callout above). `browse` and `source_detail` stay parked.
+**Phase 3 — content and features, as built.** Home (`/`) and search (`/search?q=`) are real routes (D2, ADR 018) — pages flat in `app-shell/` rather than in per-feature folders (see the folder map callout above). `browse` and `source_detail` stay parked. `/learn` and `/learn/:topic` were built this phase, then superseded the same day by the library-archive section below.
 
 - `shared/curated-websites/` holds a hand-written `Source` fixture and a pure, framework-free ranked-search module (ADR 017, 026) — no data service, root store or components yet. The originally planned data pipeline (`sources/` → `scripts/` → `src/generated/`) was not built this phase; `BACKLOG.md`'s "Data pipeline: `sources/` to `src/generated/`" item stays open.
-- `shared/learn-content/` holds a gitignored generated module, rebuilt from vendored markdown in `content/learn/` by `scripts/build-learn-content.mjs` (ADR 021, 022) — the same gitignored-module-built-by-a-chained-script shape this repo already uses for secrets materialisation. `/learn/:topic`'s route list for prerendering comes from that generated module.
-- Two new `shared/design-system/data-display/` components: `chip/` (flat tag pill) and `topic-tree/` (PrimeNG `p-tree` wrapper for the learn index) — the fourth and fifth sanctioned PrimeNG adoptions after `chrome-select`, `filter-drawer` and `record-grid`. `record-grid` gained a cell-template API to render the source table's trust chips, capability pills and outbound-open keys.
+- Two new `shared/design-system/data-display/` components: `chip/` (flat tag pill) and `topic-tree/` (PrimeNG `p-tree` wrapper, first built for the learn index, now reused as the library sidebar) — the fourth and fifth sanctioned PrimeNG adoptions after `chrome-select`, `filter-drawer` and `record-grid`. `record-grid` gained a cell-template API to render the source table's trust chips, capability pills and outbound-open keys.
 - No `getPrerenderParams`, `website-detail` page, or per-feature `CONTEXT.md` — those stay with `browse`/`source_detail`, still parked.
+
+**Library-archive section, same day (`_architecture/plans/2026-09-16-library-archive-section.md`).** `/learn` (`LearnPage`/`LearnTopicPage`, `shared/learn-content/`) is replaced by `/library` (`app-shell/library/`, `shared/library-content/`) — the section generalizes one collection to any number of them, all the user's own writing rather than sourced from elsewhere (`.agents/context/principles.md`'s "send to sources" line now says so explicitly). Crash-course content lives at `content/library/ai-tooling-crash-course-for-developers/` (decision 029; earlier mistaken `learn/` slug redirects). `topics/` is kept (decision 028, which undid the flatten from the first pass). Section entry document is `README.md` (decision 030; was `topic-index.md`). `index.md` is folder title/summary/intro only.
+
+- **Routing is one literal `Route` per known path**, generated from the content index, not a `UrlMatcher` — the plan's first choice, tried and confirmed not to work with `RenderMode.Prerender` (ADR 027 has the detail). Both `library.routes.ts` (client) and `app.routes.server.ts` (prerender) read the same `LIBRARY_FOLDER_PATHS`/`LIBRARY_DOC_PATHS`. The client wraps those literal entries as children of `library-layout.page` so the file tree survives document navigation.
+- **Generated content is committed**, split into a small index and one file per document for lazy loading (ADR 027, amends 022) — `pnpm run build` runs the generator; `start`/`watch` do not.
+- **Mermaid** ships as a lazy runtime dependency, gated on a per-document `hasDiagrams` flag; no vendored document has a diagram yet, so this path is unexercised beyond a manual read (ADR 027).
+- **The reader theme the plan asked for already existed** — `--sheet-*` tokens (`design-tokens.css`, "Paper (from JooKoi-md-archive markdown rendering)") plus `joo-prose-content`'s descendant styles in `styles.css` already matched the plan's target values exactly. No new theme work was needed.
 
 `category-browse/` and `website-detail/` in the folder map are still the plan, not the build. The import rules and generated lint boundary blocks already cover folders that don't exist yet, so either one is enforced automatically the moment it appears.

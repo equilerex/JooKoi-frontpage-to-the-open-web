@@ -18,7 +18,7 @@ Three parts are the chrome, and they are the reason this folder exists: `horizon
 
 ## What exists now
 
-- `home.page.*` — the `''` route target. A minimal placeholder; the real landing page is `launcher-home/` in Phase 3. It exists so static prerendering has a route to render (ADR 004).
+- `home.page.*` — the `''` route target and the real landing page (hero, quick keys, highlights grid). A lazy route (`loadComponent`, decision 032), so its `record-grid` and source data stay out of `main`. `app-shell-layout` fills its `N src online` status text after first render for the same reason.
 - `not-found.page.*` — the `**` wildcard route target. Has a real `<h1>` and a `routerLink="/"` home link, which the reference spec (`src/app/app.component.spec.ts`) drives.
 - `app-shell-layout/` — the frame itself: `<joo-horizon-backdrop />`, `<joo-heads-up-display-header />`, `<main id="main-content" class="page">` with the `router-outlet`, then `<joo-mobile-bottom-dock />`, as siblings. The HUD and the dock share one `navItems` array.
 - `heads-up-display-header/`, `mobile-bottom-dock/`, `horizon-backdrop/` — the three chrome parts, described above.

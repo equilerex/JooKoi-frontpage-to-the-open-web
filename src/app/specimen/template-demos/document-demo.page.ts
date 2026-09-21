@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProseContentComponent } from '../../shared/design-system/data-display/prose-content/prose-content.component';
 import {
   BreadcrumbTrailComponent,
@@ -24,8 +24,7 @@ import { PaperSheetComponent } from '../../shared/design-system/surfaces/paper-s
     PaperSheetComponent,
     ProseContentComponent,
   ],
-  templateUrl: './document-demo.page.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './document-demo.page.html'
 })
 export class DocumentDemoPage {
   protected readonly crumbs: readonly Crumb[] = [

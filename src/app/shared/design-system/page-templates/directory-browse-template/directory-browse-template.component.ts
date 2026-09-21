@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Browse and search: a toolbar across the top, a filter rack beside the
@@ -19,7 +19,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-directory-browse-template',
   templateUrl: './directory-browse-template.component.html',
-  styleUrl: './directory-browse-template.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './directory-browse-template.component.css'
 })
 export class DirectoryBrowseTemplateComponent {}

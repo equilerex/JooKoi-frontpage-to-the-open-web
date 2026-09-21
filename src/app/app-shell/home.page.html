@@ -56,10 +56,15 @@
     </ng-template>
     <ng-template jooRecordGridCell="sig" [rows]="displayedRows()" let-row>
       <span class="sigs">
-        @for (signal of row.sig; track signal) {
-          <joo-capability-tag>{{ capabilityLabel(signal) }}</joo-capability-tag>
+        @for (signal of row.sig; track signal.id) {
+          <joo-capability-tag>{{ signal.label }}</joo-capability-tag>
         }
       </span>
+    </ng-template>
+    <ng-template jooRecordGridCell="src" [rows]="displayedRows()" let-row>
+      @if (row.sourceUrl) {
+        <a class="src-repo" [href]="row.sourceUrl" target="_blank" rel="noopener">{{ row.src }}</a>
+      }
     </ng-template>
     <ng-template jooRecordGridCell="act" [rows]="displayedRows()" let-row>
       <joo-hardware-key

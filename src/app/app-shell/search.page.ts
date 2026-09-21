@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   computed,
   effect,
@@ -35,12 +35,13 @@ import { ToolbarRowComponent } from '../shared/design-system/page-layouts/toolba
 import { DirectoryBrowseTemplateComponent } from '../shared/design-system/page-templates/directory-browse-template/directory-browse-template.component';
 import { ReadoutPanelComponent } from '../shared/design-system/surfaces/readout-panel/readout-panel.component';
 import { EyebrowLabelComponent } from '../shared/design-system/typography/eyebrow-label/eyebrow-label.component';
-import { SOURCE_FIXTURE } from '../shared/curated-websites/source-fixture';
+import { ALL_SOURCES } from '../shared/curated-websites/source-fixture';
 import { Capability, Source } from '../shared/curated-websites/source.model';
 import {
   domainOf,
   filterByQuery,
   formatVerifiedDate,
+  outboundSearchHref,
   SortMode,
   sortSources,
   trustLabel,
@@ -55,6 +56,11 @@ import {
  * table, for the same reason `HighlightRow` states — the ported table CSS
  * (`src/styles.css:242-360`) keys on them, `lang` included (:334, :421).
  */
+interface CapabilitySignal {
+  readonly id: Capability;
+  readonly label: string;
+}
+
 interface SearchRow {
   readonly name: string;
   readonly domain: string;
@@ -62,12 +68,13 @@ interface SearchRow {
   readonly trust: 'Trusted' | 'Known' | 'Discovered';
   readonly desc: string;
   readonly type: string;
-  readonly sig: readonly Capability[];
+  readonly sig: readonly CapabilitySignal[];
   readonly lang: string;
   readonly ver: string;
-  /** Text label for the `act` column's cell template — 'Search ↗' when a
-   *  live query can be substituted into the source's `searchUrl`, 'Open'
-   *  otherwise (no query yet, or the source has no `searchUrl` at all). */
+  /** Optional GitHub/source URL. Empty when unknown — `src` is the cell label. */
+  readonly sourceUrl: string;
+  readonly src: string;
+  readonly searchUrl?: string;
   readonly act: string;
   readonly actionHref: string;
   readonly actionAccent: HardwareKeyAccent;
@@ -116,11 +123,18 @@ function labelFor(options: readonly SelectOption[], value: string): string {
  *  select doesn't need, so re-deriving four short strings here is cheaper
  *  than threading a shared constant through two unrelated shapes. */
 const CATEGORY_LABEL: Record<string, string> = {
+  technology: 'Technology',
+  culture: 'Culture & arts',
+  lifestyle: 'Lifestyle & fashion',
+  news: 'News & investigative',
+  'ai-marketplace': 'AI marketplaces',
+  inspiration: 'Inspiration & design',
   'developer-reference': 'Developer reference',
-  news: 'News',
   'open-web': 'Open-web holdouts',
-  inspiration: 'Inspiration',
-  'ai-marketplace': 'AI marketplace',
+  public: 'Public & civic',
+  finance: 'Finance & payments',
+  transport: 'Transport',
+  science: 'Science & weather',
 };
 
 /** Readable names for the ISO 639-1 codes the fixture's `lang` field holds.
@@ -152,23 +166,50 @@ function toSelectOptions(
   ];
 }
 
-const TYPE_OPTIONS = toSelectOptions(
-  'Any type',
-  uniqueSorted(SOURCE_FIXTURE.map((source) => source.type)),
-);
+export interface FunnelCategory {
+  readonly id: string;
+  readonly label: string;
+  readonly count: number;
+}
+
+export interface FunnelSubType {
+  readonly value: string;
+  readonly label: string;
+  readonly count: number;
+}
+
+export interface FunnelRegion {
+  readonly value: string;
+  readonly label: string;
+  readonly count: number;
+}
+
+export interface TypePillOption {
+  readonly value: string;
+  readonly label: string;
+  readonly count: number;
+}
+
+export interface TypeThemeGroup {
+  readonly id: string;
+  readonly label: string;
+  readonly sourceCount: number;
+  readonly types: readonly TypePillOption[];
+}
+
 const REGION_OPTIONS = toSelectOptions(
   'Any region',
   uniqueSorted(
-    SOURCE_FIXTURE.map((source) => source.region).filter((region): region is string => !!region),
+    ALL_SOURCES.map((source) => source.region).filter((region): region is string => !!region),
   ),
 );
 const CATEGORY_OPTIONS = toSelectOptions(
   'Any category',
-  uniqueSorted(SOURCE_FIXTURE.map((source) => source.category)),
+  uniqueSorted(ALL_SOURCES.map((source) => source.category)),
   (value) => CATEGORY_LABEL[value] ?? value,
 );
 const DISTINCT_LANGS = uniqueSorted(
-  SOURCE_FIXTURE.map((source) => source.lang).filter((lang): lang is string => !!lang),
+  ALL_SOURCES.map((source) => source.lang).filter((lang): lang is string => !!lang),
 );
 const LANG_OPTIONS = toSelectOptions(
   'Any language',
@@ -211,10 +252,9 @@ const LANG_OPTIONS = toSelectOptions(
  * **Fix wave 2 (reverses D4/ADR 020, see the plan's "Implementation
  * deviations"):** `q` no longer filters this table — `filteredSources` is
  * now driven only by the sidebar filters, `kw` (the new keyword filter)
- * included. `q` still means "what the user searched for" (it's what
- * `/search?q=…` carries in, and it still feeds each row's Search↗/Open
- * action via `toSearchRow`) but it no longer touches the result set or the
- * `Relevance` sort — `kw` does both now.
+ * included. The results query box (`queryInput`) feeds each row's Search↗
+ * live as the user types. URL `q` is the shareable snapshot (header, a
+ * pasted link, Enter in the box). Neither filters the table — `kw` does.
  */
 @Component({
   selector: 'joo-search-page',
@@ -236,30 +276,34 @@ const LANG_OPTIONS = toSelectOptions(
     ChipComponent,
   ],
   templateUrl: './search.page.html',
-  styleUrl: './search.page.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './search.page.css'
 })
 export class SearchPage {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly changeDetector = inject(ChangeDetectorRef);
 
   private readonly queryParamMap = toSignal(this.route.queryParamMap, {
     initialValue: this.route.snapshot.queryParamMap,
   });
 
   protected readonly q = computed(() => this.queryParamMap().get('q') ?? '');
-  /** Local, two-way-bound copy of `q` for the large console above the
-   *  results (fix wave 4). `joo-console-input`'s `[(value)]` needs a
-   *  writable model to reflect live typing before submit — `q` itself is a
-   *  read-only `computed` off the URL, so this signal mirrors it and the
-   *  `effect` below keeps the two in sync whenever `q` changes from
-   *  elsewhere (header search, a shared link), without fighting text the
-   *  user is mid-typing here (this component only ever writes to `q` on
-   *  submit, so the effect and typing never race). */
+  /** Text currently in the results query box. Search↗ hrefs use
+   *  `appliedQuery`, which updates when this box blurs or Enter is pressed. */
   protected readonly queryInput = signal(this.q());
+  protected readonly appliedQuery = signal(this.q());
 
   constructor() {
-    effect(() => this.queryInput.set(this.q()));
+    let previousUrlQ = this.q();
+    effect(() => {
+      const urlQ = this.q();
+      if (urlQ === previousUrlQ) {
+        return;
+      }
+      previousUrlQ = urlQ;
+      this.queryInput.set(urlQ);
+      this.appliedQuery.set(urlQ);
+    });
   }
   /** New sidebar keyword filter (fix wave 2) — replaces `q` as the thing
    *  that actually filters the table (`filteredSources` below) and feeds
@@ -282,7 +326,7 @@ export class SearchPage {
   protected readonly regionFilter = computed(() => this.queryParamMap().get('region') ?? '');
   protected readonly categoryFilter = computed(() => this.queryParamMap().get('category') ?? '');
   protected readonly langFilter = computed(() => this.queryParamMap().get('lang') ?? '');
-  private readonly tagFilter = computed(() => this.queryParamMap().get('tag') ?? '');
+  protected readonly tagFilter = computed(() => this.queryParamMap().get('tag') ?? '');
   protected readonly sortMode = computed<SortMode>(() => {
     const raw = this.queryParamMap().get('sort');
     return raw === 'trust' || raw === 'verified' || raw === 'name' ? raw : 'relevance';
@@ -291,7 +335,7 @@ export class SearchPage {
   protected readonly showLangFilter = DISTINCT_LANGS.length > 1;
   protected readonly capabilityToggles = CAPABILITY_TOGGLES;
   protected readonly sortOptions = SORT_OPTIONS;
-  protected readonly typeOptions = TYPE_OPTIONS;
+  protected readonly totalSourceCount = ALL_SOURCES.length;
   protected readonly regionOptions = REGION_OPTIONS;
   protected readonly categoryOptions = CATEGORY_OPTIONS;
   protected readonly langOptions = LANG_OPTIONS;
@@ -299,6 +343,113 @@ export class SearchPage {
    *  category" sentinel `CATEGORY_OPTIONS` carries for the select has no
    *  chip: an active chip toggling itself off is what clears the filter. */
   protected readonly categoryChipOptions = CATEGORY_OPTIONS.filter((option) => option.value);
+
+  /** Funnel Layer 1: Base Categories / Domains */
+  protected readonly funnelCategories = computed<readonly FunnelCategory[]>(() => {
+    const counts = new Map<string, number>();
+    for (const source of ALL_SOURCES) {
+      counts.set(source.category, (counts.get(source.category) ?? 0) + 1);
+    }
+    return [...counts.entries()]
+      .map(([id, count]) => ({
+        id,
+        label: CATEGORY_LABEL[id] ?? id,
+        count,
+      }))
+      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+  });
+
+  protected readonly activeCategoryLabel = computed(() => {
+    const cat = this.categoryFilter();
+    return cat ? (CATEGORY_LABEL[cat] ?? cat) : '';
+  });
+
+  /** Funnel Layer 2: Sub-types */
+  protected readonly funnelSubTypes = computed<readonly FunnelSubType[]>(() => {
+    const activeCat = this.categoryFilter();
+    let sources = ALL_SOURCES;
+    if (activeCat) {
+      sources = sources.filter((s) => s.category === activeCat);
+    }
+    const counts = new Map<string, number>();
+    for (const s of sources) {
+      counts.set(s.type, (counts.get(s.type) ?? 0) + 1);
+    }
+    const entries = [...counts.entries()]
+      .map(([value, count]) => ({
+        value,
+        label: value,
+        count,
+      }))
+      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+
+    return activeCat ? entries : entries.slice(0, 14);
+  });
+
+  /** Funnel Layer 3: Contextual region facet options */
+  protected readonly funnelRegions = computed<readonly FunnelRegion[]>(() => {
+    const activeCat = this.categoryFilter();
+    const activeType = this.typeFilter();
+    let sources = ALL_SOURCES;
+    if (activeCat) {
+      sources = sources.filter((s) => s.category === activeCat);
+    }
+    if (activeType) {
+      sources = sources.filter((s) => s.type === activeType);
+    }
+    const counts = new Map<string, number>();
+    for (const s of sources) {
+      if (s.region) {
+        counts.set(s.region, (counts.get(s.region) ?? 0) + 1);
+      }
+    }
+    return [...counts.entries()]
+      .map(([value, count]) => ({
+        value,
+        label: value,
+        count,
+      }))
+      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+  });
+
+  /** Signal & trust counts for the active type bucket */
+  protected readonly funnelSignalCounts = computed(() => {
+    const activeCat = this.categoryFilter();
+    const activeType = this.typeFilter();
+    let sources = ALL_SOURCES;
+    if (activeCat) {
+      sources = sources.filter((s) => s.category === activeCat);
+    }
+    if (activeType) {
+      sources = sources.filter((s) => s.type === activeType);
+    }
+    return {
+      rss: sources.filter((s) => s.capabilities.includes('rss-feed')).length,
+      search: sources.filter((s) => s.capabilities.includes('site-search')).length,
+      api: sources.filter((s) => s.capabilities.includes('public-api')).length,
+      trusted: sources.filter((s) => s.trustScore >= 80).length,
+    };
+  });
+
+  protected readonly funnelMeta = computed(() => {
+    const cat = this.categoryFilter();
+    const type = this.typeFilter();
+    const region = this.regionFilter();
+    if (cat && type && region) {
+      return `${this.activeCategoryLabel()} › ${type} › ${region} · ${this.filteredSources().length} sources`;
+    }
+    if (cat && type) {
+      return `${this.activeCategoryLabel()} › ${type} · ${this.filteredSources().length} sources`;
+    }
+    if (cat) {
+      const subCount = this.funnelSubTypes().length;
+      return `${this.activeCategoryLabel()} · ${this.filteredSources().length} sources · ${subCount} types`;
+    }
+    if (type) {
+      return `Type: ${type} · ${this.filteredSources().length} sources`;
+    }
+    return `${this.totalSourceCount} sources across ${this.funnelCategories().length} type buckets`;
+  });
 
   protected readonly resultColumns: readonly GridColumn<SearchRow>[] = [
     { field: 'name', header: 'Source' },
@@ -308,6 +459,7 @@ export class SearchPage {
     { field: 'sig', header: 'Signals' },
     { field: 'lang', header: 'Lang' },
     { field: 'ver', header: 'Verified' },
+    { field: 'src', header: 'Src' },
     { field: 'act', header: '' },
   ];
 
@@ -315,7 +467,7 @@ export class SearchPage {
    *  them. Order doesn't change the result set — every step is an
    *  intersection — but matches the rack for readability. */
   private readonly filteredSources = computed<readonly Source[]>(() => {
-    let sources: readonly Source[] = SOURCE_FIXTURE;
+    let sources: readonly Source[] = ALL_SOURCES;
 
     if (this.trustedOnly()) {
       sources = sources.filter((source) => source.trustScore >= 80);
@@ -354,9 +506,19 @@ export class SearchPage {
     sortSources(this.filteredSources(), this.sortMode(), this.kw()),
   );
 
-  protected readonly rows = computed<readonly SearchRow[]>(() =>
-    this.sortedSources().map((source) => this.toSearchRow(source)),
-  );
+  protected readonly rows = computed<readonly SearchRow[]>(() => {
+    const q = this.appliedQuery();
+    return this.sortedSources().map((source) => this.toSearchRow(source, q));
+  });
+
+  protected readonly isCapActive = computed(() => {
+    const c = this.caps();
+    return {
+      'rss-feed': c.has('rss-feed'),
+      'site-search': c.has('site-search'),
+      'public-api': c.has('public-api'),
+    } as const;
+  });
 
   protected readonly resultCount = computed(() => this.rows().length);
 
@@ -364,10 +526,7 @@ export class SearchPage {
    *  mock's `.panel__meta` "2 on" count, but per the user's request goes
    *  further: every active filter renders as its own chip, and each
    *  chip's `clear` calls the exact same setter its own control uses, so
-   *  clicking one chip removes only that filter — never the whole set. Tag
-   *  is deliberately absent: it has no UI control on this page (see the
-   *  class doc's note on `tagFilter`), so there is nothing for a chip here
-   *  to mirror. */
+   *  clicking one chip removes only that filter — never the whole set. */
   protected readonly activeFilters = computed<
     readonly { readonly key: string; readonly label: string; readonly clear: () => void }[]
   >(() => {
@@ -387,7 +546,7 @@ export class SearchPage {
     if (type) {
       filters.push({
         key: 'type',
-        label: `Type: ${labelFor(TYPE_OPTIONS, type)}`,
+        label: `Type: ${type}`,
         clear: () => this.onTypeChange(null),
       });
     }
@@ -426,9 +585,9 @@ export class SearchPage {
     return filters;
   });
 
-  private toSearchRow(source: Source): SearchRow {
-    const q = this.q().trim();
-    const canSearch = q.length > 0 && !!source.searchUrl;
+  private toSearchRow(source: Source, q: string): SearchRow {
+    const canSearch = !!source.searchUrl;
+    const sourceUrl = source.sourceUrl ?? '';
     return {
       name: source.name,
       domain: domainOf(source.url),
@@ -436,11 +595,14 @@ export class SearchPage {
       trust: trustLabel(source.trustScore),
       desc: source.desc,
       type: source.type,
-      sig: source.capabilities,
+      sig: source.capabilities.map((id) => ({ id, label: CAPABILITY_LABEL[id] })),
       lang: source.lang ? source.lang.toUpperCase() : '—',
       ver: formatVerifiedDate(source.verified),
+      sourceUrl,
+      src: sourceUrl ? domainOf(sourceUrl) : '',
+      searchUrl: source.searchUrl,
       act: canSearch ? 'Search ↗' : 'Open',
-      actionHref: canSearch ? source.searchUrl!.replace('{q}', encodeURIComponent(q)) : source.url,
+      actionHref: outboundSearchHref(source, q),
       actionAccent: canSearch ? 'cyan' : 'neutral',
     };
   }
@@ -478,14 +640,19 @@ export class SearchPage {
     this.updateQueryParams({ kw: value.trim() || null }, { replaceUrl: true });
   }
 
-  /** New large console above the results (fix wave 4, replaces fix wave
-   *  3's `kw`-mirror input) — sets `q` directly from this page, on submit
-   *  only (not live: it doesn't filter the table, `onKeywordChange` above
-   *  still owns that). `q` is what `toSearchRow` substitutes into each
-   *  row's Search↗ action, so this lets someone land on `/search` with one
-   *  query and retarget that action without leaving the page. */
-  protected onQueryChange(value: string): void {
-    this.updateQueryParams({ q: value.trim() || null });
+  /** Blur or Enter commits the box into Search↗ hrefs and the URL `q`.
+   *  `detectChanges` runs before a following click so Search↗ already has
+   *  the new href when the pointer leaves the field for a row key. */
+  protected onQueryCommit(value: string): void {
+    this.appliedQuery.set(value);
+    this.updateQueryParams({ q: value.trim() || null }, { replaceUrl: true });
+    this.changeDetector.detectChanges();
+  }
+
+  /** Reserved: open the first N Search↗ results as new tabs. The pink key
+   *  is not how the query is applied. */
+  protected onBulkOpen(): void {
+    return;
   }
 
   protected onTrustedToggle(): void {
@@ -502,12 +669,57 @@ export class SearchPage {
     this.updateQueryParams({ caps: next.size ? [...next].join(',') : null });
   }
 
-  /** `joo-chrome-select`'s `value` model is `string | null` (PrimeNG's
-   *  `Select` reports no selection as `null`, not empty string) — every
-   *  option here carries a real value including the `''` "Any …" sentinel,
-   *  so `null` and `''` both mean "no filter" and collapse the same way. */
+  /** Funnel Layer 1: Type Bucket (Category) click */
+  protected onCategoryFunnelClick(category: string): void {
+    const nextCat = this.categoryFilter() === category ? null : category || null;
+    if (!nextCat) {
+      this.updateQueryParams({ category: null, type: null, region: null });
+      return;
+    }
+    const sourcesInCat = ALL_SOURCES.filter((s) => s.category === nextCat);
+    const hasType = sourcesInCat.some((s) => s.type === this.typeFilter());
+    const hasRegion = sourcesInCat.some((s) => s.region === this.regionFilter());
+    this.updateQueryParams({
+      category: nextCat,
+      type: hasType ? this.typeFilter() : null,
+      region: hasRegion ? this.regionFilter() : null,
+    });
+  }
+
+  /** Funnel Layer 2: Specific Type click */
+  protected onTypeFunnelClick(type: string): void {
+    const nextType = this.typeFilter() === type ? null : type;
+    if (nextType) {
+      const found = ALL_SOURCES.find((s) => s.type === nextType);
+      if (found && (!this.categoryFilter() || found.category !== this.categoryFilter())) {
+        this.updateQueryParams({ type: nextType, category: found.category });
+        return;
+      }
+    }
+    this.updateQueryParams({ type: nextType });
+  }
+
+  /** Funnel Layer 3: Region facet click */
+  protected onRegionFunnelClick(region: string): void {
+    const nextRegion = this.regionFilter() === region ? null : region;
+    this.updateQueryParams({ region: nextRegion });
+  }
+
+  /** Clears all funnel levels back to all sources. */
+  protected onResetFunnel(): void {
+    this.updateQueryParams({ category: null, type: null, region: null, caps: null, trusted: null });
+  }
+
   protected onTypeChange(value: string | null): void {
     this.updateQueryParams({ type: value || null });
+  }
+
+  protected onTypeChipClick(value: string): void {
+    this.onTypeFunnelClick(value);
+  }
+
+  protected onResetTypeAndCategory(): void {
+    this.onResetFunnel();
   }
 
   protected onRegionChange(value: string | null): void {
@@ -518,13 +730,8 @@ export class SearchPage {
     this.updateQueryParams({ category: value || null });
   }
 
-  /** Category chip click (fix wave 5) — single-select toggle: clicking the
-   *  already-active chip clears the filter (back to "Any category"),
-   *  clicking a different one switches to it. Routes through
-   *  `onCategoryChange` so the URL write and the "Any" collapse
-   *  (`value || null`) stay the one code path the select used before. */
   protected onCategoryChipClick(value: string): void {
-    this.onCategoryChange(this.categoryFilter() === value ? null : value);
+    this.onCategoryFunnelClick(value);
   }
 
   protected onLangChange(value: string | null): void {

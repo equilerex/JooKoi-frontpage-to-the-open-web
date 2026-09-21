@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 export interface Crumb {
   readonly label: string;
@@ -21,7 +21,6 @@ export interface Crumb {
   selector: 'joo-breadcrumb-trail',
   templateUrl: './breadcrumb-trail.component.html',
   styleUrl: './breadcrumb-trail.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { role: 'navigation', 'aria-label': 'Breadcrumb' },
 })
 export class BreadcrumbTrailComponent {

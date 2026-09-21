@@ -1,11 +1,16 @@
 <joo-horizon-backdrop />
 <joo-heads-up-display-header
   [navItems]="headerNavItems()"
-  [statusText]="statusText"
+  [statusText]="statusText()"
   [console]="true"
   (searchSubmitted)="onHeaderSearch($event)"
 />
-<main id="main-content" class="page">
+<main
+  id="main-content"
+  class="page"
+  [class.page--wide]="isLibraryWide()"
+  [class.page--motion]="shellMotionReady()"
+>
   <router-outlet />
 </main>
 <joo-mobile-bottom-dock [navItems]="dockNavItems()" />

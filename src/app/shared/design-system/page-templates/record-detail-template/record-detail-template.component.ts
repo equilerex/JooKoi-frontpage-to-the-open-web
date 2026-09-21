@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 /**
  * A record's page: breadcrumbs, a head, the body, and an aside of supporting
@@ -30,7 +30,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   selector: 'joo-record-detail-template',
   templateUrl: './record-detail-template.component.html',
   styleUrl: './record-detail-template.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class.is-aside-first]': 'asideFirst()' },
 })
 export class RecordDetailTemplateComponent {

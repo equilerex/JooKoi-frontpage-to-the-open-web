@@ -44,15 +44,3 @@
 .specimen-page__template-link:hover {
   border-color: var(--focus-ring);
 }
-
-/* The record grid's virtual-scroll demo needs a box with a height of its own.
- * `scrollHeight="flex"` makes PrimeNG's table body fill its container, so
- * against the section's `flex-wrap` row an auto-height parent would let the
- * body grow to all 5,000 rows, the scroll would never engage and the
- * virtualiser would have nothing to virtualise — the demo would look correct
- * while proving nothing. */
-.specimen-page__grid-frame {
-  display: grid;
-  flex-basis: 100%;
-  height: 26rem;
-}

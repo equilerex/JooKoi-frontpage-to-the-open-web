@@ -20,18 +20,6 @@ Status: OPEN
 
 Flagged as genuinely wanted in every research pass, skipped every time. Nothing currently answers it.
 
-## Personal knowledge-notes index
-
-Status: OPEN
-
-Knowledge files accumulate across separate repos (research notes, decisions, explorations). Want a sub-section of this site exposing them as personal notes/education/ideas instead of leaving them buried in scattered repos. Likely shape: a deterministic pull script (list of source repo paths, glob for notes, copy into `sources/`) rather than live fetch-on-request — same "curated, not crawled" pattern as the main source list, same Stage 1 ingestion-spike mechanics. Rendering ties to the "Markdown rendering" item below (`JooKoi-md-archive`).
-
-## Markdown rendering
-
-Status: OPEN
-
-If this project ever needs to render Markdown content, inherit from `JooKoi-md-archive` rather than building it fresh.
-
 ## CI workflow and Dependabot
 
 Status: OPEN
@@ -222,11 +210,11 @@ Status: OPEN
 
 indicator-nav-list renders its rows as bare joo-hardware-key anchors directly under the navigation landmark — a template-level @for with no ul or li wrapper — so assistive tech reports the rows as individual links with no list and no item count. The mockup used ul and li for these rows in features/design-theme/browse.html, so this is a divergence rather than a deliberate simplification. Parked in Task 11 because the landmark defect it was found beside was the one worth fixing then, and changing the wrapper touches the key [block] layout. Decide in Phase 3 alongside the nav-list entry above: the port already renders each row as a key slab rather than a flat mockup row, and both questions are the same one — how far the row should follow the mockup.
 
-## Richer drill-in UI for the learn section
+## Richer drill-in UI for the library section
 
 Status: OPEN
 
-The Phase 3 plan renders the crash-course index as a PrimeNG p-tree, which is a plain file tree. The user has flagged wanting a more interesting way to drill into topics than a tree. Not designed; revisit once the twenty topics are actually rendering and the tree's limits are visible in practice.
+Superseded in scope by **Library UI still missing the plan's Pages section** (landing tiles, folder intro, filter row) and **Layered drill-in navigation with retained ephemeral state**. Keep this entry only as the original flag that a bare p-tree is not the end state. Design those two items before building either.
 
 ## Base element styles were ported incompletely from the mockup
 
@@ -275,3 +263,81 @@ toHighlightRow (home) and toSearchRow (search) independently compute identical r
 Status: OPEN
 
 Mock (features/design-theme/search.html) wraps the Filters panel in a collapsible <details class="drawer panel" open> with an active-filter count badge in its summary (2 on). Fix-wave-5 (2026-09-16) added individually-removable active-filter chips above the table instead, going further than the mock's simple count -- but left the panel itself always-open rather than collapsible. Worth revisiting whether the drawer/count treatment still adds value alongside the chip row, or whether the chips alone cover the need.
+
+## Library UI still missing the plan's Pages section
+
+Status: OPEN
+
+The approved plan (plans/2026-09-16-library-archive-section.md Pages + R5/R6) still requires: /library as chunky collection tiles (summary + doc count), folder pages with index.md intro + inert filter row + scoped tree, and a document reader. The interim tree-everywhere layout dropped the landing tiles and the filter row. That was not a product rejection. Plan before rebuilding. Tags/summary front matter feed tiles and filters (R5). Full-text file search stays open until tags/search are designed.
+
+## Layered drill-in navigation with retained ephemeral state
+
+Status: DONE
+
+Shipped as ADR 031 + library MVP (`plans/2026-09-18-library-layered-drill-in.md`). Search/browse still to adopt the same rule when they grow a detail layer.
+
+## Phase 3 remainder after home/search/library interim
+
+Status: OPEN
+
+Home and search shipped. Library content pipeline shipped but Pages UI is incomplete (see Library UI still missing the plan's Pages section). Still parked/out of scope from D2: browse, source_detail. Still open from the Phase 3 plan and backlog: design-alignment items, record-grid mobile field-name coupling, ADR for q no longer filtering tables, sitemap browse/source parked status, stale CONTEXT notes. Pull into TODO when scoping the next Phase 3 slice.
+
+## Library tree rich filter panel
+
+Status: OPEN
+
+Filter panel on the library file tree: search (already live), tag filters, sort modes (name default: files then folders A-Z; date and others if/when metadata exists), and expansion rules that cooperate with filter/search. Sort UI ships with this panel, not as a one-off control.
+
+## Library layered drill-in — follow-ups
+
+Status: OPEN
+
+MVP shipped (ADR 031). Still open: re-enable document View Transitions safely for non-library routes; navigateDrill/Sibling/Cross helpers when search is second consumer; query-param filter chips + replaceUrl; selective RouteReuseStrategy if a heavy list needs it; breadcrumb vs Back policy doc polish.
+
+## Confirm marketplace searchUrl templates
+
+Status: DROPPED
+
+Native `{q}` URLs are no longer required. AI-marketplace rows use an aggregator search URL when the site has no public query search. See `plans/2026-09-18-ai-marketplace-search-destinations.md`.
+
+## App quality harness — next slices
+
+Status: OPEN
+
+v1 shipped: app-wide `ux:smoke` + budgets + `.local` history + `ux:lab`. Still open: tighten budgets from more machines; axe/a11y pass; Angular effect/computed hygiene checklist or lint; optional profiler-based CD thrash probe if a stable public API appears; median multi-run mode for flaky hosts. Not CI (009). Plan: `plans/2026-09-18-app-quality-harness.md`.
+
+## Cut source-fixture from main
+
+Status: OPEN
+
+app-shell-layout.component.ts:159 imports ALL_SOURCES only for .length; drags 119 kB into main. Options: build-time count constant, or lazy read. Also trim the specimen virtual-scroll demo (decision 032).
+
+## Lighthouse baseline system
+
+Status: OPEN
+
+scripts/perf-baseline.mjs: lighthouse devDependency (approved), mobile x5 median on /, /search, one library doc, plus stats.json chunk sizes, written to _architecture/perf-baselines/<sha>.json; perf:compare diffs two SHAs. Run against a static preview of a passing prod build. Skill note: anyScript budget needs a test that it fires; lazy chunks do appear as stats.json entryPoint outputs.
+
+## Fix /search interaction cost
+
+Status: OPEN
+
+Lab baseline 4e8d0ba-dirty: /search TBT ~780ms, LCP ~5.2s (216 plain rows + PrimeNG select/drawer/tree). Options: paginate or window the results list, defer filter drawer, check what runs at load.
+
+## Home and library LCP above 4s in lab
+
+Status: OPEN
+
+Lab: / LCP ~4.4s, library README ~5.0s at mobile throttling with brotli. Check fonts (3 preloaded families), critical CSS size, hydration cost, mermaid chunk on README, transfer 370-550 kB per page.
+
+## Record a CI-runner Lighthouse baseline
+
+Status: OPEN
+
+First CI run: download the ux-lab artifact, commit a baseline recorded on the runner, remove continue-on-error from the Lighthouse step in .github/workflows/ci.yml. Also re-record 4e8d0ba-dirty after committing.
+
+## Dependabot config
+
+Status: OPEN
+
+Decision 009's intended CI included Dependabot; only the workflow was built (decision 033).

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * One toolbar row: a leading cluster of controls at the left, a trailing cluster
@@ -20,7 +20,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-toolbar-row',
   templateUrl: './toolbar-row.component.html',
-  styleUrl: './toolbar-row.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './toolbar-row.component.css'
 })
 export class ToolbarRowComponent {}

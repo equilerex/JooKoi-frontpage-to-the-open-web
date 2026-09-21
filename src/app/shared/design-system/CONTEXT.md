@@ -38,11 +38,31 @@ The procedure for any project is `.agents/skills/visual-component-derivation/SKI
 
 ## The PrimeNG boundary
 
-`chrome-select`, `filter-drawer` and `record-grid` wrap a PrimeNG component. **Nothing outside this folder imports a PrimeNG symbol** — the wrapper owns the import and re-exposes a design-system API, so PrimeNG stays replaceable and no consumer inherits its types.
+`chrome-select` and `filter-drawer` wrap a PrimeNG component (`record-grid` no longer does, see decision 032). **Nothing outside this folder imports a PrimeNG symbol** — the wrapper owns the import and re-exposes a design-system API, so PrimeNG stays replaceable and no consumer inherits its types.
 
 A component is adopted only when ADR 011's test passes in order: (1) CSS and preset tokens alone reach the design → adopt; (2) a template slot or `pt` exposes the part that falls short → adopt; (3) the design needs structural DOM that is neither present nor templatable → build our own.
 
 PrimeNG emits into `@layer primeng`, ordered before `components` by `src/styles/cascade-layers.css`, so a global override wins **by layer, not by specificity** — no `!important`, no specificity war, and no `::ng-deep`. That layer order is the whole reason the adoption works; a rule in an unlayered component stylesheet still beats a layered one, which is the distinction to keep in mind when a rule appears to be losing.
+
+## Motion recipes
+
+Durations live in `src/styles/design-tokens.css` (mirrored in `features/design-theme/tokens.css`):
+
+| Token | Default | Use |
+| --- | --- | --- |
+| `--duration-press` | 70ms | Hardware keys |
+| `--duration-state` | 160ms | Hover, border, pending opacity |
+| `--duration-route` | 240ms | Route pane view-transitions / enter-exit |
+| `--duration-shell` | 240ms | App shell `max-width` (e.g. library wide column) |
+
+Recipes (pick one; do not invent a fifth duration):
+
+1. **Shell routes (Home / Search / Library)** — `view-transition-name: app-main` on `<main>`; HUD/dock named `app-chrome` / `app-dock` with no animation. Skip VT for library-internal paths (reader CSS). Duration `--duration-route`.
+2. **Shell width** — set the wide class on `NavigationStart` when entering; enable `transition` only after first paint so cold loads do not ease from narrow.
+3. **Pending without wipe** — keep last painted content; dim with `--duration-state` if needed; never replace with a loading label slower than the real render. SSR resources that hydrate need a TransferState `id`.
+4. **Fonts** — preload first-paint faces in `index.html`; `font-display: optional` in `fonts.css`.
+
+Local gate: `pnpm run ux:smoke` (dev server already on `:4200`; app-wide scenarios + metrics history in `.local/ux-smoke/`). Occasional lab: `pnpm run ux:lab` against `serve:static-build` (:4321). Plans: `2026-09-18-local-ux-quality-and-motion-system.md`, `2026-09-18-app-quality-harness.md`.
 
 ## Styling rules that bit during the build
 
@@ -59,7 +79,7 @@ Four targets, all there for that one reason:
 
 - `.joo-corner-brackets` — a directive has no stylesheet of its own, so its CSS is global by necessity.
 - `.joo-filter-drawer` — `styleClass` lands on PrimeNG Drawer's root element, which Drawer's template created.
-- `.joo-record-grid` — `tableStyleClass` lands on PrimeNG's inner `<table>`, so the class *is* the table, not the host.
+- `.joo-record-grid` — the class sits on the component's own `<table>`, so it *is* the table, not the host.
 - `joo-logotype b`, `joo-prose-content *` and `joo-paper-sheet :focus-visible` — the consumer projects these elements in.
 
 A rule that looks dead in a component stylesheet should be read as a hint to check `src/styles.css` first.

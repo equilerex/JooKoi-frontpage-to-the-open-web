@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Names a capability a source has — "RSS", "no tracking". The domain layer
@@ -7,7 +7,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-capability-tag',
   template: '<ng-content />',
-  styleUrl: './capability-tag.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './capability-tag.component.css'
 })
 export class CapabilityTagComponent {}

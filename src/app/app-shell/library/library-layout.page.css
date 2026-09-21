@@ -1,0 +1,109 @@
+:host {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.library-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+
+.library-body {
+  min-width: 0;
+  width: 100%;
+  --sheet-max: 100%;
+  /* Reader-layer motion is CSS (`library-reader-in`). Avoid view-transition-name
+   * here — it fought document VT and left Location out of sync with the view. */
+}
+
+.library-body.is-reading {
+  display: grid;
+  grid-template: minmax(min(70vh, 52rem), auto) / minmax(0, 1fr);
+  min-height: min(70vh, 52rem);
+}
+
+/*
+ * Underlay occupies the same grid cell as the reader for sizing only.
+ * Keep it invisible — readable intro text behind the sheet looked stranded.
+ */
+.library-browse-underlay {
+  grid-area: 1 / 1;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.library-reader-layer {
+  min-width: 0;
+  width: 100%;
+}
+
+.library-reader-layer.is-active {
+  grid-area: 1 / 1;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  width: 100%;
+  overflow: auto;
+  padding: var(--space-4);
+  border: 1px solid var(--border-panel);
+  border-radius: var(--radius-panel);
+  /* Sheet-tone fill so doc↔doc remounts do not flash void-black behind the paper. */
+  background: var(--surface-sheet);
+  box-shadow: 0 12px 40px var(--shadow-deep);
+  /* Runs when `.is-active` is newly applied (browse → first doc), not doc↔doc. */
+  animation: library-reader-in var(--duration-route) ease;
+}
+
+.library-tree {
+  /* No separate VT name — shell transitions treat the whole main as app-main. */
+}
+
+.library-tree-filter {
+  display: block;
+  margin-bottom: var(--space-3);
+}
+
+@media (min-width: 1024px) {
+  .library-split {
+    grid-template-columns: minmax(16rem, 22rem) minmax(0, 1fr);
+  }
+
+  .library-tree {
+    position: sticky;
+    top: calc(var(--hud-height) + var(--space-4));
+    max-height: calc(100vh - var(--hud-height) - var(--space-8));
+    overflow: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  :host,
+  .library-split {
+    gap: var(--space-3);
+  }
+
+  .library-reader-layer.is-active {
+    padding: var(--space-3);
+  }
+}
+
+@keyframes library-reader-in {
+  from {
+    opacity: 0;
+    transform: translateX(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .library-reader-layer.is-active {
+    animation: none;
+  }
+}

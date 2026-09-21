@@ -1,5 +1,14 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter, TitleStrategy } from '@angular/router';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+} from '@angular/core';
+import {
+  provideRouter,
+  TitleStrategy,
+  withInMemoryScrolling,
+  withViewTransitions,
+} from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
 import { providePrimeNG } from 'primeng/config';
 import { PRIMEUI_LICENSE } from './primeui-license';
@@ -8,10 +17,44 @@ import { PageTitleStrategy } from './app-shell/page-title.strategy';
 import { jookoiPreset } from './shared/design-system/theme/jookoi-preset';
 import { ELEVATION } from './shared/design-system/theme/elevation';
 
+function routePath(snapshot: {
+  pathFromRoot: readonly { url: readonly { path: string }[] }[];
+}): string {
+  return snapshot.pathFromRoot
+    .map((route) => route.url.map((segment) => segment.path).join('/'))
+    .filter((part) => part.length > 0)
+    .join('/');
+}
+
+function inLibrary(path: string): boolean {
+  return path === 'library' || path.startsWith('library/');
+}
+
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideZonelessChangeDetection(),
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),
+      withViewTransitions({
+        skipInitialTransition: true,
+        onViewTransitionCreated: ({ transition, from, to }) => {
+          const fromPath = routePath(from);
+          const toPath = routePath(to);
+          // Query/fragment-only: no flash.
+          if (fromPath === toPath) {
+            transition.skipTransition();
+            return;
+          }
+          // Library-internal drill-in uses CSS reader-layer motion (ADR 031).
+          // Document VT there double-claimed nodes; keep shell VT for Home/Search/Library.
+          if (inLibrary(fromPath) && inLibrary(toPath)) {
+            transition.skipTransition();
+          }
+        },
+      }),
+    ),
     { provide: TitleStrategy, useClass: PageTitleStrategy },
     provideClientHydration(),
     providePrimeNG({

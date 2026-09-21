@@ -5,6 +5,7 @@
 // routing renders NotFoundPage rather than showing the prerendered home page.
 
 import { createServer } from 'node:http';
+import { brotliCompressSync, constants as zlibConstants } from 'node:zlib';
 import { readFile, stat } from 'node:fs/promises';
 import { dirname, extname, join, normalize, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -31,6 +32,8 @@ const MIME_TYPES = {
   '.woff2': 'font/woff2',
 };
 const DEFAULT_MIME_TYPE = 'application/octet-stream';
+const COMPRESSIBLE = /\.(html|js|mjs|css|json|svg)$/i;
+const brotliCache = new Map();
 
 function mimeTypeFor(filePath) {
   return MIME_TYPES[extname(filePath).toLowerCase()] ?? DEFAULT_MIME_TYPE;
@@ -53,6 +56,11 @@ async function resolveRequestedFile(requestPath) {
     if (info.isFile()) {
       return candidate;
     }
+    // Prerendered routes are `<route>/index.html`, as a static host serves them.
+    if (info.isDirectory()) {
+      const nested = join(candidate, 'index.html');
+      if ((await stat(nested)).isFile()) return nested;
+    }
   } catch {
     // Not a file on disk — fall through to the CSR fallback.
   }
@@ -64,8 +72,24 @@ const server = createServer(async (req, res) => {
   const filePath = requestedFile ?? csrFallbackFile;
 
   try {
-    const body = await readFile(filePath);
-    res.writeHead(200, { 'Content-Type': mimeTypeFor(filePath) });
+    let body = await readFile(filePath);
+    const headers = { 'Content-Type': mimeTypeFor(filePath) };
+    // Real static hosts compress text. Without this the lab would measure a
+    // 3-4x heavier transfer than any host serves. Precomputed per file: a build
+    // has a few hundred, so an in-memory cache is enough.
+    if (COMPRESSIBLE.test(filePath) && String(req.headers['accept-encoding']).includes('br')) {
+      let packed = brotliCache.get(filePath);
+      if (!packed) {
+        packed = brotliCompressSync(body, {
+          params: { [zlibConstants.BROTLI_PARAM_QUALITY]: 5 },
+        });
+        brotliCache.set(filePath, packed);
+      }
+      body = packed;
+      headers['Content-Encoding'] = 'br';
+      headers['Vary'] = 'Accept-Encoding';
+    }
+    res.writeHead(200, headers);
     res.end(body);
   } catch (err) {
     res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });

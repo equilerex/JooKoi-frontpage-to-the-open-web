@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { HardwareKeyComponent } from '../../shared/design-system/actions/hardware-key/hardware-key.component';
 import { KeycapGridComponent } from '../../shared/design-system/actions/keycap-grid/keycap-grid.component';
 import { KeycapComponent } from '../../shared/design-system/actions/keycap/keycap.component';
@@ -47,8 +47,7 @@ import { LogotypeComponent } from '../../shared/design-system/typography/logotyp
     KeycapGridComponent,
     KeycapComponent,
   ],
-  templateUrl: './console-landing-demo.page.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './console-landing-demo.page.html'
 })
 export class ConsoleLandingDemoPage {
   protected readonly scopeOptions: readonly SegmentOption[] = [

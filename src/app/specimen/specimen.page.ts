@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { TreeNode } from 'primeng/api';
 import { HardwareKeyComponent } from '../shared/design-system/actions/hardware-key/hardware-key.component';
@@ -105,8 +105,7 @@ interface DemoRecord {
     ToolbarRowComponent,
   ],
   templateUrl: './specimen.page.html',
-  styleUrl: './specimen.page.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './specimen.page.css'
 })
 export class SpecimenPage {
   /** Two-way bound to the drawer's own `open` model, so the trigger key and
@@ -174,21 +173,6 @@ export class SpecimenPage {
       act: 'Open',
     },
   ];
-  /** The virtual-scroll demo's payload. 5,000 rows is the size at which the
-   *  virtualiser's absence would be obvious; `virtual` renders a screenful. */
-  protected readonly virtualRows: readonly DemoRecord[] = Array.from(
-    { length: 5000 },
-    (_, i) => ({
-      name: `Record ${String(i + 1).padStart(4, '0')}`,
-      trust: i % 3 === 0 ? 'Trusted' : 'Discovered',
-      desc: 'Generated row, present only to give the virtualiser something to scroll.',
-      type: 'Zine',
-      sig: i % 5 === 0 ? 'RSS' : 'None',
-      lang: 'EN',
-      ver: `2026.${String((i % 12) + 1).padStart(2, '0')}`,
-      act: 'Open',
-    }),
-  );
   protected readonly navItems: readonly NavItem[] = [
     { label: 'Directory', href: '#directory', active: true },
     { label: 'Reference', href: '#reference', lightColor: 'amber' },

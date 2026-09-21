@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { HardwareKeyComponent } from '../../shared/design-system/actions/hardware-key/hardware-key.component';
 import { NavItem } from '../../shared/design-system/navigation/indicator-nav-list/indicator-nav-list.component';
 
@@ -26,8 +26,7 @@ import { NavItem } from '../../shared/design-system/navigation/indicator-nav-lis
   selector: 'joo-mobile-bottom-dock',
   imports: [HardwareKeyComponent],
   templateUrl: './mobile-bottom-dock.component.html',
-  styleUrl: './mobile-bottom-dock.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './mobile-bottom-dock.component.css'
 })
 export class MobileBottomDockComponent {
   readonly navItems = input.required<readonly NavItem[]>();

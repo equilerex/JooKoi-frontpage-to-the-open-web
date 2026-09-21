@@ -29,6 +29,7 @@
   background: var(--surface-hud);
   backdrop-filter: blur(10px);
   border-top: 1px solid var(--border-chrome);
+  view-transition-name: app-dock;
 }
 
 .dock__nav {

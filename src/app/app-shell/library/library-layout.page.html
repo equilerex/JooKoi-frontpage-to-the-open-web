@@ -1,0 +1,41 @@
+<joo-breadcrumb-trail [crumbs]="crumbs()" />
+
+<div class="library-split">
+  <aside
+    class="library-tree"
+    #treePanel
+    (scroll)="onTreeScroll($event)"
+  >
+    <joo-readout-panel label="Files" led="cyan">
+      <joo-console-input
+        class="library-tree-filter"
+        size="compact"
+        placeholder="Filter files"
+        [value]="treeFilter()"
+        (valueChange)="onTreeFilter($event)"
+      />
+      <joo-topic-tree
+        [nodes]="treeNodes()"
+        ariaLabel="Library files"
+        [selectionKeys]="selectionKeys()"
+        [filterText]="treeFilter()"
+        (nodeActivate)="onNodeActivate($event)"
+      />
+    </joo-readout-panel>
+  </aside>
+
+  <div class="library-body" [class.is-reading]="isReading()">
+    @if (isReading()) {
+      <div class="library-browse-underlay" aria-hidden="true">
+        <joo-library-browse-underlay [folderPath]="browseUnderlayPath()" />
+      </div>
+    }
+    <div
+      class="library-reader-layer"
+      [class.is-active]="isReading()"
+      [attr.aria-label]="isReading() ? 'Document reader' : null"
+    >
+      <router-outlet />
+    </div>
+  </div>
+</div>

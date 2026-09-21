@@ -9,6 +9,24 @@
             "command": "node scripts/deny-build.mjs"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:/Users/Joosep/.local/bin/graphify.EXE hook-guard search"
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Glob",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "C:/Users/Joosep/.local/bin/graphify.EXE hook-guard read"
+          }
+        ]
       }
     ],
     "Stop": [

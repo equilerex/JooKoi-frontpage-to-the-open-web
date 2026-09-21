@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { HardwareKeyAccent, HardwareKeyComponent } from '../hardware-key/hardware-key.component';
 
 /**
@@ -16,8 +16,7 @@ import { HardwareKeyAccent, HardwareKeyComponent } from '../hardware-key/hardwar
   selector: 'joo-keycap',
   imports: [HardwareKeyComponent],
   templateUrl: './keycap.component.html',
-  styleUrl: './keycap.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './keycap.component.css'
 })
 export class KeycapComponent {
   readonly fn = input('');

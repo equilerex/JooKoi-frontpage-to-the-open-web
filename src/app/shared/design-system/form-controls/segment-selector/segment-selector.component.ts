@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 
 export interface SegmentOption {
   readonly value: string;
@@ -9,7 +9,6 @@ export interface SegmentOption {
   selector: 'joo-segment-selector',
   templateUrl: './segment-selector.component.html',
   styleUrl: './segment-selector.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { role: 'group', '[attr.aria-label]': 'ariaLabel() || null' },
 })
 export class SegmentSelectorComponent {

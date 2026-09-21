@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * Long-form body copy. It styles whatever arbitrary HTML the consumer projects
@@ -12,7 +12,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-prose-content',
   template: '<ng-content />',
-  styleUrl: './prose-content.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './prose-content.component.css'
 })
 export class ProseContentComponent {}

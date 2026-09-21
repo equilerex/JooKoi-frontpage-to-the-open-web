@@ -1,0 +1,8 @@
+{
+  "clsMax": 0.1,
+  "longTaskMsMax": 800,
+  "fcpMsMax": 4000,
+  "lcpMsMax": 6000,
+  "regressionRatio": 1.5,
+  "comment": "Absolute caps for local ux:smoke. Loosen via UX_SMOKE_* env or edit after a known-good baseline. History regressions also use regressionRatio when prior absolute was under budget."
+}

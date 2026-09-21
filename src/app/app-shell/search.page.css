@@ -71,8 +71,110 @@
 }
 
 .chip-btn {
-  display: contents;
+  display: inline-flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
   cursor: pointer;
+  border-radius: var(--radius-chip);
+}
+
+.chip-btn:focus-visible > joo-chip {
+  outline: 2px solid var(--text-accent);
+  outline-offset: 2px;
+}
+
+/* Filter Funnel: progressive disclosure container */
+.funnel-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.funnel-tier {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.funnel-tier--nested {
+  padding: var(--space-3) var(--space-4);
+  background: color-mix(in srgb, var(--surface-chrome) 40%, transparent);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-panel);
+}
+
+.funnel-tier__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-1);
+}
+
+.funnel-tier__label {
+  font: 600 var(--text-2xs) / 1.2 var(--font-mono);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.funnel-tier__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.funnel-reset-btn,
+.funnel-clear-sub-btn {
+  font: 500 var(--text-2xs) / 1 var(--font-mono);
+  color: var(--text-accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color var(--duration-state);
+}
+
+.funnel-reset-btn:hover,
+.funnel-clear-sub-btn:hover {
+  color: var(--text-primary);
+}
+
+.funnel-reset-btn:focus-visible,
+.funnel-clear-sub-btn:focus-visible {
+  outline: 2px solid var(--text-accent);
+  outline-offset: 2px;
+}
+
+.funnel-tier--facets {
+  background: color-mix(in srgb, var(--surface-chrome) 25%, transparent);
+}
+
+.funnel-facets-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+@media (min-width: 768px) {
+  .funnel-facets-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: var(--space-4);
+  }
+}
+
+.funnel-facet-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
 /* The active-filter row sits in the results panel's flush body, same as

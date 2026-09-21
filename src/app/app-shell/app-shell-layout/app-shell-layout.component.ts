@@ -1,8 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import {
+  afterNextRender,
+  Component,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
-import { SOURCE_FIXTURE } from '../../shared/curated-websites/source-fixture';
 import { NavItem } from '../../shared/design-system/navigation/indicator-nav-list/indicator-nav-list.component';
 import { HeadsUpDisplayHeaderComponent } from '../heads-up-display-header/heads-up-display-header.component';
 import { HorizonBackdropComponent } from '../horizon-backdrop/horizon-backdrop.component';
@@ -18,16 +23,17 @@ import { MobileBottomDockComponent } from '../mobile-bottom-dock/mobile-bottom-d
  *
  * Two nav lists, not one, because the header and the mobile dock disagree with
  * each other by design (mock `index.html:25-35` vs `:221-226`): the header's
- * `.hud__nav` is Search/Browse/Learn only — the brand mark is the way home,
+ * `.hud__nav` is Search/Browse/Library only — the brand mark is the way home,
  * not a fourth nav item — while the mobile dock is a `Home` item plus the same
  * three. A single shared list could satisfy one shape or the other but not
  * both, so this component owns two.
  *
- * `/search` (Task 5 — `search.page.ts`) and `/learn` + `/learn/:topic`
- * (Task 6 — `learn.page.ts`, `learn-topic.page.ts`) are both real routes
- * now, so the header console, the home launcher console, the quick keys and
- * the Learn nav item all land somewhere real. `/browse` stays `#`: it is
- * `parked` (D2), not scheduled.
+ * `/search` (Task 5 — `search.page.ts`) and `/library` (the library-archive
+ * section, `_architecture/plans/2026-09-16-library-archive-section.md` —
+ * superseded the earlier `/learn` + `/learn/:topic`, which now redirect
+ * into it) are both real routes, so the header console, the home launcher
+ * console, the quick keys and the Library nav item all land somewhere real.
+ * `/browse` stays `#`: it is `parked` (D2), not scheduled.
  */
 @Component({
   imports: [
@@ -38,8 +44,7 @@ import { MobileBottomDockComponent } from '../mobile-bottom-dock/mobile-bottom-d
   ],
   selector: 'joo-app-shell-layout',
   styleUrl: './app-shell-layout.component.css',
-  templateUrl: './app-shell-layout.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './app-shell-layout.component.html'
 })
 export class AppShellLayoutComponent {
   private readonly router = inject(Router);
@@ -58,17 +63,55 @@ export class AppShellLayoutComponent {
     { initialValue: this.router.url },
   );
 
+  /**
+   * Wide shell for `/library`. Set on `NavigationStart` when entering so the
+   * column can ease open before the outlet swaps; cleared on `NavigationEnd`
+   * when leaving. Seeded from the landing URL so a cold load of `/library`
+   * is already wide (no narrow→wide flash).
+   */
+  private readonly libraryWide = signal(this.matchesRoute('/library', this.router.url));
+
+  /**
+   * Width transitions only after the first paint. Cold load of `/library`
+   * must not animate from the default `--content-max`.
+   */
+  protected readonly shellMotionReady = signal(false);
+
+  constructor() {
+    this.router.events.pipe(takeUntilDestroyed()).subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        if (this.matchesRoute('/library', event.url)) {
+          this.libraryWide.set(true);
+        }
+        return;
+      }
+      if (event instanceof NavigationEnd) {
+        this.libraryWide.set(this.matchesRoute('/library', event.urlAfterRedirects));
+      }
+    });
+
+    afterNextRender(() => {
+      this.shellMotionReady.set(true);
+      // The record count needs the whole source fixture (~120 kB raw). It is
+      // read after first render so the fixture stays out of the initial bundle
+      // (decision 032); the placeholder is the same width, so nothing shifts.
+      void import('../../shared/curated-websites/source-fixture').then(({ ALL_SOURCES }) => {
+        this.statusText.set(`${ALL_SOURCES.length} src online`);
+      });
+    });
+  }
+
   private readonly baseHeaderNavItems: readonly NavItem[] = [
     { label: 'Search', href: '/search' },
     { label: 'Browse', href: '#' },
-    { label: 'Learn', href: '/learn' },
+    { label: 'Library', href: '/library' },
   ];
 
   private readonly baseDockNavItems: readonly NavItem[] = [
     { label: 'Home', href: '/' },
     { label: 'Search', href: '/search' },
     { label: 'Browse', href: '#' },
-    { label: 'Learn', href: '/learn' },
+    { label: 'Library', href: '/library' },
   ];
 
   /** `active` derived from the real current route instead of hard-coded.
@@ -90,18 +133,35 @@ export class AppShellLayoutComponent {
   }
 
   private matchesRoute(href: string, url: string): boolean {
+    const path = this.appPath(url);
     if (href === '#') {
       return false;
     }
     if (href === '/') {
-      return url === '/' || url.startsWith('/?');
+      return path === '/' || path.startsWith('/?');
     }
-    return url === href || url.startsWith(`${href}/`) || url.startsWith(`${href}?`);
+    return path === href || path.startsWith(`${href}/`) || path.startsWith(`${href}?`);
   }
 
-  /** Header status strip (backlog #1-3) — real record count from the Task 3
-   *  fixture, not the earlier hard-coded placeholder. */
-  protected readonly statusText = `${SOURCE_FIXTURE.length} src online`;
+  /** Path + search only — `NavigationStart.url` can be absolute. */
+  private appPath(url: string): string {
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      try {
+        const parsed = new URL(url);
+        return `${parsed.pathname}${parsed.search}`;
+      } catch {
+        return url;
+      }
+    }
+    return url;
+  }
+
+  /** Library uses more of the viewport than the default 80rem column. */
+  protected readonly isLibraryWide = computed(() => this.libraryWide());
+
+  /** Header status strip: the real record count, filled in after first render
+   *  (see the constructor). Three dashes match the width of a three-digit count. */
+  protected readonly statusText = signal('--- src online');
 
   /** The header's compact console (deviation, 2026-09-16 mid-build: it
    *  appears on every page including home, not just inner pages) submits

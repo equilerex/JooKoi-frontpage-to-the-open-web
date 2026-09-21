@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 
 /**
  * The recessed panel that keycaps sit in. A grid of auto-filling cells, sized
@@ -7,7 +7,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-keycap-grid',
   template: '<ng-content />',
-  styleUrl: './keycap-grid.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './keycap-grid.component.css'
 })
 export class KeycapGridComponent {}

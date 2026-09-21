@@ -38,6 +38,8 @@
   box-shadow:
     0 1px 0 var(--glow-magenta),
     0 8px 24px var(--shadow-deep);
+  /* Stable across shell route transitions — only main cross-fades. */
+  view-transition-name: app-chrome;
 }
 
 .hud__inner {

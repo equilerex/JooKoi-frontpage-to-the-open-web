@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 export interface SpecEntry {
   readonly term: string;
@@ -14,8 +14,7 @@ export interface SpecEntry {
 @Component({
   selector: 'joo-spec-list',
   templateUrl: './spec-list.component.html',
-  styleUrl: './spec-list.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './spec-list.component.css'
 })
 export class SpecListComponent {
   readonly entries = input.required<readonly SpecEntry[]>();

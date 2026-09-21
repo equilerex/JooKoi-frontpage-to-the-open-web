@@ -17,7 +17,7 @@
   status: mvp
   purpose: Entry point — search bar plus quick access to trusted sources and top categories.
   components: live-bound search console (swaps trusted highlights for ranked results in place); quick category keys, incl. AI marketplace
-  links_to: search_results, browse, source_detail, education_home, collection_view
+  links_to: search_results, browse, source_detail, library_root, collection_view
 
 - id: search_results
   title: Search Results
@@ -111,24 +111,32 @@
   purpose: Rollup of source freshness and verification signals — dead links, stale metadata, ownership changes. Historical open-web-health view (§38), not a per-source field.
   components: dead/stale source list; last-verified distribution; recently-changed sources
 
-- id: education_home
-  title: Developer AI 101 (landing)
-  path: /learn
+- id: library_root
+  title: Library (landing)
+  path: /library
   type: page
   status: mvp
-  purpose: Landing page for the AI-tooling crash course — what it covers, suggested reading order, link into the topic index.
-  components: topic index rendered as a tree (PrimeNG p-tree, wrapped as topic-tree/)
-  links_to: education_topic
-  source_repo: JooKoi-developer-stack/ai-tooling-crash-course-for-developers
+  purpose: File tree of collections in the library section — the user's own writing (notes, crash courses), not sourced from other sites (decision in plans/2026-09-16-library-archive-section.md, "Why this section exists").
+  components: persistent joo-topic-tree (left, real folders); empty pane until a document is picked
+  links_to: library_folder, library_document
 
-- id: education_topic
-  title: Crash-Course Topic (templated)
-  path: /learn/:topic
+- id: library_folder
+  title: Library Collection/Folder (templated, any depth)
+  path: /library/**
+  type: page
+  status: mvp
+  purpose: Same persistent tree as the landing, scoped URL for a collection or folder. URLs follow the disk tree (decision 028). No leftover index.md dump, no filter keycaps. Literal child routes under library-layout.page, not a UrlMatcher.
+  components: joo-topic-tree (left, on the layout); empty pane
+  links_to: library_document
+
+- id: library_document
+  title: Library Document (templated, any depth)
+  path: /library/**
   type: content
   status: mvp
-  purpose: Renders one topic doc. All 20 files ship (19 topics plus the how-llms-actually-work intro doc), vendored into content/learn/ and rendered to HTML at build time.
-  components: rendered markdown (breadcrumb, prose article, pager); prerendered per route
-  source_repo: JooKoi-developer-stack/ai-tooling-crash-course-for-developers/topics
+  purpose: Renders one document to the right of the persistent file tree. Replaces the earlier education_home/education_topic (/learn, /learn/:topic — now redirects). First collection is ai-tooling-crash-course-for-developers (decision 029), vendored into content/library/ai-tooling-crash-course-for-developers/ and rendered to HTML at build time; later collections are authored directly in content/library/.
+  components: persistent joo-topic-tree (left, on the layout); rendered markdown (breadcrumb, prose article, pager); one generated HTML chunk per document, lazy-loaded (not in the main bundle); prerendered per route via a literal ServerRoute list, not getPrerenderParams (app.routes.server.ts)
+  source_repo: JooKoi-developer-stack/ai-tooling-crash-course-for-developers (crash-course collection only)
 
 - id: probe_url_script
   title: probe-url.mjs
