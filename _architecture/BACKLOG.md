@@ -28,9 +28,9 @@ Shape recorded in `plans/decisions/009-ci-and-hosting-deferred.md`: a GitHub Act
 
 ## Hosting and deploy
 
-Status: OPEN
+Status: DECIDED
 
-Also decision 009. Candidates, unranked: Cloudflare Pages (free, branch previews), Vercel, nginx on the existing Linode. Phase 1 keeps the door open — static output, base href `/`, no host-specific code or config in the app. Picking a host turns decision 009 from DEFERRED to DECIDED, or supersedes it.
+Decided in decision 034: GitHub Pages via native GitHub Actions (`actions/upload-pages-artifact@v3` and `actions/deploy-pages@v4`), triggered after `verify` job succeeds on `main`. Build script `scripts/build-gh-pages.mjs` applies `--base-href /JooKoi-frontpage-to-the-open-web/`, creates `404.html` SPA fallback from `index.csr.html`, and writes `.nojekyll`.
 
 ## Service worker
 

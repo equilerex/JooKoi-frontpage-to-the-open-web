@@ -19,7 +19,7 @@ Phase 1 (foundation), Phase 2 (design system) and Phase 3 (content and features)
 | Lint / format          | `angular-eslint` + Prettier + `eslint-config-prettier` | —   |
 | Import boundaries      | generated `no-restricted-imports` rules                | 005 |
 | CI                     | GitHub Actions `ci.yml` (Lighthouse step non-blocking) | 009, 033 |
-| Hosting                | Not chosen                                             | 009 |
+| Hosting                | GitHub Pages via GitHub Actions (`ci.yml` deploy job)  | 034 |
 
 The workspace sits at the **repo root**, next to `sources/`, `data/`, `scripts/`, `features/` and `.agents/`. It's a single app — no Nx, no monorepo (ADR 005).
 
@@ -163,14 +163,16 @@ Seeing a `.page.ts` file tells you it's a route target without opening it. Pages
 Type suffixes are kept. `angular.json` carries schematic defaults so `ng generate` produces them:
 
 ```json
-"schematics": {
-  "@schematics/angular:component": { "type": "component", "style": "css" },
-  "@schematics/angular:directive": { "type": "directive" },
-  "@schematics/angular:service": { "type": "service" },
-  "@schematics/angular:guard": { "typeSeparator": "." },
-  "@schematics/angular:interceptor": { "typeSeparator": "." },
-  "@schematics/angular:pipe": { "typeSeparator": "." },
-  "@schematics/angular:resolver": { "typeSeparator": "." }
+{
+  "schematics": {
+    "@schematics/angular:component": { "type": "component", "style": "css" },
+    "@schematics/angular:directive": { "type": "directive" },
+    "@schematics/angular:service": { "type": "service" },
+    "@schematics/angular:guard": { "typeSeparator": "." },
+    "@schematics/angular:interceptor": { "typeSeparator": "." },
+    "@schematics/angular:pipe": { "typeSeparator": "." },
+    "@schematics/angular:resolver": { "typeSeparator": "." }
+  }
 }
 ```
 
