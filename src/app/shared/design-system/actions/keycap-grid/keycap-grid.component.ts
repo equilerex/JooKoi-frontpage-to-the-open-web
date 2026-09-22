@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'joo-keycap-grid',
   template: '<ng-content />',
-  styleUrl: './keycap-grid.component.css'
+  styleUrl: './keycap-grid.component.css',
 })
 export class KeycapGridComponent {}

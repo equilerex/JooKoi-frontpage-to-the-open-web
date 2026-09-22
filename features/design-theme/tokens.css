@@ -191,8 +191,10 @@
   --key-travel: 3px;
   --duration-press: 70ms;
   --duration-state: 160ms;
-  --duration-route: 240ms;
+  --duration-route: 220ms;
   --duration-shell: 240ms;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 @media (max-width: 767px) {

@@ -19,10 +19,12 @@ Three parts are the chrome, and they are the reason this folder exists: `horizon
 ## What exists now
 
 - `home.page.*` — the `''` route target and the real landing page (hero, quick keys, highlights grid). A lazy route (`loadComponent`, decision 032), so its `record-grid` and source data stay out of `main`. `app-shell-layout` fills its `N src online` status text after first render for the same reason.
+- `search.page.*` — the `/search` route target (`DirectoryBrowseTemplate`, filter funnel, keyword search, source record-grid). Holds filter state in writable signals initialized from query params, and updates URL memory via `Location.replaceState()` to prevent router navigation, scroll-to-top resets, and View Transition churn (ADR 035). Results table rows animate enter/leave via compositor-safe opacity transitions tracked by `rowKey="id"` and protected by keyword input debouncing (ADR 036).
 - `not-found.page.*` — the `**` wildcard route target. Has a real `<h1>` and a `routerLink="/"` home link, which the reference spec (`src/app/app.component.spec.ts`) drives.
+
 - `app-shell-layout/` — the frame itself: `<joo-horizon-backdrop />`, `<joo-heads-up-display-header />`, `<main id="main-content" class="page">` with the `router-outlet`, then `<joo-mobile-bottom-dock />`, as siblings. The HUD and the dock share one `navItems` array.
 - `heads-up-display-header/`, `mobile-bottom-dock/`, `horizon-backdrop/` — the three chrome parts, described above.
-- `page-title.strategy.ts` — `PageTitleStrategy`, registered in `app.config.ts`, producing `"<page> · JooKoi"` and the bare site name on a route with no title. The router calls `updateTitle` on every navigation *and* once during prerender, which is why the strategy exists: without it a prerendered page ships `index.html`'s placeholder as its real `<title>`.
+- `page-title.strategy.ts` — `PageTitleStrategy`, registered in `app.config.ts`, producing `"<page> · JooKoi"` and the bare site name on a route with no title. The router calls `updateTitle` on every navigation _and_ once during prerender, which is why the strategy exists: without it a prerendered page ships `index.html`'s placeholder as its real `<title>`.
 
 ## Elevation
 
@@ -38,6 +40,7 @@ Enforced by the generated `no-restricted-imports` blocks in `eslint.config.js`.
 
 ## Conventions
 
-- `home.page.*` and `not-found.page.*` are page components: flat in this folder, `.page.ts` suffix, `XPage` class, `joo-x-page` selector, referenced only from a routes file. Every other component here gets its own subfolder with a `.component.ts` suffix.
+- `home.page.*`, `search.page.*`, and `not-found.page.*` are page components: flat in this folder, `.page.ts` suffix, `XPage` class, `joo-x-page` selector, referenced only from a routes file. Every other component here gets its own subfolder with a `.component.ts` suffix.
+
 - Generate with `ng g c app-shell/<name>` for a component, or `ng g c app-shell/<name> --type=page --flat --selector=joo-<name>-page` for a page.
 - Shell components read semantic CSS tokens only (ADR 007). No raw colours.

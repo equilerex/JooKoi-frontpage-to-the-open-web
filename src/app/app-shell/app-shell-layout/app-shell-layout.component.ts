@@ -1,10 +1,4 @@
-import {
-  afterNextRender,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { afterNextRender, Component, computed, inject, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
@@ -21,19 +15,12 @@ import { MobileBottomDockComponent } from '../mobile-bottom-dock/mobile-bottom-d
  * and the dock full-bleed while only page content is constrained to
  * `--content-max`.
  *
- * Two nav lists, not one, because the header and the mobile dock disagree with
- * each other by design (mock `index.html:25-35` vs `:221-226`): the header's
- * `.hud__nav` is Search/Browse/Library only — the brand mark is the way home,
- * not a fourth nav item — while the mobile dock is a `Home` item plus the same
- * three. A single shared list could satisfy one shape or the other but not
- * both, so this component owns two.
+ * Two nav lists: the header's `.hud__nav` is Search and Library only — the
+ * brand mark is the way home — while the mobile dock carries a thumb-reach Home
+ * item plus Search and Library.
  *
- * `/search` (Task 5 — `search.page.ts`) and `/library` (the library-archive
- * section, `_architecture/plans/2026-09-16-library-archive-section.md` —
- * superseded the earlier `/learn` + `/learn/:topic`, which now redirect
- * into it) are both real routes, so the header console, the home launcher
- * console, the quick keys and the Library nav item all land somewhere real.
- * `/browse` stays `#`: it is `parked` (D2), not scheduled.
+ * `/search` and `/library` are real routes. The parked `Browse` item was removed
+ * since browsing is part of the landing experience and the brand mark links home.
  */
 @Component({
   imports: [
@@ -44,7 +31,7 @@ import { MobileBottomDockComponent } from '../mobile-bottom-dock/mobile-bottom-d
   ],
   selector: 'joo-app-shell-layout',
   styleUrl: './app-shell-layout.component.css',
-  templateUrl: './app-shell-layout.component.html'
+  templateUrl: './app-shell-layout.component.html',
 })
 export class AppShellLayoutComponent {
   private readonly router = inject(Router);
@@ -103,22 +90,19 @@ export class AppShellLayoutComponent {
 
   private readonly baseHeaderNavItems: readonly NavItem[] = [
     { label: 'Search', href: '/search' },
-    { label: 'Browse', href: '#' },
     { label: 'Library', href: '/library' },
   ];
 
   private readonly baseDockNavItems: readonly NavItem[] = [
     { label: 'Home', href: '/' },
     { label: 'Search', href: '/search' },
-    { label: 'Browse', href: '#' },
     { label: 'Library', href: '/library' },
   ];
 
   /** `active` derived from the real current route instead of hard-coded.
    *  `/` matches only the exact root (so `/search` etc. don't also light
    *  "Home"); every other real href matches itself or a sub-path of itself
-   *  (`/learn` also lights for `/learn/some-topic`); `#` (the parked
-   *  `Browse` route) never matches anything. */
+   *  (`/library` also lights for `/library/some-topic`). */
   protected readonly headerNavItems = computed<readonly NavItem[]>(() =>
     this.withActive(this.baseHeaderNavItems),
   );

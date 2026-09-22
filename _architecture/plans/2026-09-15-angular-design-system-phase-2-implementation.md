@@ -504,7 +504,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 @Component({
   selector: 'joo-specimen-section',
   templateUrl: './specimen-section.component.html',
-  styleUrl: './specimen-section.component.css'
+  styleUrl: './specimen-section.component.css',
 })
 export class SpecimenSectionComponent {
   readonly label = input.required<string>();
@@ -559,7 +559,7 @@ import { SpecimenSectionComponent } from './specimen-section/specimen-section.co
   selector: 'joo-specimen-page',
   imports: [SpecimenSectionComponent],
   templateUrl: './specimen.page.html',
-  styleUrl: './specimen.page.css'
+  styleUrl: './specimen.page.css',
 })
 export class SpecimenPage {}
 ```
@@ -985,7 +985,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-eyebrow-label',
   template: '<ng-content />',
-  styleUrl: './eyebrow-label.component.css'
+  styleUrl: './eyebrow-label.component.css',
 })
 export class EyebrowLabelComponent {}
 ```
@@ -1200,7 +1200,7 @@ import { HardwareKeyComponent } from '../hardware-key/hardware-key.component';
   selector: 'joo-keycap',
   imports: [HardwareKeyComponent],
   templateUrl: './keycap.component.html',
-  styleUrl: './keycap.component.css'
+  styleUrl: './keycap.component.css',
 })
 export class KeycapComponent {
   readonly fn = input('');
@@ -1236,7 +1236,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-keycap-grid',
   template: '<ng-content />',
-  styleUrl: './keycap-grid.component.css'
+  styleUrl: './keycap-grid.component.css',
 })
 export class KeycapGridComponent {}
 ```
@@ -1302,7 +1302,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 @Component({
   selector: 'joo-field-label',
   template: '<label [attr.for]="for()"><ng-content /></label>',
-  styleUrl: './field-label.component.css'
+  styleUrl: './field-label.component.css',
 })
 export class FieldLabelComponent {
   readonly for = input('');
@@ -1327,7 +1327,7 @@ import { ConsoleInputComponent } from './console-input.component';
   template: `
     <joo-console-input [(value)]="query" inputId="q" placeholder="Search" />
     <p>echo: {{ query() }}</p>
-  `
+  `,
 })
 class ConsoleInputHost {
   readonly query = signal('');
@@ -1419,7 +1419,7 @@ import { StompboxToggleComponent } from './stompbox-toggle.component';
 @Component({
   selector: 'joo-stompbox-toggle-host',
   imports: [StompboxToggleComponent],
-  template: `<joo-stompbox-toggle [(on)]="active">Has feed</joo-stompbox-toggle>`
+  template: `<joo-stompbox-toggle [(on)]="active">Has feed</joo-stompbox-toggle>`,
 })
 class StompboxToggleHost {
   readonly active = signal(false);
@@ -1506,7 +1506,7 @@ import { SegmentSelectorComponent } from './segment-selector.component';
   template: `
     <joo-segment-selector [options]="sorts" [(value)]="sort" ariaLabel="Sort order" />
     <p>sort: {{ sort() }}</p>
-  `
+  `,
 })
 class SegmentSelectorHost {
   readonly sorts = [
@@ -1659,7 +1659,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-capability-tag',
   template: '<ng-content />',
-  styleUrl: './capability-tag.component.css'
+  styleUrl: './capability-tag.component.css',
 })
 export class CapabilityTagComponent {}
 ```
@@ -1704,7 +1704,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-tag-set',
   template: '<ng-content />',
-  styleUrl: './tag-set.component.css'
+  styleUrl: './tag-set.component.css',
 })
 export class TagSetComponent {}
 ```
@@ -1733,7 +1733,7 @@ export interface SpecEntry {
 @Component({
   selector: 'joo-spec-list',
   templateUrl: './spec-list.component.html',
-  styleUrl: './spec-list.component.css'
+  styleUrl: './spec-list.component.css',
 })
 export class SpecListComponent {
   readonly entries = input.required<readonly SpecEntry[]>();
@@ -1765,7 +1765,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-prose-content',
   template: '<ng-content />',
-  styleUrl: './prose-content.component.css'
+  styleUrl: './prose-content.component.css',
 })
 export class ProseContentComponent {}
 ```
@@ -1888,7 +1888,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-paper-sheet',
   template: '<ng-content />',
-  styleUrl: './paper-sheet.component.css'
+  styleUrl: './paper-sheet.component.css',
 })
 export class PaperSheetComponent {}
 ```
@@ -2119,7 +2119,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-toolbar-row',
   templateUrl: './toolbar-row.component.html',
-  styleUrl: './toolbar-row.component.css'
+  styleUrl: './toolbar-row.component.css',
 })
 export class ToolbarRowComponent {}
 ```
@@ -2279,7 +2279,7 @@ import { NavItem } from '../../shared/design-system/navigation/indicator-nav-lis
   selector: 'joo-mobile-bottom-dock',
   imports: [HardwareKeyComponent],
   templateUrl: './mobile-bottom-dock.component.html',
-  styleUrl: './mobile-bottom-dock.component.css'
+  styleUrl: './mobile-bottom-dock.component.css',
 })
 export class MobileBottomDockComponent {
   readonly navItems = input.required<readonly NavItem[]>();
@@ -2404,7 +2404,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
   selector: 'joo-console-landing-template',
   templateUrl: './console-landing-template.component.html',
-  styleUrl: './console-landing-template.component.css'
+  styleUrl: './console-landing-template.component.css',
 })
 export class ConsoleLandingTemplateComponent {}
 ```
@@ -2602,7 +2602,7 @@ import { CountChipComponent } from '../../shared/design-system/data-display/coun
     StompboxToggleComponent,
     CountChipComponent,
   ],
-  templateUrl: './directory-browse-demo.page.html'
+  templateUrl: './directory-browse-demo.page.html',
 })
 export class DirectoryBrowseDemoPage {
   protected readonly sortOptions: readonly SegmentOption[] = [
@@ -2688,7 +2688,7 @@ export interface SelectOption {
   selector: 'joo-chrome-select',
   imports: [Select],
   templateUrl: './chrome-select.component.html',
-  styleUrl: './chrome-select.component.css'
+  styleUrl: './chrome-select.component.css',
 })
 export class ChromeSelectComponent {
   readonly options = input.required<readonly SelectOption[]>();
@@ -2775,7 +2775,7 @@ import { Drawer } from 'primeng/drawer';
   selector: 'joo-filter-drawer',
   imports: [Drawer],
   templateUrl: './filter-drawer.component.html',
-  styleUrl: './filter-drawer.component.css'
+  styleUrl: './filter-drawer.component.css',
 })
 export class FilterDrawerComponent {
   readonly open = model(false);
@@ -2862,7 +2862,7 @@ interface DemoRow {
       (rowActivate)="activated = $event.name"
     />
     <p>activated: {{ activated }}</p>
-  `
+  `,
 })
 class RecordGridHost {
   readonly rows: readonly DemoRow[] = [
@@ -2915,7 +2915,7 @@ export interface GridColumn<T> {
   selector: 'joo-record-grid',
   imports: [TableModule],
   templateUrl: './record-grid.component.html',
-  styleUrl: './record-grid.component.css'
+  styleUrl: './record-grid.component.css',
 })
 export class RecordGridComponent<T> {
   /**
@@ -2993,7 +2993,7 @@ Every line above was checked against `primeng@22.1.5` in `node_modules`, because
 - **`tableStyleClass`, not `styleClass`.** `Table` in 22.1.5 declares no `styleClass` input at all — grep `styleClass` in `node_modules/primeng/types/primeng-table.d.ts` and the only hit is `tableStyleClass`. A bare `styleClass="joo-record-grid"` is not an error, it is a stray attribute on the host element that no selector matches, so the hook class silently styles nothing. `tableStyleClass` is the input, and it lands on PrimeNG's inner `<table>` (`[class]="cn(cx('table'), tableStyleClass())"`, `primeng-table.mjs:3587`).
 - **The three slot names are right.** `contentChild('header')`, `contentChild('body')` and `contentChild('emptymessage')` are the queries, at `primeng-table.mjs:1654`, `:1656` and `:1671`. The `pTemplate="header"` form is not what this version reads, so there is nothing to fall back to.
 - **The slot contexts are right, and they differ from each other.** `#header` gets `{ $implicit: scrollerOptions.columns }` (`:3593-3595`, and the non-virtual branch supplies `options: { columns }` at `:3580`), which is why `let-cols` is the column list. `#body` gets `{ $implicit: rowData, rowIndex, columns, editing, frozen }` (`:713-719`), which is why it is `let-row let-cols="columns"` and not the other way round. `#emptymessage` gets `bodyContext()`, i.e. `{ $implicit: columns, frozen }` (`:587-591`, rendered at `:1043`). All three render inside the right row group: the header template inside `<thead>`, the other two inside `<tbody>`, so the bare `<tr>` roots are correct.
-- **`[pt]` is how the label reaches the table.** PrimeNG 22.1.5 declares no `ariaLabel` input on `Table` (unlike `Select`, which does — that is why `chrome-select` could just bind one). The inner `<table>` carries `role="table"` (`:3587`) and no accessible name, and it is outside this component's encapsulation, so a host attribute cannot reach it. `pt` is the library's own pass-through and `[pBind]="ptm('table')"` is what applies it to that element; `Bind`'s effect calls `renderer.setAttribute` for every key it is given (`primeng-bind.mjs`), so a plain `aria-label` key arrives as a real attribute. This is the one line in the step whose *runtime* effect could not be settled by reading `node_modules` — if the build rejects it, that is a reportable concern, not something to invent a workaround for, and either way the accessible name is confirmed in the running app before the task is called done.
+- **`[pt]` is how the label reaches the table.** PrimeNG 22.1.5 declares no `ariaLabel` input on `Table` (unlike `Select`, which does — that is why `chrome-select` could just bind one). The inner `<table>` carries `role="table"` (`:3587`) and no accessible name, and it is outside this component's encapsulation, so a host attribute cannot reach it. `pt` is the library's own pass-through and `[pBind]="ptm('table')"` is what applies it to that element; `Bind`'s effect calls `renderer.setAttribute` for every key it is given (`primeng-bind.mjs`), so a plain `aria-label` key arrives as a real attribute. This is the one line in the step whose _runtime_ effect could not be settled by reading `node_modules` — if the build rejects it, that is a reportable concern, not something to invent a workaround for, and either way the accessible name is confirmed in the running app before the task is called done.
 
 Row activation is on `(click)` only here; keyboard row activation is a Phase 3 concern once there is a real destination to activate to. Note that in the file header so it is a recorded gap, not an oversight.
 
@@ -3064,7 +3064,7 @@ Four `../`, not three: every design-system component sits at
 three-level path resolves to `shared/app-shell/…`, which does not exist — the
 import fails to resolve and the lint rule is never reached.
 
-Run eslint once, deliberately. `AGENTS.md` bans linting by hand, and this is the narrow exception it implies: the work here *is* the lint config, and a rule that has never been shown to fire is a comment. Point it at the violating file only — not a repo-wide run — and say in the report that this was the reason.
+Run eslint once, deliberately. `AGENTS.md` bans linting by hand, and this is the narrow exception it implies: the work here _is_ the lint config, and a rule that has never been shown to fire is a comment. Point it at the violating file only — not a repo-wide run — and say in the report that this was the reason.
 Expected: FAIL, naming the restricted import of `app-shell` from a shared file.
 
 Remove the import and re-run; expected PASS. If the first run passes, the boundary is not enforced and `eslint.config.js` needs fixing before this task can complete — report it rather than working around it.

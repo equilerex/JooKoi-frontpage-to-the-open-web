@@ -22,11 +22,11 @@ Mockup (build step 1) settles layout before code.
 
 ## What this means against current code
 
-| Surface | Target | Interim now | Action |
-|---|---|---|---|
-| `/library` | Chunky tiles **and** full file tree (tile click expands that branch, others collapsed) | Tree + empty prompt, no tiles | Add tiles. Keep tree. Wire tile → expand/focus that collection. |
-| Folder | Intro + inert filters + tree of that folder's children | Tree only (empty prompt) | Restore intro + inert filter row. |
-| Document | Sheet + pager, **tree still on the left** | Tree + reader (good) then briefly tree removed (bad) | Keep tree beside the reader. |
+| Surface    | Target                                                                                 | Interim now                                          | Action                                                          |
+| ---------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------- | --------------------------------------------------------------- |
+| `/library` | Chunky tiles **and** full file tree (tile click expands that branch, others collapsed) | Tree + empty prompt, no tiles                        | Add tiles. Keep tree. Wire tile → expand/focus that collection. |
+| Folder     | Intro + inert filters + tree of that folder's children                                 | Tree only (empty prompt)                             | Restore intro + inert filter row.                               |
+| Document   | Sheet + pager, **tree still on the left**                                              | Tree + reader (good) then briefly tree removed (bad) | Keep tree beside the reader.                                    |
 
 ## Kept from later decisions (do not reopen here)
 

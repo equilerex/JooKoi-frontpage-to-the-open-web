@@ -2,12 +2,15 @@
 
 Date: 2026-09-21
 
-Status: DECIDED
+Status: SUPERSEDED by Decision 037
 
 <!-- Status is one of: DECIDED | TRIAL | REJECTED | DEFERRED | SUPERSEDED
      A superseding decision gets its own number. The superseded file's status changes
      and its body gains a pointer — it is never edited away or deleted.
      All five sections below are required. -->
+
+> **Superseded by [Decision 037](037-restore-primeng-table-with-defer-and-virtual-scroll.md)**:
+> Replaced the plain table removal. PrimeNG `Table` was restored per Decision 011 with lazy chunking / route deferral and virtual scrolling.
 
 ## Problem
 

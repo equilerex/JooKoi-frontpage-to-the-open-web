@@ -66,8 +66,10 @@
 /* `:not(:disabled)` is not in the mockup, which has no disabled keys. Without
    it a disabled key still lifts on hover, because Chrome matches `:hover` on
    disabled buttons. */
-.key:not(:disabled):hover {
-  filter: brightness(1.15);
+@media (hover: hover) and (pointer: fine) {
+  .key:not(:disabled):hover {
+    filter: brightness(1.15);
+  }
 }
 
 .key:active {

@@ -38,6 +38,9 @@ Strictness on top of the generated strict set: `noUncheckedIndexedAccess`, `noIm
 
 **Change detection is OnPush by default.** In Angular 22 `ChangeDetectionStrategy.OnPush` is `0`, the enum's zero value, so a component that does not declare `changeDetection` is already OnPush. Declaring it is redundant: a component that does is not wrong, and a component that omits it is not incomplete. Don't add the declaration to a new component, and don't "fix" its absence in an existing one.
 
+**Animation and motion (ADR 035, ADR 036):** `@angular/animations` is deprecated in Angular 20.2+ and is not installed. Use modern native CSS transitions or `@starting-style` for discrete surface states (drawers, overlays). Data rows or collection items in `@for` loops may use enter/leave transitions only if strictly restricted to compositor-safe opacity, tracked by stable unique identifiers (`rowKey`), and protected with input debouncing. Never animate layout geometry (`transform`, `height`) on table rows.
+
+
 ## Where does this file go
 
 Placement rules, first match wins (ADR 005 — full version in `ARCHITECTURE.md`):
@@ -112,7 +115,9 @@ Rules:
 
 Provision: root domain data `providedIn: 'root'`; route-scoped view state in the route's `providers` array, so it's created and destroyed with the route.
 
-Shareable view state (search query, filters, sort, page) lives **in the URL**, with the store as a typed view over it — reads query params into state, writes back with `router.navigate`. Not a second source of truth.
+Shareable view state (search query, filters, sort, page) lives **in the URL**, with the component or store as a typed view over it. Reads initial params from `route.snapshot.queryParamMap` and updates via writable signals.
+- **In-page filter state and keyword search (ADR 035):** Write back to the address bar using `Location.replaceState('/search', query)`. **Never use `router.navigate()` for filter toggles or keystrokes.** `router.navigate()` triggers a router navigation event that causes `RouterScroller` to scroll to `(0, 0)` (jumping the user to the top) and re-triggers View Transitions, throwing `AbortError` on fast input.
+- **External navigation:** Listen to `route.queryParamMap.pipe(takeUntilDestroyed())` to resynchronize signals when the user navigates from outside or uses browser Back/Forward.
 
 **Layered drill-in (decision 031):** detail/document is a visual layer over the browse surface; Back uses browser history; ephemeral UI (scroll, local filter text) lives in a layout- or route-scoped store. Library is the proof (`LibraryLayoutStore` on the library layout route). Search/browse adopt the same rule when they grow a detail layer. Do not invent a second navigation stack beside the URL.
 

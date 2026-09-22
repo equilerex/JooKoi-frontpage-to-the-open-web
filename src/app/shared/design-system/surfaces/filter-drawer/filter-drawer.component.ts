@@ -67,7 +67,7 @@ import { Drawer } from 'primeng/drawer';
   selector: 'joo-filter-drawer',
   imports: [Drawer],
   templateUrl: './filter-drawer.component.html',
-  styleUrl: './filter-drawer.component.css'
+  styleUrl: './filter-drawer.component.css',
 })
 export class FilterDrawerComponent {
   readonly open = model(false);

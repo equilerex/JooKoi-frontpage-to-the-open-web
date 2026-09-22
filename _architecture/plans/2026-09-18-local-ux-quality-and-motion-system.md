@@ -10,13 +10,13 @@ Two gaps: (1) automated detection of CLS / loading flashes; (2) a small design-s
 
 ## Tooling research (local-first)
 
-| Tool | Job | Verdict |
-| --- | --- | --- |
+| Tool                                | Job                                                    | Verdict                           |
+| ----------------------------------- | ------------------------------------------------------ | --------------------------------- |
 | Playwright + Layout Instability API | CLS + forbidden loading copy + H1 stability across nav | **Primary** — `pnpm run ux:smoke` |
-| chrome-devtools MCP | Same checks in agent sessions | Secondary — already connected |
-| Unlighthouse / lighthouse CLI | Cold-load lab scores on static preview | Occasional |
-| Lighthouse CI | Remote budgets/history | Defer (009) |
-| Vitest browser (008) | Component tests | Keep; not for route paint-order |
+| chrome-devtools MCP                 | Same checks in agent sessions                          | Secondary — already connected     |
+| Unlighthouse / lighthouse CLI       | Cold-load lab scores on static preview                 | Occasional                        |
+| Lighthouse CI                       | Remote budgets/history                                 | Defer (009)                       |
+| Vitest browser (008)                | Component tests                                        | Keep; not for route paint-order   |
 
 ## Motion research
 

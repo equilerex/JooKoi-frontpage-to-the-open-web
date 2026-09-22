@@ -17,7 +17,7 @@ import { ChromeSelectComponent } from './chrome-select.component';
       placeholder="Sort by"
     />
     <p>sort: {{ sort() }}</p>
-  `
+  `,
 })
 class ChromeSelectHost {
   readonly sorts = [

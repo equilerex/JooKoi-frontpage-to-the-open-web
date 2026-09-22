@@ -24,7 +24,7 @@ import { PaperSheetComponent } from '../../shared/design-system/surfaces/paper-s
     PaperSheetComponent,
     ProseContentComponent,
   ],
-  templateUrl: './document-demo.page.html'
+  templateUrl: './document-demo.page.html',
 })
 export class DocumentDemoPage {
   protected readonly crumbs: readonly Crumb[] = [

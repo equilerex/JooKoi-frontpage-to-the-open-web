@@ -1,13 +1,7 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  computed,
-  effect,
-  inject,
-  signal,
-} from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { Component, computed, DestroyRef, inject, linkedSignal, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import {
   HardwareKeyAccent,
   HardwareKeyComponent,
@@ -62,6 +56,7 @@ interface CapabilitySignal {
 }
 
 interface SearchRow {
+  readonly id: string;
   readonly name: string;
   readonly domain: string;
   readonly url: string;
@@ -90,6 +85,37 @@ const CAPABILITY_LABEL: Record<Capability, string> = {
   'public-api': 'API',
 };
 
+type BaseSearchRow = Omit<SearchRow, 'actionHref'>;
+
+/** Precomputed base rows for all sources so URL parsing and date formatting
+ *  never execute on sort or filter transitions. */
+const BASE_SEARCH_ROWS_MAP: ReadonlyMap<string, BaseSearchRow> = new Map(
+  ALL_SOURCES.map((source) => {
+    const canSearch = !!source.searchUrl;
+    const sourceUrl = source.sourceUrl ?? '';
+    return [
+      source.id,
+      {
+        id: source.id,
+        name: source.name,
+        domain: domainOf(source.url),
+        url: source.url,
+        trust: trustLabel(source.trustScore),
+        desc: source.desc,
+        type: source.type,
+        sig: source.capabilities.map((id) => ({ id, label: CAPABILITY_LABEL[id] })),
+        lang: source.lang ? source.lang.toUpperCase() : '—',
+        ver: formatVerifiedDate(source.verified),
+        sourceUrl,
+        src: sourceUrl ? domainOf(sourceUrl) : '',
+        searchUrl: source.searchUrl,
+        act: canSearch ? 'Search ↗' : 'Open',
+        actionAccent: canSearch ? 'cyan' : 'neutral',
+      },
+    ];
+  }),
+);
+
 /** The three capability toggles, in the mock's order (`search.html:82-99`). */
 const CAPABILITY_TOGGLES: readonly { readonly value: Capability; readonly label: string }[] = [
   { value: 'rss-feed', label: 'Has RSS' },
@@ -103,6 +129,10 @@ const SORT_OPTIONS: readonly SegmentOption[] = [
   { value: 'verified', label: 'Verified' },
   { value: 'name', label: 'A–Z' },
 ];
+
+function parseSort(raw: string | null | undefined): SortMode {
+  return raw === 'trust' || raw === 'verified' || raw === 'name' ? raw : 'relevance';
+}
 
 function uniqueSorted(values: readonly string[]): readonly string[] {
   return [...new Set(values)].sort((a, b) => a.localeCompare(b));
@@ -276,61 +306,57 @@ const LANG_OPTIONS = toSelectOptions(
     ChipComponent,
   ],
   templateUrl: './search.page.html',
-  styleUrl: './search.page.css'
+  styleUrl: './search.page.css',
 })
 export class SearchPage {
   private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly changeDetector = inject(ChangeDetectorRef);
+  private readonly location = inject(Location);
+  private readonly destroyRef = inject(DestroyRef);
+  private kwDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
-  private readonly queryParamMap = toSignal(this.route.queryParamMap, {
-    initialValue: this.route.snapshot.queryParamMap,
-  });
+  private readonly initialParams = this.route.snapshot.queryParamMap;
 
-  protected readonly q = computed(() => this.queryParamMap().get('q') ?? '');
-  /** Text currently in the results query box. Search↗ hrefs use
-   *  `appliedQuery`, which updates when this box blurs or Enter is pressed. */
-  protected readonly queryInput = signal(this.q());
-  protected readonly appliedQuery = signal(this.q());
+  protected readonly q = signal(this.initialParams.get('q') ?? '');
+  /** Text currently in the results query box, linked to `q`. */
+  protected readonly queryInput = linkedSignal(() => this.q());
+  /** Search↗ href query, updated on submit/blur. */
+  protected readonly appliedQuery = linkedSignal(() => this.q());
 
-  constructor() {
-    let previousUrlQ = this.q();
-    effect(() => {
-      const urlQ = this.q();
-      if (urlQ === previousUrlQ) {
-        return;
-      }
-      previousUrlQ = urlQ;
-      this.queryInput.set(urlQ);
-      this.appliedQuery.set(urlQ);
-    });
-  }
-  /** New sidebar keyword filter (fix wave 2) — replaces `q` as the thing
-   *  that actually filters the table (`filteredSources` below) and feeds
-   *  the `Relevance` sort (`sortSources`'s third argument). Own URL param,
-   *  `kw`, distinct from `q`: `q` keeps meaning "what the user searched
-   *  for" (still feeds the header/launcher consoles and each row's
-   *  Search↗/Open action), `kw` means "what's currently filtering this
-   *  table" — conflating the two was exactly what D4/ADR 020 got wrong. */
-  protected readonly kw = computed(() => this.queryParamMap().get('kw') ?? '');
-  protected readonly trustedOnly = computed(() => this.queryParamMap().get('trusted') === '1');
+  /** Text currently in the keyword input box, updated immediately for snappy typing. */
+  protected readonly kwInput = signal(this.initialParams.get('kw') ?? '');
+
+  /** Keyword filter state, debounced slightly on typing to prevent animation storm in table. */
+  protected readonly kw = signal(this.initialParams.get('kw') ?? '');
+
+  protected readonly trustedOnly = signal(this.initialParams.get('trusted') === '1');
   /** Unrecognised values (a hand-edited or stale URL) are silently inert —
    *  the `.has()` check below never matches a `Capability` that a stray
    *  string can't equal, so a garbage `caps` param filters nothing rather
    *  than throwing. */
-  protected readonly caps = computed<ReadonlySet<Capability>>(() => {
-    const raw = (this.queryParamMap().get('caps') ?? '').split(',').filter(Boolean);
-    return new Set(raw as Capability[]);
-  });
-  protected readonly typeFilter = computed(() => this.queryParamMap().get('type') ?? '');
-  protected readonly regionFilter = computed(() => this.queryParamMap().get('region') ?? '');
-  protected readonly categoryFilter = computed(() => this.queryParamMap().get('category') ?? '');
-  protected readonly langFilter = computed(() => this.queryParamMap().get('lang') ?? '');
-  protected readonly tagFilter = computed(() => this.queryParamMap().get('tag') ?? '');
-  protected readonly sortMode = computed<SortMode>(() => {
-    const raw = this.queryParamMap().get('sort');
-    return raw === 'trust' || raw === 'verified' || raw === 'name' ? raw : 'relevance';
-  });
+  protected readonly caps = signal<ReadonlySet<Capability>>(
+    new Set((this.initialParams.get('caps') ?? '').split(',').filter(Boolean) as Capability[]),
+  );
+  protected readonly typeFilter = signal(this.initialParams.get('type') ?? '');
+  protected readonly regionFilter = signal(this.initialParams.get('region') ?? '');
+  protected readonly categoryFilter = signal(this.initialParams.get('category') ?? '');
+  protected readonly langFilter = signal(this.initialParams.get('lang') ?? '');
+  protected readonly tagFilter = signal(this.initialParams.get('tag') ?? '');
+  protected readonly sortMode = signal<SortMode>(
+    parseSort(this.initialParams.get('sort')),
+  );
+
+  constructor() {
+    this.destroyRef.onDestroy(() => {
+      if (this.kwDebounceTimer) {
+        clearTimeout(this.kwDebounceTimer);
+      }
+    });
+
+    // Synchronize filters when external navigation lands on /search (e.g. Header search, F5 tag quick key)
+    this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe((params) => {
+      this.applyParamMap(params);
+    });
+  }
 
   protected readonly showLangFilter = DISTINCT_LANGS.length > 1;
   protected readonly capabilityToggles = CAPABILITY_TOGGLES;
@@ -423,12 +449,17 @@ export class SearchPage {
     if (activeType) {
       sources = sources.filter((s) => s.type === activeType);
     }
-    return {
-      rss: sources.filter((s) => s.capabilities.includes('rss-feed')).length,
-      search: sources.filter((s) => s.capabilities.includes('site-search')).length,
-      api: sources.filter((s) => s.capabilities.includes('public-api')).length,
-      trusted: sources.filter((s) => s.trustScore >= 80).length,
-    };
+    let rss = 0;
+    let search = 0;
+    let api = 0;
+    let trusted = 0;
+    for (const s of sources) {
+      if (s.capabilities.includes('rss-feed')) rss++;
+      if (s.capabilities.includes('site-search')) search++;
+      if (s.capabilities.includes('public-api')) api++;
+      if (s.trustScore >= 80) trusted++;
+    }
+    return { rss, search, api, trusted };
   });
 
   protected readonly funnelMeta = computed(() => {
@@ -586,9 +617,17 @@ export class SearchPage {
   });
 
   private toSearchRow(source: Source, q: string): SearchRow {
+    const base = BASE_SEARCH_ROWS_MAP.get(source.id);
+    if (base) {
+      return {
+        ...base,
+        actionHref: outboundSearchHref(source, q),
+      };
+    }
     const canSearch = !!source.searchUrl;
     const sourceUrl = source.sourceUrl ?? '';
     return {
+      id: source.id,
       name: source.name,
       domain: domainOf(source.url),
       url: source.url,
@@ -611,42 +650,89 @@ export class SearchPage {
     return CAPABILITY_LABEL[capability];
   }
 
-  /** Every filter/sort control funnels through this: merge one or more
-   *  params into the current URL, `null` to remove one, everything else
-   *  (`q`, and every other filter) left untouched by `merge` handling.
-   *  `replaceUrl` (fix wave 4): the sidebar keyword field calls this on
-   *  every keystroke now, and a `navigate` per keystroke would otherwise
-   *  push one back-button entry per character typed — `replaceUrl: true`
-   *  swaps the current history entry in place instead, so the URL still
-   *  ends up correct (shareable/linkable `kw`) without the history spam. */
-  private updateQueryParams(
-    params: Record<string, string | null>,
-    options?: { readonly replaceUrl?: boolean },
-  ): void {
-    void this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: params,
-      queryParamsHandling: 'merge',
-      replaceUrl: options?.replaceUrl ?? false,
-    });
+  /** Synchronizes active filter state to the browser address bar in-place.
+   *  Does NOT trigger Angular router navigation, scroll-to-top, or View Transitions. */
+  private syncUrl(): void {
+    const params = new URLSearchParams();
+    const qVal = this.q().trim();
+    if (qVal) params.set('q', qVal);
+    const kwVal = this.kw().trim();
+    if (kwVal) params.set('kw', kwVal);
+    if (this.trustedOnly()) params.set('trusted', '1');
+    if (this.caps().size) params.set('caps', [...this.caps()].join(','));
+    const typeVal = this.typeFilter();
+    if (typeVal) params.set('type', typeVal);
+    const regVal = this.regionFilter();
+    if (regVal) params.set('region', regVal);
+    const catVal = this.categoryFilter();
+    if (catVal) params.set('category', catVal);
+    const langVal = this.langFilter();
+    if (langVal) params.set('lang', langVal);
+    const tagVal = this.tagFilter();
+    if (tagVal) params.set('tag', tagVal);
+    if (this.sortMode() !== 'relevance') params.set('sort', this.sortMode());
+
+    const qs = params.toString();
+    this.location.replaceState('/search', qs ? `?${qs}` : '');
   }
 
-  /** Sidebar Keyword field (fix wave 4: live, not Enter-gated) — fires on
-   *  every keystroke (`joo-console-input`'s `value` is a `model()`, so its
-   *  `valueChange` emits per character) and filters the table immediately
-   *  via `kw`/`filteredSources`, `replaceUrl`d so typing doesn't spam
-   *  history. Unrelated to `q`: see the class doc's fix-wave-2 note. */
+  private applyParamMap(map: ParamMap): void {
+    const q = map.get('q') ?? '';
+    if (q !== this.q()) {
+      this.q.set(q);
+      this.appliedQuery.set(q);
+      this.queryInput.set(q);
+    }
+    const kw = map.get('kw') ?? '';
+    if (kw !== this.kw()) {
+      this.kw.set(kw);
+      this.kwInput.set(kw);
+    }
+    const trusted = map.get('trusted') === '1';
+    if (trusted !== this.trustedOnly()) this.trustedOnly.set(trusted);
+    const rawCaps = (map.get('caps') ?? '').split(',').filter(Boolean) as Capability[];
+    const capsSet = new Set(rawCaps);
+    if (capsSet.size !== this.caps().size || [...capsSet].some((c) => !this.caps().has(c))) {
+      this.caps.set(capsSet);
+    }
+    const type = map.get('type') ?? '';
+    if (type !== this.typeFilter()) this.typeFilter.set(type);
+    const region = map.get('region') ?? '';
+    if (region !== this.regionFilter()) this.regionFilter.set(region);
+    const category = map.get('category') ?? '';
+    if (category !== this.categoryFilter()) this.categoryFilter.set(category);
+    const lang = map.get('lang') ?? '';
+    if (lang !== this.langFilter()) this.langFilter.set(lang);
+    const tag = map.get('tag') ?? '';
+    if (tag !== this.tagFilter()) this.tagFilter.set(tag);
+    const sort = parseSort(map.get('sort'));
+    if (sort !== this.sortMode()) this.sortMode.set(sort);
+  }
+
+  /** Sidebar Keyword field — updates `kwInput` immediately while debouncing `kw` and URL memory.
+   *  Prevents rapid-fire DOM animation thrashing when typing fast. */
   protected onKeywordChange(value: string): void {
-    this.updateQueryParams({ kw: value.trim() || null }, { replaceUrl: true });
+    this.kwInput.set(value);
+    if (this.kwDebounceTimer) {
+      clearTimeout(this.kwDebounceTimer);
+    }
+    if (!value) {
+      this.kw.set('');
+      this.syncUrl();
+      return;
+    }
+    this.kwDebounceTimer = setTimeout(() => {
+      this.kw.set(value);
+      this.syncUrl();
+    }, 120);
   }
 
-  /** Blur or Enter commits the box into Search↗ hrefs and the URL `q`.
-   *  `detectChanges` runs before a following click so Search↗ already has
-   *  the new href when the pointer leaves the field for a row key. */
+  /** Blur or Enter commits the box into Search↗ hrefs and updates URL memory. */
   protected onQueryCommit(value: string): void {
-    this.appliedQuery.set(value);
-    this.updateQueryParams({ q: value.trim() || null }, { replaceUrl: true });
-    this.changeDetector.detectChanges();
+    const trimmed = value.trim();
+    this.q.set(trimmed);
+    this.appliedQuery.set(trimmed);
+    this.syncUrl();
   }
 
   /** Reserved: open the first N Search↗ results as new tabs. The pink key
@@ -656,7 +742,8 @@ export class SearchPage {
   }
 
   protected onTrustedToggle(): void {
-    this.updateQueryParams({ trusted: this.trustedOnly() ? null : '1' });
+    this.trustedOnly.update((v) => !v);
+    this.syncUrl();
   }
 
   protected onCapabilityToggle(cap: Capability): void {
@@ -666,52 +753,60 @@ export class SearchPage {
     } else {
       next.add(cap);
     }
-    this.updateQueryParams({ caps: next.size ? [...next].join(',') : null });
+    this.caps.set(next);
+    this.syncUrl();
   }
 
   /** Funnel Layer 1: Type Bucket (Category) click */
   protected onCategoryFunnelClick(category: string): void {
-    const nextCat = this.categoryFilter() === category ? null : category || null;
+    const nextCat = this.categoryFilter() === category ? '' : category;
+    this.categoryFilter.set(nextCat);
     if (!nextCat) {
-      this.updateQueryParams({ category: null, type: null, region: null });
+      this.typeFilter.set('');
+      this.regionFilter.set('');
+      this.syncUrl();
       return;
     }
     const sourcesInCat = ALL_SOURCES.filter((s) => s.category === nextCat);
     const hasType = sourcesInCat.some((s) => s.type === this.typeFilter());
     const hasRegion = sourcesInCat.some((s) => s.region === this.regionFilter());
-    this.updateQueryParams({
-      category: nextCat,
-      type: hasType ? this.typeFilter() : null,
-      region: hasRegion ? this.regionFilter() : null,
-    });
+    if (!hasType) this.typeFilter.set('');
+    if (!hasRegion) this.regionFilter.set('');
+    this.syncUrl();
   }
 
   /** Funnel Layer 2: Specific Type click */
   protected onTypeFunnelClick(type: string): void {
-    const nextType = this.typeFilter() === type ? null : type;
+    const nextType = this.typeFilter() === type ? '' : type;
+    this.typeFilter.set(nextType);
     if (nextType) {
       const found = ALL_SOURCES.find((s) => s.type === nextType);
       if (found && (!this.categoryFilter() || found.category !== this.categoryFilter())) {
-        this.updateQueryParams({ type: nextType, category: found.category });
-        return;
+        this.categoryFilter.set(found.category);
       }
     }
-    this.updateQueryParams({ type: nextType });
+    this.syncUrl();
   }
 
   /** Funnel Layer 3: Region facet click */
   protected onRegionFunnelClick(region: string): void {
-    const nextRegion = this.regionFilter() === region ? null : region;
-    this.updateQueryParams({ region: nextRegion });
+    this.regionFilter.set(this.regionFilter() === region ? '' : region);
+    this.syncUrl();
   }
 
   /** Clears all funnel levels back to all sources. */
   protected onResetFunnel(): void {
-    this.updateQueryParams({ category: null, type: null, region: null, caps: null, trusted: null });
+    this.categoryFilter.set('');
+    this.typeFilter.set('');
+    this.regionFilter.set('');
+    this.caps.set(new Set());
+    this.trustedOnly.set(false);
+    this.syncUrl();
   }
 
   protected onTypeChange(value: string | null): void {
-    this.updateQueryParams({ type: value || null });
+    this.typeFilter.set(value ?? '');
+    this.syncUrl();
   }
 
   protected onTypeChipClick(value: string): void {
@@ -723,11 +818,13 @@ export class SearchPage {
   }
 
   protected onRegionChange(value: string | null): void {
-    this.updateQueryParams({ region: value || null });
+    this.regionFilter.set(value ?? '');
+    this.syncUrl();
   }
 
   protected onCategoryChange(value: string | null): void {
-    this.updateQueryParams({ category: value || null });
+    this.categoryFilter.set(value ?? '');
+    this.syncUrl();
   }
 
   protected onCategoryChipClick(value: string): void {
@@ -735,10 +832,12 @@ export class SearchPage {
   }
 
   protected onLangChange(value: string | null): void {
-    this.updateQueryParams({ lang: value || null });
+    this.langFilter.set(value ?? '');
+    this.syncUrl();
   }
 
   protected onSortChange(mode: string): void {
-    this.updateQueryParams({ sort: mode === 'relevance' ? null : mode });
+    this.sortMode.set(parseSort(mode));
+    this.syncUrl();
   }
 }

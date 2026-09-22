@@ -1,4 +1,4 @@
-import { Directive, TemplateRef, input } from '@angular/core';
+import { Directive, TemplateRef, inject, input } from '@angular/core';
 
 /** Template context `record-grid` hands a cell template: the row twice, once
  *  as `$implicit` for `let row` shorthand and once named for clarity at the
@@ -26,6 +26,8 @@ export interface RecordGridCellContext<T> {
   selector: 'ng-template[jooRecordGridCell]',
 })
 export class RecordGridCellDirective<T = unknown> {
+  readonly templateRef = inject<TemplateRef<RecordGridCellContext<T>>>(TemplateRef);
+
   readonly field = input.required<string>({ alias: 'jooRecordGridCell' });
 
   /**
@@ -38,14 +40,13 @@ export class RecordGridCellDirective<T = unknown> {
    */
   readonly rows = input<readonly T[]>([]);
 
-  constructor(readonly templateRef: TemplateRef<RecordGridCellContext<T>>) {}
-
   /** Types `let-row` at the call site — same mechanism `NgIf`/`NgFor` use
    *  for their own `let` bindings. */
   static ngTemplateContextGuard<T>(
     _dir: RecordGridCellDirective<T>,
-    _ctx: unknown,
-  ): _ctx is RecordGridCellContext<T> {
+    ctx: unknown,
+  ): ctx is RecordGridCellContext<T> {
+    void ctx;
     return true;
   }
 }

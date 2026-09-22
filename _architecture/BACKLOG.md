@@ -32,6 +32,15 @@ Status: DECIDED
 
 Decided in decision 034: GitHub Pages via native GitHub Actions (`actions/upload-pages-artifact@v3` and `actions/deploy-pages@v4`), triggered after `verify` job succeeds on `main`. Build script `scripts/build-gh-pages.mjs` applies `--base-href /JooKoi-frontpage-to-the-open-web/`, creates `404.html` SPA fallback from `index.csr.html`, and writes `.nojekyll`.
 
+## Toolbox and Utilities section
+
+Status: OPEN
+
+A dedicated top-level section (route e.g. `/toolbox` or `/tools` in primary HUD navigation) with a specialized layout for interactive utilities and projects.
+
+- Initial showcase project: GlitchGlimmer (`https://equilerex.github.io/GlitchGlimmer-FastLed-Sound-Reactive-esp32/`).
+- Document printing / empty template renderer: renders markdown templates with JooKoi's design system styles and enables print-to-PDF with clean `@media print` rules, consistent typography ladder, and page-break support (similar to the MD archive project).
+
 ## Service worker
 
 Status: OPEN
@@ -238,7 +247,7 @@ Currently the console/header search query (q) both filters the results table AND
 
 Status: OPEN
 
-src/app/app-shell/CONTEXT.md still describes home.page.* as a Phase 3 placeholder and lists only two pages, missing search.page.*/learn.page.*/learn-topic.page.* (all built in Phase 3). src/app/shared/design-system/CONTEXT.md's data-display/ inventory omits chip/ and topic-tree/ (both built in Task 1). Flagged during Task 7's paper-trail pass but out of that task's declared working-tree scope -- needs a targeted CONTEXT.md update in each folder.
+src/app/app-shell/CONTEXT.md still describes home.page.* as a Phase 3 placeholder and lists only two pages, missing search.page._/learn.page._/learn-topic.page.* (all built in Phase 3). src/app/shared/design-system/CONTEXT.md's data-display/ inventory omits chip/ and topic-tree/ (both built in Task 1). Flagged during Task 7's paper-trail pass but out of that task's declared working-tree scope -- needs a targeted CONTEXT.md update in each folder.
 
 ## sitemap.yaml: browse/source_detail still status:mvp, contradicts D2
 

@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import {
   provideRouter,
+  RouteReuseStrategy,
   TitleStrategy,
   withInMemoryScrolling,
   withViewTransitions,
@@ -14,6 +15,7 @@ import { providePrimeNG } from 'primeng/config';
 import { PRIMEUI_LICENSE } from './primeui-license';
 import { routes } from './app.routes';
 import { PageTitleStrategy } from './app-shell/page-title.strategy';
+import { LibraryRouteReuseStrategy } from './app-shell/library/library-route-reuse-strategy';
 import { jookoiPreset } from './shared/design-system/theme/jookoi-preset';
 import { ELEVATION } from './shared/design-system/theme/elevation';
 
@@ -56,6 +58,7 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     { provide: TitleStrategy, useClass: PageTitleStrategy },
+    { provide: RouteReuseStrategy, useClass: LibraryRouteReuseStrategy },
     provideClientHydration(),
     providePrimeNG({
       // Generated before every build by scripts/primeui-license.mjs, from a

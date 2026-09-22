@@ -1,6 +1,21 @@
 <div class="hud__inner">
   <a class="hud__brand" href="/">
-    <span class="hud__mark" aria-hidden="true"></span>
+    <span class="hud__mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" focusable="false">
+        <g class="hud__mark-orbit" transform="rotate(-28 12 12)">
+          <path class="hud__mark-orbit-back" d="M1 12 A11 4 0 0 1 23 12" />
+        </g>
+        <g class="hud__mark-globe">
+          <circle cx="12" cy="12" r="7" />
+          <ellipse cx="12" cy="12" rx="3" ry="7" />
+          <path d="M5 12 H19 M6 8.5 H18 M6 15.5 H18" />
+        </g>
+        <g class="hud__mark-orbit" transform="rotate(-28 12 12)">
+          <path d="M23 12 A11 4 0 0 1 1 12" />
+          <circle class="hud__mark-node" cx="17.5" cy="15.46" r="1.4" />
+        </g>
+      </svg>
+    </span>
     <joo-logotype size="sm">Open <b>Web</b></joo-logotype>
   </a>
   @if (console()) {

@@ -41,7 +41,7 @@ import { EyebrowLabelComponent } from '../../shared/design-system/typography/eye
     ProseContentComponent,
     SpecListComponent,
   ],
-  templateUrl: './record-detail-demo.page.html'
+  templateUrl: './record-detail-demo.page.html',
 })
 export class RecordDetailDemoPage {
   protected readonly crumbs: readonly Crumb[] = [

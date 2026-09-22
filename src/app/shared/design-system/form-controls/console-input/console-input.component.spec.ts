@@ -9,7 +9,7 @@ import { ConsoleInputComponent } from './console-input.component';
   template: `
     <joo-console-input [(value)]="query" inputId="q" placeholder="Search" />
     <p>echo: {{ query() }}</p>
-  `
+  `,
 })
 class ConsoleInputHost {
   readonly query = signal('');

@@ -30,14 +30,14 @@ Option 3. The SDD ledger is scratch for one run: task number, base commit, dispa
 
 Durable content goes where the paper trail's routing already sends it.
 
-| Content | Destination |
-| --- | --- |
+| Content                              | Destination                                 |
+| ------------------------------------ | ------------------------------------------- |
 | A call that was made, with reasoning | `_architecture/plans/decisions/NNN-slug.md` |
-| Intended work, not yet scoped | `_architecture/BACKLOG.md` |
-| Work worth tracking now | `_architecture/TODO.md` |
-| Friction hit during the session | `_architecture/workflow-friction-log.md` |
-| Structure or a durable pattern | `_architecture/ARCHITECTURE.md` |
-| How to build in `src/` | `.agents/context/engineering-guidelines.md` |
+| Intended work, not yet scoped        | `_architecture/BACKLOG.md`                  |
+| Work worth tracking now              | `_architecture/TODO.md`                     |
+| Friction hit during the session      | `_architecture/workflow-friction-log.md`    |
+| Structure or a durable pattern       | `_architecture/ARCHITECTURE.md`             |
+| How to build in `src/`               | `.agents/context/engineering-guidelines.md` |
 
 ## Why not the alternatives
 

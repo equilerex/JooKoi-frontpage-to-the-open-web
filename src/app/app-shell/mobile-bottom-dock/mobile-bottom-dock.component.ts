@@ -26,7 +26,7 @@ import { NavItem } from '../../shared/design-system/navigation/indicator-nav-lis
   selector: 'joo-mobile-bottom-dock',
   imports: [HardwareKeyComponent],
   templateUrl: './mobile-bottom-dock.component.html',
-  styleUrl: './mobile-bottom-dock.component.css'
+  styleUrl: './mobile-bottom-dock.component.css',
 })
 export class MobileBottomDockComponent {
   readonly navItems = input.required<readonly NavItem[]>();

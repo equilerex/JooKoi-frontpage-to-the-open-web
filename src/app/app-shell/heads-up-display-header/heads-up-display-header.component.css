@@ -60,24 +60,53 @@
   text-decoration: none;
 }
 
+/* Wireframe globe with a tilted orbit ring and one node on it: a nod to the
+ * old browser-globe icons without copying any of them. The orbit is split
+ * into a back arc (drawn first, hidden where the filled globe covers it) and
+ * a front arc drawn over the globe, so the ring reads as passing around it. */
 .hud__mark {
+  display: grid;
+  place-items: center;
   width: 22px;
   height: 22px;
   border-radius: 5px;
-  background:
-    linear-gradient(
-      180deg,
-      transparent 0 40%,
-      var(--led-magenta) 40% 52%,
-      transparent 52% 62%,
-      var(--led-orange) 62% 72%,
-      transparent 72% 82%,
-      var(--led-amber) 82%
-    ),
-    var(--surface-inset);
+  background: var(--surface-inset);
   box-shadow:
     0 0 0 1px var(--border-chrome),
     0 0 10px var(--glow-magenta);
+}
+
+.hud__mark svg {
+  width: 22px;
+  height: 22px;
+  overflow: visible;
+  fill: none;
+  stroke-linecap: round;
+}
+
+.hud__mark-globe {
+  stroke: var(--led-cyan);
+  stroke-width: 1.1;
+  filter: drop-shadow(0 0 2px var(--glow-cyan));
+}
+
+.hud__mark-globe circle {
+  fill: var(--surface-inset);
+}
+
+.hud__mark-orbit {
+  stroke: var(--led-magenta);
+  stroke-width: 1.6;
+  filter: drop-shadow(0 0 2px var(--glow-magenta));
+}
+
+.hud__mark-orbit-back {
+  opacity: 0.45;
+}
+
+.hud__mark-node {
+  fill: var(--led-amber);
+  stroke: none;
 }
 
 .hud__search {

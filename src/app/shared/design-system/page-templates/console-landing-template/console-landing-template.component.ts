@@ -22,6 +22,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'joo-console-landing-template',
   templateUrl: './console-landing-template.component.html',
-  styleUrl: './console-landing-template.component.css'
+  styleUrl: './console-landing-template.component.css',
 })
 export class ConsoleLandingTemplateComponent {}

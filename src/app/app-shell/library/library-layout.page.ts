@@ -19,13 +19,12 @@ import {
 } from '../../shared/design-system/navigation/breadcrumb-trail/breadcrumb-trail.component';
 import { ReadoutPanelComponent } from '../../shared/design-system/surfaces/readout-panel/readout-panel.component';
 import { findLibraryDoc, findLibraryFolder } from '../../shared/library-content/library-lookup';
-import { LibraryBrowseUnderlayComponent } from './library-browse-underlay.component';
 import { LibraryLayoutStore } from './library-layout.store';
 import { buildFullLibraryTree, entryDocForFolder } from './library-tree';
 
 /**
- * Library frame: breadcrumb, file tree on the left (always), right pane is either
- * browse (folder/landing) or a layered reader over a browse underlay (ADR 031).
+ * Library frame: breadcrumb, file tree on the left (always), right pane renders
+ * the active folder or document route.
  */
 @Component({
   selector: 'joo-library-layout-page',
@@ -35,7 +34,6 @@ import { buildFullLibraryTree, entryDocForFolder } from './library-tree';
     ReadoutPanelComponent,
     TopicTreeComponent,
     ConsoleInputComponent,
-    LibraryBrowseUnderlayComponent,
   ],
   templateUrl: './library-layout.page.html',
   styleUrl: './library-layout.page.css',
@@ -66,24 +64,13 @@ export class LibraryLayoutPage {
     return typeof expand === 'string' ? expand : '';
   });
 
-  protected readonly isReading = computed(() => !!findLibraryDoc(this.libraryPath()));
-
-  /** Parent folder shown under the reader layer. */
-  protected readonly browseUnderlayPath = computed(() => {
-    const path = this.libraryPath();
-    if (!findLibraryDoc(path)) return '';
-    const parts = path.split('/').filter(Boolean);
-    parts.pop();
-    return parts.join('/');
-  });
-
   protected readonly crumbs = computed<readonly Crumb[]>(() => crumbsFor(this.libraryPath()));
 
   protected readonly treeNodes = computed(() =>
     buildFullLibraryTree(this.libraryPath(), this.expandFolder()),
   );
 
-  protected readonly selectionKeys = computed<{ [key: string]: boolean } | null>(() => {
+  protected readonly selectionKeys = computed<Record<string, boolean> | null>(() => {
     const path = this.libraryPath();
     if (!path || !findLibraryDoc(path)) return null;
     return { [path]: true };
@@ -94,7 +81,6 @@ export class LibraryLayoutPage {
   /** Restore tree scroll after navigations that rebuild the panel content. */
   private readonly restoreScroll = afterRenderEffect(() => {
     this.treeNodes();
-    this.isReading();
     const top = this.layoutStore.treeScrollTop();
     const el = this.treePanel()?.nativeElement;
     untracked(() => {

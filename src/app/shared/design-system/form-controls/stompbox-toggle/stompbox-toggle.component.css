@@ -37,11 +37,13 @@
   transition:
     border-color var(--duration-state),
     color var(--duration-state),
-    transform var(--duration-press);
+    transform var(--duration-press) var(--ease-out);
 }
 
-.toggle:hover {
-  color: var(--text-primary);
+@media (hover: hover) and (pointer: fine) {
+  .toggle:hover {
+    color: var(--text-primary);
+  }
 }
 
 .toggle:active {

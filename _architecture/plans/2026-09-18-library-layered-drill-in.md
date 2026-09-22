@@ -58,11 +58,11 @@ Detection: layout already knows `libraryPath` from URL; `findLibraryDoc(path)` â
 
 `library-layout.store.ts` provided on the library layout route:
 
-| State | Persist across doc drill-in | Source of truth |
-| --- | --- | --- |
-| Tree scrollTop | yes | store |
-| Tree filter string | yes | store (UI only; not URL in MVP) |
-| Expanded keys override (optional) | yes if we stop full rebuild wiping scroll | store + sync with `?expand=` |
+| State                             | Persist across doc drill-in               | Source of truth                 |
+| --------------------------------- | ----------------------------------------- | ------------------------------- |
+| Tree scrollTop                    | yes                                       | store                           |
+| Tree filter string                | yes                                       | store (UI only; not URL in MVP) |
+| Expanded keys override (optional) | yes if we stop full rebuild wiping scroll | store + sync with `?expand=`    |
 
 Rules (engineering-guidelines): only the layout **page** injects the store; no `effect` for syncing; methods patch state. Tree component gets scroll/filter via inputs/outputs from the layout.
 

@@ -3,10 +3,7 @@
     Sheet stays opaque white during loads (no is-pending fade — that flashed the
     dark reader panel through). Content swaps in place; do not remount on path.
   -->
-  <joo-paper-sheet
-    class="library-doc__sheet"
-    [attr.aria-busy]="html.isLoading() ? true : null"
-  >
+  <joo-paper-sheet class="library-doc__sheet" [attr.aria-busy]="html.isLoading() ? true : null">
     @if (displayedHtml(); as content) {
       <joo-prose-content
         class="library-doc__body"

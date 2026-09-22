@@ -10,6 +10,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'joo-tag-set',
   template: '<ng-content />',
-  styleUrl: './tag-set.component.css'
+  styleUrl: './tag-set.component.css',
 })
 export class TagSetComponent {}

@@ -15,10 +15,13 @@ Builder options that affect performance, what a generated app sets by default, a
 - Development configuration sets `optimization: false`, `extractLicenses: false`, `sourceMap: true`.
 - Schema defaults: `outputHashing` is `none`, `namedChunks` is `false`, `optimization` is `true`, `sourceMap` is `false`, `budgets` is `[]`. So a default production build minifies, inlines critical CSS and fonts CSS, hashes every output and ships no source maps.
 - Budgets in a fresh strict app: `initial` warns at 500kB and errors at 1MB, `anyComponentStyle` warns at 4kB and errors at 8kB. The `strict: false` variant is `initial` 2MB/5MB and `anyComponentStyle` 6kB/10kB.
-- angular.dev's build page says `anyComponentStyle` defaults are 2kb warning and 4kb error. That conflicts with the template. The project's `angular.json` decides.
+- angular.dev's build page says `anyComponentStyle` defaults are 2kb warning and 4kb error. That conflicts with the template. The project's `angular.json` decides. Recommendation: use the template's 4kB/8kB unless there is a reason. In a real run the 2kB/4kB pair warned constantly on two ordinary components (2.4 and 2.8 kB).
+- Raw versus transferred: budgets are raw bytes. In a real run 536 kB raw was 130 kB in the build table's transfer column, so a 500kB raw budget is not a 500 kB download.
+- Sizing a first budget: measured initial raw total x 1.15 for the warning, x 1.4 for the error, then ratchet down. Derivation rule, `anyScript` as the lazy-chunk cap and the "ask, then propose" step are in `chunk-size.md`, "Budgets and size". Never leave a budget set in an empty-app phase, it fails on the first real build.
 - Budgets compare raw output bytes (`outputFile.size`, the content byte length). They are not compressed sizes. The build table's "Estimated transfer size" is a brotli estimate, display only, computed when script or style minify is on. It does not feed budgets.
 - `initial` sums JS and CSS of initial chunks. `anyComponentStyle` checks each component stylesheet's raw bytes. Only browser output is budget-checked, server bundles are skipped.
-- Stats file: option `statsJson` (flag `--stats-json`) writes `browser-stats.json` (and `server-stats.json` with SSR) at the output base, `dist/<project>/`, not inside `browser/`. It is the esbuild metafile. Open it at https://esbuild.github.io/analyze/. This is from `main`. `measuring.md` refers to the file as `stats.json`, and the name in 20.x and 21.x was not checked.
+- Stats file: option `statsJson` (flag `--stats-json`) writes the esbuild metafile at the output base, `dist/<project>/`, not inside `browser/`. Observed on 22.1.6 with SSR and `outputMode: static`: a single `dist/<project>/stats.json` holding browser outputs (`.js`, `.css`) and server outputs (`.mjs`). Source on `main` suggests `browser-stats.json` and `server-stats.json`, so check which exists. Lazy chunks appear as outputs with `entryPoint`. Open it at https://esbuild.github.io/analyze/, or use `scripts/route-cost.mjs` and `scripts/chunk-packages.mjs`. The name in 20.x and 21.x was not checked.
+- **A failed build writes no stats file, and no output at all.** A build that fails on a budget or a prerender error leaves nothing to inspect. With `outputMode: static`, `--prerender=false`, `--output-mode server` and `--no-server` did not help in a real run. What worked: fix the blocking error (there, a parameterised redirect route needed a `RenderMode.Client` entry, see `ssr.md`), or build the development configuration with `--optimization --stats-json`. A budget failure alone is a fix-the-number problem, not a reason to skip measuring.
 
 ## Builder options that affect performance
 
@@ -105,10 +108,10 @@ Safe to do without asking (read-only or reversible): read configs, run a build, 
 
 ## Unverified, check before relying
 
-- Whether lazy `import()` chunks carry a metafile `entryPoint`, which decides whether `bundle` budgets can target them by name. Test with a `bundle` budget on a known lazy chunk and read the stats file.
+- Whether `bundle` and `anyScript` budgets fire on lazy chunks in v22. Lazy chunks carry `entryPoint` in the metafile (seen on 22.1.6), but no budget was tested against one. One temporary run with a low cap would answer it.
 - Whether the angular.dev budget defaults (2kb and 4kb for `anyComponentStyle`) are the builder's fallback when thresholds are omitted.
 - Whether `preloadInitial` is exposed to users.
 - HTTP/2 and HTTP/3 guidance (no verified web.dev article) and CDN specifics.
-- Whether 20.x and 21.x share these defaults and the `browser-stats.json` name.
+- Whether 20.x and 21.x share these defaults and the stats file name (`stats.json` seen on 22.1.6).
 - `web-vitals` 6.x API signatures and Core Web Vitals threshold numbers. Confirm on https://web.dev/articles/vitals and the README before quoting.
 - Whether Lighthouse PWA-related audits still exist in current Lighthouse.

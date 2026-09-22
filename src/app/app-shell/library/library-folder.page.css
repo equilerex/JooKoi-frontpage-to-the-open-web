@@ -1,13 +1,8 @@
 :host {
   display: block;
-  /* Fallback when View Transitions API is unavailable; VT owns the swap otherwise. */
-  animation: library-folder-in var(--duration-route) ease;
-}
-
-@supports (view-transition-name: none) {
-  :host {
-    animation: none;
-  }
+  /* Library-internal View Transitions are skipped in app.config.ts, so this
+   * owns the folder-pane entry in every browser. */
+  animation: library-folder-in var(--duration-route) var(--ease-out) both;
 }
 
 .stack {
@@ -18,7 +13,7 @@
 @keyframes library-folder-in {
   from {
     opacity: 0;
-    transform: translateY(0.45rem);
+    transform: translateY(0.75rem);
   }
   to {
     opacity: 1;

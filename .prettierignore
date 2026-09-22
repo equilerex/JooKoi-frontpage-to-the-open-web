@@ -1,0 +1,16 @@
+# Package manager lockfiles
+pnpm-lock.yaml
+package-lock.json
+
+# Build outputs and caches
+dist
+.angular
+.local
+graphify-out
+
+# Vendored external content
+content/library
+
+# Generated build artifacts
+src/app/shared/library-content/**/*.generated.ts
+src/app/shared/library-content/library-index.generated.ts

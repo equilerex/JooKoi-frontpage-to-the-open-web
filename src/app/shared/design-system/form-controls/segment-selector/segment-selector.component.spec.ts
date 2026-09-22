@@ -9,7 +9,7 @@ import { SegmentSelectorComponent } from './segment-selector.component';
   template: `
     <joo-segment-selector [options]="sorts" [(value)]="sort" ariaLabel="Sort order" />
     <p>sort: {{ sort() }}</p>
-  `
+  `,
 })
 class SegmentSelectorHost {
   readonly sorts = [

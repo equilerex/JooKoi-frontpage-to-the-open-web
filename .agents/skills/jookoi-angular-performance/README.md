@@ -40,6 +40,8 @@ Then update `references/version-notes.md`, this table, and `BASELINE_MAJOR`.
 |---|---|
 | `SKILL.md` | Working rules, request routing, quick audit/fix workflow, symptom table, ranked quick fixes, pitfalls |
 | `scripts/audit.mjs` | Zero-dependency static audit, read-only |
+| `scripts/route-cost.mjs` | Per-route cost of lazy chunks from `stats.json`, read-only |
+| `scripts/chunk-packages.mjs` | Per-package breakdown of a chunk or the initial set, read-only |
 | `references/chunk-size.md` | Bundle and lazy-chunk size |
 | `references/loading.md` | Lazy routes, `@defer`, CWV mapping |
 | `references/preloading.md` | Router preloading and strategies |
@@ -55,6 +57,10 @@ Then update `references/version-notes.md`, this table, and `BASELINE_MAJOR`.
 | `references/version-notes.md` | Per-major changes |
 
 Research behind the references: `_architecture/plans/angular-*-research.md` and `angular-gap-fill-*.md`. Claims are tagged verified or unverified there, and each reference ends with its unverified list.
+
+## Changelog
+
+- 2026-09-22: first real-run feedback (`_architecture/plans/angular-skill-improvement-brief.md`). `SKILL.md`: open-the-reference rule, v22 traps, package-manager check before installs, landing route and shell as a ranked fix. `chunk-size.md`: route cost, eager imports, UI-kit wrapper pattern, budget sizing (raw vs transferred, derivation rule, `anyScript`, `anyComponentStyle`). `build-and-deploy.md`: `stats.json` facts, failed builds write nothing. `loading.md` and `ssr.md`: above-the-fold check, prerendered `@defer`, redirect plus `**` failure. `measurement-automation.md`: default setup and traps. New `route-cost.mjs` and `chunk-packages.mjs`. `audit.mjs`: `track item` downgraded to info, leads for eager `component:` routes and large source files in initial entries. Not tested: `bundle` and `anyScript` budgets on lazy chunks in v22 (see the unverified lists).
 
 ## What it isn't
 

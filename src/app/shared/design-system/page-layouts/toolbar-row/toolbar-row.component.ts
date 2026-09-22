@@ -20,6 +20,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'joo-toolbar-row',
   templateUrl: './toolbar-row.component.html',
-  styleUrl: './toolbar-row.component.css'
+  styleUrl: './toolbar-row.component.css',
 })
 export class ToolbarRowComponent {}

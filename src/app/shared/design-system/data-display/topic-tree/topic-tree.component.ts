@@ -1,11 +1,4 @@
-import {
-  afterRenderEffect,
-  Component,
-  input,
-  output,
-  untracked,
-  viewChild,
-} from '@angular/core';
+import { afterRenderEffect, Component, input, output, untracked, viewChild } from '@angular/core';
 import { TreeNode } from 'primeng/api';
 import { Tree } from 'primeng/tree';
 
@@ -38,7 +31,7 @@ type TreeFilterApi = Tree & {
 export class TopicTreeComponent {
   readonly nodes = input<readonly TreeNode[]>([]);
   readonly ariaLabel = input('');
-  readonly selectionKeys = input<{ [key: string]: boolean } | null>(null);
+  readonly selectionKeys = input<Record<string, boolean> | null>(null);
   /** Applied via PrimeNG filter API; UI lives on the library layout (store). */
   readonly filterText = input('');
   readonly nodeActivate = output<TreeNode>();

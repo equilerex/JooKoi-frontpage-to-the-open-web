@@ -25,7 +25,7 @@ import { ReadoutPanelComponent } from '../../shared/design-system/surfaces/reado
     StompboxToggleComponent,
     CountChipComponent,
   ],
-  templateUrl: './directory-browse-demo.page.html'
+  templateUrl: './directory-browse-demo.page.html',
 })
 export class DirectoryBrowseDemoPage {
   protected readonly sortOptions: readonly SegmentOption[] = [

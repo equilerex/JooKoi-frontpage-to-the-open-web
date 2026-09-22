@@ -16,6 +16,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'joo-paper-sheet',
   template: '<ng-content />',
-  styleUrl: './paper-sheet.component.css'
+  styleUrl: './paper-sheet.component.css',
 })
 export class PaperSheetComponent {}

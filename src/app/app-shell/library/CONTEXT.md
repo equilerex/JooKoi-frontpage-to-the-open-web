@@ -1,4 +1,5 @@
 # CONTEXT — library
+
 updated: 2026-09-18
 
 ## What this is
@@ -7,7 +8,7 @@ updated: 2026-09-18
 
 ## Why it's built this way
 
-Tree on the layout so every library URL keeps folder navigation. Document drill-in stacks a reader layer in a CSS grid cell (ADR 031); the browse underlay is invisible sizing-only so folder intro copy does not show through. Filter text and tree scroll live in `LibraryLayoutStore`. Visible filter is `joo-console-input` on the layout. Sheet uses width 100% + min-height and stays opaque while loading (pending dims prose only) so doc↔doc does not flash the dark panel through white paper. Reader layer background is sheet-tone. Shell VT is for Home/Search/Library only; library-internal skips VT.
+Tree on the layout so every library URL keeps folder navigation. The right pane (`.library-body`) directly houses `<router-outlet />`. Document-to-document and folder-to-folder navigations are preserved in-place by `LibraryRouteReuseStrategy` (registered in `app.config.ts`), which checks `data.kind`. This allows `LibraryDocumentPage` to stay mounted and smoothly update its content via reactive signals and `linkedSignal` stale-while-revalidate without host remounts or DOM teardown. The ghost browse-underlay and CSS grid 1/1 hacks (formerly ADR 031) were dismantled. Filter text and tree scroll live in `LibraryLayoutStore`. Visible filter is `joo-console-input` on the layout. Shell VT is for Home/Search/Library only; library-internal skips VT.
 
 ## Gotchas
 

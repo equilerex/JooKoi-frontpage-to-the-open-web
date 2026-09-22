@@ -16,17 +16,17 @@ This phase therefore bundles three things that would otherwise fight each other:
 
 Each needs an ADR at implementation time, numbered from `017` (next free).
 
-| # | Decision | Reasoning |
-|---|---|---|
-| D1 | Source records are a **hand-written TS fixture**, not `sources/` YAML with a build step | The ingestion story (`source-ingest` skill, `probe-url.mjs`) now belongs to `JooKoi-developer-stack`. Committing to a YAML-plus-compiler pipeline here would design the schema before enough records exist to know its shape. A typed fixture is trivially migratable later. |
-| D2 | Page scope is **home, search, learn** | Supersedes the sitemap's MVP set. `browse` and `source_detail` are deferred: browse is query-less discovery that only pays off at a dataset size we do not have, and source detail is a whole page template for records that are currently one-liners. Learn earns its place because the content already exists and is written. |
-| D3 | AI skill marketplaces are a **category value on the ordinary source record**, not a second entity | Keeps one dataset and one rendering path. The home quick-key and the search filter both become pre-applied filters. Matches "one dataset, many views" in `product-concept.md` §35. |
-| D4 | Typing on home **swaps the highlights table to results in place** | Same component, same position, content swaps. No overlay positioning, no outside-click handling, no focus trap. |
-| D5 | Learn content is **vendored into this repo** and rendered at build time | The canonical copy stays in `JooKoi-developer-stack`. Reading it across a sibling path would hard-code `D:\repos\Serenity\...` and break CI and every other clone. Duplication is the accepted cost; D8 covers the re-sync. |
-| D6 | Markdown is rendered by **`marked` at build time, as a devDependency** | `JooKoi-md-archive` already solved this (`web/src/app/core/services/markdown.service.ts`) but does it at runtime with `marked` + `highlight.js` + `mermaid` as shipped dependencies. Our content is static and known at build time, so the same library runs in a Node script instead and emits HTML strings. Zero runtime dependencies, zero bundle cost, and it prerenders. |
-| D7 | The hero wordmark is the **sentence lockup**: eyebrow `FRONT PAGE TO THE` over logotype `OPEN WEB`, with the source count moved to the header status strip | The product is a statement about what the page is for, not a brand. A compound `OPENWEB` reads as a product name and inverts that. `JooKoi` leaves the UI entirely — it earns its keep as a memorable URL. Detail and the rejected alternatives are in "Wordmark and page identity". |
-| D8 | Vendored learn content is **re-synced by hand**, with no sync script, hash or provenance check | The set is small and changes rarely, so a mechanism now would be built before its failure mode has ever occurred — the same "three occurrences, then encode" reasoning `sitemap.yaml` already applies to the link-decay checker. Revisit when manual re-sync actually starts going stale. |
-| D9 | **No syntax highlighting.** `marked` renders fenced code to plain `<pre><code>` | Fourteen fences across twenty documents, two of them labelled. `highlight.js` is not worth a dependency, even a dev-only one, at that volume. Purely additive later if it ever is. |
+| #   | Decision                                                                                                                                                   | Reasoning                                                                                                                                                                                                                                                                                                                                                                     |
+| --- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D1  | Source records are a **hand-written TS fixture**, not `sources/` YAML with a build step                                                                    | The ingestion story (`source-ingest` skill, `probe-url.mjs`) now belongs to `JooKoi-developer-stack`. Committing to a YAML-plus-compiler pipeline here would design the schema before enough records exist to know its shape. A typed fixture is trivially migratable later.                                                                                                  |
+| D2  | Page scope is **home, search, learn**                                                                                                                      | Supersedes the sitemap's MVP set. `browse` and `source_detail` are deferred: browse is query-less discovery that only pays off at a dataset size we do not have, and source detail is a whole page template for records that are currently one-liners. Learn earns its place because the content already exists and is written.                                               |
+| D3  | AI skill marketplaces are a **category value on the ordinary source record**, not a second entity                                                          | Keeps one dataset and one rendering path. The home quick-key and the search filter both become pre-applied filters. Matches "one dataset, many views" in `product-concept.md` §35.                                                                                                                                                                                            |
+| D4  | Typing on home **swaps the highlights table to results in place**                                                                                          | Same component, same position, content swaps. No overlay positioning, no outside-click handling, no focus trap.                                                                                                                                                                                                                                                               |
+| D5  | Learn content is **vendored into this repo** and rendered at build time                                                                                    | The canonical copy stays in `JooKoi-developer-stack`. Reading it across a sibling path would hard-code `D:\repos\Serenity\...` and break CI and every other clone. Duplication is the accepted cost; D8 covers the re-sync.                                                                                                                                                   |
+| D6  | Markdown is rendered by **`marked` at build time, as a devDependency**                                                                                     | `JooKoi-md-archive` already solved this (`web/src/app/core/services/markdown.service.ts`) but does it at runtime with `marked` + `highlight.js` + `mermaid` as shipped dependencies. Our content is static and known at build time, so the same library runs in a Node script instead and emits HTML strings. Zero runtime dependencies, zero bundle cost, and it prerenders. |
+| D7  | The hero wordmark is the **sentence lockup**: eyebrow `FRONT PAGE TO THE` over logotype `OPEN WEB`, with the source count moved to the header status strip | The product is a statement about what the page is for, not a brand. A compound `OPENWEB` reads as a product name and inverts that. `JooKoi` leaves the UI entirely — it earns its keep as a memorable URL. Detail and the rejected alternatives are in "Wordmark and page identity".                                                                                          |
+| D8  | Vendored learn content is **re-synced by hand**, with no sync script, hash or provenance check                                                             | The set is small and changes rarely, so a mechanism now would be built before its failure mode has ever occurred — the same "three occurrences, then encode" reasoning `sitemap.yaml` already applies to the link-decay checker. Revisit when manual re-sync actually starts going stale.                                                                                     |
+| D9  | **No syntax highlighting.** `marked` renders fenced code to plain `<pre><code>`                                                                            | Fourteen fences across twenty documents, two of them labelled. `highlight.js` is not worth a dependency, even a dev-only one, at that volume. Purely additive later if it ever is.                                                                                                                                                                                            |
 
 ## Scope
 
@@ -34,7 +34,7 @@ Each needs an ADR at implementation time, numbered from `017` (next free).
 
 **Out:** `browse`, `source_detail`, `/explore`, and every other `parked` sitemap route; the ingestion pipeline; any server or API; authentication; persistence of user state.
 
-**Mobile is explicitly deferred.** The user's instruction this session was to focus on the desktop/web layout first. Mobile must not be left *broken*, but matching `features/design-theme/`'s mobile treatment is not a goal of this phase and its remaining gaps stay in `BACKLOG.md`.
+**Mobile is explicitly deferred.** The user's instruction this session was to focus on the desktop/web layout first. Mobile must not be left _broken_, but matching `features/design-theme/`'s mobile treatment is not a goal of this phase and its remaining gaps stay in `BACKLOG.md`.
 
 ## Data model
 
@@ -48,19 +48,19 @@ type TrustScore = number;
 type Capability = 'rss-feed' | 'site-search' | 'public-api';
 
 interface Source {
-  readonly id: string;                 // slug, stable, used in URLs later
-  readonly name: string;               // "MDN Web Docs"
-  readonly url: string;                // full URL; the displayed domain derives from this
-  readonly desc: string;               // no length rule
-  readonly type: string;               // specific, not a generic bucket — see below
-  readonly category: string;           // controlled vocabulary, incl. 'ai-marketplace'
+  readonly id: string; // slug, stable, used in URLs later
+  readonly name: string; // "MDN Web Docs"
+  readonly url: string; // full URL; the displayed domain derives from this
+  readonly desc: string; // no length rule
+  readonly type: string; // specific, not a generic bucket — see below
+  readonly category: string; // controlled vocabulary, incl. 'ai-marketplace'
   readonly tags: readonly string[];
   readonly trustScore: TrustScore;
   readonly capabilities: readonly Capability[];
-  readonly verified: string;           // ISO date
-  readonly searchUrl?: string;         // {q} template; absent = open the landing page
-  readonly lang?: string;              // nice-to-have, not vital
-  readonly region?: string;            // nice-to-have, not vital
+  readonly verified: string; // ISO date
+  readonly searchUrl?: string; // {q} template; absent = open the landing page
+  readonly lang?: string; // nice-to-have, not vital
+  readonly region?: string; // nice-to-have, not vital
 }
 ```
 
@@ -68,11 +68,11 @@ interface Source {
 
 **Trust is a score, not a tier.** A two-value tier cannot support the `Trust` sort the search page offers — every trusted source would tie. The score is AI-assigned at authoring time so it never becomes hand-filled busywork. Sorting uses the raw number; display bands it into the three border treatments `classification-badge` already has, which keeps `features/design-theme/CONTEXT.md`'s "don't signal trust tier by colour alone" rule intact:
 
-| Score | Label | Treatment |
-|---|---|---|
-| 80–100 | Trusted | solid |
-| 50–79 | Known | dashed |
-| below 50 | Discovered | double |
+| Score    | Label      | Treatment |
+| -------- | ---------- | --------- |
+| 80–100   | Trusted    | solid     |
+| 50–79    | Known      | dashed    |
+| below 50 | Discovered | double    |
 
 Worth naming the tension: `product-concept.md` §32 says trusted status stays curator-controlled. Delegating scoring to a model is the curator's own call to make, but the scores are editorial heuristics, not measurements, and the plan should not pretend otherwise.
 
@@ -147,7 +147,7 @@ This mirrors the existing secrets-materialisation pattern in this repo — a git
 
 ## Wordmark and page identity
 
-The product is *Front page to the open web*. Rendering that as the single compound `OPENWEB` reads as a product name, which inverts the intent — the phrase is a statement about what the page is for, not a brand to be recognised. But "open web" does need to be present and prominent, and `JooKoi` does not belong in the design at all; it earns its keep as a memorable URL, not as an on-screen mark.
+The product is _Front page to the open web_. Rendering that as the single compound `OPENWEB` reads as a product name, which inverts the intent — the phrase is a statement about what the page is for, not a brand to be recognised. But "open web" does need to be present and prominent, and `JooKoi` does not belong in the design at all; it earns its keep as a memorable URL, not as an on-screen mark.
 
 One observation that carries most of the fix on its own: the current template is `Open<b>Web</b>`. Inserting a single space — `Open <b>Web</b>` — turns a compound brand into two ordinary words while keeping the existing italic accent on the second. No component change, no CSS change.
 
@@ -190,29 +190,29 @@ Catalogued by screenshot comparison against `features/design-theme/index.html`. 
 
 **Wrong component chosen — the real work**
 
-| # | Gap |
-|---|---|
-| 11 | Source cell should be bold name over dim mono domain on two lines; currently one flat line joined by an em-dash. This also distorts every column width. |
-| 12 | Trust cell should be a cyan-bordered `◆ TRUSTED` chip (`.trust--trusted`); currently plain text. `classification-badge` exists and is unused. |
-| 13 | Signals should be separate bordered mono pills (`.sig`); currently a comma-joined string. `capability-tag` exists and is unused. |
-| 14 | Row action should be a bordered `OPEN` key (`.key--xs`); currently plain text. |
-| 18 | Tag chips are the wrong object entirely. Mock `.chip` is a flat lowercase pill with an inline dim count, all eight on one row. We render raised uppercase `hardware-key` + boxed `count-chip`, wrapping to two rows. Needs a real `chip` component. |
+| #   | Gap                                                                                                                                                                                                                                                 |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 11  | Source cell should be bold name over dim mono domain on two lines; currently one flat line joined by an em-dash. This also distorts every column width.                                                                                             |
+| 12  | Trust cell should be a cyan-bordered `◆ TRUSTED` chip (`.trust--trusted`); currently plain text. `classification-badge` exists and is unused.                                                                                                       |
+| 13  | Signals should be separate bordered mono pills (`.sig`); currently a comma-joined string. `capability-tag` exists and is unused.                                                                                                                    |
+| 14  | Row action should be a bordered `OPEN` key (`.key--xs`); currently plain text.                                                                                                                                                                      |
+| 18  | Tag chips are the wrong object entirely. Mock `.chip` is a flat lowercase pill with an inline dim count, all eight on one row. We render raised uppercase `hardware-key` + boxed `count-chip`, wrapping to two rows. Needs a real `chip` component. |
 
 Items 11–14 all stem from one limitation: `record-grid` renders `{{ row[col.field] }}` and nothing else. Either give it a cell-template API, or drop it here for a hand-written `.data-table` whose CSS is already ported in `src/styles.css:242-360`. **Resolve this first** — it decides four of the five items above and affects the search page too.
 
 **Cheap — porting numbers from the mock**
 
-| # | Gap |
-|---|---|
-| 5 | Logotype→lede gap is roughly double the mock's. |
-| 6 | Console box ~12px short; Launch key undersized. |
-| 7 | Keycaps ~11px short each (mock `.keycap` is `min-height: 4.5rem`). |
-| 8 | `F6` needs the `key--hot` accent and a real count. `keycap` currently has no `accent` passthrough to `hardware-key`. |
-| 9 | Stripe rule should be 10px of 2px lines sitting flush under the launcher inside the bracket frame; currently thicker, brighter and detached. |
-| 10/17 | Panel LEDs are inverted. Mock puts a cyan LED beside the *title* and leaves `recently verified` as plain text; we omit the title LED and wrongly put one before the meta. Tag panel is missing its magenta LED. `readout-panel` needs an LED input. |
-| 15 | Table rows ~45px against the mock's ~60px. |
-| 16 | `About` and `Verified` text is blue-tinted; mock uses neutral `--text-muted`. |
-| 22 | Panels look flat — mock `.panel` carries `box-shadow: 0 12px 32px var(--shadow-deep)`. |
+| #     | Gap                                                                                                                                                                                                                                                 |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 5     | Logotype→lede gap is roughly double the mock's.                                                                                                                                                                                                     |
+| 6     | Console box ~12px short; Launch key undersized.                                                                                                                                                                                                     |
+| 7     | Keycaps ~11px short each (mock `.keycap` is `min-height: 4.5rem`).                                                                                                                                                                                  |
+| 8     | `F6` needs the `key--hot` accent and a real count. `keycap` currently has no `accent` passthrough to `hardware-key`.                                                                                                                                |
+| 9     | Stripe rule should be 10px of 2px lines sitting flush under the launcher inside the bracket frame; currently thicker, brighter and detached.                                                                                                        |
+| 10/17 | Panel LEDs are inverted. Mock puts a cyan LED beside the _title_ and leaves `recently verified` as plain text; we omit the title LED and wrongly put one before the meta. Tag panel is missing its magenta LED. `readout-panel` needs an LED input. |
+| 15    | Table rows ~45px against the mock's ~60px.                                                                                                                                                                                                          |
+| 16    | `About` and `Verified` text is blue-tinted; mock uses neutral `--text-muted`.                                                                                                                                                                       |
+| 22    | Panels look flat — mock `.panel` carries `box-shadow: 0 12px 32px var(--shadow-deep)`.                                                                                                                                                              |
 
 **Retracted after checking at full resolution:** logotype size and corner brackets are fine, and the grid-height difference was a viewport artefact of the two screenshots, not a defect.
 

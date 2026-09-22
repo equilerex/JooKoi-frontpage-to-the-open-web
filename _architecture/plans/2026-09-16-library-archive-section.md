@@ -83,13 +83,13 @@ Sanitizer: the article renders through `[innerHTML]`, and Angular's sanitizer li
 
 The fields are defined now, because the user will write them by hand from the first new document. The generator validates them and fails the build on a wrong type:
 
-| Field | Type | Used by |
-|---|---|---|
-| `title` | string | tree, reader, `<title>`. Falls back to the H1, then the filename |
-| `order` | number | sort within a folder. Falls back to the filename |
-| `summary` | string | tiles, folder listing, future search results |
-| `tags` | string[] | future filters (R6) |
-| `slug` | string | overrides the filename for the URL. Already supported today |
+| Field     | Type     | Used by                                                          |
+| --------- | -------- | ---------------------------------------------------------------- |
+| `title`   | string   | tree, reader, `<title>`. Falls back to the H1, then the filename |
+| `order`   | number   | sort within a folder. Falls back to the filename                 |
+| `summary` | string   | tiles, folder listing, future search results                     |
+| `tags`    | string[] | future filters (R6)                                              |
+| `slug`    | string   | overrides the filename for the URL. Already supported today      |
 
 The current parser only reads `key: value` lines. `tags` needs list values, so the parser either handles inline `[a, b]` arrays or moves to a YAML parser. Prefer the inline-array rule, per the minimal-dependency default.
 

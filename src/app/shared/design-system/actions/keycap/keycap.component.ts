@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { HardwareKeyAccent, HardwareKeyComponent } from '../hardware-key/hardware-key.component';
 
 /**
@@ -16,7 +16,7 @@ import { HardwareKeyAccent, HardwareKeyComponent } from '../hardware-key/hardwar
   selector: 'joo-keycap',
   imports: [HardwareKeyComponent],
   templateUrl: './keycap.component.html',
-  styleUrl: './keycap.component.css'
+  styleUrl: './keycap.component.css',
 })
 export class KeycapComponent {
   readonly fn = input('');
@@ -24,4 +24,11 @@ export class KeycapComponent {
   readonly count = input<number | null>(null);
   readonly href = input('');
   readonly accent = input<HardwareKeyAccent>('neutral');
+  readonly target = input<string | null>(null);
+
+  protected readonly resolvedTarget = computed(() => {
+    const explicit = this.target();
+    if (explicit) return explicit;
+    return this.href().startsWith('http') ? '_blank' : null;
+  });
 }

@@ -24,7 +24,7 @@
         <joo-keycap
           [fn]="key.fn"
           [label]="key.label"
-          [count]="key.count"
+          [count]="key.count || null"
           [accent]="key.accent ?? 'neutral'"
           [href]="key.href"
         />

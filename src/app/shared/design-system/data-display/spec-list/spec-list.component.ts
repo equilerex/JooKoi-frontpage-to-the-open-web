@@ -14,7 +14,7 @@ export interface SpecEntry {
 @Component({
   selector: 'joo-spec-list',
   templateUrl: './spec-list.component.html',
-  styleUrl: './spec-list.component.css'
+  styleUrl: './spec-list.component.css',
 })
 export class SpecListComponent {
   readonly entries = input.required<readonly SpecEntry[]>();

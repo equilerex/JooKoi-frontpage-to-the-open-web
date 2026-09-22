@@ -1,11 +1,11 @@
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 
-type LibraryLayoutState = {
+interface LibraryLayoutState {
   /** Scroll offset of the left file-tree panel. */
   treeScrollTop: number;
   /** PrimeNG tree filter box text (ephemeral; not URL). */
   treeFilter: string;
-};
+}
 
 const initialState: LibraryLayoutState = {
   treeScrollTop: 0,

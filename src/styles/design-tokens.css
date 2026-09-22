@@ -183,8 +183,13 @@
     --key-travel: 3px;
     --duration-press: 70ms;
     --duration-state: 160ms;
-    --duration-route: 240ms;
+    --duration-route: 220ms;
     --duration-shell: 240ms;
+
+    /* Motion — custom curves keep entry feedback immediate without making
+     * state changes feel abrupt. Use transform and opacity for moving UI. */
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
     /* Elevation. One scale for the whole app; PrimeNG's zIndex tiers are
      * configured from the matching numbers in

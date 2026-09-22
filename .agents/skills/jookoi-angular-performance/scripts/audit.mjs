@@ -13,6 +13,7 @@ import { execSync } from 'node:child_process';
 const BASELINE_MAJOR = 22;
 const SKIP_DIRS = new Set(['node_modules', 'dist', '.angular', '.git', 'coverage', '.nx', 'out-tsc']);
 const MAX_HITS = 8;
+const BIG_SRC_BYTES = 30_000;
 
 const args = process.argv.slice(2);
 const root = args.find((a) => !a.startsWith('--')) ?? process.cwd();
@@ -171,11 +172,13 @@ const tpl = ['.html', '.ts'];
 const legacyCf = scan(/\*ng(If|For|Switch)\b/, { only: tpl });
 if (legacyCf.length) add('medium', `${legacyCf.length} structural directive(s) \`*ngIf/*ngFor/*ngSwitch\``, 'Migrate with `ng generate @angular/core:control-flow`. `@for` enforces `track` and runs faster than `*ngFor`.', legacyCf);
 
+// Regexes cannot see types. `track item` is correct for primitives (strings, numbers), which is common
+// (chips, colors, ids). Only object items that get re-fetched rebuild every row, so this stays info.
 const identityTrack = scan(/@for\s*\(\s*(\w+)\s+of\s+[^;]+;\s*track\s+(\w+)\s*[;)]/, {
   only: tpl,
   matchFilter: (m) => m[1] === m[2],
 });
-if (identityTrack.length) add('high', '`@for` tracks the whole item object', 'If the list is re-fetched, every object is new and Angular rebuilds every row. Use `track item.id`.', identityTrack);
+if (identityTrack.length) add('info', `${identityTrack.length} \`@for\` tracking the item itself (\`track item\`)`, 'Correct when items are primitives (strings, numbers). Only object items that are re-created on each fetch rebuild every row, and only then use `track item.id`. Check the collection type before changing anything.', identityTrack);
 
 const indexTrack = scan(/track\s+\$index\b/, { only: tpl });
 if (indexTrack.length) add('info', `${indexTrack.length} \`track $index\``, 'Fine for static lists. For lists that insert, remove or reorder, track a stable id.', indexTrack);
@@ -203,6 +206,36 @@ const lazyRoutes = scan(/\bload(Children|Component)\s*:/, { only: ['.ts'] });
 const hasRoutes = anyFile(/\bprovideRouter\s*\(|RouterModule\.for(Root|Child)\(/);
 if (hasRoutes && !lazyRoutes.length) add('high', 'no lazy routes', 'Every route is in the initial bundle. Use `loadComponent` / `loadChildren` for everything except the landing route.');
 else if (lazyRoutes.length) add('info', `${lazyRoutes.length} lazy route(s)`, 'Check that eager code does not import from lazy features (directly or via a barrel), which pulls them back into main.');
+
+// Eager route components: the landing route and the shell are eager by definition, so check what they import.
+const eagerRoutes = scan(/component\s*:\s*[A-Z]\w*/, { only: ['.ts'], fileFilter: (f) => /path\s*:/.test(f.text) });
+if (eagerRoutes.length) add('info', `${eagerRoutes.length} eager \`component:\` route(s)`, 'An eager route puts its whole static import closure into the initial bundle. Confirm each one needs to be eager, and check what it imports (a table or chart stack, a data module). `scripts/route-cost.mjs` prices lazy routes when a stats file exists.', eagerRoutes);
+
+// Stats file leads (only when a build with statsJson exists). Failed builds write none.
+const statsFile = (() => {
+  const dist = join(root, 'dist');
+  if (!existsSync(dist)) return null;
+  for (const d of readdirSync(dist)) {
+    const p = join(dist, d, 'stats.json');
+    if (existsSync(p)) return p;
+  }
+  return null;
+})();
+if (statsFile) {
+  const stats = readJson(statsFile);
+  const outs = Object.entries(stats?.outputs ?? {}).filter(([n]) => n.endsWith('.js') || n.endsWith('.css'));
+  const dyn = new Set(outs.flatMap(([, o]) => (o.imports ?? []).filter((i) => i.kind === 'dynamic-import').map((i) => i.path)));
+  const initialEntries = outs.filter(([n, o]) => o.entryPoint && !dyn.has(n));
+  const bigSrc = [];
+  for (const [n, o] of initialEntries) {
+    for (const [input, v] of Object.entries(o.inputs ?? {})) {
+      if (!input.includes('node_modules') && v.bytesInOutput > BIG_SRC_BYTES) bigSrc.push(`${input} (${(v.bytesInOutput / 1000).toFixed(0)} kB in ${n})`);
+    }
+  }
+  if (bigSrc.length) add('medium', `${bigSrc.length} application source file(s) over ${BIG_SRC_BYTES / 1000} kB inside an initial entry`,
+    'Data modules, fixtures or generated content imported by the shell or landing route. Often imported for one small use (a `.length`, a lookup). Lazy-load it or precompute the value.', bigSrc);
+  add('info', `stats file found: ${relative(root, statsFile)}`, 'Run `node scripts/route-cost.mjs <stats file>` for per-route cost and `node scripts/chunk-packages.mjs <stats file> initial` for a per-package breakdown.');
+}
 
 const deferCount = scan(/@defer\b/, { only: tpl }).length;
 add('info', `${deferCount} \`@defer\` block(s)`, deferCount ? 'Check none wrap above-the-fold content without SSR + `hydrate` triggers (CLS).' : 'Candidates: charts, maps, editors, comments, anything below the fold.');

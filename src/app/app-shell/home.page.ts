@@ -41,7 +41,7 @@ import {
 interface QuickKey {
   readonly fn: string;
   readonly label: string;
-  readonly count: number;
+  readonly count?: number | null;
   /** Real navigation target (Task 4) — a `/search?…` URL carrying either a
    *  `category` or a `tag` pre-filter. Plain `href`, not `Router.navigate`:
    *  `joo-keycap` renders a real anchor whenever `href` is non-empty, and the
@@ -200,7 +200,7 @@ const HIGHLIGHT_COUNT = 8;
     TagSetComponent,
   ],
   styleUrl: './home.page.css',
-  templateUrl: './home.page.html'
+  templateUrl: './home.page.html',
 })
 export class HomePage {
   private readonly router = inject(Router);
@@ -250,6 +250,13 @@ export class HomePage {
       count: countByCategory('ai-marketplace'),
       href: searchHref({ category: 'ai-marketplace' }),
       accent: 'hot',
+    },
+    {
+      fn: 'DEV',
+      label: 'Developer stack ↗',
+      count: null,
+      href: 'https://github.com/equilerex/JooKoi-developer-stack',
+      accent: 'cyan',
     },
   ];
 

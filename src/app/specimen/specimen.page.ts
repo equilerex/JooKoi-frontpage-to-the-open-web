@@ -105,7 +105,7 @@ interface DemoRecord {
     ToolbarRowComponent,
   ],
   templateUrl: './specimen.page.html',
-  styleUrl: './specimen.page.css'
+  styleUrl: './specimen.page.css',
 })
 export class SpecimenPage {
   /** Two-way bound to the drawer's own `open` model, so the trigger key and

@@ -5,7 +5,7 @@ Thresholds are "good" at the 75th percentile of real page views: **LCP ≤ 2.5s,
 ## Initial bundle
 
 - **Lazy routes**: `loadComponent: () => import('./x/x').then(m => m.X)` or `loadChildren` for route groups. Only the landing route stays eager.
-- **Eager code importing lazy code** is the usual reason lazy routes don't shrink main. A shared service or a barrel (`features/admin/index.ts`) imported from `app.config.ts` pulls the whole feature in. Find it in the stats metafile (`browser-stats.json`): the module shows up under the initial chunk.
+- **Eager code importing lazy code** is the usual reason lazy routes don't shrink main. A shared service or a barrel (`features/admin/index.ts`) imported from `app.config.ts` pulls the whole feature in. Find it in the stats metafile (`stats.json`, see `build-and-deploy.md`): the module shows up under the initial chunk. The landing route and the shell are eager by definition, so check what they import first (`chunk-size.md`, "Eager routes and shell imports").
 - **Non-tree-shakable deps**: `lodash` (use `lodash-es` per-function or native), `moment` (use `Intl`, `date-fns`), full icon sets, CommonJS packages. The CLI warns about CommonJS deps, don't silence the warning with `allowedCommonJsDependencies` without checking the size.
 - **`@angular/animations`** is legacy since v20.2 (native `animate.enter` / `animate.leave`). If still used, `provideAnimationsAsync()` at least loads it lazily.
 - **Budgets**: see `measuring.md`.
@@ -27,6 +27,10 @@ Thresholds are "good" at the 75th percentile of real page views: **LCP ≤ 2.5s,
 - Size the placeholder like the final content, or it shifts layout.
 - Don't defer what's in the initial viewport on a client-rendered app. On SSR, use hydrate triggers instead (below).
 - Nested blocks with the same trigger load simultaneously, which defeats the point.
+- **Above or below the fold is a fact to check, not guess.** Load the running page at 390 px and 1440 px wide and look. A table that sat below a full-viewport hero at 1440 px may be in the first screen on a phone. Below the fold at every width: a plain `@defer (on viewport)` is fine. Above the fold at any width: use the hydrate form below or do not defer.
+- **On a prerendered static site the server HTML is always present**, so `@defer (hydrate on viewport)` with a `@placeholder` costs no layout shift: the real content is already in the HTML and only its JS is late. A client-only `@defer` on the same page swaps a placeholder for content and does shift layout. This does not apply to `RenderMode.Client` routes, which have no server HTML.
+- **Before hydration, a deferred read-only table is inert.** Sorting, filtering, paging and buttons do nothing until its block hydrates (`hydrate on viewport` hydrates as it scrolls in, `hydrate on interaction` on the first click, which event replay then replays). Fine for a static table, wrong for one users act on immediately. Say so when proposing it.
+- `@defer` keeps the dependency and its JS cost and moves it later. Removing the dependency (plain markup) removes the cost. See `chunk-size.md`, "Wrapper around a heavy UI-kit component", and ask which the user wants.
 
 ## Preloading
 

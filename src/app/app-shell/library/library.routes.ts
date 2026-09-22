@@ -33,19 +33,19 @@ export const libraryRoutes: Routes = [
       {
         path: '',
         loadComponent: () => import('./library-folder.page').then((m) => m.LibraryFolderPage),
-        data: { libraryPath: '' },
+        data: { libraryPath: '', kind: 'folder' },
         title: 'Library',
       },
       ...LIBRARY_FOLDER_PATHS.map((path) => ({
         path,
         loadComponent: () => import('./library-folder.page').then((m) => m.LibraryFolderPage),
-        data: { libraryPath: path },
+        data: { libraryPath: path, kind: 'folder' },
         title: 'Library',
       })),
       ...LIBRARY_DOC_PATHS.map((path) => ({
         path,
         loadComponent: () => import('./library-document.page').then((m) => m.LibraryDocumentPage),
-        data: { libraryPath: path },
+        data: { libraryPath: path, kind: 'doc' },
         title: 'Library',
       })),
       ...LIBRARY_DOC_REDIRECTS.map(({ from, to }) => ({

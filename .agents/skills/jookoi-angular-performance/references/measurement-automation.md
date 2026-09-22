@@ -15,6 +15,27 @@ Core rule: an agent-run single audit is diagnostic. A regression verdict needs r
 7. Which 3 to 10 routes matter, and which device and network target?
 8. May a baseline and results log be committed to the repo? Who reads results (developers, PMs, a channel)?
 
+## Default proposal
+
+When the user has no preference, propose this and change only what their answers differ on. It was built and worked in a real run (Angular 22.1.6, prerendered static site, 2026-09-21), locally rather than in CI:
+
+- `lighthouse` as a pinned repo-local devDependency, run through the project's package manager, not `npx --yes` (that fetches a different version on each machine). Installing it needs the user's approval and the package-manager check in `SKILL.md`: `node_modules/.package-lock.json` means npm, `node_modules/.pnpm` means pnpm. Stop dev servers, install once, save the full output to a file, do not retry with another manager.
+- Mobile emulation, median of 3 runs per URL locally (5 in CI, per the noise rules below). Report median and spread.
+- One committed JSON per commit, for example `_architecture/perf-baselines/<short-sha>[-dirty].json`: commit, tool versions, per-page score, LCP, FCP, TBT, CLS, transfer bytes, plus bundle sizes read from `stats.json` (`scripts/route-cost.mjs --json` gives initial and per-route bytes).
+- A `--compare <a> <b>` command that prints per-metric deltas.
+- Targets versus regressions: absolute limits (for example LCP 2.5 s) print as targets and never fail. Only a regression against the committed baseline fails.
+- Keep any CI Lighthouse step non-blocking until a baseline recorded on the CI runner is committed.
+
+Ask about the choices that differ: where results are stored, whether CI runs it, which routes, whether the repo may hold baseline files.
+
+## Traps (check before recording a baseline)
+
+- **Check the preview server first.** A static server without compression, or one that serves the client-rendered fallback for `/route/` instead of `route/index.html`, made every metric about 2x worse in the run and hides real regressions. Verify with `curl -s -H "Accept-Encoding: br" -D - -o /dev/null <url>` for a `content-encoding` header, and compare the response byte count of a deep route against its prerendered file. Fix the server, then record.
+- **Lighthouse on Windows** can exit non-zero with `EPERM` while deleting its temporary Chrome profile, after the report is written. If the report file exists and parses, treat it as success.
+- **Runner mismatch.** A baseline recorded on a developer machine is not comparable with a CI runner. Record a baseline on the runner before making CI blocking.
+- **Dirty baselines.** Record the commit hash and a `-dirty` marker when the tree has uncommitted changes, and tell the user to re-record after committing.
+- **One run is noise.** In the run a single-run compare flagged a TBT regression (192 to 406 ms) that a 3-run median did not. Never draw a verdict from one run.
+
 ## Options and maintenance status
 
 | Option | Measures | Status (npm and GitHub, 2026-09-21) | Notes |
@@ -113,7 +134,7 @@ Other places to store results: LHCI server (history UI, needs hosting), `tempora
 
 Chrome DevTools MCP one-off audit: `navigate`, `emulate` (CPU throttling 4x, Slow 4G), `performance_start_trace` with `reload`, `performance_analyze_insight` (for example `LCPBreakdown`), then `list_network_requests` for large or uncached assets. A trace is one sample, repeat and take the median yourself.
 
-Bundle diff over the stats file (option `statsJson`, file `browser-stats.json` on `main`, see `build-and-deploy.md`): build base and head, then compare `outputs[*].bytes` per chunk. Map chunks by entry or name because hashed filenames change. The metafile shape (`inputs`, `outputs` with byte sizes) is esbuild's.
+Bundle diff over the stats file (option `statsJson`, file `stats.json` on 22.1.6, see `build-and-deploy.md`): build base and head, then compare `outputs[*].bytes` per chunk. Map chunks by entry or name because hashed filenames change. The metafile shape (`inputs`, `outputs` with byte sizes) is esbuild's.
 
 Lighthouse median in CI: `npm ci`, `ng build`, serve `dist/<project>/browser`, run `npx lighthouse <url> --output=json --output-path=run-N.json` five times, take medians with a small script, write the summary to `perf/`.
 

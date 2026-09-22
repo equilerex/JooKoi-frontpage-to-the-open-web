@@ -20,7 +20,10 @@
 }
 
 .library-doc__slot {
-  min-height: 12rem;
+  /* Match the paper's baseline so a remounted document never collapses to a
+   * short empty slot before its HTML arrives. Longer documents grow naturally
+   * from this fixed landing floor. */
+  min-height: min(60vh, 36rem);
 }
 
 /* ~80% of the default prose base (1rem). Headings/pre use em against this. */

@@ -29,12 +29,43 @@ Needs the user: swapping a library (API and behavior differences), budget thresh
 
 ## Measure
 
-1. `ng build` with the `statsJson` option (schema default `false`). On `main` the file is `browser-stats.json` (plus `server-stats.json` with SSR) at the output base `dist/<project>/`, not in `browser/`. It is the esbuild metafile itself. Older versions may use another name.
+1. `ng build` with the `statsJson` option (schema default `false`). Observed on 22.1.6 (real run, 2026-09-21): one `dist/<project>/stats.json`, not in `browser/`, holding browser outputs (`.js`, `.css`) and server outputs (`.mjs`) together. It is the esbuild metafile itself. Source on `main` suggests `browser-stats.json` and `server-stats.json`, so check which exists. Lazy chunks carry `entryPoint` (187 of 360 outputs in that run), which is how scripts map a chunk to its source file. **A failing build writes no stats file**, see `build-and-deploy.md`.
 2. Open it in https://esbuild.github.io/analyze/ (Treemap, Sunburst, Flame).
-3. Sort outputs by size. For the target chunk, sort its inputs and group by `node_modules/<pkg>`. See which package dominates.
+3. Sort outputs by size. For the target chunk, group its inputs by `node_modules/<pkg>`: `node scripts/chunk-packages.mjs <dist/project> <chunk|entry|initial>` does this, including the static-import closure.
 4. Check which chunks import the package. If it appears in the initial chunk when a lazy chunk should own it, something eager imports it (a barrel or a root service with a heavy import).
 5. Turn on `namedChunks` in a diagnostic build only. It makes the file and Network tab legible. It changes file names and can break post-build scripts.
 6. Compare raw bytes before and after each change. Use the same production configuration, so tree-shaking matches.
+
+## Route cost: judge lazy chunks per route
+
+The initial bundle is only half of what a user pays. Opening a lazy route downloads its entry chunk plus every shared chunk it imports statically that is not already in the initial set. That sum is the number to bring to a budget discussion.
+
+`node scripts/route-cost.mjs <dist/project>` reads `stats.json` and prints, per top-level lazy chunk: own size, extra shared size, total, and the source file. `--all` adds nested lazy chunks, `--min-kb=N` cuts noise. It is read-only.
+
+Real run (Angular 22.1.6): initial 536 kB raw, home route 25 kB, search 255 kB, library 212 kB on top of that. Static analysis cannot see when an `import()` runs. If the shell calls `import()` on boot for a data module, that module is effectively initial: pass `--preloaded=<entryPoint substring>` so its closure is not charged to every route. Without the flag, the same build shows home at 127 kB and search at 357 kB because of one shared 101 kB data chunk. Say which assumption you used when you quote a route cost.
+
+Units: the build table prints kB as 1000 bytes. The script prints both kB and KiB.
+
+## Eager routes and shell imports: check first
+
+The landing route and the app shell are eager by definition. Anything they import lands in the initial bundle, so a lazy-route audit that skips them misses the biggest wins. In the reference run both major wins were an eager import chain, not a library swap:
+
+- A landing route (`component:` instead of `loadComponent`) carried a whole table stack (649 kB to 25 kB once lazy).
+- A shell component imported a 119 kB data module for one `.length`.
+
+Checks: list `component:` routes (`audit.mjs` does), sort `main`'s inputs by source file size (`audit.mjs` flags application source files over 30 kB inside an initial entry when a stats file exists), and run `chunk-packages.mjs ... initial` to see which packages dominate. Fixes at three sizes: lazy-load the route or module (quick), replace the imported value with a precomputed constant or a small service (moderate), re-cut the data module so the shell imports an index instead of the payload (project).
+
+## Wrapper around a heavy UI-kit component
+
+Pattern: a design-system wrapper that uses one or two features of a large UI-kit component. In the reference run a PrimeNG `p-table` wrapper rendering a read-only table (no sorting, no paging) pulled datepicker, inputnumber, paginator, scroller and select into every chunk that used it, about 400 kB raw. Confirm with `chunk-packages.mjs` on the route chunk: a UI-kit package that dominates a page that visibly uses little of it is the signal.
+
+| Size | Option | Tradeoff |
+|---|---|---|
+| Quick | Verify with the per-package breakdown, list which features the wrapper really uses | Read-only |
+| Moderate | Plain markup or a lighter primitive behind the same wrapper API and CSS classes | Removes the dependency and its JS. Loses features the kit gave for free (keyboard handling, sorting), so check none are used |
+| Project | `@defer` the wrapper, with `hydrate on viewport` on prerendered pages | Keeps the dependency and its JS cost and moves it later. It is a loading strategy, not a removal. Placeholder and pre-hydration behavior matter, see `loading.md` |
+
+Ask which fits the feature. A stated preference for keeping the main layout light and deferring heavy parts points at `@defer`. A read-only table with no interactivity points at removal.
 
 ## What the user waits for on click
 
@@ -77,11 +108,31 @@ Measure with DevTools Network throttled to Fast 4G or Slow 4G and time from clic
 
 ## Budgets and size
 
-- Budgets compare raw output bytes. The build table's estimated transfer size uses Brotli and is display-only, never used for budgets.
-- `initial` sums JS and CSS of initial chunks. A `bundle` budget matches by chunk `name`, and names under esbuild come from the metafile `entryPoint`. Do not rely on a `bundle` budget for a lazy chunk before testing it.
-- `anyScript` ("any script, individually") is a budget type that needs no chunk name. It is the suggested cap for "no lazy chunk above N kb". Test that it fires on your build.
-- Read thresholds from the project's `angular.json`. angular.dev and the generated template disagree on `anyComponentStyle` defaults. Defaults and compression are in `build-and-deploy.md`.
-- Wire size and parse cost differ. Compression cuts transfer, and parse cost follows raw size (see the unverified list).
+### What a budget compares
+
+- Budgets compare raw output bytes. The build table's estimated transfer size uses Brotli and is display-only, never used for budgets. In the reference run 536 kB raw was 130 kB transferred, so a 500 kB raw budget is not a "500 kB download".
+- `initial` sums JS and CSS of initial chunks. A `bundle` budget matches by chunk `name`, and names under esbuild come from the metafile `entryPoint`. Lazy chunks do appear in `stats.json` with `entryPoint`, so a `bundle` budget could match them, but this was not tested.
+- `anyScript` ("any script, individually") needs no chunk name and is the suggested cap for "no lazy chunk above N kB". Whether it fires on lazy chunks in v22 was not exercised (the largest lazy chunk was under the cap). Test with one temporary run at a lower cap.
+- `anyComponentStyle` conflict: angular.dev says 2 kB warning and 4 kB error, the generated template says 4 kB and 8 kB. A project on the 2/4 kB numbers had two real components at 2.4 and 2.8 kB warn on every build. Recommend 4/8 kB unless there is a reason, and read the project's `angular.json` first.
+- Read thresholds from the project's `angular.json`. Defaults and compression are in `build-and-deploy.md`.
+
+### Sizing a first budget
+
+Reference points, each unverified until checked (move a number out of the unverified list only with a source and date):
+
+- The CLI-generated default for a strict app is `initial` 500 kB warning and 1 MB error, raw (`build-and-deploy.md`, read from the schematic on `main`).
+- A guideline of about 170 kB compressed (gzip) critical JavaScript on the first route is quoted for 2026 low-end mobile (user-supplied answer, 2026-09-22, whose sources were blog posts, not re-checked). Use it as a stretch target next to the raw budget derivation below, and say where it comes from.
+- Lighthouse has its own transfer-size audits. Read its current docs before citing thresholds.
+
+Derivation rule for a project with no meaningful budget:
+
+1. Build production with `statsJson` and read the initial raw total (`route-cost.mjs` prints it).
+2. Warning at total x 1.15, error at total x 1.4, rounded up. The reference run used 536 kB to 600 kB warning and 750 kB error.
+3. Ratchet down after each win. Lower the numbers in the same change that shrinks the bundle.
+4. `anyScript`: set the cap just above the largest lazy chunk you accept. If one chunk is intentionally big (a 669 kB mermaid chunk that loads only on documents containing a diagram), set the cap just above it and document the exception. Do not raise the cap for every chunk to fit one.
+5. A budget set in an empty-app phase and never derived from a build fails on the first real build. Replace it with the derived numbers.
+
+Ask, then propose: the user owns the number, but bring a concrete proposal to that conversation ("warn 600 kB, error 750 kB, because the build is 536 kB raw, 130 kB transferred") instead of asking "what number do you want".
 
 ## Pitfalls
 
@@ -107,11 +158,11 @@ Measure with DevTools Network throttled to Fast 4G or Slow 4G and time from clic
 
 ## Unverified, check before relying
 
-- Whether lazy `import()` chunks carry a metafile `entryPoint` (so `bundle` budgets can match them) and what `[name]` is for a pure shared chunk with `namedChunks`. Test on a real build.
-- Exact metafile field names (`outputs`, `inputs`, `bytesInOutput`, `imports` with `kind`). They follow the esbuild metafile format but were not read from the real file.
+- Whether a `bundle` budget matches lazy chunks by name, and whether `anyScript` fires on them in v22. Lazy chunks do carry `entryPoint` (observed on 22.1.6). What `[name]` is for a pure shared chunk with `namedChunks` is untested.
+- The 170 kB compressed guideline comes from blog-level sources, not Angular or web.dev docs. The 1.15 and 1.4 budget multipliers are a rule of thumb from one run, not a standard.
 - Whether code shared by the initial entry and a lazy entry stays in the initial bundle. It follows from the entry-combination rule but no doc states it.
 - The click-wait model above, the round-trip-floor claim, and that parse cost follows raw size. These are reasoning, not sourced.
-- Whether 20.x and 21.x use `browser-stats.json` and the same defaults. CLI source was read from `main` only.
+- Whether 20.x and 21.x write `stats.json` (seen on 22.1.6) or `browser-stats.json` (seen in `main` source), and share the same defaults.
 - Whether `lodash-es` fully tree-shakes and how esbuild treats moment's dynamic locale lookup. The documented moment fixes are webpack-only.
 - Per-locale bundling of `@angular/common/locales/*`, and `sideEffects` semantics for third-party packages.
 - Sizes of date-fns, luxon and chart/editor/PDF libraries. None were fetched, so measure with the stats file.

@@ -19,6 +19,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'joo-directory-browse-template',
   templateUrl: './directory-browse-template.component.html',
-  styleUrl: './directory-browse-template.component.css'
+  styleUrl: './directory-browse-template.component.css',
 })
 export class DirectoryBrowseTemplateComponent {}

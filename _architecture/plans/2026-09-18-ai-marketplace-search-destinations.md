@@ -14,11 +14,11 @@ Search↗ always includes a query param (`?q=` in the examples; `ssdsd` / `test`
 
 ## Link roles
 
-| Field | Column / action | Meaning |
-|---|---|---|
-| `url` | Name | Author landing: GitHub repo if known, else homepage |
-| `searchUrl` | Right-hand key | `{q}` URL scoped to this row. Open (no query) still goes here, not GitHub |
-| `sourceUrl` | Src (optional) | GitHub/README when distinct from `url` |
+| Field       | Column / action | Meaning                                                                   |
+| ----------- | --------------- | ------------------------------------------------------------------------- |
+| `url`       | Name            | Author landing: GitHub repo if known, else homepage                       |
+| `searchUrl` | Right-hand key  | `{q}` URL scoped to this row. Open (no query) still goes here, not GitHub |
+| `sourceUrl` | Src (optional)  | GitHub/README when distinct from `url`                                    |
 
 ## AI-marketplace wiring (this pass)
 

@@ -65,3 +65,7 @@
 .chip-link {
   display: contents;
 }
+
+.chip-link:active > joo-chip {
+  transform: translateY(1px);
+}

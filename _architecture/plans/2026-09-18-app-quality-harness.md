@@ -10,11 +10,11 @@ Extends `2026-09-18-local-ux-quality-and-motion-system.md`.
 
 ## Layers
 
-| Layer | Command | Against |
-| --- | --- | --- |
-| A Interaction smoke | `pnpm run ux:smoke` | `pnpm start` :4200 |
-| B Lab audit | `pnpm run ux:lab` | `serve:static-build` :4321 (deliberate; not every turn) |
-| C History | `.local/ux-smoke/` / `.local/ux-lab/` (gitignored) | regression vs prior run |
+| Layer               | Command                                            | Against                                                 |
+| ------------------- | -------------------------------------------------- | ------------------------------------------------------- |
+| A Interaction smoke | `pnpm run ux:smoke`                                | `pnpm start` :4200                                      |
+| B Lab audit         | `pnpm run ux:lab`                                  | `serve:static-build` :4321 (deliberate; not every turn) |
+| C History           | `.local/ux-smoke/` / `.local/ux-lab/` (gitignored) | regression vs prior run                                 |
 
 Budgets: `scripts/ux-smoke.budgets.json`. Ship a new page → add a scenario in `scripts/ux-smoke.mjs` `SCENARIOS`.
 

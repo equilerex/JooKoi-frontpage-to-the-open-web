@@ -16,13 +16,7 @@
  */
 
 import { spawnSync } from 'node:child_process';
-import {
-  existsSync,
-  mkdirSync,
-  readFileSync,
-  appendFileSync,
-  writeFileSync,
-} from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, appendFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
@@ -38,9 +32,7 @@ const FORBIDDEN = ['Loading document'];
 
 const budgets = {
   ...JSON.parse(readFileSync(BUDGETS_FILE, 'utf8')),
-  ...(process.env.UX_SMOKE_CLS_MAX
-    ? { clsMax: Number(process.env.UX_SMOKE_CLS_MAX) }
-    : {}),
+  ...(process.env.UX_SMOKE_CLS_MAX ? { clsMax: Number(process.env.UX_SMOKE_CLS_MAX) } : {}),
   ...(process.env.UX_SMOKE_LONG_TASK_MAX
     ? { longTaskMsMax: Number(process.env.UX_SMOKE_LONG_TASK_MAX) }
     : {}),
@@ -185,7 +177,8 @@ function checkSamples(scenario, samples, opts = {}) {
   }
   if (requireH1) {
     const missing = samples.filter((s) => !s.h1);
-    if (missing.length > 0) fail(scenario, `H1 missing in ${missing.length}/${samples.length} samples`);
+    if (missing.length > 0)
+      fail(scenario, `H1 missing in ${missing.length}/${samples.length} samples`);
     else ok(scenario, `H1 stable (${samples[0]?.h1 ?? ''})`);
   }
 }
@@ -284,11 +277,7 @@ function compareRegression(prev, current) {
       const b = cur[key];
       if (a == null || b == null || a <= 0) continue;
       const cap =
-        key === 'cls'
-          ? budgets.clsMax
-          : key === 'lcp'
-            ? budgets.lcpMsMax
-            : budgets.longTaskMsMax;
+        key === 'cls' ? budgets.clsMax : key === 'lcp' ? budgets.lcpMsMax : budgets.longTaskMsMax;
       if (b <= cap && b > a * ratio && a > cap * 0.25) {
         fail(
           cur.scenario,

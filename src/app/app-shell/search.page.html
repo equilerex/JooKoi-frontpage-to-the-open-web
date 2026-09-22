@@ -22,7 +22,7 @@
         inputId="f-keyword"
         size="compact"
         placeholder="Filter results"
-        [value]="kw()"
+        [value]="kwInput()"
         (valueChange)="onKeywordChange($event)"
       />
     </div>
@@ -46,7 +46,6 @@
         </joo-stompbox-toggle>
       }
     </div>
-
 
     <div class="rack-group">
       <joo-field-label for="f-region">Region</joo-field-label>
@@ -117,9 +116,7 @@
             [attr.aria-pressed]="!categoryFilter()"
             (click)="onCategoryFunnelClick('')"
           >
-            <joo-chip [count]="totalSourceCount" [active]="!categoryFilter()">
-              All types
-            </joo-chip>
+            <joo-chip [count]="totalSourceCount" [active]="!categoryFilter()"> All types </joo-chip>
           </button>
           @for (cat of funnelCategories(); track cat.id) {
             <button
@@ -140,9 +137,7 @@
       @if (categoryFilter() && funnelSubTypes().length > 0) {
         <div class="funnel-tier funnel-tier--nested">
           <div class="funnel-tier__header">
-            <span class="funnel-tier__label">
-              Specific Types in {{ activeCategoryLabel() }}
-            </span>
+            <span class="funnel-tier__label"> Specific Types in {{ activeCategoryLabel() }} </span>
             @if (typeFilter()) {
               <button
                 type="button"
@@ -274,24 +269,34 @@
       />
     </joo-toolbar-row>
 
-    @if (activeFilters().length) {
-      <div class="chip-row active-filters" role="group" aria-label="Active filters">
-        @for (filter of activeFilters(); track filter.key) {
-          <button
-            type="button"
-            class="chip-btn"
-            [attr.aria-label]="'Remove filter: ' + filter.label"
-            (click)="filter.clear()"
-          >
-            <joo-chip>{{ filter.label }} <span aria-hidden="true">✕</span></joo-chip>
-          </button>
-        }
+    <div
+      class="active-filters-drawer"
+      [class.is-open]="activeFilters().length > 0"
+      [attr.aria-hidden]="activeFilters().length === 0"
+      [inert]="activeFilters().length === 0"
+    >
+      <div class="active-filters-drawer__inner">
+        <div class="chip-row active-filters" role="group" aria-label="Active filters">
+          @for (filter of activeFilters(); track filter.key) {
+            <button
+              type="button"
+              class="chip-btn"
+              [attr.aria-label]="'Remove filter: ' + filter.label"
+              (click)="filter.clear()"
+            >
+              <joo-chip>{{ filter.label }} <span aria-hidden="true">✕</span></joo-chip>
+            </button>
+          }
+        </div>
       </div>
-    }
+    </div>
+
 
     <joo-record-grid
       [rows]="rows()"
       [columns]="resultColumns"
+      [virtual]="true"
+      [rowHeight]="52"
       ariaLabel="Search results"
       emptyMessage="No matches. Try different filters."
     >

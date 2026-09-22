@@ -6,7 +6,7 @@ import { StompboxToggleComponent } from './stompbox-toggle.component';
 @Component({
   selector: 'joo-stompbox-toggle-host',
   imports: [StompboxToggleComponent],
-  template: `<joo-stompbox-toggle [(on)]="active">Has feed</joo-stompbox-toggle>`
+  template: `<joo-stompbox-toggle [(on)]="active">Has feed</joo-stompbox-toggle>`,
 })
 class StompboxToggleHost {
   readonly active = signal(false);

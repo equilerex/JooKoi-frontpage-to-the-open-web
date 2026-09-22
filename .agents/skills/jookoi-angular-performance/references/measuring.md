@@ -13,7 +13,7 @@ Measure the same route with the same tool before and after every change. Without
 ## Bundle analysis
 
 - `ng build --configuration production` prints initial and lazy chunk sizes, and warns or fails on budgets.
-- `ng build --configuration production --stats-json` writes `browser-stats.json` (plus `server-stats.json` with SSR) under `dist/<project>/`, an **esbuild metafile** (name read from the builder source on `main`, older versions may differ. See `build-and-deploy.md`) since the v17 application builder. Load it at esbuild.github.io/analyze. `webpack-bundle-analyzer` does not read it.
+- `ng build --configuration production --stats-json` writes an **esbuild metafile** under `dist/<project>/` (`stats.json` on 22.1.6, `browser-stats.json` in `main` source. See `build-and-deploy.md`) since the v17 application builder. Load it at esbuild.github.io/analyze. `webpack-bundle-analyzer` does not read it.
 - Alternative: `source-map-explorer` over the built JS, with `sourceMap: true` and `namedChunks: true` temporarily enabled.
 
 ## Budgets (`angular.json`)

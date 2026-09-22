@@ -46,6 +46,7 @@ Ask the user one question when unclear: is the page public and the same for all 
 - Options: `headers`, `status`. Prerender adds `getPrerenderParams()` (call `inject` before any `await`) and `fallback: PrerenderFallback.Server | Client | None` (default `Server`).
 - SSR uses HTTP redirects. Prerender uses `<meta http-equiv="refresh">` soft redirects.
 - `outputMode: "static"` in `angular.json` drops the server file for a fully static deploy.
+- **A redirect route with a parameter plus a `**` prerender entry fails the build.** Seen on 22.1.6: `{ path: 'learn/:topic', redirectTo: ... }` alongside a `**` `RenderMode.Prerender` entry could not be prerendered. The fix that worked: give the parameterised path its own server route, `{ path: 'learn/:topic', renderMode: RenderMode.Client }` in `app.routes.server.ts`. A failed build writes no output or stats file, see `build-and-deploy.md`. The exact cause in the CLI was not investigated.
 - `REQUEST`, `RESPONSE_INIT`, `REQUEST_CONTEXT` are `null` at build, in CSR, in SSG, and during dev route extraction. Code reading cookies from `REQUEST` cannot be prerendered.
 
 | Size | Option | Notes |
@@ -81,7 +82,7 @@ Hydration reuses the server DOM. Without it the app destroys and re-renders the 
   ```
 - `hydrate` triggers apply only to the initial SSR load. Later client renders use the regular trigger.
 - `hydrate when` fires only for the top-most dehydrated block. Nested blocks hydrate parent first. `hydrate never` keeps the subtree static for that page load.
-- 20 and 21 need `withIncrementalHydration()`. On 22 it is default and `withNoIncrementalHydration()` opts out. Keep the opt-out in mind as a rollback switch after a 22 upgrade if regressions show up. Whether the default changes anything without `hydrate` triggers present is unverified.
+- 20 and 21 need `withIncrementalHydration()`. On 22 it is default and `withNoIncrementalHydration()` opts out. Keep the opt-out in mind as a rollback switch after a 22 upgrade if regressions show up. A plain `@defer` without `hydrate` triggers behaves as before: the server renders only the `@placeholder` and the content loads on the client triggers (user-supplied answer, 2026-09-22, not independently re-checked). Rendering the content on the server needs an explicit `hydrate` trigger.
 
 | Size | Option | Notes |
 |---|---|---|
@@ -193,7 +194,6 @@ Auditing is safe to automate. Config changes are not.
 ## Unverified, check before relying
 
 - Stable release versions of event replay (18, 19, or 20) and of incremental hydration (19 or 20).
-- Whether the v22 incremental hydration default changes anything for apps without `hydrate` triggers.
 - Serverless cold start impact, server memory growth specifics, and `stale-while-revalidate` behavior of a CDN in front of SSR.
 - Whether `ng new --ssr` adds `withEventReplay()` per version.
 - Zoneless plus SSR plus hydration interaction.

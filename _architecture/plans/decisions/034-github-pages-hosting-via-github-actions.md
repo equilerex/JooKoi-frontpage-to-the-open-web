@@ -37,6 +37,7 @@ Option 2 requires managing personal access tokens / write permissions to a separ
 ## Next step
 
 Enable GitHub Pages in repo settings:
+
 - Navigate to GitHub Repository `Settings` → `Pages`.
 - Under **Build and deployment > Source**, select **GitHub Actions**.
 - Push changes to `main` to trigger the CI verification and automated Pages deployment.

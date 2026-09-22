@@ -12,6 +12,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'joo-prose-content',
   template: '<ng-content />',
-  styleUrl: './prose-content.component.css'
+  styleUrl: './prose-content.component.css',
 })
 export class ProseContentComponent {}

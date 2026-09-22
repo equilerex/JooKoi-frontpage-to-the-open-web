@@ -74,3 +74,9 @@
       50% 0;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  :host::before {
+    animation: none;
+  }
+}

@@ -47,7 +47,7 @@ import { LogotypeComponent } from '../../shared/design-system/typography/logotyp
     KeycapGridComponent,
     KeycapComponent,
   ],
-  templateUrl: './console-landing-demo.page.html'
+  templateUrl: './console-landing-demo.page.html',
 })
 export class ConsoleLandingDemoPage {
   protected readonly scopeOptions: readonly SegmentOption[] = [

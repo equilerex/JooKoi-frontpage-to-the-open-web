@@ -7,6 +7,6 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'joo-capability-tag',
   template: '<ng-content />',
-  styleUrl: './capability-tag.component.css'
+  styleUrl: './capability-tag.component.css',
 })
 export class CapabilityTagComponent {}

@@ -774,7 +774,6 @@ export const SOURCE_FIXTURE: readonly Source[] = [
     verified: '2026-09-10',
     lang: 'en',
   },
-
 ];
 
 // The Source interface from your architectural plan doesn't include an `rssUrl` field,
@@ -796,7 +795,7 @@ export const enrichedTechAndCultureSources: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://simonwillison.net/search/?q={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'latent-space',
@@ -811,7 +810,7 @@ export const enrichedTechAndCultureSources: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://www.latent.space/search?q={q}',
     lang: 'en',
-    region: 'United States'
+    region: 'United States',
   },
   {
     id: 'hugging-face-blog',
@@ -826,7 +825,7 @@ export const enrichedTechAndCultureSources: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://huggingface.co/search/full-text?q={q}&f=blog',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'model-context-protocol',
@@ -842,7 +841,7 @@ export const enrichedTechAndCultureSources: Source[] = [
     searchUrl: 'https://modelcontextprotocol.io/search?q={q}',
     sourceUrl: 'https://github.com/modelcontextprotocol',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'web-dev',
@@ -858,7 +857,7 @@ export const enrichedTechAndCultureSources: Source[] = [
     searchUrl: 'https://web.dev/search/?q={q}',
     sourceUrl: 'https://github.com/GoogleChrome/web.dev',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: '404-media',
@@ -873,7 +872,7 @@ export const enrichedTechAndCultureSources: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://www.404media.co/search/?q={q}',
     lang: 'en',
-    region: 'United States'
+    region: 'United States',
   },
   {
     id: 'bytebytego',
@@ -888,7 +887,7 @@ export const enrichedTechAndCultureSources: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://blog.bytebytego.com/search?q={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'the-new-stack',
@@ -903,7 +902,7 @@ export const enrichedTechAndCultureSources: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://thenewstack.io/search/?q={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'angular-dev',
@@ -919,7 +918,7 @@ export const enrichedTechAndCultureSources: Source[] = [
     searchUrl: 'https://angular.dev/search?q={q}',
     sourceUrl: 'https://github.com/angular/angular',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'lobsters',
@@ -935,8 +934,8 @@ export const enrichedTechAndCultureSources: Source[] = [
     searchUrl: 'https://lobste.rs/search?q={q}&what=stories',
     sourceUrl: 'https://github.com/lobsters/lobsters',
     lang: 'en',
-    region: 'Global'
-  }
+    region: 'Global',
+  },
 ];
 
 export const bleedingEdgeTechSources: Source[] = [
@@ -960,15 +959,15 @@ export const bleedingEdgeTechSources: Source[] = [
         name: 'Everything',
         url: 'https://simonwillison.net/atom/everything/',
         desc: 'All articles, link commentary, and quotations',
-        format: 'atom'
+        format: 'atom',
       },
       {
         name: 'Articles Only',
         url: 'https://simonwillison.net/atom/entries/',
         desc: 'Long-form essays and in-depth writeups only',
-        format: 'atom'
-      }
-    ]
+        format: 'atom',
+      },
+    ],
   },
   {
     id: 'latent-space',
@@ -989,15 +988,15 @@ export const bleedingEdgeTechSources: Source[] = [
         name: 'Main Publication',
         url: 'https://www.latent.space/feed',
         desc: 'Full articles, newsletters, and essay breakdowns',
-        format: 'rss'
+        format: 'rss',
       },
       {
         name: 'Podcast Feed',
         url: 'https://api.substack.com/feed/podcast/1084089.rss',
         desc: 'Direct audio episodes and interview transcripts',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: '404-media',
@@ -1018,9 +1017,9 @@ export const bleedingEdgeTechSources: Source[] = [
         name: 'Standard Feed',
         url: 'https://www.404media.co/rss/',
         desc: 'Public reporting and story dispatches',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'hugging-face-blog',
@@ -1041,9 +1040,9 @@ export const bleedingEdgeTechSources: Source[] = [
         name: 'Blog Feed',
         url: 'https://huggingface.co/blog/feed.xml',
         desc: 'Technical writeups, open weight releases, and research benchmarks',
-        format: 'atom'
-      }
-    ]
+        format: 'atom',
+      },
+    ],
   },
   {
     id: 'angular-dev',
@@ -1065,9 +1064,9 @@ export const bleedingEdgeTechSources: Source[] = [
         name: 'Official Blog',
         url: 'https://blog.angular.dev/feed',
         desc: 'Release announcements, framework updates, and architectural guides',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'lobsters',
@@ -1089,15 +1088,15 @@ export const bleedingEdgeTechSources: Source[] = [
         name: 'Hottest Stories',
         url: 'https://lobste.rs/rss',
         desc: 'Top voted submissions and ongoing comment threads',
-        format: 'rss'
+        format: 'rss',
       },
       {
         name: 'Newest Submissions',
         url: 'https://lobste.rs/newest.rss',
         desc: 'Chronological firehose of all incoming links',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'bytebytego',
@@ -1118,9 +1117,9 @@ export const bleedingEdgeTechSources: Source[] = [
         name: 'Newsletter Feed',
         url: 'https://blog.bytebytego.com/feed',
         desc: 'Weekly system design diagrams and architectural analysis',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'the-new-stack',
@@ -1141,12 +1140,11 @@ export const bleedingEdgeTechSources: Source[] = [
         name: 'Main Feed',
         url: 'https://thenewstack.io/feed/',
         desc: 'Daily technical reporting on cloud infrastructure and development',
-        format: 'rss'
-      }
-    ]
-  }
+        format: 'rss',
+      },
+    ],
+  },
 ];
-
 
 export const eclecticWeirdWebSources: Source[] = [
   {
@@ -1161,7 +1159,7 @@ export const eclecticWeirdWebSources: Source[] = [
     capabilities: [],
     verified: '2026-09-19',
     lang: 'en',
-    region: 'United States'
+    region: 'United States',
   },
   {
     id: 'the-useless-web',
@@ -1175,7 +1173,7 @@ export const eclecticWeirdWebSources: Source[] = [
     capabilities: [],
     verified: '2026-09-19',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'radio-garden',
@@ -1190,7 +1188,7 @@ export const eclecticWeirdWebSources: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://radio.garden/search?q={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'melonland',
@@ -1210,9 +1208,9 @@ export const eclecticWeirdWebSources: Source[] = [
         name: 'Forum & News Feed',
         url: 'https://forum.melonland.net/index.php?action=.xml;type=rss',
         desc: 'Community projects, zine releases, and web revival updates',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'windows-93',
@@ -1226,7 +1224,7 @@ export const eclecticWeirdWebSources: Source[] = [
     capabilities: [],
     verified: '2026-09-19',
     lang: 'en',
-    region: 'Europe'
+    region: 'Europe',
   },
   {
     id: 'zoomquilt',
@@ -1240,7 +1238,7 @@ export const eclecticWeirdWebSources: Source[] = [
     capabilities: [],
     verified: '2026-09-19',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'pointer-pointer',
@@ -1254,7 +1252,7 @@ export const eclecticWeirdWebSources: Source[] = [
     capabilities: [],
     verified: '2026-09-19',
     lang: 'en',
-    region: 'Netherlands'
+    region: 'Netherlands',
   },
   {
     id: 'zombo-com',
@@ -1268,7 +1266,7 @@ export const eclecticWeirdWebSources: Source[] = [
     capabilities: [],
     verified: '2026-09-19',
     lang: 'en',
-    region: 'United States'
+    region: 'United States',
   },
   {
     id: 'every-noise-at-once',
@@ -1283,7 +1281,7 @@ export const eclecticWeirdWebSources: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://everynoise.com/lookup.cgi?who={q}',
     lang: 'en',
-    region: 'United States'
+    region: 'United States',
   },
   {
     id: 'status-cafe',
@@ -1303,10 +1301,10 @@ export const eclecticWeirdWebSources: Source[] = [
         name: 'Recent Updates',
         url: 'https://status.cafe/feed.atom',
         desc: 'Global firehose of user status updates',
-        format: 'atom'
-      }
-    ]
-  }
+        format: 'atom',
+      },
+    ],
+  },
 ];
 export const makerAndPropCraftingSources: Source[] = [
   {
@@ -1322,7 +1320,7 @@ export const makerAndPropCraftingSources: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://www.therpf.com/forums/search/?q={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'tested',
@@ -1337,7 +1335,7 @@ export const makerAndPropCraftingSources: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://www.tested.com/?s={q}',
     lang: 'en',
-    region: 'United States'
+    region: 'United States',
   },
   {
     id: 'kamui-cosplay',
@@ -1358,9 +1356,9 @@ export const makerAndPropCraftingSources: Source[] = [
         name: 'Blog & Project Guides',
         url: 'https://www.kamuicosplay.com/feed/',
         desc: 'Build logs, painting techniques, and wearable electronics guides',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'adafruit-wearables',
@@ -1382,9 +1380,9 @@ export const makerAndPropCraftingSources: Source[] = [
         name: 'Wearables Learn Guide Feed',
         url: 'https://learn.adafruit.com/feed/wearables',
         desc: 'New wearable hardware project tutorials and wiring guides',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'foamsmithing-punished-props',
@@ -1405,9 +1403,9 @@ export const makerAndPropCraftingSources: Source[] = [
         name: 'Academy Build Articles',
         url: 'https://www.punishedprops.com/feed/',
         desc: 'Free blueprints, finishing recipes, and tool walkthroughs',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'openbuilds',
@@ -1423,7 +1421,7 @@ export const makerAndPropCraftingSources: Source[] = [
     searchUrl: 'https://openbuilds.com/search/?q={q}',
     sourceUrl: 'https://github.com/OpenBuilds',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'stan-winston-school',
@@ -1438,7 +1436,7 @@ export const makerAndPropCraftingSources: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://www.stanwinstonschool.com/search?q={q}',
     lang: 'en',
-    region: 'United States'
+    region: 'United States',
   },
   {
     id: 'instructables-workshop',
@@ -1453,7 +1451,7 @@ export const makerAndPropCraftingSources: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://www.instructables.com/search?q={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'fab-academy',
@@ -1469,8 +1467,8 @@ export const makerAndPropCraftingSources: Source[] = [
     searchUrl: 'https://fabacademy.org/search.html?q={q}',
     sourceUrl: 'https://gitlab.fabcloud.org/academany/fabacademy',
     lang: 'en',
-    region: 'Global'
-  }
+    region: 'Global',
+  },
 ];
 export const deepOpenWebSources: Source[] = [
   {
@@ -1486,7 +1484,7 @@ export const deepOpenWebSources: Source[] = [
     verified: '20260919',
     searchUrl: 'https://search.marginalia.nu/search?query={q}',
     lang: 'en',
-    region: 'Sweden'
+    region: 'Sweden',
   },
   {
     id: 'lowtech',
@@ -1505,9 +1503,9 @@ export const deepOpenWebSources: Source[] = [
       {
         name: 'Atom Feed',
         url: 'https://solar.lowtechmagazine.com/feeds/all.atom.xml',
-        format: 'atom'
-      }
-    ]
+        format: 'atom',
+      },
+    ],
   },
   {
     id: 'monoskop',
@@ -1522,7 +1520,7 @@ export const deepOpenWebSources: Source[] = [
     verified: '20260919',
     searchUrl: 'https://monoskop.org/index.php?search={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'ubuweb',
@@ -1536,7 +1534,7 @@ export const deepOpenWebSources: Source[] = [
     capabilities: [],
     verified: '20260919',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'tildeclub',
@@ -1550,7 +1548,7 @@ export const deepOpenWebSources: Source[] = [
     capabilities: [],
     verified: '20260919',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'hundredrabbits',
@@ -1569,9 +1567,9 @@ export const deepOpenWebSources: Source[] = [
       {
         name: 'Links Feed',
         url: 'https://100r.co/links/rss.xml',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'cryptome',
@@ -1585,7 +1583,7 @@ export const deepOpenWebSources: Source[] = [
     capabilities: [],
     verified: '20260919',
     lang: 'en',
-    region: 'United States'
+    region: 'United States',
   },
   {
     id: 'wiby',
@@ -1600,7 +1598,7 @@ export const deepOpenWebSources: Source[] = [
     verified: '20260919',
     searchUrl: 'https://wiby.me/?q={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'solarprotocol',
@@ -1614,9 +1612,9 @@ export const deepOpenWebSources: Source[] = [
     capabilities: [],
     verified: '20260919',
     lang: 'en',
-    region: 'Global'
-  }
-]
+    region: 'Global',
+  },
+];
 
 export const europeanOnlineShops: Source[] = [
   {
@@ -1632,7 +1630,7 @@ export const europeanOnlineShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.proshop.dk/?s={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'amazonDe',
@@ -1647,7 +1645,7 @@ export const europeanOnlineShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.amazon.de/s?k={q}',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'galaxus',
@@ -1662,7 +1660,7 @@ export const europeanOnlineShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.galaxus.de/search?q={q}',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'allegro',
@@ -1677,7 +1675,7 @@ export const europeanOnlineShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://allegro.pl/listing?string={q}',
     lang: 'en',
-    region: 'Poland'
+    region: 'Poland',
   },
   {
     id: 'aliexpress',
@@ -1692,7 +1690,7 @@ export const europeanOnlineShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.aliexpress.com/wholesale?SearchText={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'temu',
@@ -1707,7 +1705,7 @@ export const europeanOnlineShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.temu.com/search_result.html?search_key={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'thomann',
@@ -1722,7 +1720,7 @@ export const europeanOnlineShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.thomann.de/intl/search_dir.html?sw={q}',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'komplett',
@@ -1737,7 +1735,7 @@ export const europeanOnlineShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.komplett.dk/search?q={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'computeruniverse',
@@ -1752,7 +1750,7 @@ export const europeanOnlineShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.computeruniverse.net/en/search?query={q}',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'elgiganten',
@@ -1767,9 +1765,9 @@ export const europeanOnlineShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.elgiganten.dk/search/{q}',
     lang: 'da',
-    region: 'Denmark'
-  }
-]
+    region: 'Denmark',
+  },
+];
 export const europeanDeepDiveShops: Source[] = [
   {
     id: 'alzashop',
@@ -1784,7 +1782,7 @@ export const europeanDeepDiveShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.alzashop.com/search.htm?exps={q}',
     lang: 'en',
-    region: 'Czech Republic'
+    region: 'Czech Republic',
   },
   {
     id: 'reichelt',
@@ -1799,7 +1797,7 @@ export const europeanDeepDiveShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.reichelt.com/de/en/search.html?q={q}',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'tme',
@@ -1814,7 +1812,7 @@ export const europeanDeepDiveShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.tme.eu/en/katalog/?search={q}',
     lang: 'en',
-    region: 'Poland'
+    region: 'Poland',
   },
   {
     id: 'caseking',
@@ -1829,7 +1827,7 @@ export const europeanDeepDiveShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.caseking.de/search?sSearch={q}',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'tradeinn',
@@ -1844,7 +1842,7 @@ export const europeanDeepDiveShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.tradeinn.com/techinn/en/search?products_search[query]={q}',
     lang: 'en',
-    region: 'Spain'
+    region: 'Spain',
   },
   {
     id: 'cdiscount',
@@ -1859,7 +1857,7 @@ export const europeanDeepDiveShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.cdiscount.com/search/10/{q}.html',
     lang: 'fr',
-    region: 'France'
+    region: 'France',
   },
   {
     id: 'berrybase',
@@ -1874,7 +1872,7 @@ export const europeanDeepDiveShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.berrybase.de/search?sSearch={q}',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'backMarket',
@@ -1889,7 +1887,7 @@ export const europeanDeepDiveShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.backmarket.com/en-gb/search?q={q}',
     lang: 'en',
-    region: 'France'
+    region: 'France',
   },
   {
     id: 'computersalg',
@@ -1904,7 +1902,7 @@ export const europeanDeepDiveShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.computersalg.dk/l/0/s?sq={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'botland',
@@ -1919,9 +1917,9 @@ export const europeanDeepDiveShops: Source[] = [
     verified: '20260919',
     searchUrl: 'https://botland.store/search?s={q}',
     lang: 'en',
-    region: 'Poland'
-  }
-]
+    region: 'Poland',
+  },
+];
 export const europeanAlternativeMenswear: Source[] = [
   {
     id: 'fantasmagoria',
@@ -1936,7 +1934,7 @@ export const europeanAlternativeMenswear: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://fantasmagoria.shop/search?q={q}',
     lang: 'en',
-    region: 'Lithuania'
+    region: 'Lithuania',
   },
   {
     id: 'emp-denmark',
@@ -1951,7 +1949,7 @@ export const europeanAlternativeMenswear: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://www.emp-shop.dk/search?q={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'impericon',
@@ -1966,7 +1964,7 @@ export const europeanAlternativeMenswear: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://www.impericon.com/search?q={q}',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'disturbia-eu',
@@ -1981,7 +1979,7 @@ export const europeanAlternativeMenswear: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://www.disturbia.eu/search?q={q}',
     lang: 'en',
-    region: 'Europe'
+    region: 'Europe',
   },
   {
     id: 'blue-tomato',
@@ -1996,7 +1994,7 @@ export const europeanAlternativeMenswear: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://www.blue-tomato.com/en-DK/products/search/?q={q}',
     lang: 'en',
-    region: 'Austria'
+    region: 'Austria',
   },
   {
     id: 'attitude-europe',
@@ -2011,7 +2009,7 @@ export const europeanAlternativeMenswear: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://www.attitude-europe.com/search?q={q}',
     lang: 'en',
-    region: 'Netherlands'
+    region: 'Netherlands',
   },
   {
     id: 'killstar-eu',
@@ -2026,7 +2024,7 @@ export const europeanAlternativeMenswear: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://eu.killstar.com/pages/search-results-page?q={q}',
     lang: 'en',
-    region: 'Europe'
+    region: 'Europe',
   },
   {
     id: 'defshop',
@@ -2041,7 +2039,7 @@ export const europeanAlternativeMenswear: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://en.def-shop.com/search/?q={q}',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'cyberdog',
@@ -2056,7 +2054,7 @@ export const europeanAlternativeMenswear: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://www.cyberdog.net/search?q={q}',
     lang: 'en',
-    region: 'United Kingdom'
+    region: 'United Kingdom',
   },
   {
     id: 'psylo-fashion',
@@ -2071,8 +2069,8 @@ export const europeanAlternativeMenswear: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://psylofashion.com/search?q={q}',
     lang: 'en',
-    region: 'United Kingdom'
-  }
+    region: 'United Kingdom',
+  },
 ];
 export const europeanPlayfulEdgyMenswear: Source[] = [
   {
@@ -2088,7 +2086,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://carnebollente.com/search?q={q}',
     lang: 'en',
-    region: 'France'
+    region: 'France',
   },
   {
     id: 'kaotiko',
@@ -2103,7 +2101,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.kaotikobcn.eu/search?q={q}',
     lang: 'en',
-    region: 'Spain'
+    region: 'Spain',
   },
   {
     id: 'wastedparis',
@@ -2118,7 +2116,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://wasted.fr/search?q={q}',
     lang: 'en',
-    region: 'France'
+    region: 'France',
   },
   {
     id: 'lazyoaf',
@@ -2133,7 +2131,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.lazyoaf.com/search?q={q}',
     lang: 'en',
-    region: 'United Kingdom'
+    region: 'United Kingdom',
   },
   {
     id: 'disturbiaeu',
@@ -2148,7 +2146,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.disturbia.eu/search?q={q}',
     lang: 'en',
-    region: 'Europe'
+    region: 'Europe',
   },
   {
     id: 'iriedaily',
@@ -2163,7 +2161,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.iriedaily.de/en/search/?q={q}',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'plazmalab',
@@ -2178,7 +2176,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://plazmalab.com/search?q={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'dailypaper',
@@ -2193,7 +2191,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.dailypaperclothing.com/search?q={q}',
     lang: 'en',
-    region: 'Netherlands'
+    region: 'Netherlands',
   },
   {
     id: 'freshlabels',
@@ -2208,7 +2206,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.freshlabels.com/search/?q={q}',
     lang: 'en',
-    region: 'Czech Republic'
+    region: 'Czech Republic',
   },
   {
     id: 'fantasmagoria',
@@ -2223,7 +2221,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://fantasmagoria.shop/search?q={q}',
     lang: 'en',
-    region: 'Lithuania'
+    region: 'Lithuania',
   },
   {
     id: 'dedicatedbrand',
@@ -2238,7 +2236,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.dedicatedbrand.com/en/search?q={q}',
     lang: 'en',
-    region: 'Sweden'
+    region: 'Sweden',
   },
   {
     id: 'cleptomanicx',
@@ -2253,7 +2251,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.cleptomanicx.com/search?sSearch={q}',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'empdenmark',
@@ -2268,7 +2266,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.emp-shop.dk/search?q={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'defshop',
@@ -2283,7 +2281,7 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://en.def-shop.com/search/?q={q}',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'bluetomato',
@@ -2298,9 +2296,9 @@ export const europeanPlayfulEdgyMenswear: Source[] = [
     verified: '20260919',
     searchUrl: 'https://www.blue-tomato.com/en-DK/products/search/?q={q}',
     lang: 'en',
-    region: 'Austria'
-  }
-]
+    region: 'Austria',
+  },
+];
 
 export const alternativeMenswearGlobal = [
   {
@@ -2316,7 +2314,7 @@ export const alternativeMenswearGlobal = [
     verified: '20260919',
     searchUrl: 'https://carnebollente.com/search?q={q}',
     lang: 'en',
-    region: 'France'
+    region: 'France',
   },
   {
     id: 'lazyOaf',
@@ -2331,7 +2329,7 @@ export const alternativeMenswearGlobal = [
     verified: '20260919',
     searchUrl: 'https://www.lazyoaf.com/search?q={q}',
     lang: 'en',
-    region: 'United Kingdom'
+    region: 'United Kingdom',
   },
   {
     id: 'dropDead',
@@ -2346,7 +2344,7 @@ export const alternativeMenswearGlobal = [
     verified: '20260919',
     searchUrl: 'https://dropdead.world/search?q={q}',
     lang: 'en',
-    region: 'United Kingdom'
+    region: 'United Kingdom',
   },
   {
     id: 'brainDead',
@@ -2361,7 +2359,7 @@ export const alternativeMenswearGlobal = [
     verified: '20260919',
     searchUrl: 'https://wearebraindead.com/search?q={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'stayColdApparel',
@@ -2376,7 +2374,7 @@ export const alternativeMenswearGlobal = [
     verified: '20260919',
     searchUrl: 'https://staycoldapparel.com/search?q={q}',
     lang: 'en',
-    region: 'Germany'
+    region: 'Germany',
   },
   {
     id: 'badMonday',
@@ -2391,7 +2389,7 @@ export const alternativeMenswearGlobal = [
     verified: '20260919',
     searchUrl: 'https://badmonday.co.uk/search?q={q}',
     lang: 'en',
-    region: 'United Kingdom'
+    region: 'United Kingdom',
   },
   {
     id: 'wastedParis',
@@ -2406,7 +2404,7 @@ export const alternativeMenswearGlobal = [
     verified: '20260919',
     searchUrl: 'https://wasted.fr/search?q={q}',
     lang: 'en',
-    region: 'France'
+    region: 'France',
   },
   {
     id: 'psyloFashion',
@@ -2421,7 +2419,7 @@ export const alternativeMenswearGlobal = [
     verified: '20260919',
     searchUrl: 'https://psylofashion.com/search?q={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'kaotiko',
@@ -2436,7 +2434,7 @@ export const alternativeMenswearGlobal = [
     verified: '20260919',
     searchUrl: 'https://www.kaotikobcn.eu/search?q={q}',
     lang: 'en',
-    region: 'Spain'
+    region: 'Spain',
   },
   {
     id: 'mokuyobi',
@@ -2451,7 +2449,7 @@ export const alternativeMenswearGlobal = [
     verified: '20260919',
     searchUrl: 'https://mokuyobi.com/search?q={q}',
     lang: 'en',
-    region: 'United States'
+    region: 'United States',
   },
   {
     id: 'dangerfield',
@@ -2466,7 +2464,7 @@ export const alternativeMenswearGlobal = [
     verified: '20260919',
     searchUrl: 'https://dangerfield.com.au/search?q={q}',
     lang: 'en',
-    region: 'Australia'
+    region: 'Australia',
   },
   {
     id: 'plazmalab',
@@ -2481,7 +2479,7 @@ export const alternativeMenswearGlobal = [
     verified: '20260919',
     searchUrl: 'https://plazmalab.com/search?q={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'cleptomanicx',
@@ -2496,9 +2494,9 @@ export const alternativeMenswearGlobal = [
     verified: '20260919',
     searchUrl: 'https://www.cleptomanicx.com/search?sSearch={q}',
     lang: 'en',
-    region: 'Germany'
-  }
-]
+    region: 'Germany',
+  },
+];
 
 export const internetWonders = [
   {
@@ -2519,9 +2517,9 @@ export const internetWonders = [
       {
         name: 'Featured Article Atom Feed',
         url: 'https://en.wikipedia.org/w/api.php?action=featuredfeed&feed=featured&feedformat=atom',
-        format: 'atom'
-      }
-    ]
+        format: 'atom',
+      },
+    ],
   },
   {
     id: 'internetArchive',
@@ -2536,7 +2534,7 @@ export const internetWonders = [
     verified: '20260919',
     searchUrl: 'https://archive.org/search?query={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'projectGutenberg',
@@ -2551,7 +2549,7 @@ export const internetWonders = [
     verified: '20260919',
     searchUrl: 'https://www.gutenberg.org/ebooks/search/?query={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'openStreetMap',
@@ -2566,7 +2564,7 @@ export const internetWonders = [
     verified: '20260919',
     searchUrl: 'https://www.openstreetmap.org/search?query={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'github',
@@ -2581,7 +2579,7 @@ export const internetWonders = [
     verified: '20260919',
     searchUrl: 'https://github.com/search?q={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'arxiv',
@@ -2596,7 +2594,7 @@ export const internetWonders = [
     verified: '20260919',
     searchUrl: 'https://arxiv.org/search/?query={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'linuxKernelArchives',
@@ -2610,9 +2608,9 @@ export const internetWonders = [
     capabilities: [],
     verified: '20260919',
     lang: 'en',
-    region: 'Global'
-  }
-]
+    region: 'Global',
+  },
+];
 
 export const internetTimeCapsules = [
   {
@@ -2628,7 +2626,7 @@ export const internetTimeCapsules = [
     verified: '20260919',
     searchUrl: 'https://web.archive.org/web/*/{q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'archiveToday',
@@ -2643,7 +2641,7 @@ export const internetTimeCapsules = [
     verified: '20260919',
     searchUrl: 'https://archive.today/{q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'ghostArchive',
@@ -2658,7 +2656,7 @@ export const internetTimeCapsules = [
     verified: '20260919',
     searchUrl: 'https://ghostarchive.org/search?term={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'oldWebToday',
@@ -2672,7 +2670,7 @@ export const internetTimeCapsules = [
     capabilities: [],
     verified: '20260919',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'permaCc',
@@ -2686,7 +2684,7 @@ export const internetTimeCapsules = [
     capabilities: [],
     verified: '20260919',
     lang: 'en',
-    region: 'United States'
+    region: 'United States',
   },
   {
     id: 'conifer',
@@ -2700,9 +2698,9 @@ export const internetTimeCapsules = [
     capabilities: [],
     verified: '20260919',
     lang: 'en',
-    region: 'United States'
-  }
-]
+    region: 'United States',
+  },
+];
 
 export const esp32HackerSources: Source[] = [
   {
@@ -2724,9 +2722,9 @@ export const esp32HackerSources: Source[] = [
         name: 'ESP32 Tag Feed',
         url: 'https://hackaday.com/tag/esp32/feed/',
         desc: 'Direct RSS feed for all ESP32-tagged build logs and reverse-engineering articles',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'random-nerd-tutorials',
@@ -2747,9 +2745,9 @@ export const esp32HackerSources: Source[] = [
         name: 'Main Feed',
         url: 'https://randomnerdtutorials.com/feed/',
         desc: 'New hardware writeups, tutorials, and firmware walkthroughs',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'hackster-esp32',
@@ -2764,7 +2762,7 @@ export const esp32HackerSources: Source[] = [
     verified: '2026-09-19',
     searchUrl: 'https://www.hackster.io/search?q={q}',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'espressif-news',
@@ -2786,9 +2784,9 @@ export const esp32HackerSources: Source[] = [
         name: 'Official RSS',
         url: 'https://www.espressif.com/en/company/news/rss',
         desc: 'Silicon announcements and official engineering blogs',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'esp32-forum',
@@ -2809,9 +2807,9 @@ export const esp32HackerSources: Source[] = [
         name: 'News & Announcements Feed',
         url: 'https://esp32.com/feed.php?f=23',
         desc: 'New releases, tools, and critical firmware notifications',
-        format: 'atom'
-      }
-    ]
+        format: 'atom',
+      },
+    ],
   },
   {
     id: 'adafruit-blog-esp32',
@@ -2833,9 +2831,9 @@ export const esp32HackerSources: Source[] = [
         name: 'ESP32 Category Feed',
         url: 'https://blog.adafruit.com/category/esp32/feed/',
         desc: 'Daily hardware experiments, maker spotlights, and board guides',
-        format: 'rss'
-      }
-    ]
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'cnxt-software',
@@ -2856,12 +2854,11 @@ export const esp32HackerSources: Source[] = [
         name: 'Main Feed',
         url: 'https://www.cnx-software.com/feed/',
         desc: 'Daily reporting on embedded hardware, dev boards, and processors',
-        format: 'rss'
-      }
-    ]
-  }
+        format: 'rss',
+      },
+    ],
+  },
 ];
-
 
 export const quintessentialDanishWebsites = [
   {
@@ -2877,7 +2874,7 @@ export const quintessentialDanishWebsites = [
     verified: '20260919',
     searchUrl: 'https://www.borger.dk/Sider/Soeg.aspx?q={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'sundhed',
@@ -2891,7 +2888,7 @@ export const quintessentialDanishWebsites = [
     capabilities: [],
     verified: '20260919',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'skat',
@@ -2905,7 +2902,7 @@ export const quintessentialDanishWebsites = [
     capabilities: [],
     verified: '20260919',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'mitid',
@@ -2919,7 +2916,7 @@ export const quintessentialDanishWebsites = [
     capabilities: [],
     verified: '20260919',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'rejseplanen',
@@ -2933,7 +2930,7 @@ export const quintessentialDanishWebsites = [
     capabilities: [],
     verified: '20260919',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'dmi',
@@ -2947,7 +2944,7 @@ export const quintessentialDanishWebsites = [
     capabilities: [],
     verified: '20260919',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'dba',
@@ -2962,7 +2959,7 @@ export const quintessentialDanishWebsites = [
     verified: '20260919',
     searchUrl: 'https://www.dba.dk/soeg/?soeg={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'dr',
@@ -2977,7 +2974,7 @@ export const quintessentialDanishWebsites = [
     verified: '20260919',
     searchUrl: 'https://www.dr.dk/soeg?query={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'boligsiden',
@@ -2991,7 +2988,7 @@ export const quintessentialDanishWebsites = [
     capabilities: [],
     verified: '20260919',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'mobilepay',
@@ -3005,10 +3002,9 @@ export const quintessentialDanishWebsites = [
     capabilities: [],
     verified: '20260919',
     lang: 'da',
-    region: 'Denmark'
-  }
-]
-
+    region: 'Denmark',
+  },
+];
 
 export const danishCultureAndIndependentMedia = [
   {
@@ -3024,7 +3020,7 @@ export const danishCultureAndIndependentMedia = [
     verified: '20260919',
     searchUrl: 'https://www.zetland.dk/soeg?q={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'kunstenNu',
@@ -3039,7 +3035,7 @@ export const danishCultureAndIndependentMedia = [
     verified: '20260919',
     searchUrl: 'https://kunsten.nu/?s={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'passiveAggressive',
@@ -3054,7 +3050,7 @@ export const danishCultureAndIndependentMedia = [
     verified: '20260919',
     searchUrl: 'https://passiveaggressive.dk/?s={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'danwatch',
@@ -3069,7 +3065,7 @@ export const danishCultureAndIndependentMedia = [
     verified: '20260919',
     searchUrl: 'https://danwatch.dk/?s={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'kultunaut',
@@ -3083,7 +3079,7 @@ export const danishCultureAndIndependentMedia = [
     capabilities: [],
     verified: '20260919',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'povInternational',
@@ -3098,7 +3094,7 @@ export const danishCultureAndIndependentMedia = [
     verified: '20260919',
     searchUrl: 'https://pov.international/?s={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'heartbeats',
@@ -3113,7 +3109,7 @@ export const danishCultureAndIndependentMedia = [
     verified: '20260919',
     searchUrl: 'https://heartbeats.dk/?s={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'seismograf',
@@ -3128,7 +3124,7 @@ export const danishCultureAndIndependentMedia = [
     verified: '20260919',
     searchUrl: 'https://seismograf.org/search/node/{q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'foljeton',
@@ -3142,7 +3138,7 @@ export const danishCultureAndIndependentMedia = [
     capabilities: [],
     verified: '20260919',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'iDoArt',
@@ -3157,7 +3153,7 @@ export const danishCultureAndIndependentMedia = [
     verified: '20260919',
     searchUrl: 'https://www.idoart.dk/search?q={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'solidaritet',
@@ -3172,7 +3168,7 @@ export const danishCultureAndIndependentMedia = [
     verified: '20260919',
     searchUrl: 'https://solidaritet.dk/?s={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'migOgKbh',
@@ -3187,7 +3183,7 @@ export const danishCultureAndIndependentMedia = [
     verified: '20260919',
     searchUrl: 'https://migogkbh.dk/?s={q}',
     lang: 'da',
-    region: 'Denmark'
+    region: 'Denmark',
   },
   {
     id: 'magasinetKunst',
@@ -3201,139 +3197,136 @@ export const danishCultureAndIndependentMedia = [
     capabilities: [],
     verified: '20260919',
     lang: 'da',
-    region: 'Denmark'
-  }
-]
+    region: 'Denmark',
+  },
+];
 export const openInternetDirectory: WebOutlet[] = [
   {
-    name: "Kottke.org",
-    url: "https://kottke.org",
-    category: "culture",
-    description: "One of the longest-running independent weblogs, curated with eclectic links spanning design, science, and digital culture.",
-    feeds: [
-      { name: "Kottke Main Feed", url: "https://feeds.kottke.org/main", format: "rss" }
-    ]
+    name: 'Kottke.org',
+    url: 'https://kottke.org',
+    category: 'culture',
+    description:
+      'One of the longest-running independent weblogs, curated with eclectic links spanning design, science, and digital culture.',
+    feeds: [{ name: 'Kottke Main Feed', url: 'https://feeds.kottke.org/main', format: 'rss' }],
   },
   {
-    name: "Techmeme",
-    url: "https://www.techmeme.com",
-    category: "aggregator",
-    description: "Human-and-algorithm hybrid aggregation of essential technology news, tracking breaking stories without algorithmic social media bloat.",
-    feeds: [
-      { name: "Techmeme Top News", url: "https://www.techmeme.com/feed.xml", format: "rss" }
-    ]
+    name: 'Techmeme',
+    url: 'https://www.techmeme.com',
+    category: 'aggregator',
+    description:
+      'Human-and-algorithm hybrid aggregation of essential technology news, tracking breaking stories without algorithmic social media bloat.',
+    feeds: [{ name: 'Techmeme Top News', url: 'https://www.techmeme.com/feed.xml', format: 'rss' }],
   },
   {
-    name: "Waxy.org",
-    url: "https://waxy.org",
-    category: "culture",
-    description: "Andy Baio's long-running personal site highlighting web curiosities, data experiments, and deep internet history.",
-    feeds: [
-      { name: "Waxy Main Feed", url: "https://waxy.org/feed/", format: "rss" }
-    ]
+    name: 'Waxy.org',
+    url: 'https://waxy.org',
+    category: 'culture',
+    description:
+      "Andy Baio's long-running personal site highlighting web curiosities, data experiments, and deep internet history.",
+    feeds: [{ name: 'Waxy Main Feed', url: 'https://waxy.org/feed/', format: 'rss' }],
   },
   {
-    name: "Lobsters",
-    url: "https://lobste.rs",
-    category: "technology",
-    description: "A community-focussed, computing-centric link aggregator featuring technical discussions and strict moderation free of mainstream noise.",
+    name: 'Lobsters',
+    url: 'https://lobste.rs',
+    category: 'technology',
+    description:
+      'A community-focussed, computing-centric link aggregator featuring technical discussions and strict moderation free of mainstream noise.',
     feeds: [
-      { name: "Hottest Stories", url: "https://lobste.rs/rss", format: "rss" },
-      { name: "Newest Submissions", url: "https://lobste.rs/newest.rss", format: "rss" }
-    ]
+      { name: 'Hottest Stories', url: 'https://lobste.rs/rss', format: 'rss' },
+      { name: 'Newest Submissions', url: 'https://lobste.rs/newest.rss', format: 'rss' },
+    ],
   },
   {
-    name: "Arts & Letters Daily",
-    url: "https://www.aldaily.com",
-    category: "news",
-    description: "A minimalist daily aggregator of intellectual essays, philosophy, book reviews, and academic journalism from across the web.",
-    feeds: [
-      { name: "ALDaily Feed", url: "https://aldaily.com/feed/", format: "rss" }
-    ]
+    name: 'Arts & Letters Daily',
+    url: 'https://www.aldaily.com',
+    category: 'news',
+    description:
+      'A minimalist daily aggregator of intellectual essays, philosophy, book reviews, and academic journalism from across the web.',
+    feeds: [{ name: 'ALDaily Feed', url: 'https://aldaily.com/feed/', format: 'rss' }],
   },
   {
-    name: "Hacker News",
-    url: "https://news.ycombinator.com",
-    category: "aggregator",
-    description: "Y Combinator's text-dense community link forum prioritizing software engineering, startups, and raw technical discourse.",
+    name: 'Hacker News',
+    url: 'https://news.ycombinator.com',
+    category: 'aggregator',
+    description:
+      "Y Combinator's text-dense community link forum prioritizing software engineering, startups, and raw technical discourse.",
     feeds: [
-      { name: "Front Page (Official)", url: "https://news.ycombinator.com/rss", format: "rss" },
-      { name: "Front Page (HNRSS)", url: "https://hnrss.org/frontpage", format: "rss" }
-    ]
+      { name: 'Front Page (Official)', url: 'https://news.ycombinator.com/rss', format: 'rss' },
+      { name: 'Front Page (HNRSS)', url: 'https://hnrss.org/frontpage', format: 'rss' },
+    ],
   },
   {
-    name: "Daring Fireball",
-    url: "https://daringfireball.net",
-    category: "technology",
-    description: "John Gruber's independent commentary site tracking technology, Apple, and web standards via a curated link-blog format.",
+    name: 'Daring Fireball',
+    url: 'https://daringfireball.net',
+    category: 'technology',
+    description:
+      "John Gruber's independent commentary site tracking technology, Apple, and web standards via a curated link-blog format.",
     feeds: [
-      { name: "Daring Fireball Main", url: "https://daringfireball.net/feeds/main", format: "atom" }
-    ]
-  }
+      {
+        name: 'Daring Fireball Main',
+        url: 'https://daringfireball.net/feeds/main',
+        format: 'atom',
+      },
+    ],
+  },
 ];
 
 export const openInternetSources: Source[] = [
   {
-    id: "kottke",
-    name: "Kottke.org",
-    url: "https://kottke.org",
-    desc: "Independent weblog curated with eclectic links spanning design science and digital culture",
-    type: "weblog",
-    category: "culture",
-    tags: ["blog", "curation"],
+    id: 'kottke',
+    name: 'Kottke.org',
+    url: 'https://kottke.org',
+    desc: 'Independent weblog curated with eclectic links spanning design science and digital culture',
+    type: 'weblog',
+    category: 'culture',
+    tags: ['blog', 'curation'],
     trustScore: 90,
-    capabilities: ["rss-feed"],
-    verified: "2026-09-19",
-    feeds: [
-      { name: "Kottke Main Feed", url: "https://feeds.kottke.org/main", format: "rss" }
-    ]
+    capabilities: ['rss-feed'],
+    verified: '2026-09-19',
+    feeds: [{ name: 'Kottke Main Feed', url: 'https://feeds.kottke.org/main', format: 'rss' }],
   },
   {
-    id: "techmeme",
-    name: "Techmeme",
-    url: "https://www.techmeme.com",
-    desc: "Human and algorithm hybrid aggregation of essential technology news",
-    type: "aggregator",
-    category: "news",
-    tags: ["tech", "news"],
+    id: 'techmeme',
+    name: 'Techmeme',
+    url: 'https://www.techmeme.com',
+    desc: 'Human and algorithm hybrid aggregation of essential technology news',
+    type: 'aggregator',
+    category: 'news',
+    tags: ['tech', 'news'],
     trustScore: 85,
-    capabilities: ["rss-feed", "site-search"],
-    verified: "2026-09-19",
-    feeds: [
-      { name: "Techmeme Top News", url: "https://www.techmeme.com/feed.xml", format: "rss" }
-    ]
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
+    feeds: [{ name: 'Techmeme Top News', url: 'https://www.techmeme.com/feed.xml', format: 'rss' }],
   },
   {
-    id: "lobsters",
-    name: "Lobsters",
-    url: "https://lobste.rs",
-    desc: "Community focused computing centric link aggregator featuring technical discussions",
-    type: "forum",
-    category: "technology",
-    tags: ["programming"],
+    id: 'lobsters',
+    name: 'Lobsters',
+    url: 'https://lobste.rs',
+    desc: 'Community focused computing centric link aggregator featuring technical discussions',
+    type: 'forum',
+    category: 'technology',
+    tags: ['programming'],
     trustScore: 88,
-    capabilities: ["rss-feed", "site-search"],
-    verified: "2026-09-19",
+    capabilities: ['rss-feed', 'site-search'],
+    verified: '2026-09-19',
     feeds: [
-      { name: "Hottest Stories", url: "https://lobste.rs/rss", format: "rss" },
-      { name: "Newest Submissions", url: "https://lobste.rs/newest.rss", format: "rss" }
-    ]
+      { name: 'Hottest Stories', url: 'https://lobste.rs/rss', format: 'rss' },
+      { name: 'Newest Submissions', url: 'https://lobste.rs/newest.rss', format: 'rss' },
+    ],
   },
   {
-    id: "aldaily",
-    name: "Arts & Letters Daily",
-    url: "https://www.aldaily.com",
-    desc: "Minimalist daily aggregator of intellectual essays philosophy and book reviews",
-    type: "aggregator",
-    category: "culture",
-    tags: ["essays", "philosophy"],
+    id: 'aldaily',
+    name: 'Arts & Letters Daily',
+    url: 'https://www.aldaily.com',
+    desc: 'Minimalist daily aggregator of intellectual essays philosophy and book reviews',
+    type: 'aggregator',
+    category: 'culture',
+    tags: ['essays', 'philosophy'],
     trustScore: 92,
-    capabilities: ["rss-feed"],
-    verified: "2026-09-19",
-    feeds: [
-      { name: "Arts & Letters Daily", url: "https://aldaily.com/feed/", format: "rss" }
-    ]
-  }
+    capabilities: ['rss-feed'],
+    verified: '2026-09-19',
+    feeds: [{ name: 'Arts & Letters Daily', url: 'https://aldaily.com/feed/', format: 'rss' }],
+  },
 ];
 
 export const additionalSources: Source[] = [
@@ -3351,8 +3344,12 @@ export const additionalSources: Source[] = [
     lang: 'en',
     region: 'United States',
     feeds: [
-      { name: "ProPublica Main Feed", url: "https://www.propublica.org/feeds/propublica/main", format: "rss" }
-    ]
+      {
+        name: 'ProPublica Main Feed',
+        url: 'https://www.propublica.org/feeds/propublica/main',
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'yle-news',
@@ -3368,9 +3365,13 @@ export const additionalSources: Source[] = [
     lang: 'en',
     region: 'Finland',
     feeds: [
-      { name: "Yle News English", url: "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_NEWS", format: "rss" }
-    ]
-  }
+      {
+        name: 'Yle News English',
+        url: 'https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_NEWS',
+        format: 'rss',
+      },
+    ],
+  },
 ];
 
 export const curatedSources: Source[] = [
@@ -3388,8 +3389,8 @@ export const curatedSources: Source[] = [
     lang: 'en',
     region: 'United States',
     feeds: [
-      { name: "The Intercept", url: "https://theintercept.com/feed/?lang=en", format: "rss" }
-    ]
+      { name: 'The Intercept', url: 'https://theintercept.com/feed/?lang=en', format: 'rss' },
+    ],
   },
   {
     id: '404-media',
@@ -3404,9 +3405,7 @@ export const curatedSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'United States',
-    feeds: [
-      { name: "404 Media RSS", url: "https://www.404media.co/rss/", format: "rss" }
-    ]
+    feeds: [{ name: '404 Media RSS', url: 'https://www.404media.co/rss/', format: 'rss' }],
   },
   {
     id: 'defector',
@@ -3421,9 +3420,7 @@ export const curatedSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'United States',
-    feeds: [
-      { name: "Defector Articles", url: "https://defector.com/feed/", format: "rss" }
-    ]
+    feeds: [{ name: 'Defector Articles', url: 'https://defector.com/feed/', format: 'rss' }],
   },
   {
     id: 'rest-of-world',
@@ -3438,9 +3435,7 @@ export const curatedSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'Global',
-    feeds: [
-      { name: "Rest of World", url: "https://restofworld.org/feed/", format: "rss" }
-    ]
+    feeds: [{ name: 'Rest of World', url: 'https://restofworld.org/feed/', format: 'rss' }],
   },
   {
     id: 'the-markup',
@@ -3455,9 +3450,7 @@ export const curatedSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'United States',
-    feeds: [
-      { name: "The Markup", url: "https://themarkup.org/feeds/rss.xml", format: "rss" }
-    ]
+    feeds: [{ name: 'The Markup', url: 'https://themarkup.org/feeds/rss.xml', format: 'rss' }],
   },
   {
     id: 'longform',
@@ -3472,9 +3465,7 @@ export const curatedSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'Global',
-    feeds: [
-      { name: "Longform Articles", url: "https://longform.org/feed.rss", format: "rss" }
-    ]
+    feeds: [{ name: 'Longform Articles', url: 'https://longform.org/feed.rss', format: 'rss' }],
   },
   {
     id: 'the-marshall-project',
@@ -3490,8 +3481,12 @@ export const curatedSources: Source[] = [
     lang: 'en',
     region: 'United States',
     feeds: [
-      { name: "Recent Stories", url: "https://www.themarshallproject.org/rss/recent.rss", format: "rss" }
-    ]
+      {
+        name: 'Recent Stories',
+        url: 'https://www.themarshallproject.org/rss/recent.rss',
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'arena',
@@ -3506,9 +3501,7 @@ export const curatedSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'Global',
-    feeds: [
-      { name: "Are.na Blog", url: "https://www.are.na/blog/feed.xml", format: "rss" }
-    ]
+    feeds: [{ name: 'Are.na Blog', url: 'https://www.are.na/blog/feed.xml', format: 'rss' }],
   },
   {
     id: 'marginal-revolution',
@@ -3524,8 +3517,12 @@ export const curatedSources: Source[] = [
     lang: 'en',
     region: 'United States',
     feeds: [
-      { name: "Marginal Revolution", url: "https://feeds.feedburner.com/marginalrevolution/feed", format: "rss" }
-    ]
+      {
+        name: 'Marginal Revolution',
+        url: 'https://feeds.feedburner.com/marginalrevolution/feed',
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'pluralistic',
@@ -3540,9 +3537,7 @@ export const curatedSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'Canada',
-    feeds: [
-      { name: "Pluralistic Daily", url: "https://pluralistic.net/feed/", format: "rss" }
-    ]
+    feeds: [{ name: 'Pluralistic Daily', url: 'https://pluralistic.net/feed/', format: 'rss' }],
   },
   {
     id: 'de-correspondent',
@@ -3557,9 +3552,7 @@ export const curatedSources: Source[] = [
     verified: '2026-09-19',
     lang: 'nl',
     region: 'Netherlands',
-    feeds: [
-      { name: "De Correspondent", url: "https://decorrespondent.nl/feed", format: "rss" }
-    ]
+    feeds: [{ name: 'De Correspondent', url: 'https://decorrespondent.nl/feed', format: 'rss' }],
   },
   {
     id: 'nieman-lab',
@@ -3574,9 +3567,7 @@ export const curatedSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'United States',
-    feeds: [
-      { name: "Nieman Lab Feed", url: "https://www.niemanlab.org/feed/", format: "rss" }
-    ]
+    feeds: [{ name: 'Nieman Lab Feed', url: 'https://www.niemanlab.org/feed/', format: 'rss' }],
   },
   {
     id: 'ars-technica',
@@ -3592,8 +3583,12 @@ export const curatedSources: Source[] = [
     lang: 'en',
     region: 'United States',
     feeds: [
-      { name: "Ars Technica", url: "https://feeds.arstechnica.com/arstechnica/index", format: "rss" }
-    ]
+      {
+        name: 'Ars Technica',
+        url: 'https://feeds.arstechnica.com/arstechnica/index',
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'a-list-apart',
@@ -3609,8 +3604,8 @@ export const curatedSources: Source[] = [
     lang: 'en',
     region: 'Global',
     feeds: [
-      { name: "A List Apart Articles", url: "https://alistapart.com/main/feed/", format: "rss" }
-    ]
+      { name: 'A List Apart Articles', url: 'https://alistapart.com/main/feed/', format: 'rss' },
+    ],
   },
   {
     id: 'quanta-magazine',
@@ -3625,9 +3620,7 @@ export const curatedSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'United States',
-    feeds: [
-      { name: "Quanta Feed", url: "https://api.quantamagazine.org/feed/", format: "rss" }
-    ]
+    feeds: [{ name: 'Quanta Feed', url: 'https://api.quantamagazine.org/feed/', format: 'rss' }],
   },
   {
     id: 'first-monday',
@@ -3643,8 +3636,12 @@ export const curatedSources: Source[] = [
     lang: 'en',
     region: 'Global',
     feeds: [
-      { name: "First Monday Updates", url: "https://firstmonday.org/ojs/index.php/fm/gateway/plugin/WebFeedGatewayPlugin/rss2", format: "rss" }
-    ]
+      {
+        name: 'First Monday Updates',
+        url: 'https://firstmonday.org/ojs/index.php/fm/gateway/plugin/WebFeedGatewayPlugin/rss2',
+        format: 'rss',
+      },
+    ],
   },
   {
     id: 'public-books',
@@ -3660,8 +3657,8 @@ export const curatedSources: Source[] = [
     lang: 'en',
     region: 'United States',
     feeds: [
-      { name: "Public Books Articles", url: "https://www.publicbooks.org/feed/", format: "rss" }
-    ]
+      { name: 'Public Books Articles', url: 'https://www.publicbooks.org/feed/', format: 'rss' },
+    ],
   },
   {
     id: 'public-domain-review',
@@ -3677,8 +3674,8 @@ export const curatedSources: Source[] = [
     lang: 'en',
     region: 'United Kingdom',
     feeds: [
-      { name: "PDR Main Feed", url: "https://publicdomainreview.org/feed.xml", format: "rss" }
-    ]
+      { name: 'PDR Main Feed', url: 'https://publicdomainreview.org/feed.xml', format: 'rss' },
+    ],
   },
   {
     id: 'icij',
@@ -3693,9 +3690,7 @@ export const curatedSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'Global',
-    feeds: [
-      { name: "ICIJ Investigations", url: "https://www.icij.org/feed/", format: "rss" }
-    ]
+    feeds: [{ name: 'ICIJ Investigations', url: 'https://www.icij.org/feed/', format: 'rss' }],
   },
   {
     id: 'cir',
@@ -3710,10 +3705,8 @@ export const curatedSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'United States',
-    feeds: [
-      { name: "Reveal News Feed", url: "https://revealnews.org/feed/", format: "rss" }
-    ]
-  }
+    feeds: [{ name: 'Reveal News Feed', url: 'https://revealnews.org/feed/', format: 'rss' }],
+  },
 ];
 
 export const countercultureSources: Source[] = [
@@ -3730,9 +3723,7 @@ export const countercultureSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'Global',
-    feeds: [
-      { name: "Dirt Daily", url: "https://dirt.fyi/feed", format: "rss" }
-    ]
+    feeds: [{ name: 'Dirt Daily', url: 'https://dirt.fyi/feed', format: 'rss' }],
   },
   {
     id: 'logicsMag',
@@ -3747,9 +3738,7 @@ export const countercultureSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'Global',
-    feeds: [
-      { name: "Logic Magazine", url: "https://logicmag.io/feed.xml", format: "rss" }
-    ]
+    feeds: [{ name: 'Logic Magazine', url: 'https://logicmag.io/feed.xml', format: 'rss' }],
   },
   {
     id: 'doNotResearch',
@@ -3763,7 +3752,7 @@ export const countercultureSources: Source[] = [
     capabilities: [],
     verified: '2026-09-19',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'kernelMag',
@@ -3778,9 +3767,7 @@ export const countercultureSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'Global',
-    feeds: [
-      { name: "Kernel RSS", url: "https://kernelmag.io/rss.xml", format: "rss" }
-    ]
+    feeds: [{ name: 'Kernel RSS', url: 'https://kernelmag.io/rss.xml', format: 'rss' }],
   },
   {
     id: 'newModels',
@@ -3795,9 +3782,7 @@ export const countercultureSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'Europe',
-    feeds: [
-      { name: "New Models Feed", url: "https://newmodels.io/feed", format: "rss" }
-    ]
+    feeds: [{ name: 'New Models Feed', url: 'https://newmodels.io/feed', format: 'rss' }],
   },
   {
     id: 'aftermath',
@@ -3812,9 +3797,7 @@ export const countercultureSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'United States',
-    feeds: [
-      { name: "Aftermath", url: "https://aftermath.site/feed", format: "rss" }
-    ]
+    feeds: [{ name: 'Aftermath', url: 'https://aftermath.site/feed', format: 'rss' }],
   },
   {
     id: 'bloodKnife',
@@ -3829,9 +3812,7 @@ export const countercultureSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'Global',
-    feeds: [
-      { name: "Blood Knife Articles", url: "https://bloodknife.com/feed/", format: "rss" }
-    ]
+    feeds: [{ name: 'Blood Knife Articles', url: 'https://bloodknife.com/feed/', format: 'rss' }],
   },
   {
     id: 'htmlReview',
@@ -3845,7 +3826,7 @@ export const countercultureSources: Source[] = [
     capabilities: [],
     verified: '2026-09-19',
     lang: 'en',
-    region: 'Global'
+    region: 'Global',
   },
   {
     id: 'hellGate',
@@ -3860,9 +3841,7 @@ export const countercultureSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'United States',
-    feeds: [
-      { name: "Hell Gate NYC", url: "https://hellgatenyc.com/rss/", format: "rss" }
-    ]
+    feeds: [{ name: 'Hell Gate NYC', url: 'https://hellgatenyc.com/rss/', format: 'rss' }],
   },
   {
     id: 'rhizome',
@@ -3877,14 +3856,15 @@ export const countercultureSources: Source[] = [
     verified: '2026-09-19',
     lang: 'en',
     region: 'United States',
-    feeds: [
-      { name: "Rhizome Feed", url: "https://rhizome.org/rss/", format: "rss" }
-    ]
-  }
+    feeds: [{ name: 'Rhizome Feed', url: 'https://rhizome.org/rss/', format: 'rss' }],
+  },
 ];
 
 function outletToSource(outlet: WebOutlet): Source {
-  const id = outlet.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  const id = outlet.name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
   return {
     id,
     name: outlet.name,
@@ -3906,7 +3886,7 @@ function outletToSource(outlet: WebOutlet): Source {
  * Deduplicates by source id and incorporates entries from openInternetDirectory.
  */
 function compileAllSources(): readonly Source[] {
-  const collections: readonly (readonly Source[] | readonly any[])[] = [
+  const collections: readonly (readonly Source[])[] = [
     SOURCE_FIXTURE,
     enrichedTechAndCultureSources,
     bleedingEdgeTechSources,

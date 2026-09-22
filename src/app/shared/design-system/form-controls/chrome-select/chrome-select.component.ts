@@ -32,7 +32,7 @@ export interface SelectOption {
   selector: 'joo-chrome-select',
   imports: [Select, FormsModule],
   templateUrl: './chrome-select.component.html',
-  styleUrl: './chrome-select.component.css'
+  styleUrl: './chrome-select.component.css',
 })
 export class ChromeSelectComponent {
   /**

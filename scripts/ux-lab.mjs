@@ -109,7 +109,11 @@ function runLighthouseOnce(url, chrome) {
       '--output=json',
       `--output-path=${outPath}`,
     ],
-    { cwd: root, encoding: 'utf8', env: { ...process.env, ...(chrome ? { CHROME_PATH: chrome } : {}) } },
+    {
+      cwd: root,
+      encoding: 'utf8',
+      env: { ...process.env, ...(chrome ? { CHROME_PATH: chrome } : {}) },
+    },
   );
   try {
     // On Windows chrome-launcher often fails to delete its temp profile
@@ -268,17 +272,25 @@ const run = {
   ts: new Date().toISOString(),
   commit: sha,
   dirty,
-  angular: JSON.parse(readFileSync(join(root, 'node_modules', '@angular', 'core', 'package.json'), 'utf8')).version,
-  lighthouse: JSON.parse(readFileSync(join(root, 'node_modules', 'lighthouse', 'package.json'), 'utf8')).version,
+  angular: JSON.parse(
+    readFileSync(join(root, 'node_modules', '@angular', 'core', 'package.json'), 'utf8'),
+  ).version,
+  lighthouse: JSON.parse(
+    readFileSync(join(root, 'node_modules', 'lighthouse', 'package.json'), 'utf8'),
+  ).version,
   runsPerUrl: RUNS,
   pages,
   bundle: readBundle(),
 };
 
 const baseline = COMPARE || STRICT ? loadBaseline(COMPARE_REF) : null;
-if ((COMPARE || STRICT) && !baseline) console.log('\nux-lab: no baseline found, comparing against absolute limits only');
+if ((COMPARE || STRICT) && !baseline)
+  console.log('\nux-lab: no baseline found, comparing against absolute limits only');
 printTable(run, baseline);
-if (baseline) console.log(`compared with baseline ${baseline.commit}${baseline.dirty ? ' (dirty)' : ''} from ${baseline.ts}`);
+if (baseline)
+  console.log(
+    `compared with baseline ${baseline.commit}${baseline.dirty ? ' (dirty)' : ''} from ${baseline.ts}`,
+  );
 
 mkdirSync(HISTORY_DIR, { recursive: true });
 appendFileSync(join(HISTORY_DIR, 'history.jsonl'), `${JSON.stringify(run)}\n`, 'utf8');
@@ -296,7 +308,9 @@ if (targets.length > 0) {
   for (const t of targets) console.log(`  - ${t}`);
 }
 if (breaches.length > 0) {
-  console.log(`\n${STRICT ? 'FAIL' : 'warn'}: ${breaches.length} regression(s) against the baseline`);
+  console.log(
+    `\n${STRICT ? 'FAIL' : 'warn'}: ${breaches.length} regression(s) against the baseline`,
+  );
   for (const b of breaches) console.log(`  - ${b}`);
   if (STRICT) process.exit(1);
 } else {

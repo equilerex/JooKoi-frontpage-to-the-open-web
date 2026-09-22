@@ -11,7 +11,7 @@ Status: DECIDED
 
 ## Problem
 
-The mockup's hero wordmark template, `Open<b>Web</b>`, reads as a single compound brand ("OPENWEB"). The product is *front page to the open web*, a statement about what the page is for, not a brand to be recognised — the compound reading inverts that intent, while "open web" still needs to be present and prominent and `JooKoi` does not belong on screen at all.
+The mockup's hero wordmark template, `Open<b>Web</b>`, reads as a single compound brand ("OPENWEB"). The product is _front page to the open web_, a statement about what the page is for, not a brand to be recognised — the compound reading inverts that intent, while "open web" still needs to be present and prominent and `JooKoi` does not belong on screen at all.
 
 ## Options considered
 
