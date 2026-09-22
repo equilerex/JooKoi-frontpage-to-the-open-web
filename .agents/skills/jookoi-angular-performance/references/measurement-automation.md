@@ -38,22 +38,22 @@ Ask about the choices that differ: where results are stored, whether CI runs it,
 
 ## Options and maintenance status
 
-| Option | Measures | Status (npm and GitHub, 2026-09-21) | Notes |
-|---|---|---|---|
-| Lighthouse CLI | Lab metrics, node API, user flows | 13.5.0, active | Needs a reachable URL. Node API and flows are the scripting route |
-| Lighthouse CI (`@lhci/cli`) | Lighthouse runs, assertions, upload | 0.15.1, last release 2025-06, bundles Lighthouse 12.6.1 | Scores differ from a current CLI, pin one and record it. Assertions are absolute thresholds per run |
-| Unlighthouse | Site-wide crawl of Lighthouse | 0.18.0, Node 22.18+ | Good for finding the worst routes, weaker as a strict gate because sampling varies the route set |
-| sitespeed.io | Browsertime runs, Grafana time series, scripted journeys | 42.7.0, active, Node 22+ | Self-hosted history and login scripting, heavier to operate |
-| PageSpeed Insights API | Lab plus CrUX for a public URL | Google service | Public URLs only. Lab part also varies per run |
-| Playwright with `web-vitals` or Lighthouse | Scripted login and route walking | Playwright 1.63.0 | Handing the browser to Lighthouse is an untested recipe |
-| Chrome DevTools MCP | Traces, insights, network, emulation | `chrome-devtools-mcp` 1.9.0, very active | `lighthouse_audit` excludes performance, use the trace tools. No built-in diff |
-| `@danielsogl/lighthouse-mcp` | Local Lighthouse audits, budget checks, mobile vs desktop | 2.0.1, community | No base-vs-head comparison |
-| `web-vitals` (RUM) | Real-user LCP, INP, CLS with attribution | 6.2.2, active | Only real field source |
-| CrUX API | 28-day p75 for origin or URL | Google service | Key required, 150 queries per minute per project, about 2 days behind. Low-traffic URLs have no data |
-| `size-limit` | Bundle size gate | 14.0.0, Node 22.19+ | `@size-limit/file` plugin needs no bundler. Use with Angular output is untested |
-| stats file diff script | Per-chunk bytes between two builds | none needed | Own script over the esbuild metafile, see below |
-| RelativeCI | Managed bundle history | `@relative-ci/cli` 5.4.0 | Docs list webpack, Vite, Rollup and others, not esbuild or Angular. Verify support first |
-| `@playwright/mcp` | Browser control | 0.0.82, pre-1.0 | For login and route walking, not numbers |
+| Option                                     | Measures                                                  | Status (npm and GitHub, 2026-09-21)                     | Notes                                                                                                |
+| ------------------------------------------ | --------------------------------------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Lighthouse CLI                             | Lab metrics, node API, user flows                         | 13.5.0, active                                          | Needs a reachable URL. Node API and flows are the scripting route                                    |
+| Lighthouse CI (`@lhci/cli`)                | Lighthouse runs, assertions, upload                       | 0.15.1, last release 2025-06, bundles Lighthouse 12.6.1 | Scores differ from a current CLI, pin one and record it. Assertions are absolute thresholds per run  |
+| Unlighthouse                               | Site-wide crawl of Lighthouse                             | 0.18.0, Node 22.18+                                     | Good for finding the worst routes, weaker as a strict gate because sampling varies the route set     |
+| sitespeed.io                               | Browsertime runs, Grafana time series, scripted journeys  | 42.7.0, active, Node 22+                                | Self-hosted history and login scripting, heavier to operate                                          |
+| PageSpeed Insights API                     | Lab plus CrUX for a public URL                            | Google service                                          | Public URLs only. Lab part also varies per run                                                       |
+| Playwright with `web-vitals` or Lighthouse | Scripted login and route walking                          | Playwright 1.63.0                                       | Handing the browser to Lighthouse is an untested recipe                                              |
+| Chrome DevTools MCP                        | Traces, insights, network, emulation                      | `chrome-devtools-mcp` 1.9.0, very active                | `lighthouse_audit` excludes performance, use the trace tools. No built-in diff                       |
+| `@danielsogl/lighthouse-mcp`               | Local Lighthouse audits, budget checks, mobile vs desktop | 2.0.1, community                                        | No base-vs-head comparison                                                                           |
+| `web-vitals` (RUM)                         | Real-user LCP, INP, CLS with attribution                  | 6.2.2, active                                           | Only real field source                                                                               |
+| CrUX API                                   | 28-day p75 for origin or URL                              | Google service                                          | Key required, 150 queries per minute per project, about 2 days behind. Low-traffic URLs have no data |
+| `size-limit`                               | Bundle size gate                                          | 14.0.0, Node 22.19+                                     | `@size-limit/file` plugin needs no bundler. Use with Angular output is untested                      |
+| stats file diff script                     | Per-chunk bytes between two builds                        | none needed                                             | Own script over the esbuild metafile, see below                                                      |
+| RelativeCI                                 | Managed bundle history                                    | `@relative-ci/cli` 5.4.0                                | Docs list webpack, Vite, Rollup and others, not esbuild or Angular. Verify support first             |
+| `@playwright/mcp`                          | Browser control                                           | 0.0.82, pre-1.0                                         | For login and route walking, not numbers                                                             |
 
 Do not propose: `source-map-explorer` (unmaintained since 2022), webpack-era analyzers for the esbuild builder, `bundlewatch` (low activity), the `webpagetest` npm wrapper (last published 2024-12).
 
@@ -61,17 +61,17 @@ Node engines differ per tool. Node 22.19 or newer satisfied every one checked, s
 
 ## Decision guide
 
-| Situation | Propose |
-|---|---|
-| No CI, first look | Chrome DevTools MCP audit of a production build or deployed URL, notes to a log, state that numbers are single-run |
-| Open source on GitHub with preview URLs | Own stats diff or `size-limit` on PRs, Lighthouse 5 runs with median in Actions, committed baseline |
-| Private on GitHub Actions with staging | Same, self-managed. Add an LHCI server only if a history UI is wanted |
-| Login-walled app | Playwright login then Lighthouse (`puppeteerScript` in lhci, or Unlighthouse cookies and headers), or sitespeed.io scripting. PSI and CrUX cannot see these routes |
-| High-traffic public pages | Add sampled `web-vitals` beacons or a periodic CrUX pull. Lab gates, field decides |
-| Low traffic | Lab only |
-| Many pages, unknown worst routes | Unlighthouse sweep, then pin 3 to 10 routes |
-| Dashboards without a vendor | sitespeed.io with Graphite and Grafana, needs a Docker host |
-| No CI or noisy CI | Local or scheduled triage, mark verdicts low confidence |
+| Situation                               | Propose                                                                                                                                                            |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| No CI, first look                       | Chrome DevTools MCP audit of a production build or deployed URL, notes to a log, state that numbers are single-run                                                 |
+| Open source on GitHub with preview URLs | Own stats diff or `size-limit` on PRs, Lighthouse 5 runs with median in Actions, committed baseline                                                                |
+| Private on GitHub Actions with staging  | Same, self-managed. Add an LHCI server only if a history UI is wanted                                                                                              |
+| Login-walled app                        | Playwright login then Lighthouse (`puppeteerScript` in lhci, or Unlighthouse cookies and headers), or sitespeed.io scripting. PSI and CrUX cannot see these routes |
+| High-traffic public pages               | Add sampled `web-vitals` beacons or a periodic CrUX pull. Lab gates, field decides                                                                                 |
+| Low traffic                             | Lab only                                                                                                                                                           |
+| Many pages, unknown worst routes        | Unlighthouse sweep, then pin 3 to 10 routes                                                                                                                        |
+| Dashboards without a vendor             | sitespeed.io with Graphite and Grafana, needs a Docker host                                                                                                        |
+| No CI or noisy CI                       | Local or scheduled triage, mark verdicts low confidence                                                                                                            |
 
 ## Noise rules
 
@@ -102,8 +102,22 @@ Minimal `perf/baseline.json` (proposal, untested):
   "commit": "<sha>",
   "angular": "22.1.8",
   "builder": "@angular/build:application",
-  "env": { "where": "ci", "runner": "ubuntu-24.04", "node": "22.19.0", "chrome": "<ver>", "lighthouse": "13.5.0", "benchmarkIndex": 1400 },
-  "profile": { "formFactor": "mobile", "throttling": "simulated-default", "cpuSlowdown": 4, "auth": false, "cache": "cold", "runs": 5 },
+  "env": {
+    "where": "ci",
+    "runner": "ubuntu-24.04",
+    "node": "22.19.0",
+    "chrome": "<ver>",
+    "lighthouse": "13.5.0",
+    "benchmarkIndex": 1400
+  },
+  "profile": {
+    "formFactor": "mobile",
+    "throttling": "simulated-default",
+    "cpuSlowdown": 4,
+    "auth": false,
+    "cache": "cold",
+    "runs": 5
+  },
   "target": "https://staging.example.com",
   "routes": {
     "/": {
@@ -148,13 +162,13 @@ CrUX pull: `POST https://chromeuxreport.googleapis.com/v1/records:queryRecord` w
 
 ## Scheduling
 
-| Option | Runs where | Limits |
-|---|---|---|
-| GitHub Actions `schedule` | GitHub runner | Minimum 5 minutes, delays under load, default branch only, public repos auto-disabled after 60 days without activity |
-| Other CI cron | CI runner | Not researched |
+| Option                             | Runs where                   | Limits                                                                                                                                                                             |
+| ---------------------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GitHub Actions `schedule`          | GitHub runner                | Minimum 5 minutes, delays under load, default branch only, public repos auto-disabled after 60 days without activity                                                               |
+| Other CI cron                      | CI runner                    | Not researched                                                                                                                                                                     |
 | Claude Code Routines (`/schedule`) | Anthropic cloud, fresh clone | Minimum 1 hour, daily run caps by plan, research preview. Default network is an allowlist so deployed-site audits need it changed. Chrome availability in the sandbox not verified |
-| Desktop scheduled tasks | The user's machine | Minimum 1 minute, machine must be on, numbers depend on that machine |
-| `/loop` | Open session | Minimum 1 minute, 7-day expiry, not for perf history |
+| Desktop scheduled tasks            | The user's machine           | Minimum 1 minute, machine must be on, numbers depend on that machine                                                                                                               |
+| `/loop`                            | Open session                 | Minimum 1 minute, 7-day expiry, not for perf history                                                                                                                               |
 
 For history use CI cron. Use Routines or `/loop` for triage on top of CI output (read the latest artifact, open an issue), not for taking measurements. Alerts: CI failure notification, a workflow step that opens an issue on regression, or a Slack webhook. Costs: CI minutes (routes times profiles times 5 runs adds up), hosting for LHCI or Grafana, RUM storage, Routine usage.
 

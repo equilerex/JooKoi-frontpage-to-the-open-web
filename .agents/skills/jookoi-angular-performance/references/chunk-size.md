@@ -8,11 +8,11 @@ Reducing initial bundle size and lazy chunk size for the `@angular/build:applica
 2. Offer options at three sizes and say what can be done now versus logged for later. Users often cannot fix the big items immediately.
 3. Automate detection only. Ask before any swap, threshold, locale removal or loading-strategy change.
 
-| Tier | Effort | Examples |
-|---|---|---|
-| Quick | minutes to an hour | `statsJson`, direct imports instead of barrels, diagnostic `namedChunks`, a warning-level budget |
-| Moderate | hours to days, a few files | `@defer` a heavy component, lazy `import()` of a library, lodash or moment replacement, flatten nested lazy routes |
-| Project | days to weeks, needs testing | replace a chart/editor/PDF library, drop CommonJS dependencies, re-cut feature boundaries, locale strategy |
+| Tier     | Effort                       | Examples                                                                                                           |
+| -------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Quick    | minutes to an hour           | `statsJson`, direct imports instead of barrels, diagnostic `namedChunks`, a warning-level budget                   |
+| Moderate | hours to days, a few files   | `@defer` a heavy component, lazy `import()` of a library, lodash or moment replacement, flatten nested lazy routes |
+| Project  | days to weeks, needs testing | replace a chart/editor/PDF library, drop CommonJS dependencies, re-cut feature boundaries, locale strategy         |
 
 Safe to automate (read-only): generate the stats file, list the largest chunks and their inputs grouped by package, grep for `from 'lodash'`, `from 'moment'`, `import * as`, barrel `index.ts` re-exports and `registerLocaleData`, read build warnings for CommonJS, compare raw sizes between two builds.
 
@@ -59,11 +59,11 @@ Checks: list `component:` routes (`audit.mjs` does), sort `main`'s inputs by sou
 
 Pattern: a design-system wrapper that uses one or two features of a large UI-kit component. In the reference run a PrimeNG `p-table` wrapper rendering a read-only table (no sorting, no paging) pulled datepicker, inputnumber, paginator, scroller and select into every chunk that used it, about 400 kB raw. Confirm with `chunk-packages.mjs` on the route chunk: a UI-kit package that dominates a page that visibly uses little of it is the signal.
 
-| Size | Option | Tradeoff |
-|---|---|---|
-| Quick | Verify with the per-package breakdown, list which features the wrapper really uses | Read-only |
-| Moderate | Plain markup or a lighter primitive behind the same wrapper API and CSS classes | Removes the dependency and its JS. Loses features the kit gave for free (keyboard handling, sorting), so check none are used |
-| Project | `@defer` the wrapper, with `hydrate on viewport` on prerendered pages | Keeps the dependency and its JS cost and moves it later. It is a loading strategy, not a removal. Placeholder and pre-hydration behavior matter, see `loading.md` |
+| Size     | Option                                                                             | Tradeoff                                                                                                                                                          |
+| -------- | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Quick    | Verify with the per-package breakdown, list which features the wrapper really uses | Read-only                                                                                                                                                         |
+| Moderate | Plain markup or a lighter primitive behind the same wrapper API and CSS classes    | Removes the dependency and its JS. Loses features the kit gave for free (keyboard handling, sorting), so check none are used                                      |
+| Project  | `@defer` the wrapper, with `hydrate on viewport` on prerendered pages              | Keeps the dependency and its JS cost and moves it later. It is a loading strategy, not a removal. Placeholder and pre-hydration behavior matter, see `loading.md` |
 
 Ask which fits the feature. A stated preference for keeping the main layout light and deferring heavy parts points at `@defer`. A read-only table with no interactivity points at removal.
 

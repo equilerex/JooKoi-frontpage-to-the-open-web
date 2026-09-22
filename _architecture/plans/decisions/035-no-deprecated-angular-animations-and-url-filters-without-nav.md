@@ -7,11 +7,13 @@ Status: PARTIALLY SUPERSEDED by [Decision 036](036-search-filter-memory-and-safe
 ## Problem
 
 Filtering on `/search` and toggling facets (category, type, capabilities, region, keyword) caused severe performance degradation:
+
 1. Complete UI and mouse freezing for several seconds on filter actions or typing.
 2. The page unconditionally jumped/scrolled to `(0, 0)` (top of the page) whenever any filter or keyword changed.
 3. Rapid keystrokes or fast clicking caused `AbortError` exceptions from View Transitions and zombie element leaks.
 
 Investigation revealed two root causes:
+
 1. **Row exit animations in collection rendering**: The grid table rows had `[animate.enter]` and `[animate.leave]` bindings. On every filter change, Angular intercepted element removal for hundreds of rows, bound hundreds of listeners, calculated `window.getComputedStyle(el)` inside `requestAnimationFrame` (triggering forced synchronous layouts), and held outgoing rows in the DOM during transition timeouts. Rapid filtering multiplied zombie rows and resulted in UI freezes and memory leaks. In addition, legacy `@angular/animations` is deprecated starting in Angular 20.2+ in favor of modern CSS native capabilities.
 2. **Router navigation used for in-page filter state**: Every filter action executed `router.navigate()`. Because `app.config.ts` configures `withInMemoryScrolling({ scrollPositionRestoration: 'enabled' })`, every forward navigation without a restored history scroll offset triggered `RouterScroller.scrollToPosition([0, 0])`. Furthermore, each navigation triggered `document.startViewTransition()` through `withViewTransitions()`, cancelling in-flight transitions on keystrokes and causing frame stutter.
 

@@ -9,6 +9,7 @@ Status: DECIDED
 Filtering results in `joo-record-grid` on `/search` felt jarring and instantaneous as items flopped in and out. The user required smooth enter and exit transitions for filtered table rows without artificial `min-height` constraints.
 
 Earlier attempts at animating rows caused severe UI freezes, memory leaks, and mouse unresponsiveness because:
+
 1. `transform` or `height` animations on `display: table-row` elements violate the CSS table formatting model and force synchronous layout recalcs across all table cells on every frame.
 2. `@for` loops tracked by index (`$index`) destroyed and recreated rows on every filter change, queuing leave animations for every row even when rows persisted across filter steps.
 3. Undebounced typing in keyword search synchronously fired filter cycles on every keystroke, piling up dozens of overlapping leave transitions and holding zombie DOM elements in memory.

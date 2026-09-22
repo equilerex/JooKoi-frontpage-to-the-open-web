@@ -56,14 +56,14 @@ inside `@media (hover: hover) and (pointer: fine)`.
 Durations and easing tokens live in `src/styles/design-tokens.css` (mirrored in
 `features/design-theme/tokens.css`):
 
-| Token              | Default | Use                                              |
-| ------------------ | ------- | ------------------------------------------------ |
-| `--duration-press` | 70ms    | Hardware keys                                    |
-| `--duration-state` | 160ms   | Hover, border, pending opacity                   |
-| `--duration-route` | 220ms   | Route pane view-transitions / enter-exit         |
-| `--duration-shell` | 240ms   | App shell `max-width` (e.g. library wide column) |
-| `--ease-out` | `cubic-bezier(0.23, 1, 0.32, 1)` | Entries, exits, and responsive UI feedback |
-| `--ease-in-out` | `cubic-bezier(0.77, 0, 0.175, 1)` | Movement that remains on screen |
+| Token              | Default                           | Use                                              |
+| ------------------ | --------------------------------- | ------------------------------------------------ |
+| `--duration-press` | 70ms                              | Hardware keys                                    |
+| `--duration-state` | 160ms                             | Hover, border, pending opacity                   |
+| `--duration-route` | 220ms                             | Route pane view-transitions / enter-exit         |
+| `--duration-shell` | 240ms                             | App shell `max-width` (e.g. library wide column) |
+| `--ease-out`       | `cubic-bezier(0.23, 1, 0.32, 1)`  | Entries, exits, and responsive UI feedback       |
+| `--ease-in-out`    | `cubic-bezier(0.77, 0, 0.175, 1)` | Movement that remains on screen                  |
 
 Recipes (pick one; do not invent a fifth duration):
 

@@ -25,25 +25,38 @@ const showNested = args.includes('--all');
 const preloaded = args.filter((a) => a.startsWith('--preloaded=')).map((a) => a.split('=')[1]);
 
 if (!target) {
-  console.error('Usage: node route-cost.mjs <stats.json | dist/<project>> [--min-kb=N] [--all] [--preloaded=<text>] [--json]');
+  console.error(
+    'Usage: node route-cost.mjs <stats.json | dist/<project>> [--min-kb=N] [--all] [--preloaded=<text>] [--json]',
+  );
   process.exit(2);
 }
-const file = existsSync(target) && statSync(target).isDirectory() ? join(target, 'stats.json') : target;
+const file =
+  existsSync(target) && statSync(target).isDirectory() ? join(target, 'stats.json') : target;
 if (!existsSync(file)) {
-  console.error(`No stats file at ${file}. Build with statsJson enabled. A failed build writes none (references/build-and-deploy.md).`);
+  console.error(
+    `No stats file at ${file}. Build with statsJson enabled. A failed build writes none (references/build-and-deploy.md).`,
+  );
   process.exit(2);
 }
 
 const raw = JSON.parse(readFileSync(file, 'utf8')).outputs;
 // Browser bundle only: SSR builds put server output (.mjs) in the same metafile.
-const outputs = Object.fromEntries(Object.entries(raw).filter(([n]) => n.endsWith('.js') || n.endsWith('.css')));
+const outputs = Object.fromEntries(
+  Object.entries(raw).filter(([n]) => n.endsWith('.js') || n.endsWith('.css')),
+);
 // kB is 1000 bytes, as in the Angular build table. KiB is 1024, as in budget strings like "500kB".
 const kb = (n) => (n / 1000).toFixed(1);
 const kib = (n) => (n / 1024).toFixed(1);
 
 const names = Object.keys(outputs);
-const staticImports = (name) => (outputs[name]?.imports ?? []).filter((i) => i.kind === 'import-statement' && outputs[i.path]).map((i) => i.path);
-const dynamicImports = (name) => (outputs[name]?.imports ?? []).filter((i) => i.kind === 'dynamic-import' && outputs[i.path]).map((i) => i.path);
+const staticImports = (name) =>
+  (outputs[name]?.imports ?? [])
+    .filter((i) => i.kind === 'import-statement' && outputs[i.path])
+    .map((i) => i.path);
+const dynamicImports = (name) =>
+  (outputs[name]?.imports ?? [])
+    .filter((i) => i.kind === 'dynamic-import' && outputs[i.path])
+    .map((i) => i.path);
 
 function closure(roots, exclude = new Set()) {
   const seen = new Set();
@@ -62,7 +75,11 @@ const dynamicTargets = new Set(names.flatMap(dynamicImports));
 const initialRoots = names.filter((n) => outputs[n].entryPoint && !dynamicTargets.has(n));
 const initial = closure(initialRoots);
 const initialBytes = total(initial);
-const startup = names.filter((n) => dynamicTargets.has(n) && preloaded.some((p) => n.includes(p) || (outputs[n].entryPoint ?? '').includes(p)));
+const startup = names.filter(
+  (n) =>
+    dynamicTargets.has(n) &&
+    preloaded.some((p) => n.includes(p) || (outputs[n].entryPoint ?? '').includes(p)),
+);
 for (const n of closure(startup)) initial.add(n);
 const startupBytes = total(initial) - initialBytes;
 
@@ -76,7 +93,12 @@ const rows = [...dynamicTargets]
     extra.delete(n);
     return {
       chunk: n,
-      source: outputs[n].entryPoint ?? Object.keys(outputs[n].inputs ?? {}).sort((a, b) => outputs[n].inputs[b].bytesInOutput - outputs[n].inputs[a].bytesInOutput)[0] ?? '(unknown)',
+      source:
+        outputs[n].entryPoint ??
+        Object.keys(outputs[n].inputs ?? {}).sort(
+          (a, b) => outputs[n].inputs[b].bytesInOutput - outputs[n].inputs[a].bytesInOutput,
+        )[0] ??
+        '(unknown)',
       ownBytes: own,
       sharedBytes: total(extra),
       totalBytes: own + total(extra),
@@ -87,17 +109,34 @@ const rows = [...dynamicTargets]
   .sort((a, b) => b.totalBytes - a.totalBytes);
 
 if (asJson) {
-  console.log(JSON.stringify({ initialBytes, startupBytes, initialEntries: initialRoots, routes: rows }, null, 2));
+  console.log(
+    JSON.stringify(
+      { initialBytes, startupBytes, initialEntries: initialRoots, routes: rows },
+      null,
+      2,
+    ),
+  );
   process.exit(0);
 }
 
-console.log(`Initial (raw): ${kb(initialBytes)} kB (${kib(initialBytes)} KiB), entries: ${initialRoots.join(', ')}`);
-if (startupBytes) console.log(`Startup import() chunks treated as loaded (--preloaded): +${kb(startupBytes)} kB (${kib(startupBytes)} KiB), not in the initial figure above`);
-console.log(`Lazy chunks: ${rows.length}${minKb ? ` at or above ${minKb} kB` : ''}. Route cost = own + static closure not already in initial.`);
+console.log(
+  `Initial (raw): ${kb(initialBytes)} kB (${kib(initialBytes)} KiB), entries: ${initialRoots.join(', ')}`,
+);
+if (startupBytes)
+  console.log(
+    `Startup import() chunks treated as loaded (--preloaded): +${kb(startupBytes)} kB (${kib(startupBytes)} KiB), not in the initial figure above`,
+  );
+console.log(
+  `Lazy chunks: ${rows.length}${minKb ? ` at or above ${minKb} kB` : ''}. Route cost = own + static closure not already in initial.`,
+);
 console.log('');
 console.log('route cost kB (KiB) | own | extra shared (files) | chunk | source');
 for (const r of rows) {
-  console.log(`${kb(r.totalBytes).padStart(7)} (${kib(r.totalBytes).padStart(6)}) | ${kb(r.ownBytes).padStart(7)} | ${kb(r.sharedBytes).padStart(7)} (${r.sharedChunks}) | ${r.chunk} | ${r.source}`);
+  console.log(
+    `${kb(r.totalBytes).padStart(7)} (${kib(r.totalBytes).padStart(6)}) | ${kb(r.ownBytes).padStart(7)} | ${kb(r.sharedBytes).padStart(7)} (${r.sharedChunks}) | ${r.chunk} | ${r.source}`,
+  );
 }
 console.log('');
-console.log('The source column is the metafile entryPoint, or the largest input when absent. Nested lazy chunks (import() inside a lazy chunk) need --all.');
+console.log(
+  'The source column is the metafile entryPoint, or the largest input when absent. Nested lazy chunks (import() inside a lazy chunk) need --all.',
+);

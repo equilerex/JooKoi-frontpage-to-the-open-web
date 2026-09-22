@@ -4,23 +4,23 @@ Covers request waterfalls, resolvers versus component loading, `resource`, `http
 
 ## Version gate
 
-| Topic | 20 | 21 | 22 |
-|---|---|---|---|
-| `resource`, `httpResource`, `rxResource` | Not stable | `@experimental` | `@publicApi 22.0` |
-| Default `HttpClient` backend | XHR, add `withFetch()` | XHR, add `withFetch()` | Fetch. `withFetch()` deprecated, `withXhr()` available |
+| Topic                                    | 20                     | 21                     | 22                                                     |
+| ---------------------------------------- | ---------------------- | ---------------------- | ------------------------------------------------------ |
+| `resource`, `httpResource`, `rxResource` | Not stable             | `@experimental`        | `@publicApi 22.0`                                      |
+| Default `HttpClient` backend             | XHR, add `withFetch()` | XHR, add `withFetch()` | Fetch. `withFetch()` deprecated, `withXhr()` available |
 
 XHR on the server is deprecated, with removal intended in Angular 23. Fetch has no upload progress events. SSR needs the fetch backend, so on 20 and 21 confirm `provideHttpClient(withFetch())`. On 20 the status of the resource APIs before 21 is unchecked, so warn about API churn on anything below 22.
 
 ## How to measure
 
-| Tool | Use for |
-|---|---|
-| DevTools Network waterfall | Staircases, serial requests, duplicates, "(canceled)" on fast param changes |
-| Network Timing tab | Queueing versus TTFB versus download |
-| Size column (transferred versus resource) | Compression and cache effect |
-| `Server-Timing` response header | Backend latency shown in Network Timings |
-| Router events with `performance.mark` | Navigation wait including resolvers |
-| Lighthouse and Performance panel | End-to-end LCP and long tasks |
+| Tool                                      | Use for                                                                     |
+| ----------------------------------------- | --------------------------------------------------------------------------- |
+| DevTools Network waterfall                | Staircases, serial requests, duplicates, "(canceled)" on fast param changes |
+| Network Timing tab                        | Queueing versus TTFB versus download                                        |
+| Size column (transferred versus resource) | Compression and cache effect                                                |
+| `Server-Timing` response header           | Backend latency shown in Network Timings                                    |
+| Router events with `performance.mark`     | Navigation wait including resolvers                                         |
+| Lighthouse and Performance panel          | End-to-end LCP and long tasks                                               |
 
 Safe to automate: grep for resolvers, `shareReplay`, `interval(`, `setInterval`, `subscribe` in `ngOnInit`, `withXhr`, and a missing `withFetch()` on 20 or 21. Changes to load order, cache lifetimes, retry policy, or API shape are user decisions.
 
@@ -28,11 +28,11 @@ Safe to automate: grep for resolvers, `shareReplay`, `interval(`, `setInterval`,
 
 Pattern: a resolver fetch, then a component fetch that depends on it, then per-item detail calls (N+1). Each step waits for the previous response, so latencies add.
 
-| Size | Option |
-|---|---|
-| Quick | Start independent requests together (`forkJoin`, `combineLatest`, or several resources created at construction). Remove a resolver that only forwards a route param to a fetch the component could start. Set `priority: 'low'` on non-critical calls |
-| Moderate | Replace N+1 with a batch endpoint or an `ids` or `include` expansion. Derive a dependent fetch's inputs from the route param instead of waiting on a parent response |
-| Project | Backend-for-frontend or GraphQL returning the page's data in one round trip |
+| Size     | Option                                                                                                                                                                                                                                                |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Quick    | Start independent requests together (`forkJoin`, `combineLatest`, or several resources created at construction). Remove a resolver that only forwards a route param to a fetch the component could start. Set `priority: 'low'` on non-critical calls |
+| Moderate | Replace N+1 with a batch endpoint or an `ids` or `include` expansion. Derive a dependent fetch's inputs from the route param instead of waiting on a parent response                                                                                  |
+| Project  | Backend-for-frontend or GraphQL returning the page's data in one round trip                                                                                                                                                                           |
 
 Pitfall: parallelizing changes error handling (one failure versus many) and ordering assumptions. Chained `switchMap` or `await` on independent calls is the usual cause.
 
@@ -40,17 +40,17 @@ Pitfall: parallelizing changes error handling (one failure versus many) and orde
 
 Resolvers block navigation. The docs note users may see a delay between clicking a link and seeing the new route on slow requests, and advise keeping resolvers lightweight (essential data only) with loading indicators via router events. Errors go through `withNavigationErrorHandler`, `NavigationError` events, or `catchError`. A `ResolveFn` may return `RedirectCommand`.
 
-| | Resolver | Component loading |
-|---|---|---|
-| Empty state on arrival | None | Skeleton needed |
-| Perceived navigation | URL and view wait for data | Instant, then data |
-| Waterfall | Data starts before the component renders | Data starts after the component and its lazy chunk load, which can lengthen the chain |
+|                        | Resolver                                 | Component loading                                                                     |
+| ---------------------- | ---------------------------------------- | ------------------------------------------------------------------------------------- |
+| Empty state on arrival | None                                     | Skeleton needed                                                                       |
+| Perceived navigation   | URL and view wait for data               | Instant, then data                                                                    |
+| Waterfall              | Data starts before the component renders | Data starts after the component and its lazy chunk load, which can lengthen the chain |
 
-| Size | Option |
-|---|---|
-| Quick | Add a navigation progress indicator. Trim the resolver to first-paint essentials |
-| Moderate | Replace a blocking resolver with component-level `httpResource` plus a skeleton |
-| Project | A route-level data strategy with a cache layer and prefetch on intent |
+| Size     | Option                                                                           |
+| -------- | -------------------------------------------------------------------------------- |
+| Quick    | Add a navigation progress indicator. Trim the resolver to first-paint essentials |
+| Moderate | Replace a blocking resolver with component-level `httpResource` plus a skeleton  |
+| Project  | A route-level data strategy with a cache layer and prefetch on intent            |
 
 Ask the user: is a blank or skeleton state acceptable, and is SSR needed for this route? Not automatable.
 
@@ -62,11 +62,11 @@ Ask the user: is a blank or skeleton state acceptable, and is SSR needed for thi
 - Resources are for reads, not mutations. `error()` and `reload()` give a manual retry.
 - Dedupe is not documented. No cache or dedupe code was found in the resource sources, so two instances with equal params should be assumed to send two requests. Verify in the Network tab.
 
-| Size | Option |
-|---|---|
-| Quick | On 22, convert one-shot `subscribe` in `ngOnInit` to `httpResource` for cancellation on param change and destroy |
-| Moderate | Use the request `cache` option (Fetch cache mode) for stable data |
-| Project | A shared data layer (below) |
+| Size     | Option                                                                                                           |
+| -------- | ---------------------------------------------------------------------------------------------------------------- |
+| Quick    | On 22, convert one-shot `subscribe` in `ngOnInit` to `httpResource` for cancellation on param change and destroy |
+| Moderate | Use the request `cache` option (Fetch cache mode) for stable data                                                |
+| Project  | A shared data layer (below)                                                                                      |
 
 ## `HttpClient` details
 
@@ -87,12 +87,12 @@ Safe to automate: find `shareReplay(1)` without an options object and report. Ch
 
 ### Caching ladder
 
-| Size | Option | Decision needed |
-|---|---|---|
-| Quick | `shareReplay` with `refCount: true`, or remove one that hides stale data | Staleness tolerance |
-| Quick | Fetch `cache` mode on stable config endpoints | `force-cache` ignores freshness |
-| Moderate | In-flight GET dedupe or TTL cache in an interceptor | Key (URL, params, selected headers) and invalidation on mutation |
-| Project | A query library. TanStack Query for Angular (`@tanstack/angular-query-experimental`) is still marked Experimental, needs Angular 16+, and the docs warn of breaking changes in minor and patch releases, so pin the patch version | Adoption and lock-in |
+| Size     | Option                                                                                                                                                                                                                            | Decision needed                                                  |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Quick    | `shareReplay` with `refCount: true`, or remove one that hides stale data                                                                                                                                                          | Staleness tolerance                                              |
+| Quick    | Fetch `cache` mode on stable config endpoints                                                                                                                                                                                     | `force-cache` ignores freshness                                  |
+| Moderate | In-flight GET dedupe or TTL cache in an interceptor                                                                                                                                                                               | Key (URL, params, selected headers) and invalidation on mutation |
+| Project  | A query library. TanStack Query for Angular (`@tanstack/angular-query-experimental`) is still marked Experimental, needs Angular 16+, and the docs warn of breaking changes in minor and patch releases, so pin the patch version | Adoption and lock-in                                             |
 
 Risks: stale data, cross-user leakage on shared devices, memory growth. Not automatable.
 
@@ -112,10 +112,10 @@ Diagnose: load the SSR page with cache disabled and look for a Fetch/XHR to a UR
 
 These are different mechanisms. Router preloading (`withPreloading`, `PreloadAllModules`, a custom `PreloadingStrategy`) loads lazy route code and never runs resolvers or fetches data. See `preloading.md`. `@defer` `prefetch` triggers are also code, per template block. The router has no documented data prefetch. Prefetching data on hover or focus needs your own call into a service, and it only helps if the destination reuses the result from a cache. Without a cache it is a wasted duplicate request.
 
-| Size | Option |
-|---|---|
+| Size     | Option                                                                                   |
+| -------- | ---------------------------------------------------------------------------------------- |
 | Moderate | Prefetch idempotent GETs for top navigation targets on hover or focus, backed by a cache |
-| Project | Query library prefetch |
+| Project  | Query library prefetch                                                                   |
 
 Risk: wasted requests on metered networks. Ask the user which routes qualify. Not automatable.
 

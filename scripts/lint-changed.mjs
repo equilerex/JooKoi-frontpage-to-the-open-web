@@ -39,7 +39,11 @@ const git = (args) => {
 };
 
 const files = [
-  ...new Set([...git('diff --name-only HEAD'), ...git('ls-files --others --exclude-standard')]),
+  ...new Set([
+    ...git('diff --name-only HEAD'),
+    ...git('diff --cached --name-only'),
+    ...git('ls-files --others --exclude-standard'),
+  ]),
 ]
   .map((file) => file.trim())
   .filter(

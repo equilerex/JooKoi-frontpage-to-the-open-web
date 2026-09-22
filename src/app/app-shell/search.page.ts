@@ -341,9 +341,7 @@ export class SearchPage {
   protected readonly categoryFilter = signal(this.initialParams.get('category') ?? '');
   protected readonly langFilter = signal(this.initialParams.get('lang') ?? '');
   protected readonly tagFilter = signal(this.initialParams.get('tag') ?? '');
-  protected readonly sortMode = signal<SortMode>(
-    parseSort(this.initialParams.get('sort')),
-  );
+  protected readonly sortMode = signal<SortMode>(parseSort(this.initialParams.get('sort')));
 
   constructor() {
     this.destroyRef.onDestroy(() => {

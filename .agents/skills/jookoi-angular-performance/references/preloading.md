@@ -28,16 +28,16 @@ Verified against Angular Router source (`router_preloader.ts`) on `main`, tags 2
 
 ## Strategies
 
-| Trigger | Built in | Needs directive | Notes |
-|---|---|---|---|
-| none | yes | no | default |
-| all after navigation | yes | no | ignores `canMatch` and network |
-| marked (`data.preload`) | no | no | ~10 lines |
-| idle | no | no | `requestIdleCallback` with `setTimeout` fallback |
-| network-aware | no | no | feature-detect `navigator.connection` (Chromium only) |
-| link in viewport | package | yes | ngx-quicklink or DIY |
-| hover / pointerdown | DIY (hover package is dormant) | yes | `pointerdown` also covers touch |
-| predictive (history) | no | build step | Guess.js is abandoned |
+| Trigger                 | Built in                       | Needs directive | Notes                                                 |
+| ----------------------- | ------------------------------ | --------------- | ----------------------------------------------------- |
+| none                    | yes                            | no              | default                                               |
+| all after navigation    | yes                            | no              | ignores `canMatch` and network                        |
+| marked (`data.preload`) | no                             | no              | ~10 lines                                             |
+| idle                    | no                             | no              | `requestIdleCallback` with `setTimeout` fallback      |
+| network-aware           | no                             | no              | feature-detect `navigator.connection` (Chromium only) |
+| link in viewport        | package                        | yes             | ngx-quicklink or DIY                                  |
+| hover / pointerdown     | DIY (hover package is dormant) | yes             | `pointerdown` also covers touch                       |
+| predictive (history)    | no                             | build step      | Guess.js is abandoned                                 |
 
 ### Minimal custom strategy
 

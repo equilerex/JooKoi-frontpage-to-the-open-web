@@ -4,14 +4,14 @@ Non-JS load cost: what the LCP image, web fonts, global CSS, vendor scripts and 
 
 ## Triage by LCP element
 
-| LCP element | Start at |
-|---|---|
-| `<img>` | Images |
-| CSS `background-image` | Images (`fill` migration) |
-| Text | Fonts, CSS and critical CSS |
-| Video or iframe | Resource hints and video |
-| Layout jumps, not slow paint | CLS causes |
-| Slow interactions after load | Third-party scripts |
+| LCP element                  | Start at                    |
+| ---------------------------- | --------------------------- |
+| `<img>`                      | Images                      |
+| CSS `background-image`       | Images (`fill` migration)   |
+| Text                         | Fonts, CSS and critical CSS |
+| Video or iframe              | Resource hints and video    |
+| Layout jumps, not slow paint | CLS causes                  |
+| Slow interactions after load | Third-party scripts         |
 
 ## Images
 
@@ -28,11 +28,11 @@ Non-JS load cost: what the LCP image, web fonts, global CSS, vendor scripts and 
 
 Formats (MDN): AVIF and WebP compress much better than JPEG and PNG. AVIF is slightly smaller than WebP but less widely supported and has no progressive rendering. Use `<picture>` for fallbacks and SVG for icons and diagrams. AVIF support started in Chrome 2020, Firefox 2021, Safari 2022. No verified percent saving exists, so compare outputs on the actual images. Responsive images (web.dev): `x` descriptors for fixed-size images, `w` descriptors plus `sizes` for fluid ones.
 
-| Size | Action | Automate? |
-|---|---|---|
-| Quick | `priority` on the LCP image, `width`/`height`, swap `src` for `ngSrc` | Swap and dimensions yes when intrinsic size is known. Choosing the LCP image needs the user |
-| Moderate | CDN loader, `sizes`, placeholder, preconnect to the image origin | Propose only. Loader choice is vendor lock-in and cost |
-| Project | Image CDN or build-time pipeline, CSS background heroes to `fill`, `<picture>` art direction outside `NgOptimizedImage` | User decision |
+| Size     | Action                                                                                                                  | Automate?                                                                                   |
+| -------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Quick    | `priority` on the LCP image, `width`/`height`, swap `src` for `ngSrc`                                                   | Swap and dimensions yes when intrinsic size is known. Choosing the LCP image needs the user |
+| Moderate | CDN loader, `sizes`, placeholder, preconnect to the image origin                                                        | Propose only. Loader choice is vendor lock-in and cost                                      |
+| Project  | Image CDN or build-time pipeline, CSS background heroes to `fill`, `<picture>` art direction outside `NgOptimizedImage` | User decision                                                                               |
 
 Pitfalls: `fill` without a positioned parent collapses the image to zero height. A non-default loader with `ngSrcset` only helps if the CDN actually resizes.
 
@@ -46,11 +46,11 @@ Measure: Lighthouse LCP element and "Properly size images", DevTools Network (Pr
 - Fallback metrics: `size-adjust`, `ascent-override`, `descent-override` and `line-gap-override` on a `local()` fallback `@font-face` reduce swap shift. Compute values with `@capsizecss/core` or `fontaine` (bundler-plugin oriented, no verified Angular integration).
 - Subsetting: `pyftsubset` (fonttools) or `glyphhanger` (needs Python, fonttools, brotli). Material Symbols with `icon_names` subsetting drops from 295 KB to about 1.7 KB.
 
-| Size | Action | Automate? |
-|---|---|---|
-| Quick | `font-display`, preload the one main `woff2` | Only after the user names the critical font. Brand impact of `optional` is theirs |
-| Moderate | Self-host `woff2`, subset, drop unused weights | Propose |
-| Project | Variable font, computed fallback metrics | User decision |
+| Size     | Action                                         | Automate?                                                                         |
+| -------- | ---------------------------------------------- | --------------------------------------------------------------------------------- |
+| Quick    | `font-display`, preload the one main `woff2`   | Only after the user names the critical font. Brand impact of `optional` is theirs |
+| Moderate | Self-host `woff2`, subset, drop unused weights | Propose                                                                           |
+| Project  | Variable font, computed fallback metrics       | User decision                                                                     |
 
 Pitfalls: preloading unused fonts wastes bandwidth. Self-hosting gives up Google's automatic font updates. Measure: Network (font request timing), Lighthouse "Ensure text remains visible" and "Preload key requests", layout-shift records for CLS.
 
@@ -62,11 +62,11 @@ Pitfalls: preloading unused fonts wastes bandwidth. Self-hosting gives up Google
 - UI kits: Angular Material `mat.theme` emits CSS variables only for the categories passed (color, typography, density). PrimeNG themes are base plus preset tokens with an optional `cssLayer`, and its size cost is not documented. Tailwind v4 generates only classes found by plain-text scanning, so dynamically concatenated class names are not detected.
 - Chrome DevTools Coverage reports only code used during the recording, so treat it as a hint. Do not delete "unused" CSS blindly.
 
-| Size | Action | Automate? |
-|---|---|---|
-| Quick | Keep `inlineCritical` on, tighten the `anyComponentStyle` budget | Budget change is propose only |
-| Moderate | Trim theme categories, split global CSS | Propose |
-| Project | Utility CSS with scanning, design tokens | User decision |
+| Size     | Action                                                           | Automate?                     |
+| -------- | ---------------------------------------------------------------- | ----------------------------- |
+| Quick    | Keep `inlineCritical` on, tighten the `anyComponentStyle` budget | Budget change is propose only |
+| Moderate | Trim theme categories, split global CSS                          | Propose                       |
+| Project  | Utility CSS with scanning, design tokens                         | User decision                 |
 
 Measure: build output initial total split into JS and CSS, DevTools Coverage, Lighthouse "Reduce unused CSS".
 
@@ -80,11 +80,11 @@ Long vendor tasks raise INP input delay (good is 200ms or less at p75, poor is a
 - `NgZone.runOutsideAngular` initializes an SDK whose timers and listeners would otherwise trigger change detection in zone-based apps (see `change-detection.md`).
 - Partytown moves scripts to a web worker. Its site says it is beta and not guaranteed to work in every scenario.
 
-| Size | Action | Automate? |
-|---|---|---|
-| Quick | `async`/`defer`, preconnect to the vendor origin | Attributes yes. Removing a tag never |
-| Moderate | Load after idle or consent through a small loader service outside `NgZone`, facades for embeds | Propose |
-| Project | Proxy or server-side tagging, Partytown trial, tag governance | User decision |
+| Size     | Action                                                                                         | Automate?                            |
+| -------- | ---------------------------------------------------------------------------------------------- | ------------------------------------ |
+| Quick    | `async`/`defer`, preconnect to the vendor origin                                               | Attributes yes. Removing a tag never |
+| Moderate | Load after idle or consent through a small loader service outside `NgZone`, facades for embeds | Propose                              |
+| Project  | Proxy or server-side tagging, Partytown trial, tag governance                                  | User decision                        |
 
 Pitfalls: consent law is a user or legal call. Delaying analytics loses data. Chat widgets miss early messages. Measure: throttled Network panel, request blocking A/B, Lighthouse third-party summary, `PerformanceObserver` long tasks.
 

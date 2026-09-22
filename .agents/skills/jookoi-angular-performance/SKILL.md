@@ -27,13 +27,13 @@ Baseline: **Angular 22**. OnPush is the default for new components, new apps are
 
 ## What the user is asking for
 
-| Situation | Do this |
-|---|---|
-| "It's slow / audit it / fix it" | Quick audit and fix workflow below |
+| Situation                                                            | Do this                                                                                                                                                                     |
+| -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| "It's slow / audit it / fix it"                                      | Quick audit and fix workflow below                                                                                                                                          |
 | "How should we approach X / what are the options / what does Y cost" | Advise: options at three sizes (quick, moderate, project), tradeoffs, docs. Pick the topic reference from the table. Offer to write a plan into the repo if the work is big |
-| "Audit found lots, we can't do it all" | Group findings by size and risk, propose an order, write it down as a plan (use the `jookoi-paper-trail` conventions if the repo has them) |
-| "Set up Lighthouse / monitoring / compare versions" | `references/measurement-automation.md`: ask the questions first, propose a setup, record a baseline together |
-| "What should I read" | `references/docs-map.md` |
+| "Audit found lots, we can't do it all"                               | Group findings by size and risk, propose an order, write it down as a plan (use the `jookoi-paper-trail` conventions if the repo has them)                                  |
+| "Set up Lighthouse / monitoring / compare versions"                  | `references/measurement-automation.md`: ask the questions first, propose a setup, record a baseline together                                                                |
+| "What should I read"                                                 | `references/docs-map.md`                                                                                                                                                    |
 
 ## Quick audit and fix workflow
 
@@ -47,17 +47,17 @@ Baseline: **Angular 22**. OnPush is the default for new components, new apps are
 4. **Pick by symptom**, using the table below. Do not do change-detection work to fix an LCP problem.
 5. **Fix in rank order**, one change at a time, and re-measure the same route with the same tool. Report before and after numbers, not adjectives.
 
-| Symptom | Look at first | Reference |
-|---|---|---|
-| Initial bundle over budget, slow FCP | Lazy routes, `@defer`, whole-library imports, eager imports of lazy features | `chunk-size.md`, `loading.md` |
-| Click on a link waits before anything happens | Lazy chunk size, preloading on intent, a navigation progress indicator | `chunk-size.md`, `preloading.md` |
-| LCP > 2.5s | LCP image `priority`, SSR/prerender for content routes, fonts, render-blocking scripts, TTFB | `assets-and-third-parties.md`, `ssr.md`, `loading.md` |
-| CLS > 0.1 | Image dimensions, `@defer` above the fold, placeholder sizing, late fonts | `assets-and-third-parties.md`, `loading.md` |
-| INP > 200ms, janky scroll or typing | Template calls, `track`, OnPush/signals, long tasks, long lists, third-party scripts | `change-detection.md`, `runtime.md` |
-| Slow data, spinners, request waterfalls | Resolvers, nested fetches, resource usage, caching | `data-loading.md` |
-| Memory grows over navigation | Subscriptions without teardown, detached DOM, heap snapshots | `runtime.md` |
-| Fine in dev, slow in prod or after deploy | Build config, compression, cache headers, service worker | `build-and-deploy.md` |
-| No way to tell if it got better or worse | Baselines, CI gates, RUM | `measurement-automation.md`, `measuring.md` |
+| Symptom                                       | Look at first                                                                                | Reference                                             |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| Initial bundle over budget, slow FCP          | Lazy routes, `@defer`, whole-library imports, eager imports of lazy features                 | `chunk-size.md`, `loading.md`                         |
+| Click on a link waits before anything happens | Lazy chunk size, preloading on intent, a navigation progress indicator                       | `chunk-size.md`, `preloading.md`                      |
+| LCP > 2.5s                                    | LCP image `priority`, SSR/prerender for content routes, fonts, render-blocking scripts, TTFB | `assets-and-third-parties.md`, `ssr.md`, `loading.md` |
+| CLS > 0.1                                     | Image dimensions, `@defer` above the fold, placeholder sizing, late fonts                    | `assets-and-third-parties.md`, `loading.md`           |
+| INP > 200ms, janky scroll or typing           | Template calls, `track`, OnPush/signals, long tasks, long lists, third-party scripts         | `change-detection.md`, `runtime.md`                   |
+| Slow data, spinners, request waterfalls       | Resolvers, nested fetches, resource usage, caching                                           | `data-loading.md`                                     |
+| Memory grows over navigation                  | Subscriptions without teardown, detached DOM, heap snapshots                                 | `runtime.md`                                          |
+| Fine in dev, slow in prod or after deploy     | Build config, compression, cache headers, service worker                                     | `build-and-deploy.md`                                 |
+| No way to tell if it got better or worse      | Baselines, CI gates, RUM                                                                     | `measurement-automation.md`, `measuring.md`           |
 
 ## Ranked quick fixes
 

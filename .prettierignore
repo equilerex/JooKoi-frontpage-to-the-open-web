@@ -6,6 +6,8 @@ package-lock.json
 dist
 .angular
 .local
+.gemini
+.claude
 graphify-out
 
 # Vendored external content

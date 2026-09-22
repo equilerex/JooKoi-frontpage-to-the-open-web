@@ -4,13 +4,13 @@ Interaction and rendering cost after load: profiling, long tasks and INP, RxJS, 
 
 ## Triage
 
-| Symptom | Section |
-|---|---|
-| Slow click or tap (INP) | Profiling, Long tasks, RxJS |
-| Slow typing in forms | Forms, RxJS |
+| Symptom                 | Section                         |
+| ----------------------- | ------------------------------- |
+| Slow click or tap (INP) | Profiling, Long tasks, RxJS     |
+| Slow typing in forms    | Forms, RxJS                     |
 | Scroll jank, huge lists | Big lists, `content-visibility` |
-| Memory grows over time | Memory leaks, RxJS |
-| Console NG0100 | ExpressionChanged |
+| Memory grows over time  | Memory leaks, RxJS              |
+| Console NG0100          | ExpressionChanged               |
 
 ## Profiling workflow
 
@@ -19,11 +19,11 @@ Interaction and rendering cost after load: profiling, long tasks and INP, RxJS, 
 - Chrome Performance panel Angular track: call `ng.enableProfiling()` in the console or `enableProfiling()` from `@angular/core` at bootstrap. Dev mode only. Blue is your TypeScript (services, constructors, hooks), purple is your templates, green is the entry point that explains why code ran. Multiple synchronization passes mean state updates during change detection. The page says "available in Angular v22" with no stated minimum version.
 - Forced reflow: the DevTools "Forced Reflow" insight, and the Long Animation Frame API field `forcedStyleAndLayoutDuration`. Forced layout is a style write followed by a layout read. Batch reads, then writes. The `afterNextRender` `read` and `write` phases enforce this, so avoid `earlyRead` and `mixedReadWrite`.
 
-| Size | Action | Automate? |
-|---|---|---|
-| Quick | Record one slow interaction in both tools, note the top component or handler | No. A skill can suggest `enableProfiling()` in dev bootstrap with consent |
-| Moderate | Field INP monitoring | User decision |
-| Project | Performance budgets and regression checks in CI | User decision |
+| Size     | Action                                                                       | Automate?                                                                 |
+| -------- | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| Quick    | Record one slow interaction in both tools, note the top component or handler | No. A skill can suggest `enableProfiling()` in dev bootstrap with consent |
+| Moderate | Field INP monitoring                                                         | User decision                                                             |
+| Project  | Performance budgets and regression checks in CI                              | User decision                                                             |
 
 ## Long tasks and INP
 
@@ -33,7 +33,7 @@ Interaction and rendering cost after load: profiling, long tasks and INP, RxJS, 
 const yieldToMain = () =>
   'scheduler' in globalThis && 'yield' in (globalThis as any).scheduler
     ? (globalThis as any).scheduler.yield()
-    : new Promise<void>(r => setTimeout(r, 0))
+    : new Promise<void>((r) => setTimeout(r, 0));
 ```
 
 - `setTimeout(0)` sends the continuation to the end of the queue and nested timers get a 5 ms clamp after five levels. web.dev no longer recommends `isInputPending()`.
@@ -42,11 +42,11 @@ const yieldToMain = () =>
 - Web workers: `ng generate web-worker <location>`. Unsupported on some platforms such as SSR `platform-server`, so a fallback is needed.
 - Yielding inside the Angular zone can trigger extra change detection per chunk. Run the loop with `NgZone.runOutsideAngular` and re-enter once at the end (see `change-detection.md`).
 
-| Size | Action | Automate? |
-|---|---|---|
-| Quick | Add a yield helper, yield between batches in a click handler, move analytics after paint | Adding the helper yes. Wrapping loops needs the user because side-effect order changes |
-| Moderate | Chunk heavy computation with `runOutsideAngular` | Propose |
-| Project | Move computation to a Web Worker (structured-clone cost, bundling, SSR fallback) | User decision |
+| Size     | Action                                                                                   | Automate?                                                                              |
+| -------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| Quick    | Add a yield helper, yield between batches in a click handler, move analytics after paint | Adding the helper yes. Wrapping loops needs the user because side-effect order changes |
+| Moderate | Chunk heavy computation with `runOutsideAngular`                                         | Propose                                                                                |
+| Project  | Move computation to a Web Worker (structured-clone cost, bundling, SSR fallback)         | User decision                                                                          |
 
 ## RxJS pitfalls
 
@@ -57,11 +57,11 @@ const yieldToMain = () =>
 - Flattening (RxJS 7 JSDoc): `switchMap` unsubscribes the previous inner. `exhaustMap` ignores new projections while one runs. `concatMap` queues (concurrency 1). `mergeMap` runs all, with a `concurrent` cap. Mapping these to search (`switchMap`), submit (`exhaustMap`), ordered writes (`concatMap`) and capped parallel work (`mergeMap`) is a common convention, not an official RxJS statement. A wrong `switchMap` on a write can cancel a save.
 - `combineLatest` emits nothing until every input emitted once, then on every emission. `debounceTime` drops pending values on a new emission and emits the last one on completion. `distinctUntilChanged` compares to the last emitted value only.
 
-| Size | Action | Automate? |
-|---|---|---|
-| Quick | `takeUntilDestroyed(this.destroyRef)` on manual subscribes, `refCount: true` on `shareReplay`, `distinctUntilChanged` | Adding cleanup yes when in injection context or a `DestroyRef` exists. Changing flattening operators is a semantic change for the user |
-| Moderate | Replace component `subscribe` with `toSignal`, audit `combineLatest` chains | Propose |
-| Project | Move feature state to signals or resource APIs | User decision |
+| Size     | Action                                                                                                                | Automate?                                                                                                                              |
+| -------- | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Quick    | `takeUntilDestroyed(this.destroyRef)` on manual subscribes, `refCount: true` on `shareReplay`, `distinctUntilChanged` | Adding cleanup yes when in injection context or a `DestroyRef` exists. Changing flattening operators is a semantic change for the user |
+| Moderate | Replace component `subscribe` with `toSignal`, audit `combineLatest` chains                                           | Propose                                                                                                                                |
+| Project  | Move feature state to signals or resource APIs                                                                        | User decision                                                                                                                          |
 
 ## Forms
 
@@ -71,11 +71,11 @@ const yieldToMain = () =>
 - Performance effects of `updateOn` and of Signal Forms are not measured in any source read. Do not promise a speedup or a ranking of form APIs.
 - Zoneless: form mutation does not trigger change detection by itself, so signals or `markForCheck()` are needed.
 
-| Size | Action | Automate? |
-|---|---|---|
-| Quick | `emitEvent: false` on bulk programmatic writes, debounce `valueChanges` consumers | Propose |
+| Size     | Action                                                                             | Automate?                                              |
+| -------- | ---------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| Quick    | `emitEvent: false` on bulk programmatic writes, debounce `valueChanges` consumers  | Propose                                                |
 | Moderate | `updateOn: 'blur'` on heavy fields, split large forms into OnPush child components | User decision because validation timing is a UX change |
-| Project | Signal Forms for new forms | User decision |
+| Project  | Signal Forms for new forms                                                         | User decision                                          |
 
 ## Big lists
 
@@ -83,11 +83,11 @@ const yieldToMain = () =>
 - CDK virtual scroll: `itemSize` is required for the fixed-size strategy. `minBufferPx` defaults to 100 and `maxBufferPx` to 200. `cdkVirtualForTemplateCacheSize` defaults to 20 views and `0` disables the cache. `cdkVirtualForTrackBy` receives the data-source index. Autosize is in `@angular/cdk-experimental`, documented as not ready for production, and `scrollToIndex` is unsupported there. For `<tr>` or `<li>` the wrapping parent must add no margin or padding. `appendOnly` keeps items in the DOM after they scroll out.
 - Virtual scroll changes find-in-page, accessibility semantics and variable-height handling.
 
-| Size | Action | Automate? |
-|---|---|---|
-| Quick | Stable `track`, pure pipes or `computed` instead of template method calls | Propose |
-| Moderate | Pagination or load more, CDK viewport with fixed item height | User decision |
-| Project | Server-side pagination and filtering, grid with row virtualization | User decision |
+| Size     | Action                                                                    | Automate?     |
+| -------- | ------------------------------------------------------------------------- | ------------- |
+| Quick    | Stable `track`, pure pipes or `computed` instead of template method calls | Propose       |
+| Moderate | Pagination or load more, CDK viewport with fixed item height              | User decision |
+| Project  | Server-side pagination and filtering, grid with row virtualization        | User decision |
 
 ## ExpressionChanged (NG0100)
 

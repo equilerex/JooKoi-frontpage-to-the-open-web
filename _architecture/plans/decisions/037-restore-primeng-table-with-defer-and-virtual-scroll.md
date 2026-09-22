@@ -18,6 +18,7 @@ When viewing long tables (such as the 104-item directory on the Search page), re
 ## Decision
 
 Option 2: Restore PrimeNG `Table` (`p-table`) inside `RecordGridComponent`, honoring Decision 011.
+
 - `RecordGridComponent` wraps `p-table` with pass-through cell templating (`jooRecordGridCell`), `tableStyleClass="joo-record-grid"`, and custom design tokens.
 - Supports `[virtual]="true"` with `[virtualScrollItemSize]="rowHeight()"` and `[scrollHeight]="scrollHeight() || 'flex'"` for long tables.
 - Keeps routes lazy loaded (`loadComponent: () => import(...)` in `app.routes.ts`) so `TableModule` remains isolated in lazy chunks rather than bloating `main.js`.

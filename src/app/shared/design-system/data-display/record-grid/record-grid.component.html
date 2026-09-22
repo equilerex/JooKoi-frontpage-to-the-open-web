@@ -29,9 +29,7 @@
       @for (col of cols; track col.field) {
         <td [attr.data-col]="col.field">
           @if (cellTemplateByField().get(col.field); as cellTemplate) {
-            <ng-container
-              *ngTemplateOutlet="cellTemplate; context: { $implicit: row, row: row }"
-            />
+            <ng-container *ngTemplateOutlet="cellTemplate; context: { $implicit: row, row: row }" />
           } @else {
             {{ row[col.field] }}
           }

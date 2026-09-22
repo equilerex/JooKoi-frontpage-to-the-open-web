@@ -4,11 +4,11 @@ Covers whether server rendering pays off, per-route render modes, hydration, eve
 
 ## Version gate
 
-| Version | Behavior |
-|---|---|
-| 20 | `withIncrementalHydration()` and `withI18nSupport()` are `@publicApi 20.0`. `RenderMode`, `withRoutes`, `getPrerenderParams`, `PrerenderFallback`, `withAppShell`, `outputMode: static` are documented |
-| 21 | Incremental hydration still opt-in via `withIncrementalHydration()` |
-| 22 | Incremental hydration is on by default in `provideClientHydration()`. `withIncrementalHydration()` is deprecated. `withNoIncrementalHydration()` is the opt-out |
+| Version | Behavior                                                                                                                                                                                                                  |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 20      | `withIncrementalHydration()` and `withI18nSupport()` are `@publicApi 20.0`. `RenderMode`, `withRoutes`, `getPrerenderParams`, `PrerenderFallback`, `withAppShell`, `outputMode: static` are documented                    |
+| 21      | Incremental hydration still opt-in via `withIncrementalHydration()`                                                                                                                                                       |
+| 22      | Incremental hydration is on by default in `provideClientHydration()`. `withIncrementalHydration()` is deprecated. `withNoIncrementalHydration()` is the opt-out                                                           |
 | 22 docs | `maxResponseBodySize` (1 MB default, NG02825), `includeRequestsWithCredentials`, `includeNonCacheableRequests`, `resource({id})` transfer. Not in the v20 and v21 guides. The exact minor that introduced them is unknown |
 
 Never suggest `withIncrementalHydration()` on 22. Never assume the v22 default on 20 or 21.
@@ -29,12 +29,12 @@ Never suggest `withIncrementalHydration()` on 22. Never assume the v22 default o
 - With the Angular service worker only the first request is server rendered.
 - Serverless cold starts are not covered by the docs. Compare cold and warm TTFB before deciding.
 
-| Site type | Default |
-|---|---|
-| Marketing, docs, blog, catalog | Prerender |
+| Site type                                        | Default                                                         |
+| ------------------------------------------------ | --------------------------------------------------------------- |
+| Marketing, docs, blog, catalog                   | Prerender                                                       |
 | Public and dynamic (product pages, user content) | `Server` plus CDN caching, or Prerender with `fallback: Server` |
-| Auth-walled dashboard | `Client`. SSR only for the public shell and login |
-| Mixed | Per-route `RenderMode` |
+| Auth-walled dashboard                            | `Client`. SSR only for the public shell and login               |
+| Mixed                                            | Per-route `RenderMode`                                          |
 
 Ask the user one question when unclear: is the page public and the same for all users? Yes means Prerender. Public but dynamic means SSR plus cache. No means CSR.
 
@@ -49,11 +49,11 @@ Ask the user one question when unclear: is the page public and the same for all 
 - **A redirect route with a parameter plus a `**` prerender entry fails the build.** Seen on 22.1.6: `{ path: 'learn/:topic', redirectTo: ... }` alongside a `**` `RenderMode.Prerender` entry could not be prerendered. The fix that worked: give the parameterised path its own server route, `{ path: 'learn/:topic', renderMode: RenderMode.Client }` in `app.routes.server.ts`. A failed build writes no output or stats file, see `build-and-deploy.md`. The exact cause in the CLI was not investigated.
 - `REQUEST`, `RESPONSE_INIT`, `REQUEST_CONTEXT` are `null` at build, in CSR, in SSG, and during dev route extraction. Code reading cookies from `REQUEST` cannot be prerendered.
 
-| Size | Option | Notes |
-|---|---|---|
-| Quick | Prerender static routes (`about`, `pricing`). Set the `**` catch-all to `Client` for the logged-in area | Content must be user-independent |
-| Moderate | `getPrerenderParams` for detail routes with a `fallback` | Build time and deploy size grow |
-| Project | `outputMode: static`, no Node server | Loses SSR for dynamic routes |
+| Size     | Option                                                                                                  | Notes                            |
+| -------- | ------------------------------------------------------------------------------------------------------- | -------------------------------- |
+| Quick    | Prerender static routes (`about`, `pricing`). Set the `**` catch-all to `Client` for the logged-in area | Content must be user-independent |
+| Moderate | `getPrerenderParams` for detail routes with a `fallback`                                                | Build time and deploy size grow  |
+| Project  | `outputMode: static`, no Node server                                                                    | Loses SSR for dynamic routes     |
 
 Safe to automate: list routes and current mode, flag a missing `**` server route, suggest modes from route names. User decision: choosing any `RenderMode`, dropping SSR, `outputMode: static`.
 Measure: `curl -s URL` or view-source to see if real content is in the HTML, build output for prerendered routes, Lighthouse for LCP.
@@ -78,17 +78,19 @@ Hydration reuses the server DOM. Without it the app destroys and re-renders the 
 - Triggers: `hydrate on idle | viewport | interaction | hover | immediate | timer(N)`, `hydrate when <expr>`, `hydrate never`. `hydrate on idle(500)` passes a timeout to `requestIdleCallback`.
 - Example (a code block, so the separator is part of the syntax):
   ```html
-  @defer (on idle; hydrate on interaction) { <app-comments /> } @placeholder { <div class="comments-skeleton"></div> }
+  @defer (on idle; hydrate on interaction) { <app-comments /> } @placeholder {
+  <div class="comments-skeleton"></div>
+  }
   ```
 - `hydrate` triggers apply only to the initial SSR load. Later client renders use the regular trigger.
 - `hydrate when` fires only for the top-most dehydrated block. Nested blocks hydrate parent first. `hydrate never` keeps the subtree static for that page load.
 - 20 and 21 need `withIncrementalHydration()`. On 22 it is default and `withNoIncrementalHydration()` opts out. Keep the opt-out in mind as a rollback switch after a 22 upgrade if regressions show up. A plain `@defer` without `hydrate` triggers behaves as before: the server renders only the `@placeholder` and the content loads on the client triggers (user-supplied answer, 2026-09-22, not independently re-checked). Rendering the content on the server needs an explicit `hydrate` trigger.
 
-| Size | Option | Notes |
-|---|---|---|
-| Quick | Enable hydration if SSR is on without it. Add `withEventReplay()` on 20 and 21 | Mismatch errors will surface |
+| Size     | Option                                                                                   | Notes                            |
+| -------- | ---------------------------------------------------------------------------------------- | -------------------------------- |
+| Quick    | Enable hydration if SSR is on without it. Add `withEventReplay()` on 20 and 21           | Mismatch errors will surface     |
 | Moderate | `@defer` with `hydrate on viewport` or `interaction` for heavy below-the-fold components | Content is static until hydrated |
-| Project | Restructure into hydration islands, `hydrate never` for static parts | Needs visual and INP testing |
+| Project  | Restructure into hydration islands, `hydrate never` for static parts                     | Needs visual and INP testing     |
 
 Safe to automate: detect missing `provideClientHydration` on either bootstrap. User decision: adding `hydrate` triggers, since interactivity changes.
 
@@ -108,11 +110,11 @@ On the server `HttpClient` records responses and serializes them into the HTML. 
 
 Duplicate requests after hydration: filter Fetch/XHR in the Network tab after load and compare with the server's outgoing calls. Known causes are an origin mismatch (fix with the origin map), auth or cookie headers excluding the request by design, a fetch inside `afterNextRender` (no server copy), and `POST` reads. Requests made with bare `fetch()` outside `HttpClient` are not documented as covered.
 
-| Size | Option |
-|---|---|
-| Quick | Confirm duplicates exist. Add the origin map if origins differ. Add `filter` to exclude user-specific endpoints |
-| Moderate | Move client-only fetches out of `afterNextRender` into route resolvers or `resource` with `id` |
-| Project | Split public and user-specific data so SSR HTML is cacheable |
+| Size     | Option                                                                                                          |
+| -------- | --------------------------------------------------------------------------------------------------------------- |
+| Quick    | Confirm duplicates exist. Add the origin map if origins differ. Add `filter` to exclude user-specific endpoints |
+| Moderate | Move client-only fetches out of `afterNextRender` into route resolvers or `resource` with `id`                  |
+| Project  | Split public and user-specific data so SSR HTML is cacheable                                                    |
 
 Safe to automate: reporting duplicate URLs from a trace. User decision: enabling any `include*` widening option, since each is a privacy call. See `data-loading.md` for lifetime details and waterfalls.
 
@@ -120,16 +122,16 @@ Safe to automate: reporting duplicate URLs from a trace. User decision: enabling
 
 Errors NG0500 to NG0507 (node mismatch, missing siblings, missing node, unsupported projection, invalid `ngSkipHydration`, no hydration info from the server, unstable app, HTML altered after SSR).
 
-| Cause | Fix |
-|---|---|
-| Direct DOM manipulation (`innerHTML`, `appendChild`) | Use templates and Angular APIs. Interim `ngSkipHydration` |
-| Invalid nesting (`<table>` without `<tbody>`, `<div>` in `<p>`, `<a>` in `<a>`) | Fix the markup |
-| `preserveWhitespaces` differs between server and browser tsconfigs | Keep the default `false`, set only in `tsconfig.app.json` |
-| `isPlatformBrowser` in a template changing rendered content | Render the same content, use `afterNextRender` for browser init |
-| Libraries that build DOM (D3 charts) | `ngSkipHydration` on the host component |
-| Ads or analytics altering the DOM before hydration | Load after hydration via `afterNextRender` |
-| CDN or build HTML minification strips whitespace and comments (NG0507) | Disable HTML optimization for Angular HTML |
-| Server bootstrap lacks `provideClientHydration()` (NG0505) | Add it |
+| Cause                                                                           | Fix                                                             |
+| ------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| Direct DOM manipulation (`innerHTML`, `appendChild`)                            | Use templates and Angular APIs. Interim `ngSkipHydration`       |
+| Invalid nesting (`<table>` without `<tbody>`, `<div>` in `<p>`, `<a>` in `<a>`) | Fix the markup                                                  |
+| `preserveWhitespaces` differs between server and browser tsconfigs              | Keep the default `false`, set only in `tsconfig.app.json`       |
+| `isPlatformBrowser` in a template changing rendered content                     | Render the same content, use `afterNextRender` for browser init |
+| Libraries that build DOM (D3 charts)                                            | `ngSkipHydration` on the host component                         |
+| Ads or analytics altering the DOM before hydration                              | Load after hydration via `afterNextRender`                      |
+| CDN or build HTML minification strips whitespace and comments (NG0507)          | Disable HTML optimization for Angular HTML                      |
+| Server bootstrap lacks `provideClientHydration()` (NG0505)                      | Add it                                                          |
 
 `ngSkipHydration` (attribute or `host: {ngSkipHydration: 'true'}`) works only on component hosts. On the root component it disables hydration for the whole app. The component and children are destroyed and re-rendered, so its LCP and CLS benefit is lost. Docs call it a last resort. Adding it is a user decision.
 
@@ -157,24 +159,24 @@ A plain `@defer` renders only `@placeholder` (or nothing) on the server and its 
 
 Docs say only that prerendered static files are easy for CDNs and browsers to cache. Prerender: cache aggressively and version on deploy. SSR: cache only when HTML has no user-specific content. Transfer cache and `resource({id})` embed data in the HTML. `ServerRoute.headers` sets `Cache-Control`. CDN HTML minification breaks hydration (NG0507).
 
-| Size | Option |
-|---|---|
-| Quick | `Cache-Control` via `ServerRoute.headers` on prerendered and public routes |
+| Size     | Option                                                                         |
+| -------- | ------------------------------------------------------------------------------ |
+| Quick    | `Cache-Control` via `ServerRoute.headers` on prerendered and public routes     |
 | Moderate | CDN in front of SSR with short `s-maxage` on confirmed user-independent routes |
-| Project | Move mostly static routes to Prerender with on-demand rebuild |
+| Project  | Move mostly static routes to Prerender with on-demand rebuild                  |
 
 Caching headers on SSR pages are always a user decision. Measure with response headers, TTFB from several locations, and CDN hit ratio.
 
 ## Measuring
 
-| What | How |
-|---|---|
-| TTFB, LCP, FCP, CLS, INP | Lighthouse, PageSpeed Insights, CrUX, `web-vitals` |
-| What the server sent | `curl -s URL`, view-source |
-| Hydration on | Dev console stats, Angular DevTools overlay |
-| Stability delays | `provideStabilityDebugging` plus task-tracking plugin |
+| What                         | How                                                                                                   |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------- |
+| TTFB, LCP, FCP, CLS, INP     | Lighthouse, PageSpeed Insights, CrUX, `web-vitals`                                                    |
+| What the server sent         | `curl -s URL`, view-source                                                                            |
+| Hydration on                 | Dev console stats, Angular DevTools overlay                                                           |
+| Stability delays             | `provideStabilityDebugging` plus task-tracking plugin                                                 |
 | Server render time per route | Angular has no documented built-in metric. Wrap the request handler and emit `Server-Timing` yourself |
-| Cold start | Compare first and later request TTFB |
+| Cold start                   | Compare first and later request TTFB                                                                  |
 
 Auditing is safe to automate. Config changes are not.
 

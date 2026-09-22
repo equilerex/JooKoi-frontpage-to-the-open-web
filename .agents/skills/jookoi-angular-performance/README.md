@@ -8,12 +8,12 @@ Asked to "optimize" an Angular app, an LLM tends to sprinkle OnPush and `trackBy
 
 ## Provenance
 
-| Field | Value |
-|---|---|
-| Angular baseline | 22.x (released 2026-06-03) |
-| Verified on | 2026-09-21 |
-| Research | `_architecture/plans/angular-optimize-skill-research.md` in this repo, reviewed and corrected before writing the skill |
-| Cross-checked against | angular.dev (via Context7), the official `angular-developer` skill |
+| Field                 | Value                                                                                                                  |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Angular baseline      | 22.x (released 2026-06-03)                                                                                             |
+| Verified on           | 2026-09-21                                                                                                             |
+| Research              | `_architecture/plans/angular-optimize-skill-research.md` in this repo, reviewed and corrected before writing the skill |
+| Cross-checked against | angular.dev (via Context7), the official `angular-developer` skill                                                     |
 
 Primary sources: angular.dev pages on runtime performance, skipping subtrees, zoneless, `@defer`, incremental hydration, SSR/hybrid rendering, image optimization, build budgets, and the release policy. web.dev for Core Web Vitals thresholds. Zone.js size figures are practitioner measurements, not an Angular benchmark.
 
@@ -36,25 +36,25 @@ Then update `references/version-notes.md`, this table, and `BASELINE_MAJOR`.
 
 ## What's in it
 
-| File | Covers |
-|---|---|
-| `SKILL.md` | Working rules, request routing, quick audit/fix workflow, symptom table, ranked quick fixes, pitfalls |
-| `scripts/audit.mjs` | Zero-dependency static audit, read-only |
-| `scripts/route-cost.mjs` | Per-route cost of lazy chunks from `stats.json`, read-only |
-| `scripts/chunk-packages.mjs` | Per-package breakdown of a chunk or the initial set, read-only |
-| `references/chunk-size.md` | Bundle and lazy-chunk size |
-| `references/loading.md` | Lazy routes, `@defer`, CWV mapping |
-| `references/preloading.md` | Router preloading and strategies |
-| `references/assets-and-third-parties.md` | Images, fonts, CSS, third-party scripts |
-| `references/change-detection.md` | OnPush, signals, zoneless |
-| `references/runtime.md` | Profiling, INP, RxJS, forms, lists, memory |
-| `references/data-loading.md` | Waterfalls, resolvers, resources, transfer cache |
-| `references/ssr.md` | SSR, hydration, when not to use it |
-| `references/build-and-deploy.md` | Builder options, defaults, caching, service worker, CI gates |
-| `references/measuring.md` | Manual measuring |
-| `references/measurement-automation.md` | Repeatable measurement, baselines, comparison |
-| `references/docs-map.md` | Canonical docs, dead URLs |
-| `references/version-notes.md` | Per-major changes |
+| File                                     | Covers                                                                                                |
+| ---------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `SKILL.md`                               | Working rules, request routing, quick audit/fix workflow, symptom table, ranked quick fixes, pitfalls |
+| `scripts/audit.mjs`                      | Zero-dependency static audit, read-only                                                               |
+| `scripts/route-cost.mjs`                 | Per-route cost of lazy chunks from `stats.json`, read-only                                            |
+| `scripts/chunk-packages.mjs`             | Per-package breakdown of a chunk or the initial set, read-only                                        |
+| `references/chunk-size.md`               | Bundle and lazy-chunk size                                                                            |
+| `references/loading.md`                  | Lazy routes, `@defer`, CWV mapping                                                                    |
+| `references/preloading.md`               | Router preloading and strategies                                                                      |
+| `references/assets-and-third-parties.md` | Images, fonts, CSS, third-party scripts                                                               |
+| `references/change-detection.md`         | OnPush, signals, zoneless                                                                             |
+| `references/runtime.md`                  | Profiling, INP, RxJS, forms, lists, memory                                                            |
+| `references/data-loading.md`             | Waterfalls, resolvers, resources, transfer cache                                                      |
+| `references/ssr.md`                      | SSR, hydration, when not to use it                                                                    |
+| `references/build-and-deploy.md`         | Builder options, defaults, caching, service worker, CI gates                                          |
+| `references/measuring.md`                | Manual measuring                                                                                      |
+| `references/measurement-automation.md`   | Repeatable measurement, baselines, comparison                                                         |
+| `references/docs-map.md`                 | Canonical docs, dead URLs                                                                             |
+| `references/version-notes.md`            | Per-major changes                                                                                     |
 
 Research behind the references: `_architecture/plans/angular-*-research.md` and `angular-gap-fill-*.md`. Claims are tagged verified or unverified there, and each reference ends with its unverified list.
 

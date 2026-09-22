@@ -17,29 +17,45 @@ const args = process.argv.slice(2);
 const [target, what] = args.filter((a) => !a.startsWith('--'));
 const top = Number((args.find((a) => a.startsWith('--top=')) ?? '--top=15').split('=')[1]);
 if (!target || !what) {
-  console.error('Usage: node chunk-packages.mjs <stats.json | dist/<project>> <chunk-file | entry-substring | initial> [--top=N]');
+  console.error(
+    'Usage: node chunk-packages.mjs <stats.json | dist/<project>> <chunk-file | entry-substring | initial> [--top=N]',
+  );
   process.exit(2);
 }
-const file = existsSync(target) && statSync(target).isDirectory() ? join(target, 'stats.json') : target;
+const file =
+  existsSync(target) && statSync(target).isDirectory() ? join(target, 'stats.json') : target;
 if (!existsSync(file)) {
   console.error(`No stats file at ${file}. A failed build writes none.`);
   process.exit(2);
 }
 
 const all = JSON.parse(readFileSync(file, 'utf8')).outputs;
-const outputs = Object.fromEntries(Object.entries(all).filter(([n]) => n.endsWith('.js') || n.endsWith('.css')));
-const dynamicTargets = new Set(Object.values(outputs).flatMap((o) => (o.imports ?? []).filter((i) => i.kind === 'dynamic-import').map((i) => i.path)));
+const outputs = Object.fromEntries(
+  Object.entries(all).filter(([n]) => n.endsWith('.js') || n.endsWith('.css')),
+);
+const dynamicTargets = new Set(
+  Object.values(outputs).flatMap((o) =>
+    (o.imports ?? []).filter((i) => i.kind === 'dynamic-import').map((i) => i.path),
+  ),
+);
 
 const roots =
   what === 'initial'
     ? Object.keys(outputs).filter((n) => !dynamicTargets.has(n) && outputs[n].entryPoint)
-    : Object.keys(outputs).filter((n) => n === what || (outputs[n].entryPoint ?? '').includes(what));
+    : Object.keys(outputs).filter(
+        (n) => n === what || (outputs[n].entryPoint ?? '').includes(what),
+      );
 const picked = [];
-for (const stack = [...roots]; stack.length; ) {
+for (const stack = [...roots]; stack.length;) {
   const n = stack.pop();
   if (picked.includes(n)) continue;
   picked.push(n);
-  if (!args.includes('--own')) stack.push(...(outputs[n].imports ?? []).filter((i) => i.kind === 'import-statement' && outputs[i.path]).map((i) => i.path));
+  if (!args.includes('--own'))
+    stack.push(
+      ...(outputs[n].imports ?? [])
+        .filter((i) => i.kind === 'import-statement' && outputs[i.path])
+        .map((i) => i.path),
+    );
 }
 if (!roots.length) {
   console.error(`No output matches "${what}".`);
@@ -64,7 +80,9 @@ for (const n of picked) {
   }
 }
 const kb = (n) => (n / 1000).toFixed(1);
-console.log(`${roots.join(', ')} plus ${picked.length - roots.length} static imports: ${kb(sum)} kB of tracked input bytes (file bytes ${kb(picked.reduce((s, n) => s + outputs[n].bytes, 0))} kB)`);
+console.log(
+  `${roots.join(', ')} plus ${picked.length - roots.length} static imports: ${kb(sum)} kB of tracked input bytes (file bytes ${kb(picked.reduce((s, n) => s + outputs[n].bytes, 0))} kB)`,
+);
 for (const [p, b] of [...byPkg].sort((a, b) => b[1] - a[1]).slice(0, top)) {
   console.log(`${kb(b).padStart(8)} kB  ${((b / sum) * 100).toFixed(0).padStart(3)}%  ${p}`);
 }

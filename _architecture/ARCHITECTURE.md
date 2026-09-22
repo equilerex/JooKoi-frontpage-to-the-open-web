@@ -6,22 +6,21 @@ Phase 1 (foundation), Phase 2 (design system) and Phase 3 (content and features)
 
 ## Stack
 
-| Piece                  | Choice                                                   | ADR      |
-| ---------------------- | -------------------------------------------------------- | -------- |
-| Framework              | Angular 22.1, zoneless, standalone, strict               | 003      |
-| Node / package manager | Node 24 (`.nvmrc`, `engines`), pnpm (`packageManager`)   | 003      |
-| TypeScript             | `~6.0.3`                                                 | 003      |
-| Rendering              | Static prerendering, `outputMode: static`, no server     | 004      |
-| Component behaviour    | Angular Aria + CDK; PrimeNG 22.1.1 styled, custom preset | 006, 011 |
-| Styles                 | Plain CSS, explicit cascade layers, custom properties    | 007      |
-| Tests                  | Vitest browser mode (Playwright/Chromium), `~4.1.11`     | 008      |
-| State                  | Plain signals + `@ngrx/signals` `~22.0.1`                | 010      |
-| Lint / format          | `angular-eslint` + Prettier + `eslint-config-prettier`   | —        |
-| Import boundaries      | generated `no-restricted-imports` rules                  | 005      |
-| CI                     | GitHub Actions `ci.yml` (Lighthouse step non-blocking)   | 009, 033 |
-| Hosting                | GitHub Pages via GitHub Actions (`ci.yml` deploy job)    | 034      |
-| Motion / Animation     | Native CSS transitions (no `@angular/animations`, ADR 035)| 035      |
-
+| Piece                  | Choice                                                     | ADR      |
+| ---------------------- | ---------------------------------------------------------- | -------- |
+| Framework              | Angular 22.1, zoneless, standalone, strict                 | 003      |
+| Node / package manager | Node 24 (`.nvmrc`, `engines`), pnpm (`packageManager`)     | 003      |
+| TypeScript             | `~6.0.3`                                                   | 003      |
+| Rendering              | Static prerendering, `outputMode: static`, no server       | 004      |
+| Component behaviour    | Angular Aria + CDK; PrimeNG 22.1.1 styled, custom preset   | 006, 011 |
+| Styles                 | Plain CSS, explicit cascade layers, custom properties      | 007      |
+| Tests                  | Vitest browser mode (Playwright/Chromium), `~4.1.11`       | 008      |
+| State                  | Plain signals + `@ngrx/signals` `~22.0.1`                  | 010      |
+| Lint / format          | `angular-eslint` + Prettier + `eslint-config-prettier`     | —        |
+| Import boundaries      | generated `no-restricted-imports` rules                    | 005      |
+| CI                     | GitHub Actions `ci.yml` (Lighthouse step non-blocking)     | 009, 033 |
+| Hosting                | GitHub Pages via GitHub Actions (`ci.yml` deploy job)      | 034      |
+| Motion / Animation     | Native CSS transitions (no `@angular/animations`, ADR 035) | 035      |
 
 The workspace sits at the **repo root**, next to `sources/`, `data/`, `scripts/`, `features/` and `.agents/`. It's a single app — no Nx, no monorepo (ADR 005).
 
@@ -236,17 +235,16 @@ Two tiers (ADR 010):
 
 **Where each kind of state lives:**
 
-| State kind                     | Example                             | Where                                                                                                                                           | Provided                                                 |
-| ------------------------------ | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| Domain data, read-only         | the curated websites and categories | `shared/curated-websites/curated-websites.store.ts`                                                                                             | `providedIn: 'root'`                                     |
-| Shareable view state           | search query, filters, sort, page   | the URL, mirrored by `website-search/website-search-query.store.ts` or page signals (`Location.replaceState` for filter updates, ADR 035)        | route `providers` (created and destroyed with the route) |
-| Local UI state                 | panel open, focused row             | component `signal`s; `linkedSignal` for editable values derived from inputs                                                                     | component                                                |
-| Persistent user state (parked) | bookmarks, personal homepage        | `shared/local-preferences/` store over `shared/browser-storage/`                                                                                | `providedIn: 'root'`                                     |
+| State kind                     | Example                             | Where                                                                                                                                     | Provided                                                 |
+| ------------------------------ | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
+| Domain data, read-only         | the curated websites and categories | `shared/curated-websites/curated-websites.store.ts`                                                                                       | `providedIn: 'root'`                                     |
+| Shareable view state           | search query, filters, sort, page   | the URL, mirrored by `website-search/website-search-query.store.ts` or page signals (`Location.replaceState` for filter updates, ADR 035) | route `providers` (created and destroyed with the route) |
+| Local UI state                 | panel open, focused row             | component `signal`s; `linkedSignal` for editable values derived from inputs                                                               | component                                                |
+| Persistent user state (parked) | bookmarks, personal homepage        | `shared/local-preferences/` store over `shared/browser-storage/`                                                                          | `providedIn: 'root'`                                     |
 
 The URL holds shareable view state so a filtered search can be bookmarked, shared, prerendered or restored. The store or component signal set is a typed view of the URL, not a second source of truth.
 
 No `SignalStore` code exists for search yet. Phase 3's `/search` page holds query, filters and sort as plain writable signals synced to the URL. Crucially (ADR 035), in-page filter state and keyword updates sync silently via `Location.replaceState()` instead of `router.navigate()`: because `scrollPositionRestoration: 'enabled'` is active, router navigation events scroll the window to `(0, 0)` on every filter click or keystroke, and trigger unneeded View Transitions.
-
 
 ## Styles
 
@@ -263,8 +261,7 @@ Global CSS in explicit cascade layers (ADR 007), declared in `src/styles/cascade
 
 Four files, in the order they are imported: `cascade-layers.css` (declares `@layer reset, tokens, base, primeng, components, utilities`), `design-tokens.css`, `base-element-styles.css`, `fonts.css`.
 
-**Motion** is four duration tokens in `design-tokens.css`: `--duration-press` (70ms), `--duration-state` (160ms), `--duration-route` (240ms), `--duration-shell` (240ms). Recipes (route pane view-transitions, shell width ease, pending-without-wipe, font preload/`optional`) live in `src/app/shared/design-system/CONTEXT.md`. Plan: `_architecture/plans/2026-09-18-local-ux-quality-and-motion-system.md`. Do not invent a fifth duration for a one-off animation. **No `@angular/animations`** (deprecated); native CSS transitions or `@starting-style` only. Table/collection rows in `@for` may animate enter/leave *only* via compositor-safe opacity transitions with stable unique-ID tracking (`rowKey`) and debounced typing inputs to prevent reflow freezes and DOM memory leaks (ADR 035, ADR 036).
-
+**Motion** is four duration tokens in `design-tokens.css`: `--duration-press` (70ms), `--duration-state` (160ms), `--duration-route` (240ms), `--duration-shell` (240ms). Recipes (route pane view-transitions, shell width ease, pending-without-wipe, font preload/`optional`) live in `src/app/shared/design-system/CONTEXT.md`. Plan: `_architecture/plans/2026-09-18-local-ux-quality-and-motion-system.md`. Do not invent a fifth duration for a one-off animation. **No `@angular/animations`** (deprecated); native CSS transitions or `@starting-style` only. Table/collection rows in `@for` may animate enter/leave _only_ via compositor-safe opacity transitions with stable unique-ID tracking (`rowKey`) and debounced typing inputs to prevent reflow freezes and DOM memory leaks (ADR 035, ADR 036).
 
 One exception to per-component styling: a rule that has to reach an element the component does not itself render — projected content, or an element a library's template created — cannot be encapsulated, and lives in `src/styles.css` inside `@layer components`, scoped by custom-element name (ADR 014). `src/styles.css` is also the only home for a global `joo-*` rule; `base-element-styles.css` holds the reset and nothing else.
 

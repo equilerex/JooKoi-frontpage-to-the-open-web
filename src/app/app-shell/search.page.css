@@ -266,7 +266,6 @@
   }
 }
 
-
 /* Mock `.sigs` (`components.css:1042-1046`) — same as `home.page.css`. */
 .sigs {
   display: inline-flex;
@@ -306,4 +305,3 @@
     grid-template-rows: 1fr !important;
   }
 }
-

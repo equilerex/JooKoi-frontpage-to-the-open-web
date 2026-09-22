@@ -14,11 +14,11 @@ Thresholds are "good" at the 75th percentile of real page views: **LCP ≤ 2.5s,
 
 ```html
 @defer (on viewport; prefetch on idle) {
-  <app-sales-chart [data]="sales()" />
+<app-sales-chart [data]="sales()" />
 } @placeholder (minimum 300ms) {
-  <div class="chart-skeleton"></div>
+<div class="chart-skeleton"></div>
 } @loading (after 150ms; minimum 400ms) {
-  <app-spinner />
+<app-spinner />
 }
 ```
 
@@ -66,7 +66,9 @@ Worth it for content, SEO, and e-commerce routes. Behind a login it adds server 
 - `provideClientHydration()` is required, otherwise the client throws away the server DOM and re-renders it. It enables the HTTP transfer cache (no duplicate GETs). Incremental hydration is on by default in v22 (opt out with `withNoIncrementalHydration()`) and opt-in on v20 and v21 via `withIncrementalHydration()`. See `ssr.md`.
 - Incremental hydration: server renders the `@defer` content, the client hydrates it later:
   ```html
-  @defer (hydrate on viewport) { <app-reviews /> } @placeholder { <div class="reviews-skeleton"></div> }
+  @defer (hydrate on viewport) { <app-reviews /> } @placeholder {
+  <div class="reviews-skeleton"></div>
+  }
   ```
   Hydrate triggers: `on viewport`, `on interaction`, `on hover`, `on idle`, `on immediate`, `on timer`, `when`, and `hydrate never` for static content. This is how to defer above-the-fold content without CLS.
 - Hydration mismatches: invalid HTML nesting (`<div>` in `<p>`), direct DOM manipulation, and third-party scripts touching the DOM before hydration. Run browser-only code in `afterNextRender`. `ngSkipHydration` on a component is an escape hatch, not a fix.
