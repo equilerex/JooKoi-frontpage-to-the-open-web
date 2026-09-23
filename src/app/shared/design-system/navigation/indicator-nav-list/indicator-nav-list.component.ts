@@ -1,4 +1,5 @@
 import { Component, input } from '@angular/core';
+import { Params } from '@angular/router';
 import { HardwareKeyComponent } from '../../actions/hardware-key/hardware-key.component';
 import {
   StatusLightColor,
@@ -7,7 +8,9 @@ import {
 
 export interface NavItem {
   readonly label: string;
-  readonly href: string;
+  readonly href?: string;
+  readonly routerLink?: string | readonly unknown[];
+  readonly queryParams?: Params;
   readonly active?: boolean;
   readonly lightColor?: StatusLightColor;
 }

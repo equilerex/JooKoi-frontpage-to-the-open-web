@@ -1,4 +1,5 @@
 import { Component, computed, input } from '@angular/core';
+import { Params } from '@angular/router';
 import { HardwareKeyAccent, HardwareKeyComponent } from '../hardware-key/hardware-key.component';
 
 /**
@@ -23,6 +24,8 @@ export class KeycapComponent {
   readonly label = input.required<string>();
   readonly count = input<number | null>(null);
   readonly href = input('');
+  readonly routerLink = input<string | readonly unknown[] | null | undefined>(null);
+  readonly queryParams = input<Params | null | undefined>(null);
   readonly accent = input<HardwareKeyAccent>('neutral');
   readonly target = input<string | null>(null);
 

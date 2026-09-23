@@ -1,5 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, input, output } from '@angular/core';
+import { Params, RouterLink } from '@angular/router';
 
 export type HardwareKeySize = 'xs' | 'sm' | 'md' | 'lg';
 export type HardwareKeyAccent = 'neutral' | 'hot' | 'cyan';
@@ -31,7 +32,7 @@ export type HardwareKeyAccent = 'neutral' | 'hot' | 'cyan';
  */
 @Component({
   selector: 'joo-hardware-key',
-  imports: [NgTemplateOutlet],
+  imports: [NgTemplateOutlet, RouterLink],
   templateUrl: './hardware-key.component.html',
   styleUrl: './hardware-key.component.css',
   host: {
@@ -52,6 +53,8 @@ export class HardwareKeyComponent {
   readonly current = input(false);
   readonly as = input<'button' | 'anchor'>('button');
   readonly href = input('');
+  readonly routerLink = input<string | readonly unknown[] | null | undefined>(null);
+  readonly queryParams = input<Params | null | undefined>(null);
   /** Passed through to the anchor's `target` when `as="anchor"`. Defaults to
    * normal same-tab navigation so every existing consumer is unaffected. */
   readonly target = input<string | null>(null);

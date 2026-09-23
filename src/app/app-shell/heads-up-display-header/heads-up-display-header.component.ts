@@ -1,4 +1,5 @@
 import { Component, input, model, output } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { HardwareKeyComponent } from '../../shared/design-system/actions/hardware-key/hardware-key.component';
 import { ConsoleInputComponent } from '../../shared/design-system/form-controls/console-input/console-input.component';
 import { StatusLightComponent } from '../../shared/design-system/indicators/status-light/status-light.component';
@@ -37,7 +38,13 @@ import { LogotypeComponent } from '../../shared/design-system/typography/logotyp
  */
 @Component({
   selector: 'joo-heads-up-display-header',
-  imports: [LogotypeComponent, HardwareKeyComponent, StatusLightComponent, ConsoleInputComponent],
+  imports: [
+    LogotypeComponent,
+    HardwareKeyComponent,
+    StatusLightComponent,
+    ConsoleInputComponent,
+    RouterLink,
+  ],
   templateUrl: './heads-up-display-header.component.html',
   styleUrl: './heads-up-display-header.component.css',
   host: { role: 'banner' },

@@ -127,9 +127,9 @@ export class LibraryLayoutPage {
 }
 
 function crumbsFor(path: string): readonly Crumb[] {
-  const home: Crumb = { label: 'Home', href: '/' };
+  const home: Crumb = { label: 'Home', routerLink: '/' };
   if (!path) return [home, { label: 'Library' }];
-  const crumbs: Crumb[] = [home, { label: 'Library', href: '/library' }];
+  const crumbs: Crumb[] = [home, { label: 'Library', routerLink: '/library' }];
   const parts = path.split('/').filter((part) => part.length > 0);
   let acc = '';
   for (let i = 0; i < parts.length; i++) {
@@ -138,7 +138,7 @@ function crumbsFor(path: string): readonly Crumb[] {
     const doc = findLibraryDoc(acc);
     const folder = findLibraryFolder(acc);
     const label = doc?.title ?? folder?.title ?? parts[i] ?? acc;
-    crumbs.push(isLast ? { label } : { label, href: `/library/${acc}` });
+    crumbs.push(isLast ? { label } : { label, routerLink: `/library/${acc}` });
   }
   return crumbs;
 }

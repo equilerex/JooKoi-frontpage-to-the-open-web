@@ -1,5 +1,5 @@
 <div class="hud__inner">
-  <a class="hud__brand" href="/">
+  <a class="hud__brand" routerLink="/">
     <span class="hud__mark" aria-hidden="true">
       <svg viewBox="0 0 24 24" focusable="false">
         <g class="hud__mark-orbit" transform="rotate(-28 12 12)">
@@ -31,8 +31,15 @@
     </div>
   }
   <nav class="hud__nav" aria-label="Primary">
-    @for (item of navItems(); track item.href) {
-      <joo-hardware-key as="anchor" size="sm" [href]="item.href" [current]="item.active ?? false">
+    @for (item of navItems(); track item.label) {
+      <joo-hardware-key
+        as="anchor"
+        size="sm"
+        [routerLink]="item.routerLink"
+        [queryParams]="item.queryParams"
+        [href]="item.href ?? ''"
+        [current]="item.active ?? false"
+      >
         <joo-status-light color="cyan" [on]="item.active ?? false" />
         {{ item.label }}
       </joo-hardware-key>

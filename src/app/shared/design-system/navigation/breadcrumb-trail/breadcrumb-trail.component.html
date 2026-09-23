@@ -1,8 +1,12 @@
 <ol>
   @for (crumb of crumbs(); track crumb.label; let last = $last) {
     <li>
-      @if (crumb.href && !last) {
-        <a [href]="crumb.href">{{ crumb.label }}</a>
+      @if (!last && (crumb.routerLink || crumb.href)) {
+        @if (crumb.routerLink) {
+          <a [routerLink]="crumb.routerLink" [queryParams]="crumb.queryParams">{{ crumb.label }}</a>
+        } @else {
+          <a [href]="crumb.href">{{ crumb.label }}</a>
+        }
       } @else {
         <span [attr.aria-current]="last ? 'page' : null">{{ crumb.label }}</span>
       }

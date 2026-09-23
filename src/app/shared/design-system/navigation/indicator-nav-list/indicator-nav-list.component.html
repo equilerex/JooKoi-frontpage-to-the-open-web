@@ -1,5 +1,12 @@
-@for (item of items(); track item.href) {
-  <joo-hardware-key as="anchor" [href]="item.href" [current]="item.active ?? false" [block]="true">
+@for (item of items(); track item.label) {
+  <joo-hardware-key
+    as="anchor"
+    [routerLink]="item.routerLink"
+    [queryParams]="item.queryParams"
+    [href]="item.href ?? ''"
+    [current]="item.active ?? false"
+    [block]="true"
+  >
     <!-- The mockup's active row forces its lamp to magenta
          (components.css:1130-1135). That is a rule about what "you are here"
          looks like, not per-item data, so it is encoded here and `lightColor`

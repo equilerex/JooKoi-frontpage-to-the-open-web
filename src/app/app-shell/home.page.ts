@@ -1,5 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Params, Router, RouterLink } from '@angular/router';
 import {
   HardwareKeyAccent,
   HardwareKeyComponent,
@@ -42,11 +42,10 @@ interface QuickKey {
   readonly fn: string;
   readonly label: string;
   readonly count?: number | null;
-  /** Real navigation target (Task 4) — a `/search?…` URL carrying either a
-   *  `category` or a `tag` pre-filter. Plain `href`, not `Router.navigate`:
-   *  `joo-keycap` renders a real anchor whenever `href` is non-empty, and the
-   *  design system stays Router-agnostic (see its own component doc). */
-  readonly href: string;
+  /** Real navigation target — either routerLink + queryParams for SPA routing or external href. */
+  readonly routerLink?: string | readonly unknown[];
+  readonly queryParams?: Params;
+  readonly href?: string;
   /** Defaults to 'neutral' at the call site. Only the AI-marketplace key
    *  (F6) carries 'hot'. */
   readonly accent?: HardwareKeyAccent;
@@ -198,6 +197,7 @@ const HIGHLIGHT_COUNT = 8;
     CapabilityTagComponent,
     ChipComponent,
     TagSetComponent,
+    RouterLink,
   ],
   styleUrl: './home.page.css',
   templateUrl: './home.page.html',
@@ -216,31 +216,36 @@ export class HomePage {
       fn: 'F1',
       label: 'Developer reference',
       count: countByCategory('developer-reference'),
-      href: searchHref({ category: 'developer-reference' }),
+      routerLink: '/search',
+      queryParams: { category: 'developer-reference' },
     },
     {
       fn: 'F2',
       label: 'News',
       count: countByCategory('news'),
-      href: searchHref({ category: 'news' }),
+      routerLink: '/search',
+      queryParams: { category: 'news' },
     },
     {
       fn: 'F3',
       label: 'Open-web holdouts',
       count: countByCategory('open-web'),
-      href: searchHref({ category: 'open-web' }),
+      routerLink: '/search',
+      queryParams: { category: 'open-web' },
     },
     {
       fn: 'F4',
       label: 'Inspiration',
       count: countByCategory('inspiration'),
-      href: searchHref({ category: 'inspiration' }),
+      routerLink: '/search',
+      queryParams: { category: 'inspiration' },
     },
     {
       fn: 'F5',
       label: 'Investigative',
       count: countByTag('investigative'),
-      href: searchHref({ tag: 'investigative' }),
+      routerLink: '/search',
+      queryParams: { tag: 'investigative' },
     },
     // AI marketplace (D3) — the mock's F6 hot key. Real count from the
     // fixture, replacing the earlier hard-coded placeholder.
@@ -248,7 +253,8 @@ export class HomePage {
       fn: 'F6',
       label: 'AI marketplace',
       count: countByCategory('ai-marketplace'),
-      href: searchHref({ category: 'ai-marketplace' }),
+      routerLink: '/search',
+      queryParams: { category: 'ai-marketplace' },
       accent: 'hot',
     },
     {

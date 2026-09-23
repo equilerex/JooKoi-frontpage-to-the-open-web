@@ -38,6 +38,8 @@ Strictness on top of the generated strict set: `noUncheckedIndexedAccess`, `noIm
 
 **Change detection is OnPush by default.** In Angular 22 `ChangeDetectionStrategy.OnPush` is `0`, the enum's zero value, so a component that does not declare `changeDetection` is already OnPush. Declaring it is redundant: a component that does is not wrong, and a component that omits it is not incomplete. Don't add the declaration to a new component, and don't "fix" its absence in an existing one.
 
+**Internal navigation must use `RouterLink` / `router.navigate()`.** Never write raw `<a href="/...">` for internal routes. Raw `href` causes a full page reload, unmounts components, resets all signals/state, and strips subfolder prefixes on hosts like GitHub Pages. Internal links must use `[routerLink]` or `router.navigate()`. Raw `href` is reserved strictly for external URLs (`target="_blank"`).
+
 **Animation and motion (ADR 035, ADR 036):** `@angular/animations` is deprecated in Angular 20.2+ and is not installed. Use modern native CSS transitions or `@starting-style` for discrete surface states (drawers, overlays). Data rows or collection items in `@for` loops may use enter/leave transitions only if strictly restricted to compositor-safe opacity, tracked by stable unique identifiers (`rowKey`), and protected with input debouncing. Never animate layout geometry (`transform`, `height`) on table rows.
 
 ## Where does this file go

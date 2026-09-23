@@ -1,15 +1,30 @@
 @if (this.as() === 'anchor') {
-  <a
-    class="key"
-    [href]="href()"
-    [attr.target]="target()"
-    [attr.rel]="target() === '_blank' ? 'noopener' : null"
-    [attr.aria-current]="current() ? 'page' : null"
-    [attr.aria-pressed]="pressed()"
-    (click)="press.emit()"
-  >
-    <ng-container [ngTemplateOutlet]="body" />
-  </a>
+  @if (routerLink()) {
+    <a
+      class="key"
+      [routerLink]="routerLink()"
+      [queryParams]="queryParams()"
+      [attr.target]="target()"
+      [attr.rel]="target() === '_blank' ? 'noopener' : null"
+      [attr.aria-current]="current() ? 'page' : null"
+      [attr.aria-pressed]="pressed()"
+      (click)="press.emit()"
+    >
+      <ng-container [ngTemplateOutlet]="body" />
+    </a>
+  } @else {
+    <a
+      class="key"
+      [href]="href()"
+      [attr.target]="target()"
+      [attr.rel]="target() === '_blank' ? 'noopener' : null"
+      [attr.aria-current]="current() ? 'page' : null"
+      [attr.aria-pressed]="pressed()"
+      (click)="press.emit()"
+    >
+      <ng-container [ngTemplateOutlet]="body" />
+    </a>
+  }
 } @else {
   <button
     class="key"

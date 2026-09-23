@@ -6,7 +6,7 @@ Rules: ADRs `005` (folders/naming), `006` (Aria + CDK), `007` (styles), `008` (h
 
 ## The agnostic rule
 
-A design-system component **knows nothing about curated websites, routes or app state.** It imports nothing from outside this folder — no feature, no `app-shell`, no `Router`/`RouterLink`, no store, no domain model. Everything arrives through `input()`; everything leaves through `output()` or a plain DOM event.
+A design-system component **knows nothing about curated websites or app state.** It imports nothing from feature folders, `app-shell`, stores, or domain models. Navigation components (`hardware-key`, `keycap`, `breadcrumb-trail`, `indicator-nav-list`) accept standard `routerLink` / `queryParams` inputs (and fallback `href`) so consumers can drive client-side SPA routing without full page reloads. Everything arrives through `input()`; everything leaves through `output()` or a plain DOM event.
 
 Enforced by the generated `no-restricted-imports` block in `eslint.config.js` (ADR 005, and the block is generated from the `src/app/` folder list, so a new feature folder is covered the moment it exists). The rule was verified firing in Task 18 — importing `app-shell` from a component in this folder fails lint with the folder name in the message. A component that cannot be built without reaching out belongs in a feature folder instead.
 

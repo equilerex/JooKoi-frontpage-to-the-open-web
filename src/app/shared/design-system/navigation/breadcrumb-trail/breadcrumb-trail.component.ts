@@ -1,8 +1,11 @@
 import { Component, input } from '@angular/core';
+import { Params, RouterLink } from '@angular/router';
 
 export interface Crumb {
   readonly label: string;
   readonly href?: string;
+  readonly routerLink?: string | readonly unknown[];
+  readonly queryParams?: Params;
 }
 
 /**
@@ -19,6 +22,7 @@ export interface Crumb {
  */
 @Component({
   selector: 'joo-breadcrumb-trail',
+  imports: [RouterLink],
   templateUrl: './breadcrumb-trail.component.html',
   styleUrl: './breadcrumb-trail.component.css',
   host: { role: 'navigation', 'aria-label': 'Breadcrumb' },

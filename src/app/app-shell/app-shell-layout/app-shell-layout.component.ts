@@ -89,14 +89,14 @@ export class AppShellLayoutComponent {
   }
 
   private readonly baseHeaderNavItems: readonly NavItem[] = [
-    { label: 'Search', href: '/search' },
-    { label: 'Library', href: '/library' },
+    { label: 'Search', routerLink: '/search' },
+    { label: 'Library', routerLink: '/library' },
   ];
 
   private readonly baseDockNavItems: readonly NavItem[] = [
-    { label: 'Home', href: '/' },
-    { label: 'Search', href: '/search' },
-    { label: 'Library', href: '/library' },
+    { label: 'Home', routerLink: '/' },
+    { label: 'Search', routerLink: '/search' },
+    { label: 'Library', routerLink: '/library' },
   ];
 
   /** `active` derived from the real current route instead of hard-coded.
@@ -113,7 +113,10 @@ export class AppShellLayoutComponent {
 
   private withActive(items: readonly NavItem[]): readonly NavItem[] {
     const url = this.currentUrl();
-    return items.map((item) => ({ ...item, active: this.matchesRoute(item.href, url) }));
+    return items.map((item) => {
+      const target = (typeof item.routerLink === 'string' ? item.routerLink : item.href) ?? '';
+      return { ...item, active: this.matchesRoute(target, url) };
+    });
   }
 
   private matchesRoute(href: string, url: string): boolean {

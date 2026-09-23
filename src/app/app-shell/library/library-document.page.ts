@@ -8,7 +8,7 @@ import {
   resource,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PaperSheetComponent } from '../../shared/design-system/surfaces/paper-sheet/paper-sheet.component';
 import { ProseContentComponent } from '../../shared/design-system/data-display/prose-content/prose-content.component';
 import { PagerComponent } from '../../shared/design-system/navigation/pager/pager.component';
@@ -18,7 +18,7 @@ import { loadLibraryDocHtml } from '../../shared/library-content/library-lookup'
 /** Document pane to the right of the persistent file tree. */
 @Component({
   selector: 'joo-library-document-page',
-  imports: [PaperSheetComponent, ProseContentComponent, PagerComponent],
+  imports: [PaperSheetComponent, ProseContentComponent, PagerComponent, RouterLink],
   templateUrl: './library-document.page.html',
   styleUrl: './library-document.page.css',
 })

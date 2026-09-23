@@ -26,7 +26,9 @@
           [label]="key.label"
           [count]="key.count || null"
           [accent]="key.accent ?? 'neutral'"
-          [href]="key.href"
+          [routerLink]="key.routerLink"
+          [queryParams]="key.queryParams"
+          [href]="key.href ?? ''"
         />
       }
     </joo-keycap-grid>
@@ -83,7 +85,7 @@
 <joo-readout-panel label="Browse by tag" led="magenta">
   <joo-tag-set>
     @for (tag of tags; track tag.label) {
-      <a class="chip-link" [href]="tag.href">
+      <a class="chip-link" [routerLink]="['/search']" [queryParams]="{ tag: tag.label }">
         <joo-chip [count]="tag.count">{{ tag.label }}</joo-chip>
       </a>
     }

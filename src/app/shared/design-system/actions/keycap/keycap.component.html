@@ -1,5 +1,7 @@
 <joo-hardware-key
-  [as]="href() ? 'anchor' : 'button'"
+  [as]="routerLink() || href() ? 'anchor' : 'button'"
+  [routerLink]="routerLink()"
+  [queryParams]="queryParams()"
   [href]="href()"
   [target]="resolvedTarget()"
   [block]="true"
