@@ -1,0 +1,43 @@
+{
+  "$schema": "./source.schema.json",
+  "sources": [
+    {
+      "id": "techmeme",
+      "name": "Techmeme",
+      "url": "https://www.techmeme.com",
+      "desc": "Human and algorithm hybrid aggregation of essential technology news",
+      "type": "aggregator",
+      "category": "news",
+      "tags": ["tech", "news"],
+      "trustScore": 85,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Techmeme Top News",
+          "url": "https://www.techmeme.com/feed.xml",
+          "format": "rss"
+        }
+      ]
+    },
+    {
+      "id": "aldaily",
+      "name": "Arts & Letters Daily",
+      "url": "https://www.aldaily.com",
+      "desc": "Minimalist daily aggregator of intellectual essays philosophy and book reviews",
+      "type": "aggregator",
+      "category": "culture",
+      "tags": ["essays", "philosophy"],
+      "trustScore": 92,
+      "capabilities": ["rss-feed"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Arts & Letters Daily",
+          "url": "https://aldaily.com/feed/",
+          "format": "rss"
+        }
+      ]
+    }
+  ]
+}

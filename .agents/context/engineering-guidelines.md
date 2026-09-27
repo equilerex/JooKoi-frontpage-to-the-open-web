@@ -1,6 +1,6 @@
-# Engineering guidelines — how to build in this repo
+c# Engineering guidelines — how to build in this repo
 
-The how-to companion to `_architecture/ARCHITECTURE.md` (what the structure is) and `_architecture/plans/decisions/` (why). Read this before writing app code.
+The how-to companion to `_architecture/ARCHITECTURE.md` (what the structure is) and `_architecture/plans/decision-history/` (why). Read this before writing app code.
 
 Applies to `src/` only. Repo-level conventions are in `AGENTS.md`.
 
@@ -180,7 +180,7 @@ Angular majors are upgraded on a branch named `upgrade/angular-<major>` with `ng
 
 This file is updated **in the same change** as the code it describes. If a convention here stops matching `src/`, the change isn't finished.
 
-- A new rule with reasoning behind it → an ADR in `_architecture/plans/decisions/`, and a pointer from here.
+- A new rule with reasoning behind it → an ADR in `_architecture/plans/decision-history/`, and a pointer from here.
 - A structural change → `_architecture/ARCHITECTURE.md` too.
 - A trap found the hard way → `.agents/context/gotchas.md`.
 - Tooling or process friction → `_architecture/workflow-friction-log.md`.

@@ -1,0 +1,26 @@
+{
+  "$schema": "./source.schema.json",
+  "sources": [
+    {
+      "id": "yle-news",
+      "name": "Yle News",
+      "url": "https://yle.fi/news",
+      "desc": "Finnish public broadcasting company providing independent news coverage in English.",
+      "type": "Public broadcaster",
+      "category": "news",
+      "tags": ["news", "finland"],
+      "trustScore": 88,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Yle News English",
+          "url": "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_NEWS",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Finland"
+    }
+  ]
+}

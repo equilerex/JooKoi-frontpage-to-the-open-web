@@ -1,0 +1,148 @@
+{
+  "$schema": "./source.schema.json",
+  "sources": [
+    {
+      "id": "marginalia",
+      "name": "Marginalia Search",
+      "url": "https://search.marginalia.nu",
+      "desc": "Independent discovery engine crawling the text heavy obscure and noncommercial web while actively penalizing modern bloat",
+      "type": "Search engine",
+      "category": "technology",
+      "tags": ["search", "discovery", "indie", "text"],
+      "trustScore": 94,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "searchUrl": "https://search.marginalia.nu/search?query={q}",
+      "lang": "en",
+      "region": "Sweden"
+    },
+    {
+      "id": "lowtech",
+      "name": "Low Tech Magazine",
+      "url": "https://solar.lowtechmagazine.com",
+      "desc": "Radical solar powered publication hosted on a server in Barcelona that physically goes offline during bad weather",
+      "type": "Publication",
+      "category": "culture",
+      "tags": ["sustainability", "solar", "minimalism"],
+      "trustScore": 92,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Atom Feed",
+          "url": "https://solar.lowtechmagazine.com/feeds/all.atom.xml",
+          "format": "atom"
+        }
+      ],
+      "lang": "en",
+      "region": "Spain"
+    },
+    {
+      "id": "monoskop",
+      "name": "Monoskop",
+      "url": "https://monoskop.org",
+      "desc": "Collaborative wiki and digital archive dedicated to media arts avant garde theory and obscure humanities",
+      "type": "Digital archive",
+      "category": "culture",
+      "tags": ["archive", "art", "theory", "humanities"],
+      "trustScore": 89,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "searchUrl": "https://monoskop.org/index.php?search={q}",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "ubuweb",
+      "name": "UbuWeb",
+      "url": "https://ubu.com",
+      "desc": "Ancient hard coded HTML archive hosting terabytes of underground sound poetry concrete video art and forgotten avant garde media",
+      "type": "Digital archive",
+      "category": "culture",
+      "tags": ["archive", "art", "poetry", "underground"],
+      "trustScore": 91,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "tildeclub",
+      "name": "Tilde Club",
+      "url": "https://tilde.club",
+      "desc": "Public access UNIX system where users build raw HTML pages creating a massive brutalist and highly personal underground web community",
+      "type": "Web community",
+      "category": "technology",
+      "tags": ["unix", "community", "retro", "minimalism"],
+      "trustScore": 86,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "hundredrabbits",
+      "name": "Hundred Rabbits",
+      "url": "https://100r.co",
+      "desc": "Nomadic artist collective living on a sailboat building offline first open source software and esoteric tools for a post collapse world",
+      "type": "Digital studio",
+      "category": "technology",
+      "tags": ["nomadic", "software", "art", "resilience"],
+      "trustScore": 95,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Links Feed",
+          "url": "https://100r.co/links/rss.xml",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "cryptome",
+      "name": "Cryptome",
+      "url": "https://cryptome.org",
+      "desc": "Minimalist public library hosting intelligence documents cryptography research and surveillance archives",
+      "type": "Public library",
+      "category": "news",
+      "tags": ["cryptography", "surveillance", "archive", "leaks"],
+      "trustScore": 88,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "wiby",
+      "name": "Wiby",
+      "url": "https://wiby.me",
+      "desc": "Search engine strictly indexing lightweight classic web pages to preserve the surfing experience of the early web without modern bloat",
+      "type": "Search engine",
+      "category": "technology",
+      "tags": ["search", "retro", "lightweight", "preservation"],
+      "trustScore": 87,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "searchUrl": "https://wiby.me/?q={q}",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "solarprotocol",
+      "name": "Solar Protocol",
+      "url": "http://solarprotocol.net",
+      "desc": "Planetary network of solar powered servers where web traffic is dynamically routed to whichever server has the most sunlight at that exact moment",
+      "type": "Network experiment",
+      "category": "technology",
+      "tags": ["solar", "network", "experiment", "art"],
+      "trustScore": 90,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "Global"
+    }
+  ]
+}

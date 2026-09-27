@@ -8,7 +8,7 @@
 
 **Tech Stack:** Angular 22.1 (zoneless, standalone, strict, `outputMode: static`), plain CSS with cascade layers, PrimeNG 22.1.x + `@primeuix/themes`, `@angular/cdk`, `@angular/aria`, Vitest browser mode, pnpm.
 
-**Spec:** `_architecture/plans/2026-09-15-angular-design-system-phase-2.md` — read it before Task 1. Supporting decisions: `_architecture/plans/decisions/011-primeng-as-component-base.md`, `012-components-derived-from-visual-role.md`, `013-page-templates-as-a-design-system-sub-group.md`, `007-styles-architecture-cascade-layers.md`. Conventions: `.agents/context/engineering-guidelines.md`.
+**Spec:** `_architecture/plans/2026-09-15-angular-design-system-phase-2.md` — read it before Task 1. Supporting decisions: `_architecture/plans/decision-history/011-primeng-as-component-base.md`, `012-components-derived-from-visual-role.md`, `013-page-templates-as-a-design-system-sub-group.md`, `007-styles-architecture-cascade-layers.md`. Conventions: `.agents/context/engineering-guidelines.md`.
 
 ---
 

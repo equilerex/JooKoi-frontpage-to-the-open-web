@@ -1,6 +1,6 @@
 # Architecture
 
-JooKoi: Front Page to the Open Web — an Angular 22 single-page app, prerendered to static files, that lists and links out to curated websites. This file is the structural reference: where code goes, what it's called, how it imports, and where state lives. The reasoning behind each rule is in `_architecture/plans/decisions/003-*` through `015-*`; the Phase 1 planning session is `_architecture/plans/2026-09-15-angular-foundation-phase-1.md` and the Phase 2 one is `_architecture/plans/2026-09-15-angular-design-system-phase-2.md`.
+JooKoi: Front Page to the Open Web — an Angular 22 single-page app, prerendered to static files, that lists and links out to curated websites. This file is the structural reference: where code goes, what it's called, how it imports, and where state lives. The reasoning behind each rule is in `_architecture/plans/decision-history/003-*` through `015-*`; the Phase 1 planning session is `_architecture/plans/2026-09-15-angular-foundation-phase-1.md` and the Phase 2 one is `_architecture/plans/2026-09-15-angular-design-system-phase-2.md`.
 
 Phase 1 (foundation), Phase 2 (design system) and Phase 3 (content and features) are all built — see the last section for what Phase 3 added.
 
@@ -29,9 +29,9 @@ The workspace sits at the **repo root**, next to `sources/`, `data/`, `scripts/`
 The things this app lists and links out to are **curated websites**. Code never uses the bare word "source" for them, because in an engineering context it reads as source code — with one named exception.
 
 - Folder: `curated-websites/`. Components (planned): `website-*`.
-- **Data model is `Source`, not `CuratedWebsite`** (ADR 026): `source.model.ts`, `source-fixture.ts`, `source-search.ts`. A narrow, dated exception from the Phase 3 plan's data-model section, not a reversion of the rule — the store, service and components this folder eventually gets still follow `CuratedWebsite`/`website-*`.
+- **Data model is `Source`, not `CuratedWebsite`** (ADR 026): `source.model.ts`, `source-search.ts`, the generated `sources.generated.ts` / `source-stats.generated.ts`. A narrow, dated exception from the Phase 3 plan's data-model section, not a reversion of the rule — the store, service and components this folder eventually gets still follow `CuratedWebsite`/`website-*`.
 - The word "source" is still correct for `sources/` (human-authored input data) and the `source-ingest` skill. Those are outside `src/app/` and keep their names for now.
-- `sitemap.yaml` still says `source_detail` and `/source/:id`. Renaming the public route is a product call, logged in `BACKLOG.md`.
+- `sitemap.yaml` still says `source_detail` and `/source/:id`. Renaming the public route is a product call, parked in the items store.
 
 ## Rendering
 
@@ -47,7 +47,7 @@ Static prerendering with no server (ADR 004). `ng build` emits prerendered HTML 
 
 This is the **target** map for the app described in `_architecture/sitemap.yaml`. Parked areas are shown only to prove they have a home — they are not created.
 
-> **What actually exists after Phase 3 + the library-archive section:** `app.routes.ts` has: `''` → `HomePage`, `search` → `SearchPage`, `learn` and `learn/:topic` → redirects into `/library/...` (D8), `library` → `libraryRoutes` (`app-shell/library/`, one literal `Route` per known path, generated — no `:param`), `specimen` → the dev-only parts kit (dev mode only), `**` → `NotFoundPage`. Home and search live flat in `app-shell/` (`home.page.*`, `search.page.*`) alongside the three chrome components, `app-shell-layout/` and `page-title.strategy.ts`; the library pages live in `app-shell/library/` — Phase 3 did not create the `launcher-home/`, `website-search/` or `learning/` feature folders this map originally planned (deviation from this map, not from D2's page scope). `browse` and `source_detail` are still unbuilt (D2), so `category-browse/` and `website-detail/` below stay illustrative. `shared/curated-websites/` holds `source.model.ts`, `source-fixture.ts` and `source-search.ts` (+ spec) — a hand-written fixture and pure search functions (ADR 017, 026); the store, service and components under "Planned contents" are still unbuilt. `shared/library-content/` holds the generated content index plus one generated file per document, all committed (ADR 027), built by `scripts/build-library-content.mjs` from `content/library/` — run by `pnpm run build` and by hand via `pnpm run content`, not by `start`/`watch`. `shared/design-system/` holds ten folders — nine component sub-groups and `theme/` — listed below, including Phase 3's two additions, `data-display/chip/` and `data-display/topic-tree/`. `src/styles/` holds `cascade-layers.css`, `design-tokens.css`, `base-element-styles.css` and `fonts.css`, and `public/fonts/` holds the eleven self-hosted woff2 files. `src/styles.css` holds the global rules that cannot be encapsulated.
+> **What actually exists after Phase 3 + the library-archive section:** `app.routes.ts` has: `''` → `HomePage`, `search` → `SearchPage`, `learn` and `learn/:topic` → redirects into `/library/...` (D8), `library` → `libraryRoutes` (`app-shell/library/`, one literal `Route` per known path, generated — no `:param`), `specimen` → the dev-only parts kit (dev mode only), `**` → `NotFoundPage`. Home and search live flat in `app-shell/` (`home.page.*`, `search.page.*`) alongside the three chrome components, `app-shell-layout/` and `page-title.strategy.ts`; the library pages live in `app-shell/library/` — Phase 3 did not create the `launcher-home/`, `website-search/` or `learning/` feature folders this map originally planned (deviation from this map, not from D2's page scope). `browse` and `source_detail` are still unbuilt (D2), so `category-browse/` and `website-detail/` below stay illustrative. `shared/curated-websites/` holds `source.model.ts`, `source-search.ts` (+ spec) and the modules generated from `sources/` — pure search functions over build-time data (ADR 026); the store, service and components under "Planned contents" are still unbuilt. `shared/library-content/` holds the generated content index plus one generated file per document, all committed (ADR 027), built by `scripts/build-library-content.mjs` from `content/library/` — run by `pnpm run build` and by hand via `pnpm run content`, not by `start`/`watch`. `shared/design-system/` holds ten folders — nine component sub-groups and `theme/` — listed below, including Phase 3's two additions, `data-display/chip/` and `data-display/topic-tree/`. `src/styles/` holds `cascade-layers.css`, `design-tokens.css`, `base-element-styles.css` and `fonts.css`, and `public/fonts/` holds the eleven self-hosted woff2 files. `src/styles.css` holds the global rules that cannot be encapsulated.
 
 ```
 src/
@@ -100,7 +100,8 @@ src/
 
       curated-websites/                 #   the domain: the websites this app lists and links out to
         source.model.ts                 #     Source type — exception to CuratedWebsite naming (ADR 026)
-        source-fixture.ts               #     hand-written fixture, ~50-60 records (ADR 017)
+        sources.generated.ts            #     ALL_SOURCES, generated from sources/*.json, /search chunk only
+        source-stats.generated.ts       #     counts, top tags, home highlights, generated, shell + home
         source-search.ts  source-search.spec.ts  #  pure ranked-search module, no Angular imports
         # store, service and components below are still unbuilt — see "Planned contents"
         # and src/app/shared/curated-websites/CONTEXT.md
@@ -296,11 +297,11 @@ Re-set on 2026-09-21 from a measured build (536 kB initial raw, 130 kB transferr
 
 **Performance baselines** (decision 033): `pnpm run ux:lab:record` writes one JSON per commit into `_architecture/perf-baselines/` (Lighthouse median of 3 runs per page plus bundle sizes from `dist/jookoi-frontpage/stats.json`, which `pnpm run build` now writes). `pnpm run ux:lab -- --compare` diffs against the newest one, and CI runs `ux:lab:ci`, which fails only on regression beyond `scripts/ux-lab.budgets.json`. Absolute limits there are targets. The lab measures a static preview (`serve:static-build`) that serves each route's prerendered `index.html` with brotli; without both, the numbers are about 2x too slow.
 
-**Landing-page weight rule** (decision 032): a route in `app.routes.ts` is lazy unless it is a few kB. `record-grid` is a plain table, so nothing in `main` may import PrimeNG's table code. The shell must not import data-sized modules: the source count is read from the fixture after first render.
+**Landing-page weight rule** (decision 032): a route in `app.routes.ts` is lazy unless it is a few kB. `record-grid` is a plain table, so nothing in `main` may import PrimeNG's table code. The shell and home must not import data-sized modules: they read counts and highlights from `source-stats.generated.ts`, and only `/search` imports the full `sources.generated.ts`.
 
 ## Where Phase 3 plugs in
 
-Phase order and reasoning: `_architecture/plans/decisions/002-*`. **Phase 1 (foundation), Phase 2 (design system) and Phase 3 (content and features) are all complete.**
+Phase order and reasoning: `_architecture/plans/decision-history/002-*`. **Phase 1 (foundation), Phase 2 (design system) and Phase 3 (content and features) are all complete.**
 
 **The design system, as built.** `shared/design-system/` holds nine component sub-groups plus `theme/` — see the folder map. Two rules shape everything in it:
 
@@ -315,7 +316,7 @@ Phase order and reasoning: `_architecture/plans/decisions/002-*`. **Phase 1 (fou
 
 **Phase 3 — content and features, as built.** Home (`/`) and search (`/search?q=`) are real routes (D2, ADR 018) — pages flat in `app-shell/` rather than in per-feature folders (see the folder map callout above). `browse` and `source_detail` stay parked. `/learn` and `/learn/:topic` were built this phase, then superseded the same day by the library-archive section below.
 
-- `shared/curated-websites/` holds a hand-written `Source` fixture and a pure, framework-free ranked-search module (ADR 017, 026) — no data service, root store or components yet. The originally planned data pipeline (`sources/` → `scripts/` → `src/generated/`) was not built this phase; `BACKLOG.md`'s "Data pipeline: `sources/` to `src/generated/`" item stays open.
+- The dataset is authored in `sources/*.json` (JSON Schema, file order is dataset order) and compiled by `scripts/build-sources.mjs` (`pnpm run sources`, also run by `build`) into committed generated modules under `shared/curated-websites/`, next to a pure, framework-free ranked-search module (ADR 026). No data service, root store or components yet. Rules for authors: `sources/CONTEXT.md`.
 - Two new `shared/design-system/data-display/` components: `chip/` (flat tag pill) and `topic-tree/` (PrimeNG `p-tree` wrapper, first built for the learn index, now reused as the library sidebar) — the fourth and fifth sanctioned PrimeNG adoptions after `chrome-select`, `filter-drawer` and `record-grid`. `record-grid` gained a cell-template API to render the source table's trust chips, capability pills and outbound-open keys.
 - No `getPrerenderParams`, `website-detail` page, or per-feature `CONTEXT.md` — those stay with `browse`/`source_detail`, still parked.
 

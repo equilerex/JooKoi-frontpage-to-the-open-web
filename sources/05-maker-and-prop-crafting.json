@@ -1,0 +1,167 @@
+{
+  "$schema": "./source.schema.json",
+  "sources": [
+    {
+      "id": "the-rpf",
+      "name": "The Replica Prop Forum",
+      "url": "https://www.therpf.com",
+      "desc": "The definitive classic community for screen-accurate movie prop replication, costume builds, molding, and physical fabrication.",
+      "type": "Maker community forum",
+      "category": "culture",
+      "tags": ["props", "cosplay", "movie-replicas", "fabrication"],
+      "trustScore": 94,
+      "capabilities": ["site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://www.therpf.com/forums/search/?q={q}",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "tested",
+      "name": "Tested",
+      "url": "https://www.tested.com",
+      "desc": "Adam Savage and team exploring hands-on maker techniques, kitbashing, mold-making, tooling, and film industry practical effects.",
+      "type": "Maker media outlet",
+      "category": "culture",
+      "tags": ["maker", "practical-effects", "tooling", "prototyping"],
+      "trustScore": 92,
+      "capabilities": ["site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://www.tested.com/?s={q}",
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "kamui-cosplay",
+      "name": "Kamui Cosplay",
+      "url": "https://www.kamuicosplay.com",
+      "desc": "Deep technical tutorials on EVA foam fabrication, sonic cutters, airbrush weathering, 3D printing, and wearable LED systems.",
+      "type": "Independent craft journal",
+      "category": "culture",
+      "tags": ["cosplay", "led-wearables", "eva-foam", "crafting"],
+      "trustScore": 91,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://www.kamuicosplay.com/?s={q}",
+      "feeds": [
+        {
+          "name": "Blog & Project Guides",
+          "url": "https://www.kamuicosplay.com/feed/",
+          "desc": "Build logs, painting techniques, and wearable electronics guides",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Europe"
+    },
+    {
+      "id": "adafruit-wearables",
+      "name": "Adafruit Wearables & Cosplay",
+      "url": "https://learn.adafruit.com/category/wearables",
+      "desc": "Exhaustive open-source schematics, code, and guides for addressable RGB LEDs, motion-reactive costumes, and prop soundboards.",
+      "type": "Open-source hardware guides",
+      "category": "technology",
+      "tags": ["led-wearables", "neopixels", "props", "microcontrollers"],
+      "trustScore": 96,
+      "capabilities": ["rss-feed", "site-search", "public-api"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://learn.adafruit.com/search?q={q}",
+      "sourceUrl": "https://github.com/adafruit",
+      "feeds": [
+        {
+          "name": "Wearables Learn Guide Feed",
+          "url": "https://learn.adafruit.com/feed/wearables",
+          "desc": "New wearable hardware project tutorials and wiring guides",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "foamsmithing-punished-props",
+      "name": "Punished Props Academy",
+      "url": "https://www.punishedprops.com",
+      "desc": "Comprehensive blueprints and guides for CNC milling, laser cutting, mold-making, casting, and finishing high-durability armor.",
+      "type": "Fabrication educational academy",
+      "category": "culture",
+      "tags": ["props", "mold-making", "cnc", "laser-cutting"],
+      "trustScore": 89,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://www.punishedprops.com/?s={q}",
+      "feeds": [
+        {
+          "name": "Academy Build Articles",
+          "url": "https://www.punishedprops.com/feed/",
+          "desc": "Free blueprints, finishing recipes, and tool walkthroughs",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "openbuilds",
+      "name": "OpenBuilds",
+      "url": "https://openbuilds.com",
+      "desc": "Community and open-source modular hardware ecosystem for DIY CNC routers, drag-knives, vibrating blades, and laser tables.",
+      "type": "Open-source hardware platform",
+      "category": "technology",
+      "tags": ["cnc", "laser-cutters", "hardware", "motion-control"],
+      "trustScore": 90,
+      "capabilities": ["site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://openbuilds.com/search/?q={q}",
+      "sourceUrl": "https://github.com/OpenBuilds",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "stan-winston-school",
+      "name": "Stan Winston School of Character Arts",
+      "url": "https://www.stanwinstonschool.com",
+      "desc": "Masterclass tutorials and documentation directly from Hollywood practical effects artists on animatronics, sculpting, and prosthetics.",
+      "type": "Industry masterclass",
+      "category": "culture",
+      "tags": ["practical-effects", "animatronics", "prosthetics", "hollywood"],
+      "trustScore": 95,
+      "capabilities": ["site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://www.stanwinstonschool.com/search?q={q}",
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "instructables-workshop",
+      "name": "Instructables Workshop",
+      "url": "https://www.instructables.com/workshop/",
+      "desc": "Dense crowd-sourced archive of step-by-step builds featuring CNC router tables, hot-wire foam cutters, and power carving setups.",
+      "type": "Project repository",
+      "category": "technology",
+      "tags": ["diy", "workshop", "cnc", "woodworking"],
+      "trustScore": 87,
+      "capabilities": ["site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://www.instructables.com/search?q={q}",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "fab-academy",
+      "name": "Fab Academy",
+      "url": "https://fabacademy.org",
+      "desc": "Documentation archive from the global Fab Lab network focusing on rapid prototyping, digital fabrication, precision laser cutters, and embedded sensors.",
+      "type": "Academic fabrication network",
+      "category": "technology",
+      "tags": ["digital-fabrication", "rapid-prototyping", "cnc", "laser-cutters"],
+      "trustScore": 93,
+      "capabilities": ["site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://fabacademy.org/search.html?q={q}",
+      "sourceUrl": "https://gitlab.fabcloud.org/academany/fabacademy",
+      "lang": "en",
+      "region": "Global"
+    }
+  ]
+}

@@ -32,7 +32,7 @@ Durable content goes where the paper trail's routing already sends it.
 
 | Content                              | Destination                                 |
 | ------------------------------------ | ------------------------------------------- |
-| A call that was made, with reasoning | `_architecture/plans/decisions/NNN-slug.md` |
+| A call that was made, with reasoning | `_architecture/plans/decision-history/NNN-slug.md` |
 | Intended work, not yet scoped        | `_architecture/BACKLOG.md`                  |
 | Work worth tracking now              | `_architecture/TODO.md`                     |
 | Friction hit during the session      | `_architecture/workflow-friction-log.md`    |

@@ -1,0 +1,239 @@
+{
+  "$schema": "./source.schema.json",
+  "sources": [
+    {
+      "id": "simon-willison",
+      "name": "Simon Willison's Weblog",
+      "url": "https://simonwillison.net",
+      "desc": "Extensive technical documentation, experimentation with local LLMs, prompt engineering, and building agentic workflows.",
+      "type": "Developer weblog",
+      "category": "technology",
+      "tags": ["ai", "local-llms", "architecture"],
+      "trustScore": 94,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://simonwillison.net/search/?q={q}",
+      "sourceUrl": "https://github.com/simonw/simonwillisonblog",
+      "feeds": [
+        {
+          "name": "Everything",
+          "url": "https://simonwillison.net/atom/everything/",
+          "desc": "All articles, link commentary, and quotations",
+          "format": "atom"
+        },
+        {
+          "name": "Articles Only",
+          "url": "https://simonwillison.net/atom/entries/",
+          "desc": "Long-form essays and in-depth writeups only",
+          "format": "atom"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "latent-space",
+      "name": "Latent Space",
+      "url": "https://www.latent.space",
+      "desc": "Deep dives into the emerging field of AI engineering, covering model architectures, local inference, and R&D.",
+      "type": "AI engineering journal",
+      "category": "technology",
+      "tags": ["ai", "engineering", "research"],
+      "trustScore": 90,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://www.latent.space/search?q={q}",
+      "feeds": [
+        {
+          "name": "Main Publication",
+          "url": "https://www.latent.space/feed",
+          "desc": "Full articles, newsletters, and essay breakdowns",
+          "format": "rss"
+        },
+        {
+          "name": "Podcast Feed",
+          "url": "https://api.substack.com/feed/podcast/1084089.rss",
+          "desc": "Direct audio episodes and interview transcripts",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "hugging-face-blog",
+      "name": "Hugging Face Blog",
+      "url": "https://huggingface.co/blog",
+      "desc": "Bleeding edge research, model release notes, and tutorials on open-source AI weights and local implementation.",
+      "type": "R&D journal",
+      "category": "technology",
+      "tags": ["ai", "machine-learning", "open-source"],
+      "trustScore": 93,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://huggingface.co/search/full-text?q={q}&f=blog",
+      "feeds": [
+        {
+          "name": "Blog Feed",
+          "url": "https://huggingface.co/blog/feed.xml",
+          "desc": "Technical writeups, open weight releases, and research benchmarks",
+          "format": "atom"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "model-context-protocol",
+      "name": "Model Context Protocol",
+      "url": "https://modelcontextprotocol.io",
+      "desc": "Official specifications, SDK updates, and architectural patterns for connecting AI models to local data sources and tools.",
+      "type": "Technical specification",
+      "category": "technology",
+      "tags": ["ai", "mcp", "architecture"],
+      "trustScore": 95,
+      "capabilities": ["site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://modelcontextprotocol.io/search?q={q}",
+      "sourceUrl": "https://github.com/modelcontextprotocol",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "web-dev",
+      "name": "web.dev",
+      "url": "https://web.dev",
+      "desc": "Direct from browser engineers detailing upcoming Web APIs, WebGPU, WASM, and baseline performance standards.",
+      "type": "Technical documentation",
+      "category": "technology",
+      "tags": ["frontend", "web-standards", "performance"],
+      "trustScore": 96,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://web.dev/search/?q={q}",
+      "sourceUrl": "https://github.com/GoogleChrome/web.dev",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "404-media",
+      "name": "404 Media",
+      "url": "https://www.404media.co",
+      "desc": "Independent technology publication founded by former Motherboard journalists focused on surveillance and digital culture",
+      "type": "Independent tech journalism",
+      "category": "technology",
+      "tags": ["tech", "investigative", "culture"],
+      "trustScore": 89,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://www.404media.co/search/?q={q}",
+      "feeds": [
+        {
+          "name": "404 Media RSS",
+          "url": "https://www.404media.co/rss/",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "bytebytego",
+      "name": "ByteByteGo",
+      "url": "https://blog.bytebytego.com",
+      "desc": "Visual breakdowns of complex distributed systems, enterprise software architecture, and massive-scale data processing.",
+      "type": "Architecture analysis",
+      "category": "technology",
+      "tags": ["architecture", "system-design", "backend"],
+      "trustScore": 89,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://blog.bytebytego.com/search?q={q}",
+      "feeds": [
+        {
+          "name": "Newsletter Feed",
+          "url": "https://blog.bytebytego.com/feed",
+          "desc": "Weekly system design diagrams and architectural analysis",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "the-new-stack",
+      "name": "The New Stack",
+      "url": "https://thenewstack.io",
+      "desc": "News and analysis heavily focused on software architecture, containerization, and backend developer ecosystems at scale.",
+      "type": "Tech journalism",
+      "category": "technology",
+      "tags": ["architecture", "infrastructure", "devops"],
+      "trustScore": 86,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://thenewstack.io/search/?q={q}",
+      "feeds": [
+        {
+          "name": "Main Feed",
+          "url": "https://thenewstack.io/feed/",
+          "desc": "Daily technical reporting on cloud infrastructure and development",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "angular-dev",
+      "name": "Angular.dev",
+      "url": "https://angular.dev",
+      "desc": "The bleeding edge of enterprise frontend framework development, focusing heavily on fine-grained reactivity and state synchronization.",
+      "type": "Framework documentation",
+      "category": "technology",
+      "tags": ["frontend", "architecture", "reactivity"],
+      "trustScore": 93,
+      "capabilities": ["rss-feed", "site-search", "public-api"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://angular.dev/search?q={q}",
+      "sourceUrl": "https://github.com/angular/angular",
+      "feeds": [
+        {
+          "name": "Official Blog",
+          "url": "https://blog.angular.dev/feed",
+          "desc": "Release announcements, framework updates, and architectural guides",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "lobsters",
+      "name": "Lobsters",
+      "url": "https://lobste.rs",
+      "desc": "Community focused computing centric link aggregator featuring technical discussions",
+      "type": "forum",
+      "category": "technology",
+      "tags": ["programming"],
+      "trustScore": 88,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://lobste.rs/search?q={q}&what=stories",
+      "sourceUrl": "https://github.com/lobsters/lobsters",
+      "feeds": [
+        {
+          "name": "Hottest Stories",
+          "url": "https://lobste.rs/rss",
+          "format": "rss"
+        },
+        {
+          "name": "Newest Submissions",
+          "url": "https://lobste.rs/newest.rss",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    }
+  ]
+}

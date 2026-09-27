@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "JooKoi curated sources file",
+  "description": "One group of curated websites. Validated for real by scripts/build-sources.mjs; this schema gives editor autocomplete and inline checks.",
+  "type": "object",
+  "required": ["sources"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } }
+  },
+  "$defs": {
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "url",
+        "desc",
+        "type",
+        "category",
+        "tags",
+        "trustScore",
+        "capabilities",
+        "verified"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+          "description": "Stable lowercase slug, unique across all files."
+        },
+        "name": { "type": "string", "minLength": 1 },
+        "url": {
+          "type": "string",
+          "pattern": "^https?://",
+          "description": "Full URL. The displayed domain derives from it. One record per site."
+        },
+        "desc": { "type": "string", "minLength": 1 },
+        "type": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Specific, not a generic bucket."
+        },
+        "category": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Controlled vocabulary, incl. ai-marketplace."
+        },
+        "tags": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "trustScore": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "AI-assigned at authoring time. 80+ trusted."
+        },
+        "capabilities": {
+          "type": "array",
+          "items": { "enum": ["rss-feed", "site-search", "public-api"] }
+        },
+        "verified": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+        "searchUrl": {
+          "type": "string",
+          "pattern": "^https?://.*\\{q\\}",
+          "description": "Search template with {q}."
+        },
+        "sourceUrl": {
+          "type": "string",
+          "description": "Source code / GitHub README URL, distinct from url."
+        },
+        "feeds": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["url", "name"],
+            "properties": {
+              "url": { "type": "string", "pattern": "^https?://" },
+              "name": { "type": "string", "minLength": 1 },
+              "desc": { "type": "string" },
+              "format": { "enum": ["rss", "atom", "json"] }
+            }
+          }
+        },
+        "lang": { "type": "string" },
+        "region": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "$schema": "./source.schema.json",
+  "sources": [
+    {
+      "id": "wayback-machine",
+      "name": "Wayback Machine",
+      "url": "https://web.archive.org",
+      "desc": "The defining digital preservation initiative capturing billions of webpage snapshots over decades",
+      "type": "Web archive",
+      "category": "technology",
+      "tags": ["preservation", "history", "archive"],
+      "trustScore": 99,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "searchUrl": "https://web.archive.org/web/*/{q}",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "archive-today",
+      "name": "Archive Today",
+      "url": "https://archive.today",
+      "desc": "On demand snapshot tool that bypasses dynamic paywalls and preserves visual fidelity alongside raw text",
+      "type": "Snapshot tool",
+      "category": "technology",
+      "tags": ["snapshot", "preservation", "bypass"],
+      "trustScore": 92,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "searchUrl": "https://archive.today/{q}",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "ghost-archive",
+      "name": "Ghostarchive",
+      "url": "https://ghostarchive.org",
+      "desc": "Fast indie archiving tool capable of capturing complex media like YouTube videos while avoiding heavy commercial dependencies",
+      "type": "Snapshot tool",
+      "category": "technology",
+      "tags": ["video", "snapshot", "indie"],
+      "trustScore": 90,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "searchUrl": "https://ghostarchive.org/search?term={q}",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "old-web-today",
+      "name": "OldWeb Today",
+      "url": "https://oldweb.today",
+      "desc": "Runs full legacy browser emulation directly in the browser to accurately render historical websites exactly as they appeared",
+      "type": "Emulation sandbox",
+      "category": "technology",
+      "tags": ["emulation", "retro", "history"],
+      "trustScore": 95,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "perma-cc",
+      "name": "Perma cc",
+      "url": "https://perma.cc",
+      "desc": "Academic and legal preservation service run by Harvard Library to prevent link rot in scholarly citations",
+      "type": "Academic archive",
+      "category": "technology",
+      "tags": ["academia", "legal", "preservation"],
+      "trustScore": 98,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "conifer",
+      "name": "Conifer",
+      "url": "https://conifer.rhizome.org",
+      "desc": "High fidelity interactive web archiving platform focused on preserving complex interactive art and dynamic digital objects",
+      "type": "Interactive archive",
+      "category": "culture",
+      "tags": ["art", "preservation", "interactive"],
+      "trustScore": 94,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "United States"
+    }
+  ]
+}

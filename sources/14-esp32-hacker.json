@@ -1,0 +1,160 @@
+{
+  "$schema": "./source.schema.json",
+  "sources": [
+    {
+      "id": "hackaday-esp32",
+      "name": "Hackaday ESP32",
+      "url": "https://hackaday.com/tag/esp32/",
+      "desc": "Hardware hacks, teardowns, custom firmware, and offbeat engineering projects powered by ESP32 chips.",
+      "type": "Hardware hacking blog",
+      "category": "technology",
+      "tags": ["hardware", "esp32", "diy", "microcontrollers"],
+      "trustScore": 92,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://hackaday.com/?s={q}",
+      "feeds": [
+        {
+          "name": "ESP32 Tag Feed",
+          "url": "https://hackaday.com/tag/esp32/feed/",
+          "desc": "Direct RSS feed for all ESP32-tagged build logs and reverse-engineering articles",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "random-nerd-tutorials",
+      "name": "Random Nerd Tutorials",
+      "url": "https://randomnerdtutorials.com",
+      "desc": "Deeply detailed, practical build guides for ESP32 and ESP8266 IoT, web servers, sensors, and peripherals.",
+      "type": "Hardware project guides",
+      "category": "technology",
+      "tags": ["esp32", "iot", "sensors", "tutorials"],
+      "trustScore": 90,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://randomnerdtutorials.com/?s={q}",
+      "feeds": [
+        {
+          "name": "Main Feed",
+          "url": "https://randomnerdtutorials.com/feed/",
+          "desc": "New hardware writeups, tutorials, and firmware walkthroughs",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "hackster-esp32",
+      "name": "Hackster.io ESP32 Hub",
+      "url": "https://www.hackster.io/esp",
+      "desc": "Community project showcase spanning open-source home automation, robotics, and experimental wireless rigs.",
+      "type": "Maker project platform",
+      "category": "technology",
+      "tags": ["maker", "esp32", "open-source", "community"],
+      "trustScore": 88,
+      "capabilities": ["site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://www.hackster.io/search?q={q}",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "espressif-news",
+      "name": "Espressif News & Updates",
+      "url": "https://www.espressif.com/en/news",
+      "desc": "Official silicon announcements, technical silicon errata, new ESP-IDF framework releases, and roadmap dispatches.",
+      "type": "Manufacturer news",
+      "category": "technology",
+      "tags": ["silicon", "esp32", "espressif", "firmware"],
+      "trustScore": 96,
+      "capabilities": ["rss-feed", "site-search", "public-api"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://www.espressif.com/en/search/node/{q}",
+      "sourceUrl": "https://github.com/espressif/esp-idf",
+      "feeds": [
+        {
+          "name": "Official RSS",
+          "url": "https://www.espressif.com/en/company/news/rss",
+          "desc": "Silicon announcements and official engineering blogs",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "esp32-forum",
+      "name": "ESP32 Official Forum",
+      "url": "https://esp32.com",
+      "desc": "The definitive bulletin board for hardware debugging, peripheral registers, ESP-IDF edge releases, and bare-metal quirks.",
+      "type": "Technical community forum",
+      "category": "technology",
+      "tags": ["forum", "esp32", "embedded", "debugging"],
+      "trustScore": 94,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://esp32.com/search.php?keywords={q}",
+      "feeds": [
+        {
+          "name": "News & Announcements Feed",
+          "url": "https://esp32.com/feed.php?f=23",
+          "desc": "New releases, tools, and critical firmware notifications",
+          "format": "atom"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "adafruit-blog-esp32",
+      "name": "Adafruit Blog (ESP32)",
+      "url": "https://blog.adafruit.com/category/esp32/",
+      "desc": "Daily curation of eccentric microcontroller builds, CircuitPython on ESP32, modular breakouts, and wearable tech.",
+      "type": "Maker culture & hardware blog",
+      "category": "technology",
+      "tags": ["maker", "circuitpython", "diy", "hardware"],
+      "trustScore": 91,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://blog.adafruit.com/?s={q}",
+      "sourceUrl": "https://github.com/adafruit",
+      "feeds": [
+        {
+          "name": "ESP32 Category Feed",
+          "url": "https://blog.adafruit.com/category/esp32/feed/",
+          "desc": "Daily hardware experiments, maker spotlights, and board guides",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "cnxt-software",
+      "name": "CNX Software",
+      "url": "https://www.cnx-software.com",
+      "desc": "Embedded systems news tracking fresh development boards, RISC-V variants, benchmarks, and new silicon announcements.",
+      "type": "Embedded systems news",
+      "category": "technology",
+      "tags": ["embedded", "sbc", "silicon", "hardware"],
+      "trustScore": 89,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://www.cnx-software.com/?s={q}",
+      "feeds": [
+        {
+          "name": "Main Feed",
+          "url": "https://www.cnx-software.com/feed/",
+          "desc": "Daily reporting on embedded hardware, dev boards, and processors",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    }
+  ]
+}

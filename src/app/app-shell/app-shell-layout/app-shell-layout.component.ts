@@ -2,6 +2,7 @@ import { afterNextRender, Component, computed, inject, signal } from '@angular/c
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
+import { SOURCE_COUNT } from '../../shared/curated-websites/source-stats.generated';
 import { NavItem } from '../../shared/design-system/navigation/indicator-nav-list/indicator-nav-list.component';
 import { HeadsUpDisplayHeaderComponent } from '../heads-up-display-header/heads-up-display-header.component';
 import { HorizonBackdropComponent } from '../horizon-backdrop/horizon-backdrop.component';
@@ -79,12 +80,6 @@ export class AppShellLayoutComponent {
 
     afterNextRender(() => {
       this.shellMotionReady.set(true);
-      // The record count needs the whole source fixture (~120 kB raw). It is
-      // read after first render so the fixture stays out of the initial bundle
-      // (decision 032); the placeholder is the same width, so nothing shifts.
-      void import('../../shared/curated-websites/source-fixture').then(({ ALL_SOURCES }) => {
-        this.statusText.set(`${ALL_SOURCES.length} src online`);
-      });
     });
   }
 
@@ -146,9 +141,10 @@ export class AppShellLayoutComponent {
   /** Library uses more of the viewport than the default 80rem column. */
   protected readonly isLibraryWide = computed(() => this.libraryWide());
 
-  /** Header status strip: the real record count, filled in after first render
-   *  (see the constructor). Three dashes match the width of a three-digit count. */
-  protected readonly statusText = signal('--- src online');
+  /** Header status strip: the real record count. A build-time constant from
+   *  the generated stats module, so it is prerendered and costs one number
+   *  in main, not the dataset (decision 032). */
+  protected readonly statusText = signal(`${SOURCE_COUNT} src online`);
 
   /** The header's compact console (deviation, 2026-09-16 mid-build: it
    *  appears on every page including home, not just inner pages) submits

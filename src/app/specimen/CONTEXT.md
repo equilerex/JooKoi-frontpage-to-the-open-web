@@ -2,7 +2,7 @@
 
 The dev-only parts kit at `/specimen` — every design-system component, in every state it has. It is a development tool, not a page of the site.
 
-Rules: `_architecture/plans/decisions/004-static-prerendering-no-server.md` (what may and may not prerender). Full map: `_architecture/ARCHITECTURE.md`.
+Rules: `_architecture/plans/decision-history/004-static-prerendering-no-server.md` (what may and may not prerender). Full map: `_architecture/ARCHITECTURE.md`.
 
 ## Why it never ships
 

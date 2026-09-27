@@ -1,0 +1,45 @@
+{
+  "$schema": "./source.schema.json",
+  "sources": [
+    {
+      "id": "waxy-org",
+      "name": "Waxy.org",
+      "url": "https://waxy.org",
+      "desc": "Andy Baio's long-running personal site highlighting web curiosities, data experiments, and deep internet history.",
+      "type": "Weblog",
+      "category": "culture",
+      "tags": ["culture", "open-web"],
+      "trustScore": 88,
+      "capabilities": ["rss-feed"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Waxy Main Feed",
+          "url": "https://waxy.org/feed/",
+          "format": "rss"
+        }
+      ],
+      "lang": "en"
+    },
+    {
+      "id": "daring-fireball",
+      "name": "Daring Fireball",
+      "url": "https://daringfireball.net",
+      "desc": "John Gruber's independent commentary site tracking technology, Apple, and web standards via a curated link-blog format.",
+      "type": "Weblog",
+      "category": "technology",
+      "tags": ["technology", "open-web"],
+      "trustScore": 88,
+      "capabilities": ["rss-feed"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Daring Fireball Main",
+          "url": "https://daringfireball.net/feeds/main",
+          "format": "atom"
+        }
+      ],
+      "lang": "en"
+    }
+  ]
+}

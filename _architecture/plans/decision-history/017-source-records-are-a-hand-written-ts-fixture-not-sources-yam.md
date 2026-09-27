@@ -2,7 +2,7 @@
 
 Date: 2026-09-16
 
-Status: DECIDED
+Status: SUPERSEDED by `plans/2026-09-27-sources-data-pipeline.md` (27-09-2026): records now live in `sources/*.json`, compiled by `scripts/build-sources.mjs`.
 
 <!-- Status is one of: DECIDED | TRIAL | REJECTED | DEFERRED | SUPERSEDED
      A superseding decision gets its own number. The superseded file's status changes

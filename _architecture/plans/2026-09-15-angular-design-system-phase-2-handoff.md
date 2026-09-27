@@ -11,7 +11,7 @@ Work is three phases (decision 002). This brief covers **Phase 2: design system*
 ## What the planning session should produce
 
 - A Phase 2 architecture plan in `_architecture/plans/YYYY-MM-DD-<topic>.md`.
-- One ADR per hard-to-reverse call in `_architecture/plans/decisions/NNN-slug.md` (next free number is 011). Use the `jookoi-paper-trail` skill and its script for both.
+- One ADR per hard-to-reverse call in `_architecture/plans/decision-history/NNN-slug.md` (next free number is 011). Use the `jookoi-paper-trail` skill and its script for both.
 - Updates to `_architecture/ARCHITECTURE.md`'s Phase 2 section once real decisions replace the target-state description there now.
 - `CONTEXT.md` rewrites for `shared/design-system/` and `app-shell/` once real components land (both currently describe planned, not-yet-built content).
 - A scoped implementation checklist in `_architecture/TODO.md`.
@@ -24,12 +24,12 @@ Follow the workflow in `.agents/planning-before-implementation.md` Part 7 and `s
 | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
 | `AGENTS.md`                               | Build philosophy, conventions, where things live                                                                                            |
 | `_architecture/ARCHITECTURE.md`           | Folder map, naming, import boundaries, page-vs-component split — all already fixed, Phase 2 builds inside them                              |
-| `_architecture/plans/decisions/001-*`     | Visual direction (the retro HUD look)                                                                                                       |
-| `_architecture/plans/decisions/002-*`     | Phase order and why design system is its own phase                                                                                          |
-| `_architecture/plans/decisions/005-*`     | Folder/naming rules and the agnostic-component boundary this phase must respect                                                             |
-| `_architecture/plans/decisions/006-*`     | Angular Aria + CDK over Angular Material — confirmed choice, install happens in this phase                                                  |
-| `_architecture/plans/decisions/007-*`     | Cascade layers, semantic tokens, encapsulation rules the new styles must follow                                                             |
-| `_architecture/plans/decisions/008-*`     | Test rules (Vitest browser mode, hybrid interaction tests, harnesses only when needed)                                                      |
+| `_architecture/plans/decision-history/001-*`     | Visual direction (the retro HUD look)                                                                                                       |
+| `_architecture/plans/decision-history/002-*`     | Phase order and why design system is its own phase                                                                                          |
+| `_architecture/plans/decision-history/005-*`     | Folder/naming rules and the agnostic-component boundary this phase must respect                                                             |
+| `_architecture/plans/decision-history/006-*`     | Angular Aria + CDK over Angular Material — confirmed choice, install happens in this phase                                                  |
+| `_architecture/plans/decision-history/007-*`     | Cascade layers, semantic tokens, encapsulation rules the new styles must follow                                                             |
+| `_architecture/plans/decision-history/008-*`     | Test rules (Vitest browser mode, hybrid interaction tests, harnesses only when needed)                                                      |
 | `src/app/shared/design-system/CONTEXT.md` | The rule this phase builds to: agnostic-component boundary, sub-groups, mockup class map, harness rule                                      |
 | `src/app/app-shell/CONTEXT.md`            | What's already built there (home/not-found pages, layout wrapper) vs. what Phase 2 adds (HUD header, mobile dock, backdrop, title strategy) |
 | `features/design-theme/CONTEXT.md`        | How the mockup CSS system is built — token layers, surface families, mobile-breakpoint behaviour, gotchas                                   |

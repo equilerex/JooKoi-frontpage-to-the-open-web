@@ -1,0 +1,2507 @@
+{
+  "checkedAt": "2026-09-27T15:36:55Z",
+  "results": {
+    "skills-sh": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "finalUrl": "https://www.skills.sh/search?q=test",
+        "lastOk": "2026-09-27"
+      },
+      "sourceUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "mcpservers-org": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "mdskills-ai": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "agensi-io": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "mcpmarket-com": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "gh-obra-superpowers": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "gh-addyosmani-agent-skills": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "gh-mattpocock-skills": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "gh-vercel-labs-agent-skills": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "finalUrl": "https://www.skills.sh/search?q=test",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "gh-cloudflare-skills": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "gh-openai-plugins": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "wikipedia": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "lost-query",
+        "status": 200,
+        "detail": "search redirected without the query",
+        "finalUrl": "https://en.wikipedia.org/wiki/Test",
+        "lastOk": null
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "internet-archive": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "marginalia-search": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "arxiv": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "hacker-news": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "public-domain-review": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      }
+    },
+    "low-tech-magazine": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://solar.lowtechmagazine.com/",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "mdn": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://developer.mozilla.org/en-US/",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "devdocs": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "caniuse": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "tc39-proposals": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "w3c": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "typescript-handbook": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "nodejs-docs": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "stack-overflow": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "finalUrl": "https://stackoverflow.com/questions",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "lost-query",
+        "status": 200,
+        "detail": "search redirected without the query",
+        "finalUrl": "https://stackoverflow.com/nocaptcha?s=2fe51728-c784-420e-8907-587b612d86e1",
+        "lastOk": null
+      }
+    },
+    "dr-dk": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "politiken": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "yle": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "svt": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "nrk": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "err-news": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "der-spiegel": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "le-monde": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "nrc": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "the-guardian": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://www.theguardian.com/europe",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "euronews": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "bellingcat": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "occrp": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://www.occrp.org/en?",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "correctiv": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "follow-the-money": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "danwatch": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "investigate-europe": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "propublica": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "smashing-magazine": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "a-list-apart": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "are-na": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "finalUrl": "https://www.are.na/editorial/feed.xml",
+        "lastOk": null
+      }
+    },
+    "its-nice-that": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "atlas-obscura": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "colossal": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "positive-news": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "reasons-to-be-cheerful": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "kottke": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "simon-willison": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.1": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "sourceUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "latent-space": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.1": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "hugging-face-blog": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "model-context-protocol": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://modelcontextprotocol.io/docs/2026-07-28/getting-started/intro",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      },
+      "sourceUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "web-dev": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      },
+      "sourceUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "404-media": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "bytebytego": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "the-new-stack": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "angular-dev": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "sourceUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "lobsters": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.1": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "sourceUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "neal-fun": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "the-useless-web": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "radio-garden": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "melonland": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "windows-93": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "zoomquilt": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "pointer-pointer": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "zombo-com": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "every-noise-at-once": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "status-cafe": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "the-rpf": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "tested": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "kamui-cosplay": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "error",
+        "status": null,
+        "detail": "timeout",
+        "lastOk": null
+      }
+    },
+    "adafruit-wearables": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      },
+      "sourceUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "foamsmithing-punished-props": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "feeds.0": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "openbuilds": {
+      "url": {
+        "class": "dead",
+        "status": null,
+        "detail": "ENOTFOUND",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "dead",
+        "status": null,
+        "detail": "ENOTFOUND",
+        "lastOk": null
+      },
+      "sourceUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "stan-winston-school": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "instructables-workshop": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "fab-academy": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "finalUrl": "https://fabacademy.org/search.html/",
+        "lastOk": null
+      },
+      "sourceUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "marginalia": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://marginalia-search.com/",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "finalUrl": "https://marginalia-search.com/search?query=test",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "lowtech": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://solar.lowtechmagazine.com/posts/index.xml",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "monoskop": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://monoskop.org/Monoskop",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "lost-query",
+        "status": 200,
+        "detail": "search redirected without the query",
+        "finalUrl": "https://monoskop.org/Test",
+        "lastOk": null
+      }
+    },
+    "ubuweb": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "tildeclub": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "hundredrabbits": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "cryptome": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "wiby": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "solarprotocol": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "proshop": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "amazon-de": {
+      "url": {
+        "class": "ok",
+        "status": 202,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "galaxus": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "allegro": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "aliexpress": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "finalUrl": "https://www.aliexpress.com/w/wholesale-test.html",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "temu": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "thomann": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://www.thomann.de/de/index.html",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "finalUrl": "https://www.thomann.dk/search_dir.html?sw=test",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "komplett": {
+      "url": {
+        "class": "error",
+        "status": null,
+        "detail": "timeout",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "error",
+        "status": null,
+        "detail": "timeout",
+        "lastOk": null
+      }
+    },
+    "computeruniverse": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "elgiganten": {
+      "url": {
+        "class": "blocked",
+        "status": 429,
+        "detail": "429",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 429,
+        "detail": "429",
+        "lastOk": null
+      }
+    },
+    "alzashop": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "reichelt": {
+      "url": {
+        "class": "error",
+        "status": 503,
+        "detail": "503",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "error",
+        "status": 503,
+        "detail": "503",
+        "lastOk": null
+      }
+    },
+    "tme": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://www.tme.eu/dk/da/",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "caseking": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "tradeinn": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "cdiscount": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "berrybase": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "back-market": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://www.backmarket.com/en-us",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "finalUrl": "https://www.backmarket.com/testchallengepage?next=https%3A%2F%2Fwww.backmarket.com%2Fen-gb%2Fsearch%3Fq%3Dtest",
+        "lastOk": null
+      }
+    },
+    "computersalg": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://www.csmegastore.dk/",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "finalUrl": "https://www.csmegastore.dk/l/0/s?sq=test",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "botland": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "fantasmagoria": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "emp-denmark": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "finalUrl": "https://www.emp-shop.dk/p/test-card/294032.html",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "impericon": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "disturbia-eu": {
+      "url": {
+        "class": "error",
+        "status": null,
+        "detail": "ERR_TLS_CERT_ALTNAME_INVALID",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "error",
+        "status": null,
+        "detail": "ERR_TLS_CERT_ALTNAME_INVALID",
+        "lastOk": null
+      }
+    },
+    "blue-tomato": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://www.blue-tomato.com/de-DE/",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      }
+    },
+    "attitude-europe": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://www.attitude-europe.com/Default.asp?cookiecheck=&r=0.024438436479877423",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "finalUrl": "https://www.attitude-europe.com/search?q=test&cookiecheck=&r=0.9855429726657182",
+        "lastOk": null
+      }
+    },
+    "killstar-eu": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "defshop": {
+      "url": {
+        "class": "error",
+        "status": 526,
+        "detail": "526",
+        "finalUrl": "https://www.def-shop.net/",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "error",
+        "status": 526,
+        "detail": "526",
+        "finalUrl": "https://www.def-shop.net/search/?q=test",
+        "lastOk": null
+      }
+    },
+    "cyberdog": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://www.cyberdog.net/en-dk",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "finalUrl": "https://www.cyberdog.net/en-dk/search?q=test",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "psylo-fashion": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "carnebollente": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "kaotiko": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "wastedparis": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "lazyoaf": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "iriedaily": {
+      "url": {
+        "class": "blocked",
+        "status": 401,
+        "detail": "401",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 401,
+        "detail": "401",
+        "lastOk": null
+      }
+    },
+    "plazmalab": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "finalUrl": "https://plazmalab.com/?q=test",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "dailypaper": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "freshlabels": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "dedicatedbrand": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://www.dedicatedbrand.com/dk",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "finalUrl": "https://www.dedicatedbrand.com/dk/en/search?q=test",
+        "lastOk": null
+      }
+    },
+    "cleptomanicx": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "drop-dead": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "brain-dead": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "stay-cold-apparel": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "bad-monday": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://badmonday.com/password",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "lost-query",
+        "status": 200,
+        "detail": "search redirected without the query",
+        "finalUrl": "https://badmonday.com/password",
+        "lastOk": null
+      }
+    },
+    "mokuyobi": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "dangerfield": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "project-gutenberg": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "open-street-map": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "github": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "linux-kernel-archives": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "wayback-machine": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "archive-today": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://archive.ph/",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 429,
+        "detail": "429",
+        "finalUrl": "https://archive.ph/test",
+        "lastOk": null
+      }
+    },
+    "ghost-archive": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "old-web-today": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "perma-cc": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "conifer": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "hackaday-esp32": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "finalUrl": "https://hackaday.com/blog/?s=test",
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "random-nerd-tutorials": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "hackster-esp32": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "espressif-news": {
+      "url": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      },
+      "sourceUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "esp32-forum": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://esp32.com/ext/espressif/stupidbots/challenge.php?n=MTc5MDUyMzQwMS4zMTYyMDAxNDg2&c=2d5d9fb853ade4645b39e7d148a65ee6e9912530ba7b49bfc166327dba82cdfe&h=7fc75027d20136e5b993d9411be1216f7bbe9b6746a258f42c5724ca57f8746c&from=Lw%3D%3D",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "lost-query",
+        "status": 200,
+        "detail": "search redirected without the query",
+        "finalUrl": "https://esp32.com/ext/espressif/stupidbots/challenge.php?n=MTc5MDUyMzQwMi4zMTYyMDAxNDg2&c=227740da0112139ed334ad9c1b4b3f265e067144884490606e3a71cb89304aab&h=879418d8caef6b9139b97065920cdc836f7b14fc708236e7c6252fcc1d1a0262&from=L3NlYXJjaC5waHA%2Fa2V5d29yZHM9dGVzdA%3D%3D",
+        "lastOk": null
+      },
+      "feeds.0": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://esp32.com/ext/espressif/stupidbots/challenge.php?n=MTc5MDUyMzQwMy4zMTYyMDAxNDg2&c=5ade4e6c65dcd98b4af17754a72a3a2628f27ea2887d5d66a3cce33826ebfe50&h=cf733385e75d1774c41f1e16b9620d917c0933bc22e212f998ca42f54a1de393&from=L2ZlZWQucGhwP2Y9MjM%3D",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "adafruit-blog-esp32": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "searchUrl": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "sourceUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "cnxt-software": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "borger": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "finalUrl": "https://www.borger.dk/404",
+        "lastOk": null
+      }
+    },
+    "sundhed": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "skat": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://skat.dk/borger",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "mitid": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "rejseplanen": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://www.rejseplanen.dk/webapp/",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "dmi": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "dba": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "finalUrl": "https://www.dba.dk/recommerce/forsale/search?q=test",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "boligsiden": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "mobilepay": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "zetland": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "lost-query",
+        "status": 200,
+        "detail": "search redirected without the query",
+        "finalUrl": "https://www.zetland.dk/indstillinger/medlemskab",
+        "lastOk": null
+      }
+    },
+    "kunsten-nu": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://artmatter.dk/",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "finalUrl": "https://artmatter.dk/?s=test",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "passive-aggressive": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "kultunaut": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "pov-international": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "error",
+        "status": null,
+        "detail": "timeout",
+        "lastOk": null
+      }
+    },
+    "heartbeats": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "seismograf": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://seismograf.org/da",
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      }
+    },
+    "foljeton": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "i-do-art": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "solidaritet": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "mig-og-kbh": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "searchUrl": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "magasinet-kunst": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "techmeme": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "aldaily": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "yle-news": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://yle.fi/rss/news",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "the-intercept": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "defector": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "rest-of-world": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://restofworld.org/feed/latest/",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "the-markup": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "longform": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "the-marshall-project": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "marginal-revolution": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://feeds.feedblitz.com/marginalrevolution",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "pluralistic": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "de-correspondent": {
+      "url": {
+        "class": "error",
+        "status": null,
+        "detail": "UND_ERR_HEADERS_OVERFLOW",
+        "lastOk": null
+      },
+      "feeds.0": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      }
+    },
+    "nieman-lab": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "ars-technica": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "quanta-magazine": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://www.quantamagazine.org/feed/",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "first-monday": {
+      "url": {
+        "class": "error",
+        "status": null,
+        "detail": "UND_ERR_SOCKET",
+        "lastOk": null
+      },
+      "feeds.0": {
+        "class": "error",
+        "status": null,
+        "detail": "UND_ERR_SOCKET",
+        "lastOk": null
+      }
+    },
+    "public-books": {
+      "url": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      },
+      "feeds.0": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "icij": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "cir": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "dirt": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      }
+    },
+    "logics-mag": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "do-not-research": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://donotresearch.substack.com/",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "kernel-mag": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      }
+    },
+    "new-models": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      }
+    },
+    "aftermath": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://aftermath.site/rss/",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "blood-knife": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "html-review": {
+      "url": {
+        "class": "redirected",
+        "status": 200,
+        "finalUrl": "https://thehtml.review/05/",
+        "lastOk": "2026-09-27"
+      }
+    },
+    "hell-gate": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "dead",
+        "status": 404,
+        "detail": "404",
+        "lastOk": null
+      }
+    },
+    "rhizome": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "blocked",
+        "status": 403,
+        "detail": "403",
+        "lastOk": null
+      }
+    },
+    "waxy-org": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    },
+    "daring-fireball": {
+      "url": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      },
+      "feeds.0": {
+        "class": "ok",
+        "status": 200,
+        "lastOk": "2026-09-27"
+      }
+    }
+  }
+}

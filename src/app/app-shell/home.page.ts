@@ -28,13 +28,17 @@ import { ReadoutPanelComponent } from '../shared/design-system/surfaces/readout-
 import { EyebrowLabelComponent } from '../shared/design-system/typography/eyebrow-label/eyebrow-label.component';
 import { LogotypeComponent } from '../shared/design-system/typography/logotype/logotype.component';
 import { StripeRuleComponent } from '../shared/design-system/typography/stripe-rule/stripe-rule.component';
-import { ALL_SOURCES } from '../shared/curated-websites/source-fixture';
+import {
+  CATEGORY_COUNTS,
+  HOME_HIGHLIGHTS,
+  TAG_COUNTS,
+  TOP_TAGS,
+} from '../shared/curated-websites/source-stats.generated';
 import { Capability, Source } from '../shared/curated-websites/source.model';
 import {
   domainOf,
   formatVerifiedDate,
   outboundSearchHref,
-  sortByTrust,
   trustLabel,
 } from '../shared/curated-websites/source-search';
 
@@ -102,47 +106,19 @@ const CAPABILITY_LABEL: Record<Capability, string> = {
   'public-api': 'API',
 };
 
+// Counts, top tags and the highlight set are precomputed by
+// scripts/build-sources.mjs, so home never loads the full dataset.
 function countByCategory(category: string): number {
-  return ALL_SOURCES.filter((source) => source.category === category).length;
+  return CATEGORY_COUNTS[category] ?? 0;
 }
 
 function countByTag(tag: string): number {
-  return ALL_SOURCES.filter((source) => source.tags.includes(tag)).length;
+  return TAG_COUNTS[tag] ?? 0;
 }
 
 function searchHref(params: Readonly<Record<string, string>>): string {
   return `/search?${new URLSearchParams(params).toString()}`;
 }
-
-/** How many tags the "Browse by tag" panel shows — same count as the
- *  trusted-highlights panel above it (`HIGHLIGHT_COUNT`), preserving the
- *  8-chip visual density the earlier placeholder markup had. */
-const TAG_PANEL_COUNT = 8;
-
-/** Real tag frequency across the fixture, most-used first (ties broken
- *  alphabetically for a deterministic order), top `TAG_PANEL_COUNT` only.
- *  Replaces the earlier hard-coded `tags` array, whose labels and counts
- *  were invented and didn't match `SOURCE_FIXTURE` at all. Each entry's
- *  `href` follows the same `searchHref({ tag })` pattern the F5 quick key
- *  already uses. */
-function topTags(count: number): readonly Tag[] {
-  const counts = new Map<string, number>();
-  for (const source of ALL_SOURCES) {
-    for (const tag of source.tags) {
-      counts.set(tag, (counts.get(tag) ?? 0) + 1);
-    }
-  }
-  return [...counts.entries()]
-    .sort(([labelA, countA], [labelB, countB]) => countB - countA || labelA.localeCompare(labelB))
-    .slice(0, count)
-    .map(([label, tagCount]) => ({ label, count: tagCount, href: searchHref({ tag: label }) }));
-}
-
-/** How many of the trust-sorted fixture the empty-query "Trusted highlights"
- *  set shows. The plan doesn't specify a curation rule beyond "e.g. top N by
- *  trustScore" — this is that judgment call: top 8 by `trustScore` (ties
- *  broken by name, via `sortByTrust`), same size as the tag panel below it. */
-const HIGHLIGHT_COUNT = 8;
 
 /**
  * Home route (`''`). Content mirrors `features/design-theme/index.html`'s
@@ -172,7 +148,7 @@ const HIGHLIGHT_COUNT = 8;
  *     F1-F5 the plan's placeholder labels implied. Judgment call: F5 filters
  *     by the `investigative` tag instead of a category, since the plan's own
  *     "News, deliberately not US-centric" section names that as a real
- *     editorial subgroup. Counts are computed from the fixture, not
+ *     editorial subgroup. Counts come from the generated stats module, not
  *     hard-coded, so they can't drift from it.
  */
 @Component({
@@ -280,10 +256,7 @@ export class HomePage {
   /** Curated panel content — top `HIGHLIGHT_COUNT` by trust score. Fixed
    *  (fix wave 2 drops D4's live swap): this is the only set the table ever
    *  shows, regardless of `query`. */
-  private readonly curatedSources: readonly Source[] = sortByTrust(ALL_SOURCES).slice(
-    0,
-    HIGHLIGHT_COUNT,
-  );
+  private readonly curatedSources: readonly Source[] = HOME_HIGHLIGHTS;
 
   /** Live-bound launcher query. No longer drives the table (fix wave 2) —
    *  feeds `onSubmit`'s navigation and each row's query-aware action instead
@@ -297,7 +270,11 @@ export class HomePage {
   protected readonly panelLabel = 'Trusted highlights';
   protected readonly panelMeta = 'recently verified';
 
-  protected readonly tags: readonly Tag[] = topTags(TAG_PANEL_COUNT);
+  protected readonly tags: readonly Tag[] = TOP_TAGS.map(({ label, count }) => ({
+    label,
+    count,
+    href: searchHref({ tag: label }),
+  }));
 
   /** Enter in the console, or the Launch key — both land here. An empty
    *  query still navigates, just without `q`, so Launch always does

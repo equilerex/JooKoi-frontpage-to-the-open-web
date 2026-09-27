@@ -1,0 +1,64 @@
+{
+  "$schema": "./source.schema.json",
+  "sources": [
+    {
+      "id": "project-gutenberg",
+      "name": "Project Gutenberg",
+      "url": "https://gutenberg.org",
+      "desc": "The oldest digital library offering thousands of free public domain eBooks",
+      "type": "Digital library",
+      "category": "culture",
+      "tags": ["books", "literature", "publicdomain"],
+      "trustScore": 95,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "searchUrl": "https://www.gutenberg.org/ebooks/search/?query={q}",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "open-street-map",
+      "name": "OpenStreetMap",
+      "url": "https://openstreetmap.org",
+      "desc": "A collaborative project creating a free editable map of the world built by a community of mappers",
+      "type": "Mapping platform",
+      "category": "technology",
+      "tags": ["maps", "geospatial", "collaborative"],
+      "trustScore": 94,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "searchUrl": "https://www.openstreetmap.org/search?query={q}",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "url": "https://github.com",
+      "desc": "The largest host of source code in the world enabling global software collaboration",
+      "type": "Code repository",
+      "category": "technology",
+      "tags": ["programming", "opensource", "collaboration"],
+      "trustScore": 97,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "searchUrl": "https://github.com/search?q={q}",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "linux-kernel-archives",
+      "name": "Linux Kernel Archives",
+      "url": "https://kernel.org",
+      "desc": "The primary site for the Linux kernel source code powering millions of servers and devices worldwide",
+      "type": "Code repository",
+      "category": "technology",
+      "tags": ["linux", "kernel", "opensource"],
+      "trustScore": 99,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "Global"
+    }
+  ]
+}

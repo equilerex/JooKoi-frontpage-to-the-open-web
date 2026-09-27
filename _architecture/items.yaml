@@ -1,0 +1,707 @@
+repo: jookoi-frontpage-to-the-open-web
+last_flush: null
+items:
+  t001:
+    title: MD to PDF converter tool page based on plans/2026-09-24-markdown-to-pdf-converter.md
+    status: now
+    priority: 1000
+    body: ''
+    ts_created: 2026-09-23T22:07:33Z
+    ts_started: 2026-09-23T22:07:33Z
+    ts_done: null
+    ts_touched: 2026-09-23T22:07:33Z
+  t002:
+    title: Mermaid path
+    status: now
+    priority: 2000
+    body: add one vendored document with a `mermaid` fence, or mark the path explicitly untrusted until then.
+    ts_created: 2026-09-23T22:17:17Z
+    ts_started: 2026-09-23T22:17:17Z
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:17Z
+  t003:
+    title: Record a CI-runner Lighthouse baseline
+    status: now
+    priority: 3000
+    body: |-
+      then remove `continue-on-error` in `.github/workflows/ci.yml`.
+
+      First CI run: download the ux-lab artifact, commit a baseline recorded on the runner, remove continue-on-error from the Lighthouse step in .github/workflows/ci.yml. Also re-record 4e8d0ba-dirty after committing.
+    ts_created: 2026-09-23T22:17:17Z
+    ts_started: 2026-09-23T22:17:17Z
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:17Z
+  t004:
+    title: AI basics 101 onboarding doc
+    status: parked
+    priority: 4000
+    body: Daily concepts, model routing, session hygiene — currently scattered across `AGENTS.md` and the dev-stack blueprint. Offered in the original research pass, never written.
+    ts_created: 2026-09-23T22:17:17Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:17Z
+  t005:
+    title: Execution-phase discipline doc
+    status: parked
+    priority: 5000
+    body: Session boundaries, state handoff, review economics, recovery from a bad step. Offered in the original research pass, never written.
+    ts_created: 2026-09-23T22:17:17Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:17Z
+  t006:
+    title: Code navigation
+    status: parked
+    priority: 6000
+    body: Flagged as genuinely wanted in every research pass, skipped every time. Nothing currently answers it.
+    ts_created: 2026-09-23T22:17:17Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:17Z
+  t007:
+    title: Hosting and deploy
+    status: done
+    priority: 7000
+    body: 'Decided in decision 034: GitHub Pages via native GitHub Actions (`actions/upload-pages-artifact@v3` and `actions/deploy-pages@v4`), triggered after `verify` job succeeds on `main`. Build script `scripts/build-gh-pages.mjs` applies `--base-href /JooKoi-frontpage-to-the-open-web/`, creates `404.html` SPA fallback from `index.csr.html`, and writes `.nojekyll`.'
+    ts_created: 2026-09-23T22:17:17Z
+    ts_started: null
+    ts_done: 2026-09-23T22:17:17Z
+    ts_touched: 2026-09-23T22:17:17Z
+  t008:
+    title: Toolbox and Utilities section
+    status: parked
+    priority: 8000
+    body: |-
+      A dedicated top-level section (route e.g. `/toolbox` or `/tools` in primary HUD navigation) with a specialized layout for interactive utilities and projects.
+
+      - Initial showcase project: GlitchGlimmer (`https://equilerex.github.io/GlitchGlimmer-FastLed-Sound-Reactive-esp32/`).
+      - Document printing / empty template renderer: renders markdown templates with JooKoi's design system styles and enables print-to-PDF with clean `@media print` rules, consistent typography ladder, and page-break support (similar to the MD archive project).
+    ts_created: 2026-09-23T22:17:17Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:17Z
+  t009:
+    title: Service worker
+    status: parked
+    priority: 9000
+    body: Parked in `plans/decision-history/004-static-prerendering-no-server.md`. The build is fully static, so `@angular/pwa` would work, but offline support and cache invalidation are their own problem and nothing needs them yet.
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-27T15:00:03Z
+  t010:
+    title: Playwright e2e smoke test
+    status: parked
+    priority: 10000
+    body: Decision 008 explicitly keeps e2e out of Phase 1. A thin smoke suite over the built static output — home page loads, an unknown path reaches the not-found page, one outbound link resolves — would be worth it once there are real pages. Playwright is already installed as the Vitest browser provider, so this needs no new dependency.
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:18Z
+  t011:
+    title: Lighthouse check
+    status: done
+    priority: 11000
+    body: A performance and accessibility pass on the built output, once there are real pages to measure. Pairs with the build budgets already in `ARCHITECTURE.md`. Manual first; only automate it into CI if the numbers actually move.
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: null
+    ts_done: 2026-09-23T22:17:18Z
+    ts_touched: 2026-09-23T22:17:18Z
+  t012:
+    title: Lint as an agent stop hook
+    status: done
+    priority: 12000
+    body: 'Per Steyer 2026 (`tsarch for AI Coding Agents`): run the architecture lint rules as a hook when an agent finishes a turn, so a boundary violation is caught before the change is reported as done rather than at the next manual lint. The generated `no-restricted-imports` blocks in `eslint.config.js` are already the rule set this would run. Harness-specific, so it may belong in `.claude/settings.json` rather than the repo.'
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: null
+    ts_done: 2026-09-23T22:17:18Z
+    ts_touched: 2026-09-23T22:17:18Z
+  t013:
+    title: 'Data pipeline: `sources/` to generated modules'
+    status: done
+    priority: 13000
+    body: 'Planned in `plans/2026-09-27-sources-data-pipeline.md` (supersedes decision 017 when built). `sources/<group>.json` plus a JSON Schema, `scripts/build-sources.mjs` validates and writes committed generated modules: full data for the search chunk, stats and highlights for shell and home. Also covers t045 Cut source-fixture from main.'
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: 2026-09-27T15:01:19Z
+    ts_done: 2026-09-27T15:35:25Z
+    ts_touched: 2026-09-27T15:35:25Z
+  t014:
+    title: Client-side search library pick
+    status: parked
+    priority: 14000
+    body: '`principles.md` scopes search to client-side filtering over a small curated set. Once the real data exists, decide whether the pure functions in `shared/curated-websites/website-filtering.ts` are enough or whether an index library (MiniSearch, Fuse, FlexSearch) earns its place under decision 003''s dependency rule. Don''t pick before there''s data to measure against.'
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:18Z
+  t015:
+    title: 'Vocabulary: `source` outside `src/app/`'
+    status: parked
+    priority: 15000
+    body: 'Decision 005 renamed the domain to **curated website** inside the app only. Still using the old word: `_architecture/sitemap.yaml` (`source_detail`, route `/source/:id`), the `sources/` data folder, and the `source-ingest` skill. Renaming the public route (for example `/website/:id`) is a product call, not a refactor — it changes URLs. The `sources/` folder and the skill may legitimately keep the word, since outside app code "source" isn''t ambiguous.'
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:18Z
+  t016:
+    title: '`shared/curated-websites/` vs a top-level `curated-websites/`'
+    status: parked
+    priority: 16000
+    body: Steyer's layout would make the domain its own top-level folder. Decision 005 put it under `shared/` because every feature uses it and `shared/` was wanted as the home for stores and services. Revisit once two or three real features exist and it's clear whether `shared/` is carrying too much. If it moves, decision 005 gets superseded rather than edited.
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:18Z
+  t017:
+    title: Final review — deferred minors
+    status: parked
+    priority: 17000
+    body: |-
+      Flagged by the final whole-branch review as non-blocking and parked rather than fixed in the same pass:
+
+      - `engines.node` in `package.json` never narrowed to `24` though ADR 003 says it was.
+      - `src/styles.css` (global reset/base file) sits outside the `@layer` cascade declared elsewhere.
+      - `angular.json`'s prerender config has a `{ path: '**', renderMode: Prerender }` entry that is a silent no-op (no non-`''` routes exist to prerender).
+      - `pnpm-workspace.yaml` has placeholder `allowBuilds` values from pnpm's non-interactive scaffold (needs a `pnpm approve-builds` pass later).
+      - `jsdom` dependency appears unused.
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:18Z
+  t018:
+    title: 'Dock item styling: the per-item LED bar was dropped'
+    status: parked
+    priority: 18000
+    body: 'The mobile dock renders each item as `joo-hardware-key`, not the mockup''s `.dock__item`. Decision 012 makes the key one component in five placements and nav link is one of them, so the dock matches the HUD nav and `indicator-nav-list` — but the mockup''s `.dock__item` carried a hand-drawn 22x4px LED bar that went cyan and glowing on `[aria-current=''page'']`, and the key has no equivalent. `current` still renders `aria-current="page"` and the key''s pressed slab, so the current page is signalled; the mobile "you are here" accent is not. Same shape as the nav-list active-row divergence parked in Task 11: accept the key''s treatment, and revisit together. Cost if wrong: a few declarations in one place once the design call is made. Do not reintroduce `.dock__item` without that call — decision 012 is what makes the dock a data-driven list rather than four hard-coded anchors.'
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:18Z
+  t019:
+    title: Nav list rows are key slabs, not the mockup's flat rows
+    status: parked
+    priority: 19000
+    body: 'indicator-nav-list renders every row as a key slab — uppercase display type on a raised slab in the key''s muted --k-text — where the mockup''s rows in features/design-theme/browse.html are sentence case, --text-sm and --text-muted on a flat transparent background. The mockup also puts a .chip__count in each row (features/design-theme/components.css:1137-1140, browse.html:73-75) and NavItem has no field to represent it. Consequence: the nav list reads noticeably heavier than the mockup intends, and the count chip is not representable at all. Accepted in T11-2 for the active row; the question is whether the rest of the row should follow.'
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:18Z
+  t020:
+    title: Port the three .launcher narrow-screen rules to the components that own them
+    status: parked
+    priority: 20000
+    body: 'The mockup''s narrow block at features/design-theme/components.css:1418-1430 has three rules that reach projected content and so cannot live in joo-console-landing-template: .launcher .logotype { font-size: 2rem } (:1418-1420, owed to joo-logotype), .launcher .keygrid { grid-template-columns: repeat(2, 1fr); gap: var(--space-2); padding: var(--space-2) } (:1422-1426, owed to joo-keycap-grid), and .launcher .keycap { min-height: 3.25rem } (:1428-1430, owed to joo-keycap). They were not ported in the page-template work because each one is a property of the component''s own box at narrow widths, not of the launcher layout: a rule in the template stylesheet compiles with the template''s own _ngcontent and projected nodes do not carry it, so it would match nothing (measured: the compiled selector is .launcher__lead[_ngcontent-X] > [_ngcontent-X] and matches 0 elements on the running console-landing demo). Each component needs its own @media (max-width: 767px) block setting the same values, after which the launcher demo will pick them up automatically.'
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:18Z
+  t021:
+    title: 'Record grid: who owns horizontal overflow'
+    status: parked
+    priority: 21000
+    body: |-
+      The mockup wrapped its table in `.table-wrap { overflow-x: auto }` (`features/design-theme/components.css:1149-1151`). The port deliberately did not carry it, and `joo-record-grid` has no containment of its own: above 767px the grid is eight columns with `white-space: nowrap` on `th` (`src/styles.css:284-289`), so inside a parent narrower than the table's natural width nothing scrolls or clips and the page itself widens.
+
+      Task 17 fixed the 767px card layout by letting the tracks shrink (`grid-template-columns: minmax(0, auto) ...`), measured at 390px: `document.documentElement.scrollWidth` 620 to 390, with no containment rule needed. That is the card case only. The wide table still has no owner.
+
+      Phase 3 decides: `overflow-x: auto` on the host (the mockup's answer), or a declared minimum width with the page carrying the scroll. Cost of leaving it: a page that puts the grid in a narrow column silently widens the viewport.
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:18Z
+  t022:
+    title: Vitest resolves roles from its own vendored table
+    status: parked
+    priority: 22000
+    body: |-
+      `getByRole` in the Vitest browser tests resolves roles from a table **vendored inside Vitest**, not from the accessibility tree of the page under test: `node_modules/.pnpm/@vitest+browser@4.1.11_*/node_modules/@vitest/browser/dist/index.js:5056`. It is a hand-maintained map, and it disagrees in places with the engine actually rendering the page (`playwright-core@1.63.0` `lib/coreBundle.js`).
+
+      Symptom: a role assertion fails or passes differently in a test than in the live DOM, with no error pointing at the cause. The table is not configurable and not documented.
+
+      Phase 3 tests should reach for `getByLabelText`, `getByText` or an explicit `data-testid` when a role query behaves oddly, and the browser is the arbiter, not the table. Worth a decision only if a role query actually blocks a real test.
+    ts_created: 2026-09-23T22:17:18Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:18Z
+  t023:
+    title: Design-system fidelity deltas against the mockup
+    status: parked
+    priority: 23000
+    body: |-
+      Small places where the shipped component and the mockup do not agree. None is a defect on its own; together they are the reason "done" means checked in the browser, not diffed against the mockup.
+
+      - `:focus-visible` ring is defined at `features/design-theme/components.css:43` and the port's ring does not match it exactly.
+      - `prefers-contrast: more` logotype override exists in the mockup (`components.css:1686-1690`) and was not carried across.
+      - Keycap interior padding is about 2px off the mockup's.
+      - Navigation rows are `2.75rem` in the port and `2.5rem` in the mockup.
+      - A contentless head at 390px renders a box the mockup does not.
+      - `segment-readout` paints its ghost digits above the live digits rather than behind them.
+
+      Fix them only if the difference is visible in the running app at 390px or 1440px. Recorded so the next reader knows these are known, not missed.
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t024:
+    title: Budgets and tooling owed a decision
+    status: parked
+    priority: 24000
+    body: |-
+      Five things tooling owes a decision on. Each is one call, none blocks anything today.
+
+      - **The 320 kB bundle warn is exceeded** and so is the component-style warn. `ARCHITECTURE.md` records the fact and deliberately no current number, because any figure here would be stale the moment `record-grid` landed. The decision is whether the warn lines move, whether `@defer` comes in, or whether the budget is dropped as a gate for a prototype.
+      - **Component-style budget:** `hardware-key.component.css` is 2.44 kB and `console-input.component.css` about 2140 B, against PrimeNG's own stylesheet budget calc.
+      - **`pnpm run format` rewrites tracked `pnpm-lock.yaml`** because there is no `.prettierignore`. Harmless but noisy; a one-line ignore fixes it.
+      - **`src/styles.css:1` still carries the `ng new` CLI placeholder comment.** Removing it would have added an unlisted path to Task 18's commit, so it was left and recorded instead.
+      - **Completed plans in `_architecture/plans/` carry pre-rule gate lines.** `2026-09-15-angular-foundation-phase-1.md` names `ng build` as the gate at several steps. These are the record of a finished phase that predated the Iteration loop rule, not instructions, and rewriting them would falsify that record. They were left deliberately. If a reader may copy them, the fix is a one-line banner at the top of the file, not an edit to its steps.
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t025:
+    title: Mockup patterns with no owner
+    status: parked
+    priority: 25000
+    body: |-
+      The mockups carry patterns no component owns, and one is load-bearing:
+
+      - `<details class="drawer panel">` — a native disclosure styled as a panel, `features/design-theme/components.css:1351-1377`. It is interactive, it appears in the mockups in more than one place, and nothing in `shared/design-system/` implements it. Either it becomes a component or Phase 3 pages hand-roll it; hand-rolling it in a page is the outcome to avoid.
+
+      Anything else in `features/design-theme/` that no component claims belongs here rather than a new entry.
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t026:
+    title: Decision records 013 and 014 have stale edges
+    status: parked
+    priority: 26000
+    body: |-
+      Two decision records describe the folder shape slightly differently from what shipped.
+
+      - **013 (page templates)** proposed template folder names that are not the shipped ones — the shipped set is `console-landing-template`, `directory-browse-template`, `record-detail-template`, `document-template` under `shared/design-system/page-templates/`. The shipped names are what `ARCHITECTURE.md` and `shared/design-system/CONTEXT.md` now record; the ADR was left alone deliberately, since editing a decision after the fact is worse than a named divergence.
+      - **014 (global layer)** names the projected-content cases it knew about; the shipped set is the four targets listed in `shared/design-system/CONTEXT.md`. Same treatment.
+
+      Nothing is broken. Read the code, not the ADR, for the folder names.
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t027:
+    title: 'Record grid: mobile card layout is keyed to consumer field names'
+    status: parked
+    priority: 27000
+    body: |-
+      The mobile card layout in `src/styles.css` assigns `grid-area` through `[data-col='name']`, `[data-col='desc']`, `[data-col='act']` and four more, and `data-col` is the wrapper's own binding from `col.field` — so the responsive layout binds to whatever the consumer named its columns. `GridColumn` in `record-grid.component.ts` carries `field`, `header` and `width` and no separate layout key, which is stated outright at `src/styles.css:339-343`: a consumer whose field names are not these gets the stacked layout without the areas.
+
+      `CuratedWebsite` does not exist yet, so the fix is a Phase 3 call: either give `GridColumn` an explicit column role (name / desc / act) so the contract is typed rather than implied by string equality, or move these responsive rules out of `shared/design-system` into the feature that owns the schema.
+
+      Raised by the Phase 2 whole-branch review and parked deliberately rather than fixed, because designing a public-interface contract against a guessed schema is worse than waiting for the real table to exist. Cost of leaving it: a Phase 3 table whose field names differ silently loses its card layout. Mitigated because the behaviour is documented in the stylesheet itself, not silent.
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t028:
+    title: Unused design tokens and elevation entries
+    status: parked
+    priority: 28000
+    body: |-
+      `--led-violet` (`--p-violet-400`), `--led-red` (`--p-red-400`) and `--metal-light` (`--p-chrome-100`) are defined in `src/styles/design-tokens.css:130,132,134` and referenced by no component. `ELEVATION.dock` and `ELEVATION.hud` in `theme/elevation.ts:8-9` are read nowhere — `app.config.ts` consumes only `menu`, `overlay`, `modal` and `tooltip`, while the comment in that file says to change one and change the other.
+
+      The LED pair is currently unreachable rather than merely unused: the `StatusLightColor` and `BezelJewelColor` types expose only `cyan`, `magenta`, `amber` and `green`. Both the tokens and the two `ELEVATION` entries look like a faithful forward-port of the full mockup palette, waiting on Phase 3. Decide then: use them, or delete them so the token scale stays honest.
+
+      Raised by the Phase 2 whole-branch review.
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t029:
+    title: Nav list has no list semantics
+    status: parked
+    priority: 29000
+    body: 'indicator-nav-list renders its rows as bare joo-hardware-key anchors directly under the navigation landmark — a template-level @for with no ul or li wrapper — so assistive tech reports the rows as individual links with no list and no item count. The mockup used ul and li for these rows in features/design-theme/browse.html, so this is a divergence rather than a deliberate simplification. Parked in Task 11 because the landmark defect it was found beside was the one worth fixing then, and changing the wrapper touches the key [block] layout. Decide in Phase 3 alongside the nav-list entry above: the port already renders each row as a key slab rather than a flat mockup row, and both questions are the same one — how far the row should follow the mockup.'
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t030:
+    title: Richer drill-in UI for the library section
+    status: dropped
+    priority: 30000
+    body: Superseded in scope by **Library UI still missing the plan's Pages section** (landing tiles, folder intro, filter row) and **Layered drill-in navigation with retained ephemeral state**. Keep this entry only as the original flag that a bare p-tree is not the end state. Design those two items before building either.
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t031:
+    title: 'Unported mockup base styles: `.sr-only` and a completeness check'
+    status: parked
+    priority: 31000
+    body: 'src/styles/base-element-styles.css carried only margin:0 out of the mockup''s body rule, dropping background, color and font. The canvas fell back to the UA dark-mode default instead of --bg-page and all inherited text fell back to the UA serif, which read as a green cast and Times New Roman body copy. Fixed 2026-09-16 by porting the body, html, a and :focus-visible rules. Logged because the same class of omission may exist elsewhere in the Phase 2 port: the mockup''s .sr-only utility is still unported, and no check exists that a ported stylesheet is complete.'
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t032:
+    title: Bulk-open multiple result rows
+    status: parked
+    priority: 32000
+    body: 'User wants a way to open several source links at once from a results table (e.g. all visible AI-marketplace rows) without one click per row. Raised 2026-09-16 during Phase 3 search-page work. Unscoped: a checkbox-per-row plus one bulk-open button trades N clicks for N+1 (checkbox each row, then the open button), which may not be a net win over just clicking OPEN on each row directly. Needs a real UX mechanism before this is buildable — not designed here.'
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t033:
+    title: Separate search input for filtering results vs. direct-search query
+    status: parked
+    priority: 33000
+    body: 'Currently the console/header search query (q) both filters the results table AND feeds the per-row direct-search action (D1''s searchUrl substitution) on home and /search. User raised 2026-09-16 wanting these split: one input whose text only carries through to the direct-search action (doesn''t touch table filtering), and table filtering handled separately (by the existing sidebar filters, or a second dedicated filter input). User was thinking out loud, not decided on a mechanism -- explicitly deferred rather than reworking Task 5''s shipped filtering behavior. Design the actual split (one input vs two, where each lives) before building.'
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t034:
+    title: Stale folder CONTEXT.md files after Phase 3
+    status: parked
+    priority: 34000
+    body: src/app/app-shell/CONTEXT.md still describes home.page.* as a Phase 3 placeholder and lists only two pages, missing search.page._/learn.page._/learn-topic.page.* (all built in Phase 3). src/app/shared/design-system/CONTEXT.md's data-display/ inventory omits chip/ and topic-tree/ (both built in Task 1). Flagged during Task 7's paper-trail pass but out of that task's declared working-tree scope -- needs a targeted CONTEXT.md update in each folder.
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t035:
+    title: 'sitemap.yaml: browse/source_detail still status:mvp, contradicts D2'
+    status: parked
+    priority: 35000
+    body: 'Phase 3''s own plan (D2, and its Open points section) treats browse and source_detail as already parked/deferred, but _architecture/sitemap.yaml still lists both at status: mvp. Flagged during Task 7''s paper-trail pass; left untouched per that task''s brief (avoid touching routes explicitly out of scope) -- needs its own small fix to set both to parked, matching D2.'
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t036:
+    title: 'ADR update: q no longer filters results tables (reverses D4/ADR 020)'
+    status: parked
+    priority: 36000
+    body: '2026-09-16, after final whole-branch review: user reversed D4 (home''s live in-place search swap) and the /search page''s query-filtering. q now only feeds the /search?q=... submit and the per-row direct-search action (D1''s searchUrl substitution) -- it no longer filters either table''s contents; only the sidebar filters do that on /search, and home''s table always shows curated Trusted highlights. Recorded as a plan deviation for now (see Implementation deviations section). Needs a proper ADR (superseding or amending ADR 020) at the next paper-trail pass.'
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t037:
+    title: Extract shared row-action logic from home.page.ts/search.page.ts
+    status: parked
+    priority: 37000
+    body: toHighlightRow (home) and toSearchRow (search) independently compute identical row-action logic (canSearch, act label, actionHref's searchUrl substitution, actionAccent) -- line-for-line duplicated, not just similarly shaped. Flagged in fix-wave-2 review (2026-09-16); brief explicitly allowed replicating the pattern instead of importing it, so not a defect, but a small shared helper (e.g. resolveRowAction(source, query)) in source-search.ts or similar would remove the duplication before it drifts.
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t038:
+    title: Collapsible filter drawer with active-filter count badge
+    status: parked
+    priority: 38000
+    body: Mock (features/design-theme/search.html) wraps the Filters panel in a collapsible <details class="drawer panel" open> with an active-filter count badge in its summary (2 on). Fix-wave-5 (2026-09-16) added individually-removable active-filter chips above the table instead, going further than the mock's simple count -- but left the panel itself always-open rather than collapsible. Worth revisiting whether the drawer/count treatment still adds value alongside the chip row, or whether the chips alone cover the need.
+    ts_created: 2026-09-23T22:17:19Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:19Z
+  t039:
+    title: Library UI still missing the plan's Pages section
+    status: done
+    priority: 39000
+    body: 'The approved plan (plans/2026-09-16-library-archive-section.md Pages + R5/R6) still requires: /library as chunky collection tiles (summary + doc count), folder pages with index.md intro + inert filter row + scoped tree, and a document reader. The interim tree-everywhere layout dropped the landing tiles and the filter row. That was not a product rejection. Plan before rebuilding. Tags/summary front matter feed tiles and filters (R5). Full-text file search stays open until tags/search are designed.'
+    ts_created: 2026-09-23T22:17:20Z
+    ts_started: null
+    ts_done: 2026-09-23T22:17:20Z
+    ts_touched: 2026-09-23T22:17:20Z
+  t040:
+    title: Layered drill-in navigation with retained ephemeral state
+    status: done
+    priority: 40000
+    body: Shipped as ADR 031 + library MVP (`plans/2026-09-18-library-layered-drill-in.md`). Search/browse still to adopt the same rule when they grow a detail layer.
+    ts_created: 2026-09-23T22:17:20Z
+    ts_started: null
+    ts_done: 2026-09-23T22:17:20Z
+    ts_touched: 2026-09-23T22:17:20Z
+  t041:
+    title: Library tree rich filter panel
+    status: parked
+    priority: 41000
+    body: 'Filter panel on the library file tree: search (already live), tag filters, sort modes (name default: files then folders A-Z; date and others if/when metadata exists), and expansion rules that cooperate with filter/search. Sort UI ships with this panel, not as a one-off control.'
+    ts_created: 2026-09-23T22:17:20Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:20Z
+  t042:
+    title: Library layered drill-in — follow-ups
+    status: parked
+    priority: 42000
+    body: 'MVP shipped (ADR 031). Still open: re-enable document View Transitions safely for non-library routes; navigateDrill/Sibling/Cross helpers when search is second consumer; query-param filter chips + replaceUrl; selective RouteReuseStrategy if a heavy list needs it; breadcrumb vs Back policy doc polish.'
+    ts_created: 2026-09-23T22:17:20Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:20Z
+  t043:
+    title: Confirm marketplace searchUrl templates
+    status: dropped
+    priority: 43000
+    body: Native `{q}` URLs are no longer required. AI-marketplace rows use an aggregator search URL when the site has no public query search. See `plans/2026-09-18-ai-marketplace-search-destinations.md`.
+    ts_created: 2026-09-23T22:17:20Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:20Z
+  t044:
+    title: App quality harness — next slices
+    status: parked
+    priority: 44000
+    body: 'v1 shipped: app-wide `ux:smoke` + budgets + `.local` history + `ux:lab`. Still open: tighten budgets from more machines; axe/a11y pass; Angular effect/computed hygiene checklist or lint; optional profiler-based CD thrash probe if a stable public API appears; median multi-run mode for flaky hosts. Not CI (009). Plan: `plans/2026-09-18-app-quality-harness.md`.'
+    ts_created: 2026-09-23T22:17:20Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:20Z
+  t045:
+    title: Cut source-fixture from main
+    status: done
+    priority: 45000
+    body: 'app-shell-layout.component.ts:159 imports ALL_SOURCES only for .length; drags 119 kB into main. Options: build-time count constant, or lazy read. Also trim the specimen virtual-scroll demo (decision 032).'
+    ts_created: 2026-09-23T22:17:20Z
+    ts_started: null
+    ts_done: 2026-09-27T15:35:26Z
+    ts_touched: 2026-09-27T15:35:26Z
+  t046:
+    title: Lighthouse baseline system
+    status: done
+    priority: 46000
+    body: 'scripts/perf-baseline.mjs: lighthouse devDependency (approved), mobile x5 median on /, /search, one library doc, plus stats.json chunk sizes, written to _architecture/perf-baselines/<sha>.json; perf:compare diffs two SHAs. Run against a static preview of a passing prod build. Skill note: anyScript budget needs a test that it fires; lazy chunks do appear as stats.json entryPoint outputs.'
+    ts_created: 2026-09-23T22:17:20Z
+    ts_started: null
+    ts_done: 2026-09-23T22:17:20Z
+    ts_touched: 2026-09-23T22:17:20Z
+  t047:
+    title: Fix /search interaction cost
+    status: parked
+    priority: 47000
+    body: 'Lab baseline 4e8d0ba-dirty: /search TBT ~780ms, LCP ~5.2s (216 plain rows + PrimeNG select/drawer/tree). Options: paginate or window the results list, defer filter drawer, check what runs at load.'
+    ts_created: 2026-09-23T22:17:20Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:20Z
+  t048:
+    title: Home and library LCP above 4s in lab
+    status: parked
+    priority: 48000
+    body: 'Lab: / LCP ~4.4s, library README ~5.0s at mobile throttling with brotli. Check fonts (3 preloaded families), critical CSS size, hydration cost, mermaid chunk on README, transfer 370-550 kB per page.'
+    ts_created: 2026-09-23T22:17:20Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:20Z
+  t049:
+    title: Dependabot config
+    status: parked
+    priority: 49000
+    body: Decision 009's intended CI included Dependabot; only the workflow was built (decision 033).
+    ts_created: 2026-09-23T22:17:20Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-23T22:17:20Z
+  t050:
+    title: Library UI planning session
+    status: done
+    priority: 50000
+    body: '`plans/2026-09-17-library-pages-ui.md`. Pages baseline plus clarification: landing is a transitional entryway (chunky tiles) **and** the full file tree stays available; tile click expands that branch, others collapsed. Folder = intro + inert filter row + scoped tree. Document = document-template reader.'
+    ts_created: 2026-09-23T22:17:20Z
+    ts_started: 2026-09-23T22:17:20Z
+    ts_done: 2026-09-23T22:17:21Z
+    ts_touched: 2026-09-23T22:17:21Z
+  t051:
+    title: Library UI build
+    status: done
+    priority: 51000
+    body: 'tree always on the left. Landing: tiles (open collection entry doc, e.g. `topic-index`) + tree. Folder: intro/filters on the right. Document: sheet beside the tree. Plan deviations updated.'
+    ts_created: 2026-09-23T22:17:21Z
+    ts_started: 2026-09-23T22:17:21Z
+    ts_done: 2026-09-23T22:17:21Z
+    ts_touched: 2026-09-23T22:17:21Z
+  t052:
+    title: Library tree filter
+    status: done
+    priority: 52000
+    body: 'PrimeNG `p-tree` filter on `joo-topic-tree`: hides non-matches, expands ancestors (lenient). Filter input skinned in `styles.css`.'
+    ts_created: 2026-09-23T22:17:21Z
+    ts_started: 2026-09-23T22:17:21Z
+    ts_done: 2026-09-23T22:17:21Z
+    ts_touched: 2026-09-23T22:17:21Z
+  t053:
+    title: Library document base type
+    status: done
+    priority: 53000
+    body: reader prose at `0.8rem`; heading/pre scale uses `em` so the ladder follows the base.
+    ts_created: 2026-09-23T22:17:21Z
+    ts_started: 2026-09-23T22:17:21Z
+    ts_done: 2026-09-23T22:17:21Z
+    ts_touched: 2026-09-23T22:17:21Z
+  t054:
+    title: Library tree default order + expand query
+    status: done
+    priority: 54000
+    body: files A–Z then folders A–Z; landing tiles use `?expand=<collection>` to fan out that branch (other tops stay collapsed). Rich filter/sort panel on BACKLOG.
+    ts_created: 2026-09-23T22:17:21Z
+    ts_started: 2026-09-23T22:17:21Z
+    ts_done: 2026-09-23T22:17:21Z
+    ts_touched: 2026-09-23T22:17:21Z
+  t055:
+    title: Crash-course collection path
+    status: done
+    priority: 55000
+    body: '`ai-tooling-crash-course-for-developers` (decision 029); drop the invented `learn` slug; redirects keep old URLs working.'
+    ts_created: 2026-09-23T22:17:21Z
+    ts_started: 2026-09-23T22:17:21Z
+    ts_done: 2026-09-23T22:17:21Z
+    ts_touched: 2026-09-23T22:17:21Z
+  t056:
+    title: Section entry doc is README.md
+    status: done
+    priority: 56000
+    body: decision 030; crash-course `topic-index.md` renamed/mapped to `README.md`; `index.md` stays folder meta only.
+    ts_created: 2026-09-23T22:17:21Z
+    ts_started: 2026-09-23T22:17:21Z
+    ts_done: 2026-09-23T22:17:21Z
+    ts_touched: 2026-09-23T22:17:21Z
+  t057:
+    title: Library right-pane route transitions
+    status: done
+    priority: 57000
+    body: '`withViewTransitions` + `library-pane`/`library-tree` names; query-only skipped; scroll restoration on. Full drill-in/reuse architecture stays on BACKLOG.'
+    ts_created: 2026-09-23T22:17:21Z
+    ts_started: 2026-09-23T22:17:21Z
+    ts_done: 2026-09-23T22:17:21Z
+    ts_touched: 2026-09-23T22:17:21Z
+  t058:
+    title: AI marketplace search destinations
+    status: done
+    priority: 58000
+    body: '`sourceUrl` + Src column; library Search↗ is author-scoped mcpservers, not global skills.sh. Plan: `plans/2026-09-18-ai-marketplace-search-destinations.md`.'
+    ts_created: 2026-09-23T22:17:21Z
+    ts_started: 2026-09-23T22:17:21Z
+    ts_done: 2026-09-23T22:17:21Z
+    ts_touched: 2026-09-23T22:17:21Z
+  t059:
+    title: Library doc loading flash
+    status: done
+    priority: 59000
+    body: no slower "Loading document" wipe; resource TransferState `id` + keep last HTML while loading. UX-glitch automation on BACKLOG.
+    ts_created: 2026-09-23T22:17:22Z
+    ts_started: 2026-09-23T22:17:22Z
+    ts_done: 2026-09-23T22:17:22Z
+    ts_touched: 2026-09-23T22:17:22Z
+  t060:
+    title: Local UX smoke + motion tokens
+    status: done
+    priority: 60000
+    body: '`pnpm run ux:smoke`; `--duration-route` / `--duration-shell`; recipes in design-system CONTEXT. Plan: `plans/2026-09-18-local-ux-quality-and-motion-system.md`.'
+    ts_created: 2026-09-23T22:17:22Z
+    ts_started: 2026-09-23T22:17:22Z
+    ts_done: 2026-09-23T22:17:22Z
+    ts_touched: 2026-09-23T22:17:22Z
+  t061:
+    title: Replace the failed motion prototype
+    status: done
+    priority: 61000
+    body: audit and roadmap in `plans/2026-09-22-motion.md`; route, filter-state, library-reader, and interaction recipes implemented. Search filters use writable signals and `Location.replaceState` to prevent router navigation and scroll-to-top (ADR 035). Record grid rows animate enter/leave via safe GPU compositor opacity transitions with stable `rowKey` tracking and 120ms keyword input debouncing (ADR 036).
+    ts_created: 2026-09-23T22:17:22Z
+    ts_started: 2026-09-23T22:17:22Z
+    ts_done: 2026-09-23T22:17:22Z
+    ts_touched: 2026-09-23T22:17:22Z
+  t062:
+    title: App quality harness v1
+    status: done
+    priority: 62000
+    body: 'app-wide `ux:smoke` scenarios + budgets + `.local/` history; `ux:lab` for static Lighthouse. Plan: `plans/2026-09-18-app-quality-harness.md`.'
+    ts_created: 2026-09-23T22:17:22Z
+    ts_started: 2026-09-23T22:17:22Z
+    ts_done: 2026-09-23T22:17:22Z
+    ts_touched: 2026-09-23T22:17:22Z
+  t063:
+    title: Layered drill-in MVP
+    status: done
+    priority: 63000
+    body: 'ADR 031; reader layer over browse underlay; `LibraryLayoutStore` for filter/scroll; CSS reader motion; document VT deferred. Plan: `plans/2026-09-18-library-layered-drill-in.md`.'
+    ts_created: 2026-09-23T22:17:22Z
+    ts_started: 2026-09-23T22:17:22Z
+    ts_done: 2026-09-23T22:17:22Z
+    ts_touched: 2026-09-23T22:17:22Z
+  t064:
+    title: mdskills / Agensi / MCP Market searchUrl
+    status: done
+    priority: 64000
+    body: 'own `?q=` URLs: `/skills?q=`, `/search?q=`, `mcpmarket.com/search?q=`.'
+    ts_created: 2026-09-23T22:17:22Z
+    ts_started: 2026-09-23T22:17:22Z
+    ts_done: 2026-09-23T22:17:22Z
+    ts_touched: 2026-09-23T22:17:22Z
+  t065:
+    title: Performance pass and Lighthouse baselines
+    status: done
+    priority: 65000
+    body: 'decisions 033, 037 (restored PrimeNG Table with lazy route chunks and virtual scrolling, superseding 032). Home lazy, shell status count deferred, budgets re-set, `learn/:topic` `RenderMode.Client`, `lighthouse` devDependency, `ux:lab` record/compare/strict, `ci.yml`. Briefing for the skill that guided it: `jookoi-ai-market/_architecture/plans/angular-skill-improvement-brief.md`.'
+    ts_created: 2026-09-23T22:17:22Z
+    ts_started: 2026-09-23T22:17:22Z
+    ts_done: 2026-09-23T22:17:22Z
+    ts_touched: 2026-09-23T22:17:22Z
+  jah4:
+    title: Triage decision-history files into live docs
+    status: now
+    priority: 66000
+    body: |-
+      Last open step of `plans/2026-09-27-paper-trail-store-migration.md`. All 37 former `plans/decisions/` files were moved unchanged to `plans/decision-history/` so no link broke. The skill's legacy-migration step 3 still applies: classify each as Integrated, Promote, In a plan, Redundant or Keep, present the table, and delete or promote only rows the user approved.
+
+      Next: build the triage table (file, class, evidence file:line, action, inbound links) and present it.
+    ts_created: 2026-09-27T15:01:18Z
+    ts_started: 2026-09-27T15:01:18Z
+    ts_done: null
+    ts_touched: 2026-09-27T15:01:18Z
+  v5od:
+    title: Write the A1 gate answer and record the A2 call
+    status: now
+    priority: 67000
+    body: |-
+      `plans/2026-09-27-a1-gate-answer.md` holds a five-sentence draft and a per-claim status table. Only the user can write the final answer. Once written it replaces "It has not been answered yet" in `.agents/context/principles.md`.
+
+      Next: user rewrites or rejects the draft.
+    ts_created: 2026-09-27T15:01:18Z
+    ts_started: 2026-09-27T15:01:18Z
+    ts_done: null
+    ts_touched: 2026-09-27T15:01:18Z
+  u77s:
+    title: Source link verification script
+    status: now
+    priority: 68000
+    body: |-
+      `plans/2026-09-27-source-link-verification.md`. Step 1 done 27-09-2026: `scripts/verify-sources.mjs` (`pnpm run sources:verify`) exists, first run wrote `data/link-status.json`. 390 links, 206 records, 41 s: ok 278, redirected 31, blocked 39, dead 23, error 13, lost-query 6. Always GET, never HEAD (deviation from the plan: HEAD is unreliable on many servers).
+
+      Next: step 2, review the non-ok list with the user (rerun the script to see it) and fix `sources/`. Then step 3: merge status in `build-sources.mjs`. Recommended shape: keep the model field name `verified` but derive it from `lastOk` so sorting and the column need no change, and add `linkState`. Then the UI marker, then paper trail.
+    ts_created: 2026-09-27T15:01:18Z
+    ts_started: 2026-09-27T15:36:13Z
+    ts_done: null
+    ts_touched: 2026-09-27T15:37:12Z
+  phg1:
+    title: 'Browser search integration: OpenSearch and bang keys'
+    status: parked
+    priority: 69000
+    body: '`plans/2026-09-27-browser-search-integration.md`. Generated `opensearch.xml` in the Pages build, `!key terms` resolved by a browser-only app initializer from a generated key index. Blocked on t013 Data pipeline (new `keys` field). Needs the user''s first 10 to 20 keys.'
+    ts_created: 2026-09-27T15:01:18Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-27T15:01:18Z
+  ltf7:
+    title: Reconcile `site-search` capability with `searchUrl` in sources
+    status: parked
+    priority: 70000
+    body: |-
+      110 records in `sources/*.json` disagree: 58 have a `searchUrl` without `site-search` in `capabilities`, 52 claim `site-search` with no `searchUrl`. The UI keys the Search↗ action off `searchUrl`, so the capability chip lies on those rows. Found by the build validation in `plans/2026-09-27-sources-data-pipeline.md`.
+
+      Next: for each of the 52, find the site's search URL template or drop the capability. For the 58, add the capability. Then add the cross-check to `scripts/build-sources.mjs` so it stays fixed. The link checker (u77s Source link verification script) can confirm the found templates.
+    ts_created: 2026-09-27T15:35:25Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-09-27T15:35:25Z

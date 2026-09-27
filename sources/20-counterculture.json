@@ -1,0 +1,201 @@
+{
+  "$schema": "./source.schema.json",
+  "sources": [
+    {
+      "id": "dirt",
+      "name": "Dirt",
+      "url": "https://dirt.fyi",
+      "desc": "Daily publication covering digital pop culture internet aesthetics and tech theory",
+      "type": "Digital culture",
+      "category": "culture",
+      "tags": ["culture", "aesthetics", "internet"],
+      "trustScore": 82,
+      "capabilities": ["rss-feed"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Dirt Daily",
+          "url": "https://dirt.fyi/feed",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "logics-mag",
+      "name": "Logics Magazine",
+      "url": "https://logicmag.io",
+      "desc": "Critical tech publication focusing on ethical queer and theoretical perspectives on computing",
+      "type": "Tech theory",
+      "category": "technology",
+      "tags": ["ethics", "theory", "technology"],
+      "trustScore": 88,
+      "capabilities": ["rss-feed"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Logic Magazine",
+          "url": "https://logicmag.io/feed.xml",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "do-not-research",
+      "name": "Do Not Research",
+      "url": "https://donotresearch.net",
+      "desc": "Collaborative platform for internet culture analysis meme theory and underground digital aesthetics",
+      "type": "Digital culture",
+      "category": "culture",
+      "tags": ["theory", "aesthetics", "research"],
+      "trustScore": 78,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "kernel-mag",
+      "name": "Kernel Magazine",
+      "url": "https://kernelmag.io",
+      "desc": "Publication exploring optimistic and critical futures for technology and society",
+      "type": "Tech culture",
+      "category": "technology",
+      "tags": ["optimism", "culture", "future"],
+      "trustScore": 85,
+      "capabilities": ["rss-feed"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Kernel RSS",
+          "url": "https://kernelmag.io/rss.xml",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "new-models",
+      "name": "New Models",
+      "url": "https://newmodels.io",
+      "desc": "Media node and community analyzing the emergent shifts in tech culture and digital media theory",
+      "type": "Tech theory",
+      "category": "culture",
+      "tags": ["theory", "media", "analysis"],
+      "trustScore": 80,
+      "capabilities": ["rss-feed"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "New Models Feed",
+          "url": "https://newmodels.io/feed",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Europe"
+    },
+    {
+      "id": "aftermath",
+      "name": "Aftermath",
+      "url": "https://aftermath.site",
+      "desc": "Worker owned website covering video games internet culture and the human side of the tech industry",
+      "type": "Independent tech journalism",
+      "category": "technology",
+      "tags": ["gaming", "culture", "labor"],
+      "trustScore": 89,
+      "capabilities": ["rss-feed"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Aftermath",
+          "url": "https://aftermath.site/feed",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "blood-knife",
+      "name": "Blood Knife",
+      "url": "https://bloodknife.com",
+      "desc": "Critical magazine covering cyberpunk realities digital dystopias and contemporary culture",
+      "type": "Digital culture",
+      "category": "culture",
+      "tags": ["theory", "cyberpunk", "criticism"],
+      "trustScore": 81,
+      "capabilities": ["rss-feed"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Blood Knife Articles",
+          "url": "https://bloodknife.com/feed/",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "html-review",
+      "name": "The HTML Review",
+      "url": "https://thehtml.review",
+      "desc": "Annual journal of experimental digital literature and interactive web art",
+      "type": "Digital art",
+      "category": "culture",
+      "tags": ["art", "literature", "web"],
+      "trustScore": 86,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "hell-gate",
+      "name": "Hell Gate",
+      "url": "https://hellgatenyc.com",
+      "desc": "Worker owned news outlet focused on urban culture accountability and independent journalism",
+      "type": "Independent newsroom",
+      "category": "news",
+      "tags": ["urban", "accountability", "independent"],
+      "trustScore": 87,
+      "capabilities": ["rss-feed"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Hell Gate NYC",
+          "url": "https://hellgatenyc.com/rss/",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "rhizome",
+      "name": "Rhizome",
+      "url": "https://rhizome.org",
+      "desc": "Born digital art organization publishing essays and theory on internet art and net culture",
+      "type": "Digital archive curation",
+      "category": "culture",
+      "tags": ["art", "history", "theory"],
+      "trustScore": 92,
+      "capabilities": ["rss-feed"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Rhizome Feed",
+          "url": "https://rhizome.org/rss/",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    }
+  ]
+}

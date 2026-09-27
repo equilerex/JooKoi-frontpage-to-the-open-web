@@ -13,7 +13,7 @@ Work is resequenced into three phases (decision 002). This brief covers **Phase 
 ## What the planning session should produce
 
 - A Phase 1 architecture plan in `_architecture/plans/YYYY-MM-DD-<topic>.md`.
-- One ADR per hard-to-reverse call in `_architecture/plans/decisions/NNN-slug.md` (next free number is 003). Use the `jookoi-paper-trail` skill and its script for both.
+- One ADR per hard-to-reverse call in `_architecture/plans/decision-history/NNN-slug.md` (next free number is 003). Use the `jookoi-paper-trail` skill and its script for both.
 - The first `_architecture/ARCHITECTURE.md`, kept to shape and key decisions.
 - A scoped implementation checklist in `_architecture/TODO.md`.
 
@@ -27,7 +27,7 @@ Follow the workflow in `.agents/planning-before-implementation.md` Part 7. Verif
 | `.agents/context/principles.md`                           | Product constraints (static, client-side, send to sources)                |
 | `.agents/context/product-concept.md` sections 20 to 22    | Accessibility, local-only use, client-heavy architecture                  |
 | `_architecture/sitemap.yaml`                              | Page types and routes, `mvp` vs `parked`                                  |
-| `_architecture/plans/decisions/001-*`, `002-*`            | Design direction and the phase order                                      |
+| `_architecture/plans/decision-history/001-*`, `002-*`            | Design direction and the phase order                                      |
 | `features/design-theme/CONTEXT.md`                        | How the CSS system is built. Phase 1 must be able to host it              |
 | `_architecture/plans/2026-08-22-dev-stack-plan.md` Part 1 | Existing repo layout intent (`sources/`, `data/`, `scripts/`, `.agents/`) |
 

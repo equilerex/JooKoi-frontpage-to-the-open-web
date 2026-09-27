@@ -16,6 +16,7 @@ console.log(`build-gh-pages: building with base-href "${baseHref}"...`);
 // 1. Prerequisites
 execSync('node scripts/primeui-license.mjs', { cwd: root, stdio: 'inherit' });
 execSync('node scripts/build-library-content.mjs', { cwd: root, stdio: 'inherit' });
+execSync('node scripts/build-sources.mjs', { cwd: root, stdio: 'inherit' });
 
 // 2. Angular production build with base-href
 const pnpmExec = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';

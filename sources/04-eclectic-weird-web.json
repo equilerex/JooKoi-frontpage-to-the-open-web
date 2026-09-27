@@ -1,0 +1,163 @@
+{
+  "$schema": "./source.schema.json",
+  "sources": [
+    {
+      "id": "neal-fun",
+      "name": "Neal.fun",
+      "url": "https://neal.fun",
+      "desc": "Interactive micro-games, deep internet toys, and visual data experiments built with clean browser technology.",
+      "type": "Interactive web experiments",
+      "category": "culture",
+      "tags": ["interactive", "experiments", "games"],
+      "trustScore": 92,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "the-useless-web",
+      "name": "The Useless Web",
+      "url": "https://theuselessweb.com",
+      "desc": "One-click portal routing users to absurd, single-serving, and purposeless websites from across the open web.",
+      "type": "Random link portal",
+      "category": "culture",
+      "tags": ["weird-web", "portal", "random"],
+      "trustScore": 84,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "radio-garden",
+      "name": "Radio Garden",
+      "url": "https://radio.garden",
+      "desc": "Interactive 3D globe allowing exploration of thousands of live local radio stations broadcasting across the planet.",
+      "type": "Interactive audio map",
+      "category": "culture",
+      "tags": ["audio", "radio", "map"],
+      "trustScore": 94,
+      "capabilities": ["site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://radio.garden/search?q={q}",
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "melonland",
+      "name": "MelonLand",
+      "url": "https://melonland.net",
+      "desc": "A central hub of the modern web revival movement, fostering early-internet creativity, personal zines, and chaotic art.",
+      "type": "Web revival community",
+      "category": "culture",
+      "tags": ["web-revival", "indie-web", "retro"],
+      "trustScore": 88,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Forum & News Feed",
+          "url": "https://forum.melonland.net/index.php?action=.xml;type=rss",
+          "desc": "Community projects, zine releases, and web revival updates",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "windows-93",
+      "name": "Windows 93",
+      "url": "https://www.windows93.net",
+      "desc": "Nostalgic, surreal parody OS running entirely in the browser, packed with glitch art, sound toys, and hidden games.",
+      "type": "In-browser OS simulation",
+      "category": "technology",
+      "tags": ["retro", "simulation", "glitch-art"],
+      "trustScore": 86,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "Europe"
+    },
+    {
+      "id": "zoomquilt",
+      "name": "Zoomquilt",
+      "url": "https://zoomquilt.org",
+      "desc": "Infinitely zooming, seamlessly looping digital fantasy painting created collaboratively by an online artist collective.",
+      "type": "Digital art project",
+      "category": "culture",
+      "tags": ["art", "endless-zoom", "collaborative"],
+      "trustScore": 90,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "Germany"
+    },
+    {
+      "id": "pointer-pointer",
+      "name": "Pointer Pointer",
+      "url": "https://pointerpointer.com",
+      "desc": "Tracks the user mouse cursor anywhere on screen and displays a real photograph of someone pointing precisely at it.",
+      "type": "Novelty web toy",
+      "category": "culture",
+      "tags": ["interactive", "cursor-toy", "humor"],
+      "trustScore": 82,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "Netherlands"
+    },
+    {
+      "id": "zombo-com",
+      "name": "Zombo.com",
+      "url": "https://html5zombo.com",
+      "desc": "Legendary HTML5 preservation of the early-2000s meme site where the only limit is yourself and nothing ever happens.",
+      "type": "Web artifact",
+      "category": "culture",
+      "tags": ["internet-history", "satire", "classic"],
+      "trustScore": 85,
+      "capabilities": [],
+      "verified": "2026-09-19",
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "every-noise-at-once",
+      "name": "Every Noise at Once",
+      "url": "https://everynoise.com",
+      "desc": "Algorithmically-generated, readable scatter-plot map tracking thousands of micro-genres of music across the globe.",
+      "type": "Music data visualization",
+      "category": "culture",
+      "tags": ["music", "data-viz", "curation"],
+      "trustScore": 91,
+      "capabilities": ["site-search"],
+      "verified": "2026-09-19",
+      "searchUrl": "https://everynoise.com/lookup.cgi?who={q}",
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "status-cafe",
+      "name": "Status.Cafe",
+      "url": "https://status.cafe",
+      "desc": "Lightweight, ad-free microblogging social space in the small web movement where posts are kept strictly short and human.",
+      "type": "Small web social",
+      "category": "culture",
+      "tags": ["small-web", "microblog", "minimalist"],
+      "trustScore": 89,
+      "capabilities": ["rss-feed"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Recent Updates",
+          "url": "https://status.cafe/feed.atom",
+          "desc": "Global firehose of user status updates",
+          "format": "atom"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    }
+  ]
+}

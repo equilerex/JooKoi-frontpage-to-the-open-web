@@ -29,7 +29,7 @@ import { ToolbarRowComponent } from '../shared/design-system/page-layouts/toolba
 import { DirectoryBrowseTemplateComponent } from '../shared/design-system/page-templates/directory-browse-template/directory-browse-template.component';
 import { ReadoutPanelComponent } from '../shared/design-system/surfaces/readout-panel/readout-panel.component';
 import { EyebrowLabelComponent } from '../shared/design-system/typography/eyebrow-label/eyebrow-label.component';
-import { ALL_SOURCES } from '../shared/curated-websites/source-fixture';
+import { ALL_SOURCES } from '../shared/curated-websites/sources.generated';
 import { Capability, Source } from '../shared/curated-websites/source.model';
 import {
   domainOf,

@@ -2,7 +2,7 @@
 
 Code used by **more than one** feature, or by the shell and a feature. Everything else lives in the feature that uses it.
 
-Rules: `_architecture/plans/decisions/005-workspace-location-folders-and-naming.md`. Full map: `_architecture/ARCHITECTURE.md`.
+Rules: `_architecture/plans/decision-history/005-workspace-location-folders-and-naming.md`. Full map: `_architecture/ARCHITECTURE.md`.
 
 > Nothing is built here yet. `shared/design-system/` arrives in Phase 2, `shared/curated-websites/` in Phase 3. This file is the rule that governs them when they're created.
 

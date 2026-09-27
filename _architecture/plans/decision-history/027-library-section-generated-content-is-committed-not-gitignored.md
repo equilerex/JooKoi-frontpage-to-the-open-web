@@ -8,6 +8,11 @@ Status: DECIDED
 
 Decision 022 gitignored the learn-content generated module and rebuilt it on every `start`/`build`. The library section (`_architecture/plans/2026-09-16-library-archive-section.md`) splits that one module into a small index plus one generated file per document (R2 — keeping content out of the main bundle), and content is now authored directly in this repo (`content/library/`), not only vendored. Should the split output stay gitignored the same way?
 
+## Options considered
+
+- Keep the generated output gitignored and regenerate it on every `start` and `build`, as decision 022 did for the single module.
+- Commit the generated output and run the generator only on `build` and by hand.
+
 ## Decision
 
 The generated output (`src/app/shared/library-content/library-index.generated.ts` and `src/app/shared/library-content/docs/*.generated.ts`) is committed. `pnpm start`/`pnpm run watch` no longer run the generator at all; `pnpm run build` still runs it first; `pnpm run content` runs it by hand after content changes. A fresh clone builds and serves without running anything.

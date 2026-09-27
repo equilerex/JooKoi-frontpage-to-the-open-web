@@ -2,7 +2,7 @@
 
 The frame rendered once around every page: layout, navigation chrome, backdrop, page title strategy, and the not-found page. Nothing here is specific to one feature.
 
-Rules: `_architecture/plans/decisions/005-workspace-location-folders-and-naming.md`. Full map: `_architecture/ARCHITECTURE.md`.
+Rules: `_architecture/plans/decision-history/005-workspace-location-folders-and-naming.md`. Full map: `_architecture/ARCHITECTURE.md`.
 
 ## What belongs here
 

@@ -1,0 +1,341 @@
+{
+  "$schema": "./source.schema.json",
+  "sources": [
+    {
+      "id": "the-intercept",
+      "name": "The Intercept",
+      "url": "https://theintercept.com",
+      "desc": "Fearless adversarial journalism that holds the powerful accountable",
+      "type": "Investigative newsroom",
+      "category": "news",
+      "tags": ["investigative", "politics", "security"],
+      "trustScore": 88,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "The Intercept",
+          "url": "https://theintercept.com/feed/?lang=en",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "defector",
+      "name": "Defector",
+      "url": "https://defector.com",
+      "desc": "Worker owned sports and culture website created by former Deadspin writers",
+      "type": "Independent sports and culture",
+      "category": "culture",
+      "tags": ["sports", "culture", "politics"],
+      "trustScore": 85,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Defector Articles",
+          "url": "https://defector.com/feed/",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "rest-of-world",
+      "name": "Rest of World",
+      "url": "https://restofworld.org",
+      "desc": "Nonprofit publication exploring the impact of technology in regions outside the Western bubble",
+      "type": "Global tech journalism",
+      "category": "technology",
+      "tags": ["tech", "global", "investigative"],
+      "trustScore": 92,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Rest of World",
+          "url": "https://restofworld.org/feed/",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "the-markup",
+      "name": "The Markup",
+      "url": "https://themarkup.org",
+      "desc": "Nonprofit newsroom that investigates how powerful institutions are using technology to change society",
+      "type": "Investigative newsroom",
+      "category": "technology",
+      "tags": ["tech", "privacy", "investigative"],
+      "trustScore": 93,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "The Markup",
+          "url": "https://themarkup.org/feeds/rss.xml",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "longform",
+      "name": "Longform",
+      "url": "https://longform.org",
+      "desc": "Aggregator dedicated to recommending new and classic non fiction articles from across the web",
+      "type": "Aggregator",
+      "category": "culture",
+      "tags": ["journalism", "essays", "curation"],
+      "trustScore": 90,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Longform Articles",
+          "url": "https://longform.org/feed.rss",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "the-marshall-project",
+      "name": "The Marshall Project",
+      "url": "https://www.themarshallproject.org",
+      "desc": "Nonpartisan nonprofit news organization that seeks to create and sustain a sense of national urgency about the US criminal justice system",
+      "type": "Investigative newsroom",
+      "category": "news",
+      "tags": ["justice", "investigative", "united-states"],
+      "trustScore": 94,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Recent Stories",
+          "url": "https://www.themarshallproject.org/rss/recent.rss",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "marginal-revolution",
+      "name": "Marginal Revolution",
+      "url": "https://marginalrevolution.com",
+      "desc": "Prominent economics blog run by Tyler Cowen and Alex Tabarrok offering eclectic daily links and analysis",
+      "type": "Economics blog",
+      "category": "culture",
+      "tags": ["economics", "academia", "curation"],
+      "trustScore": 84,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Marginal Revolution",
+          "url": "https://feeds.feedburner.com/marginalrevolution/feed",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "pluralistic",
+      "name": "Pluralistic",
+      "url": "https://pluralistic.net",
+      "desc": "Daily link blog by Cory Doctorow focusing on surveillance capitalism digital rights and technology monopolies",
+      "type": "Tech policy blog",
+      "category": "technology",
+      "tags": ["tech-policy", "digital-rights", "curation"],
+      "trustScore": 87,
+      "capabilities": ["rss-feed"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Pluralistic Daily",
+          "url": "https://pluralistic.net/feed/",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Canada"
+    },
+    {
+      "id": "de-correspondent",
+      "name": "De Correspondent",
+      "url": "https://decorrespondent.nl",
+      "desc": "Ad free Dutch journalism platform focusing on structural societal developments rather than daily news cycles",
+      "type": "Quality press",
+      "category": "news",
+      "tags": ["journalism", "netherlands", "analysis"],
+      "trustScore": 86,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "De Correspondent",
+          "url": "https://decorrespondent.nl/feed",
+          "format": "rss"
+        }
+      ],
+      "lang": "nl",
+      "region": "Netherlands"
+    },
+    {
+      "id": "nieman-lab",
+      "name": "Nieman Lab",
+      "url": "https://www.niemanlab.org",
+      "desc": "Attempt to figure out how quality journalism can survive and thrive in the internet age",
+      "type": "Media analysis",
+      "category": "news",
+      "tags": ["journalism", "media", "analysis"],
+      "trustScore": 91,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Nieman Lab Feed",
+          "url": "https://www.niemanlab.org/feed/",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "ars-technica",
+      "name": "Ars Technica",
+      "url": "https://arstechnica.com",
+      "desc": "Deep technical analysis and news coverage of technology science and policy",
+      "type": "Tech journalism",
+      "category": "technology",
+      "tags": ["tech", "science", "policy"],
+      "trustScore": 89,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Ars Technica",
+          "url": "https://feeds.arstechnica.com/arstechnica/index",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "quanta-magazine",
+      "name": "Quanta Magazine",
+      "url": "https://www.quantamagazine.org",
+      "desc": "Editorially independent online publication illuminating complex science and math research through public interest journalism",
+      "type": "Science journalism",
+      "category": "culture",
+      "tags": ["science", "mathematics", "physics"],
+      "trustScore": 95,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Quanta Feed",
+          "url": "https://api.quantamagazine.org/feed/",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "first-monday",
+      "name": "First Monday",
+      "url": "https://firstmonday.org",
+      "desc": "One of the first openly accessible peer reviewed journals on the internet devoted solely to the internet",
+      "type": "Academic journal",
+      "category": "technology",
+      "tags": ["academia", "internet-studies", "peer-reviewed"],
+      "trustScore": 90,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "First Monday Updates",
+          "url": "https://firstmonday.org/ojs/index.php/fm/gateway/plugin/WebFeedGatewayPlugin/rss2",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "public-books",
+      "name": "Public Books",
+      "url": "https://www.publicbooks.org",
+      "desc": "Digital magazine bringing scholarly ideas to a public audience through essays and reviews",
+      "type": "Literary magazine",
+      "category": "culture",
+      "tags": ["books", "essays", "academia"],
+      "trustScore": 84,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Public Books Articles",
+          "url": "https://www.publicbooks.org/feed/",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    },
+    {
+      "id": "icij",
+      "name": "ICIJ",
+      "url": "https://www.icij.org",
+      "desc": "Global network of investigative journalists collaborating on in depth cross border stories",
+      "type": "Investigative network",
+      "category": "news",
+      "tags": ["investigative", "global", "corruption"],
+      "trustScore": 94,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "ICIJ Investigations",
+          "url": "https://www.icij.org/feed/",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "Global"
+    },
+    {
+      "id": "cir",
+      "name": "Center for Investigative Reporting",
+      "url": "https://www.cir.org",
+      "desc": "Nonprofit news organization producing investigative reporting across multiple formats and platforms",
+      "type": "Investigative newsroom",
+      "category": "news",
+      "tags": ["investigative", "united-states", "nonprofit"],
+      "trustScore": 91,
+      "capabilities": ["rss-feed", "site-search"],
+      "verified": "2026-09-19",
+      "feeds": [
+        {
+          "name": "Reveal News Feed",
+          "url": "https://revealnews.org/feed/",
+          "format": "rss"
+        }
+      ],
+      "lang": "en",
+      "region": "United States"
+    }
+  ]
+}

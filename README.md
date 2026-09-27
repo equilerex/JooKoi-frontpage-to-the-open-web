@@ -51,5 +51,5 @@ pnpm run ux:smoke
 ## Architecture & documentation
 
 - Whole-system structure and decisions: [`_architecture/ARCHITECTURE.md`](_architecture/ARCHITECTURE.md)
-- Outstanding work and live status: [`_architecture/TODO.md`](_architecture/TODO.md)
-- Architectural Decision Records: [`_architecture/plans/decisions/`](_architecture/plans/decisions/)
+- Outstanding work: `_architecture/items.yaml`, read through the `jookoi-paper-trail` script (`list`, `render`)
+- Why rules exist: [`_architecture/plans/decision-history/`](_architecture/plans/decision-history/index.md)

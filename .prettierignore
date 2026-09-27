@@ -12,7 +12,11 @@ graphify-out
 
 # Vendored external content
 content/library
+# Skills synced from jookoi-ai-market (scripts/sync-skills.mjs there). Reformatting
+# them makes the copy look newer than the source, and the sync then skips it.
+.agents/skills
 
 # Generated build artifacts
 src/app/shared/library-content/**/*.generated.ts
 src/app/shared/library-content/library-index.generated.ts
+src/app/shared/curated-websites/*.generated.ts

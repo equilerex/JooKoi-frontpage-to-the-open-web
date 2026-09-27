@@ -7,10 +7,12 @@
   "scripts": {
     "ng": "ng",
     "start": "node scripts/primeui-license.mjs && ng serve",
-    "build": "node scripts/primeui-license.mjs && node scripts/build-library-content.mjs && ng build --stats-json",
+    "build": "node scripts/primeui-license.mjs && node scripts/build-library-content.mjs && node scripts/build-sources.mjs && ng build --stats-json",
     "watch": "node scripts/primeui-license.mjs && ng build --watch --configuration development",
     "content": "node scripts/build-library-content.mjs",
     "content:sync": "node scripts/sync-learn-content.mjs",
+    "sources": "node scripts/build-sources.mjs",
+    "sources:verify": "node scripts/verify-sources.mjs",
     "test": "node scripts/primeui-license.mjs && ng test",
     "test:ci": "node scripts/primeui-license.mjs && ng test --watch=false --browsers=chromiumHeadless",
     "ux:smoke": "node scripts/ux-smoke.mjs",
