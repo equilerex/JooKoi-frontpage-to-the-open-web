@@ -1,6 +1,6 @@
 # Paper-trail store migration
 
-Session: 27-09-2026 16:52. Status: store, TODO fold, path fixes and items done. Decision triage open as jah4 Triage decision-history files into live docs.
+Session: 27-09-2026 16:52. Status: complete. Decisions triaged (9 kept in plans/decision-history/, 28 deleted or folded into live docs), finished plans moved to plans/implemented/.
 
 ## Context
 
@@ -54,3 +54,4 @@ No `git add`, `git mv` or commits. The user commits.
 - **`TODO.md`** had nothing the store and `ARCHITECTURE.md` did not already hold except the stage summary, which replaced the stale Stage line in `AGENTS.md`.
 - **Left untouched:** `plans/decisions/` mentions inside `content/library/` (vendored from `JooKoi-developer-stack`, they describe that repo), its generated modules, `llm-progress-complete.jsonl` (append-only log), `.claude/settings.local.json`.
 - Decision 027 was missing `## Options considered`, flagged by `check`. Added from the two options its own Problem section names.
+- **Decision triage and plan reorganization completed.** 9 decisions kept in `plans/decision-history/` (001, 002, 004, 006, 011, 027, 031, 032, 033), 28 deleted or folded into live docs, index.md updated, and finished plans moved to `plans/implemented/`.
