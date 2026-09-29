@@ -78,8 +78,8 @@
 }
 
 .feed-item {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 4.5ch minmax(0, 1fr) auto auto;
   align-items: baseline;
   gap: var(--space-2) var(--space-3);
   padding: var(--space-3) var(--space-4);
@@ -97,9 +97,44 @@
 }
 
 .feed-title {
-  flex: 1 1 24ch;
   color: var(--text-primary);
   text-decoration: none;
+}
+
+.feed-remove {
+  font: 500 var(--text-sm) / 1 var(--font-mono);
+  color: var(--text-muted);
+  background: none;
+  border: 0;
+  padding: var(--space-1) var(--space-2);
+  cursor: pointer;
+}
+
+.feed-remove:hover {
+  color: var(--text-accent);
+}
+
+/* Narrow: headline gets its own full-width row under date, source and remove. */
+@media (max-width: 40rem) {
+  .feed-item {
+    grid-template-columns: 4.5ch minmax(0, 1fr) auto;
+  }
+
+  .feed-source {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  .feed-remove {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .feed-title {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
 }
 
 .feed-title:hover {

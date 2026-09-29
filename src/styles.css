@@ -357,6 +357,29 @@
     border-bottom: 1px solid var(--border-panel);
   }
 
+  .joo-record-grid th.p-sortable-column {
+    cursor: pointer;
+    user-select: none;
+    transition: color var(--duration-fast, 120ms) var(--ease-out, ease-out);
+  }
+
+  .joo-record-grid th.p-sortable-column:hover {
+    color: var(--text-primary);
+  }
+
+  .joo-record-grid th.p-sortable-column.p-sortable-column-sorted {
+    color: var(--color-cyan, #00f0ff);
+  }
+
+  .joo-record-grid th .p-sortable-column-icon,
+  .joo-record-grid th p-sort-icon,
+  .joo-record-grid th p-sorticon {
+    display: inline-flex;
+    align-items: center;
+    margin-left: var(--space-1);
+    vertical-align: middle;
+  }
+
   .joo-record-grid td {
     padding: var(--space-2) var(--space-3);
     vertical-align: top;

@@ -2,9 +2,9 @@
   <joo-toolbar-row templateToolbar>
     <div>
       <joo-eyebrow-label>Search results</joo-eyebrow-label>
-      @if (kw()) {
+      @if (q()) {
         <h1 class="search-title">
-          Sources for <span class="mono">{{ kw() }}</span>
+          Sources for <span class="mono">{{ q() }}</span>
         </h1>
       } @else {
         <h1 class="search-title">All sources</h1>
@@ -17,18 +17,7 @@
 
   <joo-readout-panel templateRack label="Filters" led="amber">
     <div class="rack-group">
-      <joo-field-label for="f-keyword">Keyword</joo-field-label>
-      <joo-console-input
-        inputId="f-keyword"
-        size="compact"
-        placeholder="Filter results"
-        [value]="kwInput()"
-        (valueChange)="onKeywordChange($event)"
-      />
-    </div>
-
-    <div class="rack-group">
-      <joo-field-label>Trust</joo-field-label>
+      <joo-field-label>Trust tier</joo-field-label>
       <joo-stompbox-toggle color="cyan" [on]="trustedOnly()" (onChange)="onTrustedToggle()">
         Trusted only
       </joo-stompbox-toggle>
@@ -106,29 +95,19 @@
     <span panelHead class="panel-meta">sources, not pages</span>
 
     <div class="rack-group query-group">
-      <joo-field-label for="f-query">Query</joo-field-label>
+      <joo-field-label for="f-query">Search sources</joo-field-label>
       <joo-console-input
         inputId="f-query"
         size="lg"
-        placeholder="css grid, estonian news, rss readers"
+        placeholder="Search by name, topic, tag or domain..."
         [value]="queryInput()"
-        (valueChange)="queryInput.set($event)"
+        (valueChange)="onQueryInput($event)"
         (blurred)="onQueryCommit($event)"
         (submitted)="onQueryCommit($event)"
       >
         <joo-hardware-key accent="hot" (press)="onBulkOpen()">Update</joo-hardware-key>
       </joo-console-input>
     </div>
-
-    <joo-toolbar-row class="sort-toolbar">
-      <joo-field-label>Sort</joo-field-label>
-      <joo-segment-selector
-        [options]="sortOptions"
-        [value]="sortMode()"
-        ariaLabel="Sort"
-        (valueChange)="onSortChange($event)"
-      />
-    </joo-toolbar-row>
 
     <div
       class="active-filters-drawer"
@@ -156,22 +135,17 @@
       [rows]="rows()"
       [columns]="resultColumns"
       [virtual]="true"
+      [sortable]="true"
+      [sortField]="sortField()"
+      [sortOrder]="sortOrder()"
       [rowHeight]="52"
       ariaLabel="Search results"
       emptyMessage="No matches. Try different filters."
+      (sortChange)="onSortChange($event)"
     >
       <ng-template jooRecordGridCell="name" [rows]="rows()" let-row>
         <a class="src-name" [href]="row.url" target="_blank" rel="noopener">{{ row.name }}</a>
         <span class="src-domain">{{ row.domain }}</span>
-      </ng-template>
-      <ng-template jooRecordGridCell="trust" [rows]="rows()" let-row>
-        <joo-classification-badge
-          [variant]="
-            row.trust === 'Trusted' ? 'solid' : row.trust === 'Known' ? 'dashed' : 'double'
-          "
-        >
-          {{ row.trust }}
-        </joo-classification-badge>
       </ng-template>
       <ng-template jooRecordGridCell="sig" [rows]="rows()" let-row>
         <span class="sigs">

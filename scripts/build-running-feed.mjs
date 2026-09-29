@@ -63,8 +63,16 @@ function decodeHtmlEntities(str) {
 function cleanText(raw) {
   if (!raw) return '';
   const noCdata = raw.replace(/<!\[CDATA\[(.*?)\]\]>/gis, '$1');
-  const noTags = noCdata.replace(/<[^>]+>/g, ' ');
+  // Atom `type="html"` feeds escape their markup (&lt;p&gt;), so decode before stripping tags.
+  const noTags = decodeHtmlEntities(noCdata).replace(/<[^>]+>/g, ' ');
   return decodeHtmlEntities(noTags).replace(/\s+/g, ' ').trim();
+}
+
+// Inner text of the first matching element. Skips attributes (e.g. <content type="html">)
+// and self-closing tags (<link href="..." />).
+function tagText(block, names) {
+  const m = block.match(new RegExp(String.raw`<(${names})\b[^>]*?(?<!/)>(.*?)</\1>`, 'is'));
+  return m ? m[2] : '';
 }
 
 function parseFeedXml(xml, source) {
@@ -74,20 +82,17 @@ function parseFeedXml(xml, source) {
   const itemMatches = xml.matchAll(/<item[\s>](.*?)<\/item>/gis);
   for (const match of itemMatches) {
     const itemBlock = match[1];
-    const titleMatch = itemBlock.match(/<title[\s>](.*?)<\/title>/is);
-    const linkMatch =
-      itemBlock.match(/<link[\s>](.*?)<\/link>/is) ||
-      itemBlock.match(/<link[^>]+href=["'](.*?)["']/is);
-    const dateMatch = itemBlock.match(/<(pubDate|dc:date|published|updated)[\s>](.*?)<\/\1>/is);
-    const descMatch = itemBlock.match(/<(description|content:encoded|summary)[\s>](.*?)<\/\1>/is);
+    const rawDate = tagText(itemBlock, 'pubDate|dc:date|published|updated');
 
-    const title = cleanText(titleMatch ? titleMatch[1] : '');
-    const link = linkMatch ? cleanText(linkMatch[1]) : '';
-    const desc = cleanText(descMatch ? descMatch[2] : '');
+    const title = cleanText(tagText(itemBlock, 'title'));
+    const link = cleanText(
+      tagText(itemBlock, 'link') || itemBlock.match(/<link[^>]+href=["'](.*?)["']/is)?.[1] || '',
+    );
+    const desc = cleanText(tagText(itemBlock, 'description|content:encoded|summary'));
 
     let publishedAt = new Date().toISOString();
-    if (dateMatch && dateMatch[2]) {
-      const parsedDate = new Date(dateMatch[2].trim());
+    if (rawDate) {
+      const parsedDate = new Date(rawDate.trim());
       if (!isNaN(parsedDate.getTime())) {
         publishedAt = parsedDate.toISOString();
       }
@@ -113,20 +118,17 @@ function parseFeedXml(xml, source) {
   const entryMatches = xml.matchAll(/<entry[\s>](.*?)<\/entry>/gis);
   for (const match of entryMatches) {
     const entryBlock = match[1];
-    const titleMatch = entryBlock.match(/<title[\s>](.*?)<\/title>/is);
-    const linkMatch =
-      entryBlock.match(/<link[^>]+href=["'](.*?)["']/is) ||
-      entryBlock.match(/<link[\s>](.*?)<\/link>/is);
-    const dateMatch = entryBlock.match(/<(published|updated)[\s>](.*?)<\/\1>/is);
-    const summaryMatch = entryBlock.match(/<(summary|content)[\s>](.*?)<\/\1>/is);
+    const rawDate = tagText(entryBlock, 'published|updated');
 
-    const title = cleanText(titleMatch ? titleMatch[1] : '');
-    const link = linkMatch ? cleanText(linkMatch[1]) : '';
-    const desc = cleanText(summaryMatch ? summaryMatch[2] : '');
+    const title = cleanText(tagText(entryBlock, 'title'));
+    const link = cleanText(
+      entryBlock.match(/<link[^>]+href=["'](.*?)["']/is)?.[1] || tagText(entryBlock, 'link'),
+    );
+    const desc = cleanText(tagText(entryBlock, 'summary|content'));
 
     let publishedAt = new Date().toISOString();
-    if (dateMatch && dateMatch[2]) {
-      const parsedDate = new Date(dateMatch[2].trim());
+    if (rawDate) {
+      const parsedDate = new Date(rawDate.trim());
       if (!isNaN(parsedDate.getTime())) {
         publishedAt = parsedDate.toISOString();
       }

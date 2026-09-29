@@ -27,6 +27,20 @@ export class WireFollowStore {
   toggle(id: string): void {
     const next = new Set(this._followed());
     if (!next.delete(id)) next.add(id);
+    this.commit(next);
+  }
+
+  /** Drop one source from the Wire. While the selection is empty ("show
+   *  every source") there is nothing to delete from, so the selection is
+   *  seeded with `allIds` minus this one. */
+  unfollow(id: string, allIds: Iterable<string>): void {
+    const current = this._followed();
+    const next = current.size ? new Set(current) : new Set(allIds);
+    next.delete(id);
+    this.commit(next);
+  }
+
+  private commit(next: ReadonlySet<string>): void {
     this._followed.set(next);
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify([...next]));

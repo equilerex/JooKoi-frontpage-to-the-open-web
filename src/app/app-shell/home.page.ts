@@ -298,6 +298,10 @@ export class HomePage {
       .map((article) => ({ ...article, date: FEED_DATE.format(new Date(article.publishedAt)) }));
   });
 
+  protected removeFromFeed(sourceId: string): void {
+    this.wireStore.unfollow(sourceId, new Set(RUNNING_FEED_ARTICLES.map((a) => a.sourceId)));
+  }
+
   protected readonly feedMeta = computed(() => {
     const count = this.wireStore.followed().size;
     const scope = count ? `following ${count}` : 'all sources';

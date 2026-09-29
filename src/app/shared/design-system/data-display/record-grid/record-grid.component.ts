@@ -14,6 +14,7 @@ export interface GridColumn<T> {
   readonly field: keyof T & string;
   readonly header: string;
   readonly width?: string;
+  readonly sortable?: boolean;
 }
 
 @Component({
@@ -31,7 +32,11 @@ export class RecordGridComponent<T> {
   readonly scrollHeight = input<string | undefined>(undefined);
   readonly emptyMessage = input('No records.');
   readonly ariaLabel = input('');
+  readonly sortable = input(false);
+  readonly sortField = input<string | undefined>(undefined);
+  readonly sortOrder = input<number>(1);
   readonly rowActivate = output<T>();
+  readonly sortChange = output<{ field: string; order: number }>();
 
   private readonly cellTemplates = contentChildren(RecordGridCellDirective);
   protected readonly cellTemplateByField = computed(() => {

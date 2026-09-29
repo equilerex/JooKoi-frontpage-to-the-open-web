@@ -44,10 +44,19 @@
       @for (item of feedArticles(); track item.link) {
         <li class="feed-item">
           <span class="feed-date">{{ item.date }}</span>
-          <joo-chip>{{ item.sourceName }}</joo-chip>
           <a class="feed-title" [href]="item.link" target="_blank" rel="noopener">{{
             item.title
           }}</a>
+          <joo-chip class="feed-source">{{ item.sourceName }}</joo-chip>
+          <button
+            type="button"
+            class="feed-remove"
+            [attr.aria-label]="'Remove ' + item.sourceName + ' from RSS'"
+            title="Remove from RSS"
+            (click)="removeFromFeed(item.sourceId)"
+          >
+            ×
+          </button>
         </li>
       }
     </ul>

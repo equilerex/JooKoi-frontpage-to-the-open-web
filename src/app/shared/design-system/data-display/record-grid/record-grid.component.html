@@ -5,8 +5,11 @@
   [virtualScrollItemSize]="rowHeight()"
   [scrollable]="virtual() || !!scrollHeight()"
   [scrollHeight]="scrollHeight() || (virtual() ? '600px' : undefined)"
+  [sortField]="sortField()"
+  [sortOrder]="sortOrder()"
   tableStyleClass="joo-record-grid"
   [pt]="{ table: { 'aria-label': ariaLabel() } }"
+  (onSort)="sortChange.emit($event)"
 >
   <!-- `scope="col"` is not decoration. A `<th>` with no `scope` is only a
        column header by inference, and Vitest 4's `getByRole` is Playwright's
@@ -19,7 +22,21 @@
   <ng-template #header let-cols>
     <tr>
       @for (col of cols; track col.field) {
-        <th scope="col" [attr.data-col]="col.field" [style.width]="col.width">{{ col.header }}</th>
+        @if (sortable() && col.sortable !== false) {
+          <th
+            scope="col"
+            [pSortableColumn]="col.field"
+            [attr.data-col]="col.field"
+            [style.width]="col.width"
+          >
+            {{ col.header }}
+            <p-sort-icon [field]="col.field" />
+          </th>
+        } @else {
+          <th scope="col" [attr.data-col]="col.field" [style.width]="col.width">
+            {{ col.header }}
+          </th>
+        }
       }
     </tr>
   </ng-template>

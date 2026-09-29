@@ -20,10 +20,6 @@ import {
 } from '../shared/design-system/form-controls/chrome-select/chrome-select.component';
 import { ConsoleInputComponent } from '../shared/design-system/form-controls/console-input/console-input.component';
 import { FieldLabelComponent } from '../shared/design-system/form-controls/field-label/field-label.component';
-import {
-  SegmentOption,
-  SegmentSelectorComponent,
-} from '../shared/design-system/form-controls/segment-selector/segment-selector.component';
 import { StompboxToggleComponent } from '../shared/design-system/form-controls/stompbox-toggle/stompbox-toggle.component';
 import { ClassificationBadgeComponent } from '../shared/design-system/indicators/classification-badge/classification-badge.component';
 import { ToolbarRowComponent } from '../shared/design-system/page-layouts/toolbar-row/toolbar-row.component';
@@ -123,17 +119,6 @@ const CAPABILITY_TOGGLES: readonly { readonly value: Capability; readonly label:
   { value: 'site-search', label: 'Has site search' },
   { value: 'public-api', label: 'Has API' },
 ];
-
-const SORT_OPTIONS: readonly SegmentOption[] = [
-  { value: 'relevance', label: 'Relevance' },
-  { value: 'trust', label: 'Trust' },
-  { value: 'verified', label: 'Verified' },
-  { value: 'name', label: 'A–Z' },
-];
-
-function parseSort(raw: string | null | undefined): SortMode {
-  return raw === 'trust' || raw === 'verified' || raw === 'name' ? raw : 'relevance';
-}
 
 function uniqueSorted(values: readonly string[]): readonly string[] {
   return [...new Set(values)].sort((a, b) => a.localeCompare(b));
@@ -271,10 +256,8 @@ const LANG_OPTIONS = toSelectOptions(
     StompboxToggleComponent,
     ChromeSelectComponent,
     ConsoleInputComponent,
-    SegmentSelectorComponent,
     RecordGridComponent,
     RecordGridCellDirective,
-    ClassificationBadgeComponent,
     CapabilityTagComponent,
     HardwareKeyComponent,
     ChipComponent,
@@ -287,23 +270,19 @@ export class SearchPage {
   private readonly location = inject(Location);
   private readonly destroyRef = inject(DestroyRef);
   protected readonly wire = inject(WireFollowStore);
-  private kwDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+  private queryDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
   private readonly initialParams = this.route.snapshot.queryParamMap;
+  private readonly initialQuery = this.initialParams.get('q') ?? this.initialParams.get('kw') ?? '';
 
-  protected readonly q = signal(this.initialParams.get('q') ?? '');
-  /** Text currently in the results query box, linked to `q`. */
-  protected readonly queryInput = linkedSignal(() => this.q());
-  /** Search↗ href query, updated on submit/blur. */
-  protected readonly appliedQuery = linkedSignal(() => this.q());
+  /** Text currently in the search input box, updated immediately for snappy typing. */
+  protected readonly queryInput = signal(this.initialQuery);
 
-  /** Text currently in the keyword input box, updated immediately for snappy typing. */
-  protected readonly kwInput = signal(this.initialParams.get('kw') ?? '');
-
-  /** Keyword filter state, debounced slightly on typing to prevent animation storm in table. */
-  protected readonly kw = signal(this.initialParams.get('kw') ?? '');
+  /** Active query applied to table filtering and direct-search links, debounced on typing. */
+  protected readonly q = signal(this.initialQuery);
 
   protected readonly trustedOnly = signal(this.initialParams.get('trusted') === '1');
+
   /** Unrecognised values (a hand-edited or stale URL) are silently inert —
    *  the `.has()` check below never matches a `Capability` that a stray
    *  string can't equal, so a garbage `caps` param filters nothing rather
@@ -316,12 +295,18 @@ export class SearchPage {
   protected readonly categoryFilter = signal(this.initialParams.get('category') ?? '');
   protected readonly langFilter = signal(this.initialParams.get('lang') ?? '');
   protected readonly tagFilter = signal(this.initialParams.get('tag') ?? '');
-  protected readonly sortMode = signal<SortMode>(parseSort(this.initialParams.get('sort')));
+  protected readonly sortField = signal<string | undefined>(
+    this.initialParams.get('sortField') ??
+      (this.initialParams.get('sort') ? this.initialParams.get('sort')! : undefined),
+  );
+  protected readonly sortOrder = signal<number>(
+    this.initialParams.get('sortOrder') === '-1' ? -1 : 1,
+  );
 
   constructor() {
     this.destroyRef.onDestroy(() => {
-      if (this.kwDebounceTimer) {
-        clearTimeout(this.kwDebounceTimer);
+      if (this.queryDebounceTimer) {
+        clearTimeout(this.queryDebounceTimer);
       }
     });
 
@@ -333,7 +318,6 @@ export class SearchPage {
 
   protected readonly showLangFilter = DISTINCT_LANGS.length > 1;
   protected readonly capabilityToggles = CAPABILITY_TOGGLES;
-  protected readonly sortOptions = SORT_OPTIONS;
   protected readonly typeOptions = TYPE_OPTIONS;
   protected readonly regionOptions = REGION_OPTIONS;
   protected readonly categoryOptions = CATEGORY_OPTIONS;
@@ -344,20 +328,17 @@ export class SearchPage {
   protected readonly categoryChipOptions = CATEGORY_OPTIONS.filter((option) => option.value);
 
   protected readonly resultColumns: readonly GridColumn<SearchRow>[] = [
-    { field: 'name', header: 'Source' },
-    { field: 'trust', header: 'Trust' },
-    { field: 'desc', header: 'About' },
-    { field: 'type', header: 'Type' },
-    { field: 'sig', header: 'Signals' },
-    { field: 'lang', header: 'Lang' },
-    { field: 'ver', header: 'Verified' },
-    { field: 'src', header: 'Src' },
-    { field: 'act', header: '' },
+    { field: 'name', header: 'Source', sortable: true },
+    { field: 'desc', header: 'About', sortable: false },
+    { field: 'type', header: 'Type', sortable: true },
+    { field: 'sig', header: 'Signals', sortable: false },
+    { field: 'lang', header: 'Lang', sortable: true },
+    { field: 'ver', header: 'Verified', sortable: true },
+    { field: 'src', header: 'Src', sortable: false },
+    { field: 'act', header: '', sortable: false },
   ];
 
-  /** Filters (every field but sort), applied in the order the rack lists
-   *  them. Order doesn't change the result set — every step is an
-   *  intersection — but matches the rack for readability. */
+  /** Filters applied in the order the rack lists them. */
   private readonly filteredSources = computed<readonly Source[]>(() => {
     let sources: readonly Source[] = ALL_SOURCES;
 
@@ -387,20 +368,19 @@ export class SearchPage {
     if (tag) {
       sources = sources.filter((source) => source.tags.includes(tag));
     }
-    const kw = this.kw();
-    if (kw.trim()) {
-      sources = filterByQuery(sources, kw);
+    const q = this.q().trim();
+    if (q) {
+      sources = filterByQuery(sources, q);
     }
     return sources;
   });
 
-  protected readonly sortedSources = computed(() =>
-    sortSources(this.filteredSources(), this.sortMode(), this.kw()),
-  );
-
   protected readonly rows = computed<readonly SearchRow[]>(() => {
-    const q = this.appliedQuery();
-    return this.sortedSources().map((source) => this.toSearchRow(source, q));
+    const q = this.q().trim();
+    const sources = q
+      ? sortSources(this.filteredSources(), 'relevance', q)
+      : this.filteredSources();
+    return sources.map((source) => this.toSearchRow(source, q));
   });
 
   protected readonly isCapActive = computed(() => {
@@ -466,12 +446,12 @@ export class SearchPage {
         clear: () => this.onLangChange(null),
       });
     }
-    const kw = this.kw();
-    if (kw) {
+    const q = this.q().trim();
+    if (q) {
       filters.push({
-        key: 'kw',
-        label: `Keyword: ${kw}`,
-        clear: () => this.onKeywordChange(''),
+        key: 'q',
+        label: `Query: ${q}`,
+        clear: () => this.onQueryCommit(''),
       });
     }
     return filters;
@@ -517,8 +497,6 @@ export class SearchPage {
     const params = new URLSearchParams();
     const qVal = this.q().trim();
     if (qVal) params.set('q', qVal);
-    const kwVal = this.kw().trim();
-    if (kwVal) params.set('kw', kwVal);
     if (this.trustedOnly()) params.set('trusted', '1');
     if (this.caps().size) params.set('caps', [...this.caps()].join(','));
     const typeVal = this.typeFilter();
@@ -531,23 +509,20 @@ export class SearchPage {
     if (langVal) params.set('lang', langVal);
     const tagVal = this.tagFilter();
     if (tagVal) params.set('tag', tagVal);
-    if (this.sortMode() !== 'relevance') params.set('sort', this.sortMode());
+    if (this.sortField()) {
+      params.set('sortField', this.sortField()!);
+      params.set('sortOrder', String(this.sortOrder()));
+    }
 
     const qs = params.toString();
     this.location.replaceState('/search', qs ? `?${qs}` : '');
   }
 
   private applyParamMap(map: ParamMap): void {
-    const q = map.get('q') ?? '';
+    const q = map.get('q') ?? map.get('kw') ?? '';
     if (q !== this.q()) {
       this.q.set(q);
-      this.appliedQuery.set(q);
       this.queryInput.set(q);
-    }
-    const kw = map.get('kw') ?? '';
-    if (kw !== this.kw()) {
-      this.kw.set(kw);
-      this.kwInput.set(kw);
     }
     const trusted = map.get('trusted') === '1';
     if (trusted !== this.trustedOnly()) this.trustedOnly.set(trusted);
@@ -566,33 +541,50 @@ export class SearchPage {
     if (lang !== this.langFilter()) this.langFilter.set(lang);
     const tag = map.get('tag') ?? '';
     if (tag !== this.tagFilter()) this.tagFilter.set(tag);
-    const sort = parseSort(map.get('sort'));
-    if (sort !== this.sortMode()) this.sortMode.set(sort);
+    const sortField = map.get('sortField') ?? map.get('sort') ?? undefined;
+    if (sortField !== this.sortField()) this.sortField.set(sortField);
+    const sortOrder = map.get('sortOrder') === '-1' ? -1 : 1;
+    if (sortOrder !== this.sortOrder()) this.sortOrder.set(sortOrder);
   }
 
-  /** Sidebar Keyword field — updates `kwInput` immediately while debouncing `kw` and URL memory.
+  /** Search input field — updates `queryInput` immediately while debouncing `q` and URL memory.
    *  Prevents rapid-fire DOM animation thrashing when typing fast. */
-  protected onKeywordChange(value: string): void {
-    this.kwInput.set(value);
-    if (this.kwDebounceTimer) {
-      clearTimeout(this.kwDebounceTimer);
+  protected onQueryInput(value: string): void {
+    this.queryInput.set(value);
+    if (this.queryDebounceTimer) {
+      clearTimeout(this.queryDebounceTimer);
     }
-    if (!value) {
-      this.kw.set('');
+    if (!value.trim()) {
+      this.q.set('');
       this.syncUrl();
       return;
     }
-    this.kwDebounceTimer = setTimeout(() => {
-      this.kw.set(value);
+    this.queryDebounceTimer = setTimeout(() => {
+      this.q.set(value.trim());
       this.syncUrl();
     }, 120);
   }
 
-  /** Blur or Enter commits the box into Search↗ hrefs and updates URL memory. */
+  /** Blur, Enter, or Update button commits the box into query immediately. */
   protected onQueryCommit(value: string): void {
+    if (this.queryDebounceTimer) {
+      clearTimeout(this.queryDebounceTimer);
+    }
     const trimmed = value.trim();
+    this.queryInput.set(trimmed);
     this.q.set(trimmed);
-    this.appliedQuery.set(trimmed);
+    this.syncUrl();
+  }
+
+  /** Table header sort change — updates `sortField` and `sortOrder`. */
+  protected onSortChange(event: { field: string; order: number }): void {
+    this.sortField.set(event.field);
+    this.sortOrder.set(event.order);
+    this.syncUrl();
+  }
+
+  protected onTrustedToggle(): void {
+    this.trustedOnly.update((v) => !v);
     this.syncUrl();
   }
 
@@ -600,11 +592,6 @@ export class SearchPage {
    *  is not how the query is applied. */
   protected onBulkOpen(): void {
     return;
-  }
-
-  protected onTrustedToggle(): void {
-    this.trustedOnly.update((v) => !v);
-    this.syncUrl();
   }
 
   protected onCapabilityToggle(cap: Capability): void {
@@ -642,11 +629,6 @@ export class SearchPage {
 
   protected onLangChange(value: string | null): void {
     this.langFilter.set(value ?? '');
-    this.syncUrl();
-  }
-
-  protected onSortChange(mode: string): void {
-    this.sortMode.set(parseSort(mode));
     this.syncUrl();
   }
 }
