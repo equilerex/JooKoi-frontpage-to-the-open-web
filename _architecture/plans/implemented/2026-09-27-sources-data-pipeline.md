@@ -31,10 +31,10 @@ Validation fails the build with file and record named: duplicate `id` across fil
 
 Outputs, under `src/app/shared/curated-websites/`:
 
-| File | Contents | Imported by |
-|---|---|---|
-| `sources.generated.ts` | `ALL_SOURCES: readonly Source[]`, sorted by `id` | `search.page.ts` only (lazy route chunk) |
-| `source-stats.generated.ts` | `SOURCE_COUNT`, category and tag counts, top tags, the home highlight set (top N by trust, already reduced to the fields the row needs) | shell, `home.page.ts` |
+| File                        | Contents                                                                                                                                | Imported by                              |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `sources.generated.ts`      | `ALL_SOURCES: readonly Source[]`, sorted by `id`                                                                                        | `search.page.ts` only (lazy route chunk) |
+| `source-stats.generated.ts` | `SOURCE_COUNT`, category and tag counts, top tags, the home highlight set (top N by trust, already reduced to the fields the row needs) | shell, `home.page.ts`                    |
 
 The split is what removes the dataset from main and from the home chunk. Home stays prerendered and stays static, no `httpResource` and no fetch at runtime. The script owns `HIGHLIGHT_COUNT`, `TAG_PANEL_COUNT` and the highlight order (trust descending, then `name.localeCompare`, the same rule as `sortByTrust` in `source-search.ts:220`) and writes them into `source-stats.generated.ts`. Home imports them from there. A `.mjs` script cannot import a `.ts` constants file, so the script is the single owner.
 

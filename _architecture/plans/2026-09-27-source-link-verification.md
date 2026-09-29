@@ -14,12 +14,12 @@ Run by hand, monthly or after adding a batch. Not scheduled and not in CI: `prin
 
 Checks per record, built-in `fetch` only:
 
-| Target | Check | Pass |
-|---|---|---|
-| `url` | `HEAD`, fall back to `GET` on 405 or 501 | final status 2xx |
-| `searchUrl` | `GET` with `{q}` substituted by a fixed probe term (`test`) | 2xx, and the final URL still carries the term (catches search that redirects to the homepage) |
-| `feeds[].url` | `GET` | 2xx and the body starts like XML or JSON |
-| `sourceUrl` | `HEAD` | 2xx |
+| Target        | Check                                                       | Pass                                                                                          |
+| ------------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `url`         | `HEAD`, fall back to `GET` on 405 or 501                    | final status 2xx                                                                              |
+| `searchUrl`   | `GET` with `{q}` substituted by a fixed probe term (`test`) | 2xx, and the final URL still carries the term (catches search that redirects to the homepage) |
+| `feeds[].url` | `GET`                                                       | 2xx and the body starts like XML or JSON                                                      |
+| `sourceUrl`   | `HEAD`                                                      | 2xx                                                                                           |
 
 Politeness and determinism: one request at a time per host, a small global concurrency (6), 10 s timeout, one retry on network error, an honest `User-Agent` naming the project and repo. Redirects are followed, and the final URL is recorded.
 

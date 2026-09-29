@@ -4,7 +4,7 @@ The domain: the websites this app lists and links out to. Models, data access, t
 
 Rules: ADRs `005` (vocabulary, folders) and `010` (state). Full map: `_architecture/ARCHITECTURE.md`.
 
-> `source.model.ts`, `source-search.ts` (+ spec) and two generated modules exist: `sources.generated.ts` (every record, imported only by `/search`) and `source-stats.generated.ts` (counts, top tags, home highlights, for the shell and home). Both are written by `scripts/build-sources.mjs` from `sources/*.json`, committed, never hand-edited. Authoring rules for records, including the outbound-link rules below: `sources/CONTEXT.md`. The store, service and components below are still unbuilt.
+> `source.model.ts`, `source-search.ts` (+ spec) and three generated modules exist: `sources.generated.ts` (every record, imported only by `/search`), `source-stats.generated.ts` (counts, top tags, home highlights, for the shell and home), and `running-feed.generated.ts` (pre-compiled feed articles from `scripts/build-running-feed.mjs`). All are committed, never hand-edited. Authoring rules for records, including the outbound-link rules below: `sources/CONTEXT.md`. The store, service and components below are still unbuilt.
 
 ## Outbound links on a `Source`
 

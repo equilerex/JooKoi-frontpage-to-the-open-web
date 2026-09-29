@@ -27,7 +27,7 @@ Follow the workflow in `.agents/planning-before-implementation.md` Part 7. Verif
 | `.agents/context/principles.md`                           | Product constraints (static, client-side, send to sources)                |
 | `.agents/context/product-concept.md` sections 20 to 22    | Accessibility, local-only use, client-heavy architecture                  |
 | `_architecture/sitemap.yaml`                              | Page types and routes, `mvp` vs `parked`                                  |
-| `_architecture/plans/decision-history/001-*`, `002-*`            | Design direction and the phase order                                      |
+| `_architecture/plans/decision-history/001-*`, `002-*`     | Design direction and the phase order                                      |
 | `features/design-theme/CONTEXT.md`                        | How the CSS system is built. Phase 1 must be able to host it              |
 | `_architecture/plans/2026-08-22-dev-stack-plan.md` Part 1 | Existing repo layout intent (`sources/`, `data/`, `scripts/`, `.agents/`) |
 

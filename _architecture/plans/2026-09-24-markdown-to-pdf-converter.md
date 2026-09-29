@@ -1,4 +1,5 @@
 # markdown-to-pdf-converter
+
 <!-- Plan for client-side Markdown to PDF converter tool. jookoi-paper-trail. -->
 
 Session: 24-09-2026 00:15. Status: updated to modal-based workflow matching JooKoi-md-archive.
@@ -14,13 +15,16 @@ Replicating the pattern from `JooKoi-md-archive`, this page provides a focused d
 ## Core requirements
 
 ### R1. Modal-based content entry
+
 - Markdown text is entered inside a modal dialog window.
 - The modal provides a spacious textarea, a sample loader, a Cancel button, and an Apply button.
 - Clicking Apply renders the markdown to HTML, updates the reading canvas, and dismisses the modal.
 - When no document has been pasted yet, the canvas displays a clean empty state with a call-to-action button to open the paste modal.
 
 ### R2. Rendering parity with archive pages
+
 The canvas renders Markdown using the exact same parser rules and styling as the library reader:
+
 - GitHub Flavored Markdown (GFM) including tables, autolinks, and strikethrough.
 - Heading slugs matching the anchor generator.
 - Code blocks with syntax block styling.
@@ -28,7 +32,9 @@ The canvas renders Markdown using the exact same parser rules and styling as the
 - Container structure matching `joo-paper-sheet` and `joo-prose-content`.
 
 ### R3. Strict print isolation
+
 The browser print engine must output only the rendered document:
+
 - All surrounding shell elements hidden via `@media print`: `joo-horizon-backdrop`, `joo-heads-up-display-header`, `footer.shell-footer`, `joo-mobile-bottom-dock`.
 - The shell content container `main.page` reset to full width with zero padding and margins.
 - All page toolbars, floating action buttons, and modal dialogs hidden during print.
@@ -38,11 +44,13 @@ The browser print engine must output only the rendered document:
 - Link pseudo-element URL expansions suppressed.
 
 ### R4. Zero bundle bloat
+
 - Routed lazily via `loadComponent` under `/tools/markdown-to-pdf`.
 - `marked` imported on demand when the tool page initializes.
 - `mermaid` imported dynamically only when diagrams are present in the document.
 
 ### R5. Local privacy and SSR safety
+
 - All parsing and rendering executes strictly inside the client browser. No text is ever transmitted across the network.
 - All browser globals (`window`, `localStorage`) guarded against server execution so SSR and static prerendering build cleanly.
 
@@ -66,12 +74,14 @@ The browser print engine must output only the rendered document:
 ## Detailed UI and UX design
 
 ### Main reading canvas
+
 - Centered `joo-paper-sheet` containing `joo-prose-content`.
 - When content is empty: shows a clean prompt with an "Open Markdown Input" button.
 - When content is loaded: shows the rendered document.
 - Floating or top toolbar with "Paste / Edit Markdown" and "Print / Save PDF" buttons. Both buttons are marked with `.no-print` to disappear during print.
 
 ### Markdown input modal
+
 - Triggered by clicking "Paste / Edit Markdown" or the empty state button.
 - Modal backdrop and centered card with header, textarea, and action buttons.
 - Keyboard shortcuts: Escape to dismiss, Ctrl+Enter / Cmd+Enter to apply.
@@ -82,6 +92,7 @@ The browser print engine must output only the rendered document:
   - "Apply" (parses markdown, updates canvas, runs mermaid if needed, and closes modal).
 
 ### Print layout styling
+
 ```css
 @media print {
   /* Force exact color printing */
@@ -110,7 +121,8 @@ The browser print engine must output only the rendered document:
   }
 
   /* Reset body and page backgrounds */
-  body, html {
+  body,
+  html {
     background: #ffffff !important;
     color: #000000 !important;
   }
@@ -146,12 +158,18 @@ The browser print engine must output only the rendered document:
   }
 
   /* Prevent awkward page breaks */
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     break-after: avoid;
     page-break-after: avoid;
   }
 
-  pre, blockquote, table, .mermaid {
+  pre,
+  blockquote,
+  table,
+  .mermaid {
     break-inside: avoid;
     page-break-inside: avoid;
   }

@@ -20,3 +20,6 @@ content/library
 src/app/shared/library-content/**/*.generated.ts
 src/app/shared/library-content/library-index.generated.ts
 src/app/shared/curated-websites/*.generated.ts
+
+# Script-owned by jookoi-paper-trail; the script rewrites it unformatted
+_architecture/items.yaml

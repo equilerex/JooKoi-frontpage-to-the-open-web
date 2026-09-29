@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
-const CODE = /\.(?:ts|html|css|scss|mjs|js|json)$/;
+const CODE = /\.(?:ts|html|css|scss|mjs|js|json|md|ya?ml)$/;
 const SKIP = /(?:^|\/)(?:pnpm-lock\.yaml|package-lock\.json|dist|\.angular)\//;
 
 // Windows cannot spawn a `.cmd` shim without a shell, so every command goes

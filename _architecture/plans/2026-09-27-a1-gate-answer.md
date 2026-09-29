@@ -10,12 +10,12 @@ This matters now because the other three 27-09-2026 plans are each justified by 
 
 ## Where each claim stands today
 
-| Claim | Delivered? | Evidence |
-|---|---|---|
-| 1. Verified URLs | No | `verified` is a hand-typed date. No checker exists. `2026-09-27-source-link-verification` builds it. |
-| 2. Persistence | Partly | 313 curated records in git, stable and revisitable. But they sit in one TS file no editor workflow touches, and the curation step (`source-ingest`) was never built. |
-| 3. Action, not answer | Mostly | Per-row Search↗ runs the query on the source's own search. Missing: reaching it without first opening the app, and routing to one named source. `2026-09-27-browser-search-integration` covers both. |
-| 4. No network dependency at read time | Yes | Static prerendered build, client-side filtering, no model or API calls. |
+| Claim                                 | Delivered? | Evidence                                                                                                                                                                                             |
+| ------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. Verified URLs                      | No         | `verified` is a hand-typed date. No checker exists. `2026-09-27-source-link-verification` builds it.                                                                                                 |
+| 2. Persistence                        | Partly     | 313 curated records in git, stable and revisitable. But they sit in one TS file no editor workflow touches, and the curation step (`source-ingest`) was never built.                                 |
+| 3. Action, not answer                 | Mostly     | Per-row Search↗ runs the query on the source's own search. Missing: reaching it without first opening the app, and routing to one named source. `2026-09-27-browser-search-integration` covers both. |
+| 4. No network dependency at read time | Yes        | Static prerendered build, client-side filtering, no model or API calls.                                                                                                                              |
 
 ## Draft for the user to rewrite
 

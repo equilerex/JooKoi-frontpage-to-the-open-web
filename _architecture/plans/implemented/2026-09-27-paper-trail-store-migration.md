@@ -10,14 +10,14 @@ The procedure is the skill's `references/legacy-migration.md`. This plan records
 
 ## Scope
 
-| Legacy artifact | Target | Notes |
-|---|---|---|
-| `_architecture/items.json` | `_architecture/items.yaml` | Field-by-field conversion per the reference. `repo: jookoi-frontpage-to-the-open-web`. All 65 items kept with their IDs. Done and dropped items stay in the store until the first `flush`. |
-| `_architecture/TODO.md` | `ARCHITECTURE.md` or `AGENTS.md` | Its one Context paragraph is standing context. Most of it is already in `AGENTS.md` (Stage line) and `ARCHITECTURE.md`. Fold the rest (perf status, CI Lighthouse `continue-on-error` note) where it belongs, then delete. |
-| `_architecture/BACKLOG.md` | none | Already deleted in the working tree. Confirm nothing in it is missing from `items.json` via `find` on its last committed version. |
-| `_architecture/plans/decisions/` (37 files) | live docs or `plans/decision-history/` | Classified per the reference's table. See "Decision triage" below. |
-| `_architecture/archive/2026-09.md`, `archive/index.md` | stay | Flushed TODO history in markdown. Not an items archive, the reference does not convert it. |
-| References to the old paths | current layout | 12 hits for `items.json`, `BACKLOG.md`, `TODO.md`, `plans/decisions` in `AGENTS.md`, `ARCHITECTURE.md`, `.agents/context/*.md`. About 300 "decision NNN" / "ADR NNN" mentions across the repo, handled per file during decision triage. |
+| Legacy artifact                                        | Target                                 | Notes                                                                                                                                                                                                                                   |
+| ------------------------------------------------------ | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `_architecture/items.json`                             | `_architecture/items.yaml`             | Field-by-field conversion per the reference. `repo: jookoi-frontpage-to-the-open-web`. All 65 items kept with their IDs. Done and dropped items stay in the store until the first `flush`.                                              |
+| `_architecture/TODO.md`                                | `ARCHITECTURE.md` or `AGENTS.md`       | Its one Context paragraph is standing context. Most of it is already in `AGENTS.md` (Stage line) and `ARCHITECTURE.md`. Fold the rest (perf status, CI Lighthouse `continue-on-error` note) where it belongs, then delete.              |
+| `_architecture/BACKLOG.md`                             | none                                   | Already deleted in the working tree. Confirm nothing in it is missing from `items.json` via `find` on its last committed version.                                                                                                       |
+| `_architecture/plans/decisions/` (37 files)            | live docs or `plans/decision-history/` | Classified per the reference's table. See "Decision triage" below.                                                                                                                                                                      |
+| `_architecture/archive/2026-09.md`, `archive/index.md` | stay                                   | Flushed TODO history in markdown. Not an items archive, the reference does not convert it.                                                                                                                                              |
+| References to the old paths                            | current layout                         | 12 hits for `items.json`, `BACKLOG.md`, `TODO.md`, `plans/decisions` in `AGENTS.md`, `ARCHITECTURE.md`, `.agents/context/*.md`. About 300 "decision NNN" / "ADR NNN" mentions across the repo, handled per file during decision triage. |
 
 ## Decision triage
 

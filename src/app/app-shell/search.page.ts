@@ -196,37 +196,10 @@ function toSelectOptions(
   ];
 }
 
-export interface FunnelCategory {
-  readonly id: string;
-  readonly label: string;
-  readonly count: number;
-}
-
-export interface FunnelSubType {
-  readonly value: string;
-  readonly label: string;
-  readonly count: number;
-}
-
-export interface FunnelRegion {
-  readonly value: string;
-  readonly label: string;
-  readonly count: number;
-}
-
-export interface TypePillOption {
-  readonly value: string;
-  readonly label: string;
-  readonly count: number;
-}
-
-export interface TypeThemeGroup {
-  readonly id: string;
-  readonly label: string;
-  readonly sourceCount: number;
-  readonly types: readonly TypePillOption[];
-}
-
+const TYPE_OPTIONS = toSelectOptions(
+  'Any type',
+  uniqueSorted(ALL_SOURCES.map((source) => source.type)),
+);
 const REGION_OPTIONS = toSelectOptions(
   'Any region',
   uniqueSorted(
@@ -359,7 +332,7 @@ export class SearchPage {
   protected readonly showLangFilter = DISTINCT_LANGS.length > 1;
   protected readonly capabilityToggles = CAPABILITY_TOGGLES;
   protected readonly sortOptions = SORT_OPTIONS;
-  protected readonly totalSourceCount = ALL_SOURCES.length;
+  protected readonly typeOptions = TYPE_OPTIONS;
   protected readonly regionOptions = REGION_OPTIONS;
   protected readonly categoryOptions = CATEGORY_OPTIONS;
   protected readonly langOptions = LANG_OPTIONS;
@@ -367,118 +340,6 @@ export class SearchPage {
    *  category" sentinel `CATEGORY_OPTIONS` carries for the select has no
    *  chip: an active chip toggling itself off is what clears the filter. */
   protected readonly categoryChipOptions = CATEGORY_OPTIONS.filter((option) => option.value);
-
-  /** Funnel Layer 1: Base Categories / Domains */
-  protected readonly funnelCategories = computed<readonly FunnelCategory[]>(() => {
-    const counts = new Map<string, number>();
-    for (const source of ALL_SOURCES) {
-      counts.set(source.category, (counts.get(source.category) ?? 0) + 1);
-    }
-    return [...counts.entries()]
-      .map(([id, count]) => ({
-        id,
-        label: CATEGORY_LABEL[id] ?? id,
-        count,
-      }))
-      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
-  });
-
-  protected readonly activeCategoryLabel = computed(() => {
-    const cat = this.categoryFilter();
-    return cat ? (CATEGORY_LABEL[cat] ?? cat) : '';
-  });
-
-  /** Funnel Layer 2: Sub-types */
-  protected readonly funnelSubTypes = computed<readonly FunnelSubType[]>(() => {
-    const activeCat = this.categoryFilter();
-    let sources = ALL_SOURCES;
-    if (activeCat) {
-      sources = sources.filter((s) => s.category === activeCat);
-    }
-    const counts = new Map<string, number>();
-    for (const s of sources) {
-      counts.set(s.type, (counts.get(s.type) ?? 0) + 1);
-    }
-    const entries = [...counts.entries()]
-      .map(([value, count]) => ({
-        value,
-        label: value,
-        count,
-      }))
-      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
-
-    return activeCat ? entries : entries.slice(0, 14);
-  });
-
-  /** Funnel Layer 3: Contextual region facet options */
-  protected readonly funnelRegions = computed<readonly FunnelRegion[]>(() => {
-    const activeCat = this.categoryFilter();
-    const activeType = this.typeFilter();
-    let sources = ALL_SOURCES;
-    if (activeCat) {
-      sources = sources.filter((s) => s.category === activeCat);
-    }
-    if (activeType) {
-      sources = sources.filter((s) => s.type === activeType);
-    }
-    const counts = new Map<string, number>();
-    for (const s of sources) {
-      if (s.region) {
-        counts.set(s.region, (counts.get(s.region) ?? 0) + 1);
-      }
-    }
-    return [...counts.entries()]
-      .map(([value, count]) => ({
-        value,
-        label: value,
-        count,
-      }))
-      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
-  });
-
-  /** Signal & trust counts for the active type bucket */
-  protected readonly funnelSignalCounts = computed(() => {
-    const activeCat = this.categoryFilter();
-    const activeType = this.typeFilter();
-    let sources = ALL_SOURCES;
-    if (activeCat) {
-      sources = sources.filter((s) => s.category === activeCat);
-    }
-    if (activeType) {
-      sources = sources.filter((s) => s.type === activeType);
-    }
-    let rss = 0;
-    let search = 0;
-    let api = 0;
-    let trusted = 0;
-    for (const s of sources) {
-      if (s.capabilities.includes('rss-feed')) rss++;
-      if (s.capabilities.includes('site-search')) search++;
-      if (s.capabilities.includes('public-api')) api++;
-      if (s.trustScore >= 80) trusted++;
-    }
-    return { rss, search, api, trusted };
-  });
-
-  protected readonly funnelMeta = computed(() => {
-    const cat = this.categoryFilter();
-    const type = this.typeFilter();
-    const region = this.regionFilter();
-    if (cat && type && region) {
-      return `${this.activeCategoryLabel()} › ${type} › ${region} · ${this.filteredSources().length} sources`;
-    }
-    if (cat && type) {
-      return `${this.activeCategoryLabel()} › ${type} · ${this.filteredSources().length} sources`;
-    }
-    if (cat) {
-      const subCount = this.funnelSubTypes().length;
-      return `${this.activeCategoryLabel()} · ${this.filteredSources().length} sources · ${subCount} types`;
-    }
-    if (type) {
-      return `Type: ${type} · ${this.filteredSources().length} sources`;
-    }
-    return `${this.totalSourceCount} sources across ${this.funnelCategories().length} type buckets`;
-  });
 
   protected readonly resultColumns: readonly GridColumn<SearchRow>[] = [
     { field: 'name', header: 'Source' },
@@ -575,7 +436,7 @@ export class SearchPage {
     if (type) {
       filters.push({
         key: 'type',
-        label: `Type: ${type}`,
+        label: `Type: ${labelFor(TYPE_OPTIONS, type)}`,
         clear: () => this.onTypeChange(null),
       });
     }
@@ -755,64 +616,9 @@ export class SearchPage {
     this.syncUrl();
   }
 
-  /** Funnel Layer 1: Type Bucket (Category) click */
-  protected onCategoryFunnelClick(category: string): void {
-    const nextCat = this.categoryFilter() === category ? '' : category;
-    this.categoryFilter.set(nextCat);
-    if (!nextCat) {
-      this.typeFilter.set('');
-      this.regionFilter.set('');
-      this.syncUrl();
-      return;
-    }
-    const sourcesInCat = ALL_SOURCES.filter((s) => s.category === nextCat);
-    const hasType = sourcesInCat.some((s) => s.type === this.typeFilter());
-    const hasRegion = sourcesInCat.some((s) => s.region === this.regionFilter());
-    if (!hasType) this.typeFilter.set('');
-    if (!hasRegion) this.regionFilter.set('');
-    this.syncUrl();
-  }
-
-  /** Funnel Layer 2: Specific Type click */
-  protected onTypeFunnelClick(type: string): void {
-    const nextType = this.typeFilter() === type ? '' : type;
-    this.typeFilter.set(nextType);
-    if (nextType) {
-      const found = ALL_SOURCES.find((s) => s.type === nextType);
-      if (found && (!this.categoryFilter() || found.category !== this.categoryFilter())) {
-        this.categoryFilter.set(found.category);
-      }
-    }
-    this.syncUrl();
-  }
-
-  /** Funnel Layer 3: Region facet click */
-  protected onRegionFunnelClick(region: string): void {
-    this.regionFilter.set(this.regionFilter() === region ? '' : region);
-    this.syncUrl();
-  }
-
-  /** Clears all funnel levels back to all sources. */
-  protected onResetFunnel(): void {
-    this.categoryFilter.set('');
-    this.typeFilter.set('');
-    this.regionFilter.set('');
-    this.caps.set(new Set());
-    this.trustedOnly.set(false);
-    this.syncUrl();
-  }
-
   protected onTypeChange(value: string | null): void {
     this.typeFilter.set(value ?? '');
     this.syncUrl();
-  }
-
-  protected onTypeChipClick(value: string): void {
-    this.onTypeFunnelClick(value);
-  }
-
-  protected onResetTypeAndCategory(): void {
-    this.onResetFunnel();
   }
 
   protected onRegionChange(value: string | null): void {
@@ -825,8 +631,11 @@ export class SearchPage {
     this.syncUrl();
   }
 
+  /** Category chip click (single-select toggle: clicking the already-active
+   *  chip clears the filter back to "Any category", clicking a different one
+   *  switches to it). */
   protected onCategoryChipClick(value: string): void {
-    this.onCategoryFunnelClick(value);
+    this.onCategoryChange(this.categoryFilter() === value ? null : value);
   }
 
   protected onLangChange(value: string | null): void {

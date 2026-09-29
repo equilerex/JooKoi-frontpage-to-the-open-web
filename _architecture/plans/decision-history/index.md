@@ -1,4 +1,5 @@
 # Decision history
+
 <!-- Background on why rules exist. Maintained by jookoi-paper-trail (new-decision appends here). -->
 
 Background on why rules exist. Not rules. Open a file only when a doc cites it or the user asks why.
@@ -12,3 +13,4 @@ Background on why rules exist. Not rules. Open a file only when a doc cites it o
 - [031 Layered drill-in is the project navigation rule; library proves it](031-layered-drill-in-is-the-project-navigation-rule-library-prov.md): Architectural navigation rule for persistent contextual drill-in hierarchies.
 - [032 Home is lazy, record-grid is a plain table, initial budget 700-900kB](032-home-is-lazy-record-grid-is-a-plain-table-initial-budget-700.md): Performance budget tuning and separation of landing page weight from full search tables.
 - [033 Performance baselines are committed per-commit JSON; Lighthouse is a devDependency; CI is built](033-perf-baselines-are-committed-per-commit-json-lighthouse-is-a-dev.md): Git-tracked performance baseline architecture and automated CI validation.
+- [034 Stop-hook formatter covers md and yaml; items.yaml prettier-ignored](034-stop-hook-formatter-covers-md-and-yaml-items-yaml-prettier-i.md): the Stop hook now formats md and yaml; the script-owned items.yaml is prettier-ignored.
