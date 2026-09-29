@@ -166,3 +166,29 @@
     grid-template-rows: 1fr !important;
   }
 }
+
+/* The RSS signal doubles as the "add to Wire" toggle: same pill, bare button. */
+.sig-toggle {
+  display: inline-flex;
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.sig-toggle:hover joo-capability-tag {
+  color: var(--text-accent);
+  border-color: var(--text-accent);
+}
+
+.sig-toggle--on joo-capability-tag {
+  color: var(--text-accent);
+  border-color: var(--text-accent);
+}
+
+.sig-toggle:focus-visible {
+  outline: 2px solid var(--text-accent);
+  outline-offset: 2px;
+}

@@ -34,6 +34,12 @@ import {
   TAG_COUNTS,
   TOP_TAGS,
 } from '../shared/curated-websites/source-stats.generated';
+import { WireFollowStore } from '../shared/curated-websites/wire-follow.store';
+import {
+  RUNNING_FEED_ARTICLES,
+  RUNNING_FEED_COMPILED_AT,
+  RunningFeedArticle,
+} from '../shared/curated-websites/running-feed.generated';
 import { Capability, Source } from '../shared/curated-websites/source.model';
 import {
   domainOf,
@@ -91,6 +97,17 @@ interface HighlightRow {
   readonly actionHref: string;
   readonly actionAccent: HardwareKeyAccent;
 }
+
+interface FeedRow extends RunningFeedArticle {
+  readonly date: string;
+}
+
+const FEED_LIMIT = 20;
+const FEED_DATE = new Intl.DateTimeFormat('en-GB', {
+  day: 'numeric',
+  month: 'short',
+  timeZone: 'UTC',
+});
 
 interface Tag {
   readonly label: string;
@@ -180,6 +197,7 @@ function searchHref(params: Readonly<Record<string, string>>): string {
 })
 export class HomePage {
   private readonly router = inject(Router);
+  private readonly wireStore = inject(WireFollowStore);
 
   protected readonly scopeOptions: readonly SegmentOption[] = [
     { value: 'trusted', label: 'Trusted' },
@@ -269,6 +287,22 @@ export class HomePage {
 
   protected readonly panelLabel = 'Trusted highlights';
   protected readonly panelMeta = 'recently verified';
+
+  /** Latest articles compiled at build time by `scripts/build-running-feed.mjs`,
+   *  narrowed to the sources followed from `/search`. Dates are absolute: the
+   *  page is prerendered, so a relative "2h ago" would be frozen at build time. */
+  protected readonly feedArticles = computed<readonly FeedRow[]>(() => {
+    const followed = this.wireStore.followed();
+    return RUNNING_FEED_ARTICLES.filter((a) => followed.size === 0 || followed.has(a.sourceId))
+      .slice(0, FEED_LIMIT)
+      .map((article) => ({ ...article, date: FEED_DATE.format(new Date(article.publishedAt)) }));
+  });
+
+  protected readonly feedMeta = computed(() => {
+    const count = this.wireStore.followed().size;
+    const scope = count ? `following ${count}` : 'all sources';
+    return `${scope} · updated ${FEED_DATE.format(new Date(RUNNING_FEED_COMPILED_AT))}`;
+  });
 
   protected readonly tags: readonly Tag[] = TOP_TAGS.map(({ label, count }) => ({
     label,

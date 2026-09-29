@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, computed, DestroyRef, inject, linkedSignal, signal } from '@angular/core';
+import { WireFollowStore } from '../shared/curated-websites/wire-follow.store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import {
@@ -285,6 +286,7 @@ export class SearchPage {
   private readonly route = inject(ActivatedRoute);
   private readonly location = inject(Location);
   private readonly destroyRef = inject(DestroyRef);
+  protected readonly wire = inject(WireFollowStore);
   private kwDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
   private readonly initialParams = this.route.snapshot.queryParamMap;

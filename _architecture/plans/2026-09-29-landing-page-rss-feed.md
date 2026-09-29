@@ -1,6 +1,6 @@
 # Landing page running RSS feed
 
-Session: 29-09-2026 03:25. Status: In progress. Build script implemented and generating articles. UI integration pending.
+Session: 29-09-2026 03:25. Status: Done. UI is unverified in the browser (devtools MCP was unavailable).
 
 ## Context
 
@@ -44,10 +44,13 @@ The feed renders on `src/app/app-shell/home.page.ts` following the retro HUD vis
 
 1. [x] Create `scripts/build-running-feed.mjs` to fetch and parse public XML feeds into static JSON and TypeScript.
 2. [x] Wire `feed:build` script into `package.json` build pipeline.
-3. [ ] Build the UI component for feed article display in `src/app/shared/design-system/data-display/`.
-4. [ ] Integrate feed list into `src/app/app-shell/home.page.ts`.
-5. [ ] Configure GitHub Actions cron to periodically trigger build and redeploy.
+3. [x] Feed panel rendered inline in `home.page.html` (no separate design-system component).
+4. [x] Integrated into `home.page.ts` (latest 20 articles).
+5. [x] Daily `schedule` trigger in `.github/workflows/ci.yml`, deploy runs on `schedule` too.
 
 ## Implementation deviations
 
 - Zero external XML parsing libraries were added. Pure Node.js regex and entity decoding handles RSS 2.0 and Atom 1.0 cleanly without bloat.
+- Feed panel is inline in the home page, not a `data-display/` component: one consumer, so a shared component waits until a second appears.
+- Dates are absolute ("29 Sep"), not relative. The page is prerendered, so "2h ago" would freeze at build time.
+- Add-to-Wire: the RSS signal pill on `/search` is the toggle (home has no RSS pills). `WireFollowStore` (`shared/curated-websites/wire-follow.store.ts`) holds followed ids in `localStorage` (`jookoi.wire.followed`), loaded after first render. Home Wire panel sits above Trusted highlights and shows all sources until something is followed. Only sources already in the compiled feed can appear.

@@ -176,7 +176,30 @@
       <ng-template jooRecordGridCell="sig" [rows]="rows()" let-row>
         <span class="sigs">
           @for (signal of row.sig; track signal.id) {
-            <joo-capability-tag>{{ signal.label }}</joo-capability-tag>
+            @if (signal.id === 'rss-feed') {
+              <button
+                type="button"
+                class="sig-toggle"
+                [class.sig-toggle--on]="wire.followed().has(row.id)"
+                [attr.aria-pressed]="wire.followed().has(row.id)"
+                [attr.aria-label]="
+                  (wire.followed().has(row.id) ? 'Remove ' : 'Add ') + row.name + ' to Wire'
+                "
+                [title]="
+                  wire.followed().has(row.id)
+                    ? 'In your Wire. Click to remove'
+                    : 'Click to add to your Wire'
+                "
+                (click)="wire.toggle(row.id)"
+              >
+                <joo-capability-tag
+                  >{{ wire.followed().has(row.id) ? '✓ ' : '+ '
+                  }}{{ signal.label }}</joo-capability-tag
+                >
+              </button>
+            } @else {
+              <joo-capability-tag>{{ signal.label }}</joo-capability-tag>
+            }
           }
         </span>
       </ng-template>

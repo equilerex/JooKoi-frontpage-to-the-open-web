@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Daily rebuild refreshes the compiled RSS feed on the landing page.
+  schedule:
+    - cron: '17 5 * * *'
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -65,7 +68,7 @@ jobs:
 
   deploy:
     needs: verify
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'schedule')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
