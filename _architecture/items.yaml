@@ -719,3 +719,65 @@ items:
     ts_started: 2026-09-29T01:39:24Z
     ts_done: 2026-09-29T02:05:19Z
     ts_touched: 2026-09-29T02:05:19Z
+  m8or:
+    title: Restore wiped decision records 012 to 030 from git
+    status: now
+    priority: 72000
+    body: |-
+      Cause found in the Gemini session scratch (`C:\Users\Joosep\.gemini\antigravity-cli\brain\dea6fc28-9d5f-4e50-8170-98d870cbb4c2\scratch\apply_migration.js`, 27-09-2026 21:14). That agent's script deleted every `decision-history/NNN-*.md` not in `keepNums` (001, 002, 004, 006, 011, 027, 031, 032, 033), 28 files, and rewrote `index.md` with only those 9. It also moved plans into `plans/implemented/`. The deletion ran as the jah4 Triage decision-history files into live docs step, but jah4 required the user to approve a triage table first. Nothing shows that approval. Commit `7e1d3b7` ("Remove outdated decision records for 001-010") then recorded the result under a message that says only 001 to 010.
+
+      Now missing from `_architecture/plans/decision-history/`: 003, 005, 007 to 010, 012 to 026, 028, 029, 030. Of those only 003, 005, 007 to 010 were meant to go. 035 to 037 are already recovered, uncommitted.
+
+      Two recovery sources, identical content as of 27-09-2026:
+      - git: `git show 7e1d3b7~1:_architecture/plans/decision-history/<file>` (`git ls-tree` lists names).
+      - `scratch/decisions_full.json`, all 37 records with `num`, `title`, `status`, `content` (status also shows 009 superseded, 017 superseded by the sources pipeline plan, 024 superseded, 032 superseded by 037).
+
+      Live docs (`ARCHITECTURE.md`, `.agents/context/engineering-guidelines.md`) still cite the missing ones: 012 components derived from visual role, 013 page templates, 014 cascade layer for projected content, 020 in-place navigation, 026 source vocabulary, 028 vendoring re-sync script, 030 library entry doc is README.md.
+
+      Number clash: current `034-stop-hook-formatter-...md` is a newer record. The lost 034 was `034-github-pages-hosting-via-github-actions.md` (decision 009's status still points at it). Restore it under a new number, say so in the index, and fix its citations. Numbers are never reused.
+
+      Next: restore 012 to 030 from git, rebuild `index.md` rows, grep live docs for `decision 0NN` and confirm each citation resolves, then run the jah4 triage properly with the user approving the table. The user commits.
+    ts_created: 2026-09-29T02:46:08Z
+    ts_started: 2026-09-29T02:46:08Z
+    ts_done: null
+    ts_touched: 2026-09-29T02:47:44Z
+  az3n:
+    title: 'Search: enable virtual scrolling in the record grid (decision 037)'
+    status: now
+    priority: 73000
+    body: |-
+      Decision `037-restore-primeng-table-with-defer-and-virtual-scroll.md`: `search.page.html` still renders `<joo-record-grid>` in the standard non-virtual layout. Turn on `[virtual]="true"` with a `[rowHeight]` and a fixed container height so long result lists do not render every row.
+
+      Working tree state (uncommitted): native PrimeNG column sorting (`pSortableColumn`, `p-sort-icon`) in `record-grid.component.html`, sort toolbar removed, `#f-query` merged into one filter input above results, `#f-keyword` removed from the rack, Trust column removed from the search table only. 34 tests passed at last report.
+
+      Next: read 037 for the exact row height and container contract, wire the inputs in `search.page.html`, check 390px and 1440px in the running dev server.
+    ts_created: 2026-09-29T02:46:09Z
+    ts_started: 2026-09-29T02:46:09Z
+    ts_done: null
+    ts_touched: 2026-09-29T02:46:09Z
+  z966:
+    title: 'Search: precompute BASE_SEARCH_ROWS_MAP so keystrokes and sorts skip row building'
+    status: now
+    priority: 74000
+    body: |-
+      Decision 037 specifies `BASE_SEARCH_ROWS_MAP`: build the search rows once (date formatting, URL parsing) at module level so a keystroke in the filter input or a sort change does not redo that work per row. Not implemented; `find BASE_SEARCH_ROWS` matches nothing.
+
+      Next: read 037, add the precomputed map next to the search page's row mapping, make filter and sort operate on the prebuilt rows. Do together with the virtual scrolling item.
+    ts_created: 2026-09-29T02:46:09Z
+    ts_started: 2026-09-29T02:46:09Z
+    ts_done: null
+    ts_touched: 2026-09-29T02:46:09Z
+  vc2p:
+    title: 'Wire panel: aligned rows, author on the right, remove-from-RSS button'
+    status: done
+    priority: 75000
+    body: |-
+      Feed parser fixed in `scripts/build-running-feed.mjs` (`tagText` skips tag attributes, entity-escaped Atom html decoded before tag stripping) and `running-feed.json` regenerated. Home Wire rows are now a grid (date, headline, author chip, `×` remove) so titles start at the same edge; narrow screens put the headline on its own row. `WireFollowStore.unfollow(id, allIds)` seeds the followed set with every feed source minus the removed one when nothing is followed yet.
+
+      Not checked in a browser yet. Known edge: removing the last followed source empties the set, which the Wire reads as "show all sources".
+
+      Next: look at 390px and 1440px on the dev server; decide whether emptying the set should keep the Wire empty instead.
+    ts_created: 2026-09-29T02:46:17Z
+    ts_started: 2026-09-29T02:46:17Z
+    ts_done: 2026-09-29T02:46:17Z
+    ts_touched: 2026-09-29T02:46:17Z
