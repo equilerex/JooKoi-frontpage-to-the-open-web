@@ -1,6 +1,6 @@
 # Verified Tools & Repos
 
-Curated, evidence-checked repos, products, and protocols for AI-assisted dev tooling. Nothing goes in this file without meeting the evidence bar: named practitioners with a checkable identity, current docs, or repo-health signals (stars, forks, active commits — not a one-person abandoned project). New-but-promising entries are allowed as a labeled exception. For newsletters/people/communities, see [`_inspiration-and-staying-current.md`](./_inspiration-and-staying-current.md). Process notes live in `decisions/`.
+Curated, evidence-checked repos, products, and protocols for AI-assisted dev tooling. Nothing goes in this file without meeting the evidence bar: named practitioners with a checkable identity, current docs, or repo-health signals (stars, forks, active commits — not a one-person abandoned project). New-but-promising entries are allowed as a labeled exception. For newsletters/people/communities, see [`_inspiration-and-staying-current.md`](./_inspiration-and-staying-current.md). Process notes live in `_architecture/`.
 
 ---
 
@@ -9,7 +9,7 @@ Curated, evidence-checked repos, products, and protocols for AI-assisted dev too
 ### Design-to-code / browser verification tooling (verified 2026-08-22)
 
 - [ChromeDevTools/chrome-devtools-mcp](https://github.com/ChromeDevTools/chrome-devtools-mcp) — official Google org repo. MCP server exposing live Chrome DevTools (DOM/computed styles, viewport emulation, network/console/perf) to coding agents. 49.6k stars, 3.5k forks, pushed within 24h of verification.
-- [MengTo/Skills](https://github.com/MengTo/Skills) — portable SKILL.md playbooks for design/layout discipline (spacing, typography, guardrails) in coding agents. 5.2k stars, 633 forks, active. **Currently being trialed** — see `decisions/001-first-design-skill-picks.md`.
+- [MengTo/Skills](https://github.com/MengTo/Skills) — portable SKILL.md playbooks for design/layout discipline (spacing, typography, guardrails) in coding agents. 5.2k stars, 633 forks, active.
 - [vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills) — Vercel's structural guidelines/skill trees for web-design and framework conventions (incl. Next.js/RSC patterns). 30.3k stars, 2.7k forks, active.
 - [vercel-labs/agent-browser](https://github.com/vercel-labs/agent-browser) — CLI/daemon orchestrating local Chrome/Puppeteer sessions for agents inspecting a running local dev server. 41.1k stars, 2.7k forks, active.
 - [BuilderIO/skills](https://github.com/BuilderIO/skills) — visual-to-code mapping skills (`/visual-plan`, `/visual-edit`) connecting a repo to an editable browser layout. 4.1k stars, 204 forks, active.
@@ -85,7 +85,7 @@ Genuinely standalone or subfolder-level single-purpose skills, distinct from the
 
 ### Currently being trialed
 
-See `decisions/001-first-design-skill-picks.md`:
+Design-skill trial candidates:
 - [MengTo/Skills](https://github.com/MengTo/Skills) (above)
 - Claude Design (below, in Products)
 - `Adityaraj0421/naksha-studio` — **unverified**, user's own find, no repo-health data on record.

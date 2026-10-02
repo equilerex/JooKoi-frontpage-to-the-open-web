@@ -25,7 +25,7 @@ The stated reason plain loops fail isn't infrastructure, it's a specific model b
 
 External progress file plus explicit, machine-checkable completion criteria the agent can't talk its way past. Cheap to build, no special infrastructure needed, just discipline about where state lives.
 
-This repo already does this at two levels without having named it: `_architecture/TODO.md`'s live checklist at the project level, and individual decision files under `_architecture/plans/decisions/` at the single-decision level. The practice predates the term; the term is just a name for something already working here.
+This repo already does this at two levels without having named it: `_architecture/items.json`'s live store at the project level, and planning records under `_architecture/plans/`. The practice predates the term; the term is just a name for something already working here.
 
 ## Open questions / weak sourcing
 

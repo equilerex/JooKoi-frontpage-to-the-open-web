@@ -57,7 +57,7 @@ Captured here so it isn't lost, not analyzed in depth since it's out of this doc
 
 **Sourcing.** This is closer to a general documentation practice than a named tool — the search results here are mostly generic "Markdown+Git for docs" advice rather than a specific practitioner-endorsed "personal engineering journal" pattern. Weakest sourcing of the four; treat this as a well-understood pattern rather than a named, widely-cited practice.
 
-**Note:** already hard-vetoed by the user (see `decisions/003-memory-ledger-picks.md`) — kept here only for completeness of the original four-candidate comparison, not as a live option.
+**Note:** already hard-vetoed by the user (see [decision history](../../_architecture/plans/decision-history/003-memory-ledger-picks.md)) — kept here only for completeness of the original four-candidate comparison, not as a live option.
 
 ---
 
@@ -117,7 +117,7 @@ None of these is purpose-built for the user's specific narrow ask (a small, cura
 - PKM tooling in 2026 discourse splits into markdown-first (Obsidian, Logseq — local file ownership, no query engine) versus database-style (Tana — every note a structured, propertied, related object).
 - The synthesis converging across multiple 2026 sources (content-marketing-tier, not named-practitioner-tier — directional, not authoritative): success depends less on file format itself and more on **whether something automates the curation** — "if the system depends on you linking, tagging, and filing everything yourself, it becomes a second job you will eventually drop."
 
-**Read against this project's actual scope:** the opinion piece's failure modes bite at database-scale (thousands of queryable records). The proposal on the table here is explicitly a *small, curated* set (`ARCHITECTURE.md`/`decisions.md` per repo, AI-authored) — the use case is designed to never grow into what the opinion piece is warning about. This doesn't kill the critique, but sharpens where it applies: the real risk isn't "markdown doesn't scale," it's "nothing automates the upkeep and it silently rots" — which is a different, more actionable problem (worth solving with hooks/automation, per the still-open proposal in `decisions/003-memory-ledger-picks.md`) than "switch to SQLite."
+**Read against this project's actual scope:** the opinion piece's failure modes bite at database-scale (thousands of queryable records). The proposal on the table here is explicitly a *small, curated* set (`ARCHITECTURE.md`/`decisions.md` per repo, AI-authored) — the use case is designed to never grow into what the opinion piece is warning about. This doesn't kill the critique, but sharpens where it applies: the real risk isn't "markdown doesn't scale," it's "nothing automates the upkeep and it silently rots" — which is a different, more actionable problem (worth solving with hooks/automation, per the proposal in [decision history](../../_architecture/plans/decision-history/003-memory-ledger-picks.md)) than "switch to SQLite."
 
 ---
 
@@ -135,7 +135,7 @@ This still belongs primarily under the Graphify "Parked" note in `../README.md`,
 
 ## 8. Storage/vault layer — corporate-environment research pass (added 2026-08-23, cowork research pass)
 
-Direct answer to the open question in `decisions/003-memory-ledger-picks.md`: what storage/vault layer works for the **centralized personal/cross-project memory** design (a `~/.agents` tree mirroring real repos, small curated files per repo, AI-authored, hook-triggered) inside the corporate constraint — no `uv`/`pipx`, native-binary dependencies get flagged by security scanning, MCP is blocked by policy, no cloud dependency, Windows desktop.
+Direct answer to the open question in [decision 003](../../_architecture/plans/decision-history/003-memory-ledger-picks.md): what storage/vault layer works for the **centralized personal/cross-project memory** design (a `~/.agents` tree mirroring real repos, small curated files per repo, AI-authored, hook-triggered) inside the corporate constraint — no `uv`/`pipx`, native-binary dependencies get flagged by security scanning, MCP is blocked by policy, no cloud dependency, Windows desktop.
 
 **This is a different question from the feature-local repo-context idea in §1 above.** That design is opt-in and on-demand — a file living beside `accounts/` or a specific component, pointed to by the developer or discovered by tooling, never a fixed set read automatically. Nothing below applies to it; this is the separate personal-memory ledger question, where "a fixed set of files, always loaded" is the shape being evaluated.
 
@@ -177,7 +177,7 @@ Named tools checked, all against the corporate filter:
 
 ### Embedded/queryable backend — the opinion piece's SQLite/Kuzu proposal needs a correction
 
-`local/opinion-piece-mem.md` (already folded into `decisions/003`) proposed SQLite or an embedded graph DB (Kuzu) once scale is a factor. Checked against the corporate filter:
+`_jookoi-architecture/opinion-piece-mem.md` (folded into [decision 003](../../_architecture/plans/decision-history/003-memory-ledger-picks.md)) proposed SQLite or an embedded graph DB (Kuzu) once scale is a factor. Checked against the corporate filter:
 
 - **Python's stdlib SQLite ships with FTS5 compiled in** — confirmed directly against CPython's own Windows build config (`PCbuild/sqlite3.vcxproj`, `SQLITE_ENABLE_FTS5` in the preprocessor definitions). `import sqlite3` plus `CREATE VIRTUAL TABLE ... USING fts5(...)` needs zero installs — no pip, no wheel, nothing for corporate scanning to flag. This is the one backend in the whole search that cleanly passes.
 - **Kuzu is dead — the opinion piece's specific recommendation is stale by about ten months.** The parent project (`kuzudb/kuzu`) archived itself 2025-10-10, confirmed via the repo's own README and independently via The Register's coverage of the abandonment. Two community forks exist (`Kineviz/bighorn`, 131★, no releases, build-from-source; `Vela-Engineering/kuzu`, 36★, maintained by a VC firm using it internally, no long-term commitment stated) — both fail the corporate filter twice over (native C++ binaries, plus the maintenance risk of a sub-200-star fork).

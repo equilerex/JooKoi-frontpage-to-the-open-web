@@ -49,7 +49,7 @@ Deep dive: [`review-and-verification-tooling.md`](./topics/review-and-verificati
 ## 9. Dotfiles / portability
 The mainstream answer is a dedicated dotfile manager (chezmoi being the most-referenced, with GNU Stow and plain symlink scripts as lighter alternatives), trading a steeper tool for templated per-machine divergence.
 
-**Decided against, 2026-09-01 — see [`decisions/009-no-binary-dependencies.md`](../_architecture/plans/decisions/009-no-binary-dependencies.md).** No dotfile manager, no binary, no install step anywhere in the shippable layer. A binary fails on a locked corporate machine, which is exactly where the stack has to work, and the divergence problem it solves is already handled by the `_jookoi-` prefix plus one vault per environment. Applying the stack is a manual copy.
+**Decided against, 2026-09-01 — see [Dependencies](../_architecture/ARCHITECTURE.md#dependencies).** No dotfile manager and no binaries in the shippable layer. A binary fails on a locked corporate machine, which is exactly where the stack has to work, and the divergence problem it solves is already handled by the `_jookoi-` prefix plus one vault per environment. Applying the stack is a manual copy.
 
 *No dedicated deep-dive doc — the pick closed the topic rather than a research pass doing it.*
 
@@ -94,7 +94,7 @@ These emerged mid-process from later research/conversations, not the original St
 
 ## Surfaced from cross-repo consolidation (not part of the original 14, added 2026-08-23)
 
-- [`planning-before-implementation.md`](./topics/planning-before-implementation.md) — evidence-based planning methodology: when to skip planning, elicitation, decomposition, critique (cold-start review, premortem), when to skip heavyweight spec-driven ceremony. Ported from the old Cowork-session location — this was the one file that never made it across when the projects split. See `decisions/004-cross-repo-consolidation-plan.md`.
+- [`planning-before-implementation.md`](./topics/planning-before-implementation.md) — evidence-based planning methodology: when to skip planning, elicitation, decomposition, critique (cold-start review, premortem), when to skip heavyweight spec-driven ceremony. Ported from the old Cowork-session location — this was the one file that never made it across when the projects split.
 
 ## Surfaced 2026-08-23, no deep-dive yet: where agents actually work — global folders, session logs, temp worktrees
 
@@ -116,4 +116,4 @@ Distinct from topic 12 (Security) above, which covers verification *practice* an
 - Anthropic Claude Code documentation and this session's own harness behavior (memory system, hooks, subagents, SKILL.md, prompt caching) — primary source for items 1–6, 8.
 - Industry survey coverage of MCP enterprise adoption, July 2026 (andrew.ooo, digitalapplied.com, a2a-mcp.org roadmap coverage) — item 5.
 - Xebia engineering blog and DevOps Journal (2026) on the "AI Engineering Fluency" VS Code extension by Rob Bos (rajbos) — item 11.
-- chezmoi project (public repo, active maintenance, cross-platform templating) — item 9's baseline. Evaluated and rejected, see `decisions/009-no-binary-dependencies.md`.
+- chezmoi project (public repo, active maintenance, cross-platform templating) — item 9's baseline. Evaluated and rejected, see `_architecture/ARCHITECTURE.md` § Dependencies.

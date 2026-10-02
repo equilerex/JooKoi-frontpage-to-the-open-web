@@ -92,7 +92,7 @@ Manual copying still works for a one-off personal skill. For anything reused acr
 
 ## 6. Recommended skills
 
-Narrow on purpose — only one entry with clear, checkable, broad adoption. Candidate repos worth *evaluating* (not adopted) live in [`decisions/006-skill-stack-picks.md`](./decisions/006-skill-stack-picks.md).
+Narrow on purpose — only one entry with clear, checkable, broad adoption. Broader adoption follows this stack's discipline: adopt only from demonstrated personal need, start small, and avoid importing multi-skill libraries wholesale.
 
 - **[`anthropics/skills`](https://github.com/anthropics/skills)** — official Anthropic repo, 171k stars, 20.3k forks. 17 top-level skills (document processing, design/art, web artifacts, writing, dev tooling), including `skill-creator` and `frontend-design`. The one entry here with unambiguous provenance and adoption numbers — reasonable default to browse first.
 

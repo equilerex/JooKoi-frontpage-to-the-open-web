@@ -73,7 +73,11 @@ Checked directly against the [official spec](https://modelcontextprotocol.io/spe
 
 ## 6. Personal stack
 
-This doc is the general landscape and framework, not the specific pick. Scanners actually being trialed against real candidate skills/MCP servers are tracked in [`decisions/005-skill-scanner-picks.md`](../../_architecture/plans/decisions/005-skill-scanner-picks.md) — currently NVIDIA's scanner plus Snyk's `agent-scan`, run together rather than either alone, per §4. Check that file for what's actually adopted; this one stays on the general landscape.
+Before adopting any third-party skill or MCP server, run two independent scanners from different vendors rather than relying on a single tool:
+- **NVIDIA SkillSpector**
+- **Snyk agent-scan**
+
+Independent testing demonstrates that scanners rarely agree (~0.12% agreement rate) and individual bypass rates exceed 90%. A dual-scanner check provides a second signal, complementing source inspection and permission sandboxing.
 
 ## Sources
 
@@ -89,4 +93,4 @@ This doc is the general landscape and framework, not the specific pick. Scanners
 - SlowMist, [ClawHub malicious-skills poisoning analysis](https://slowmist.medium.com/threat-intelligence-analysis-of-clawhub-malicious-skills-poisoning-0448ffd49c80)
 - Wiz, [keyv and cacheable npm supply chain attack](https://www.wiz.io/blog/keyv-and-cacheable-npm-supply-chain-attack)
 - Model Context Protocol, [official specification — Tools](https://modelcontextprotocol.io/specification/2025-06-18/server/tools); [2026-07-28 release candidate notes](https://blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/); ETDI proposal, [arXiv 2506.01333](https://arxiv.org/pdf/2506.01333)
-- [`decisions/005-skill-scanner-picks.md`](../../_architecture/plans/decisions/005-skill-scanner-picks.md) — this project's actual scanner trial, referenced rather than duplicated here
+

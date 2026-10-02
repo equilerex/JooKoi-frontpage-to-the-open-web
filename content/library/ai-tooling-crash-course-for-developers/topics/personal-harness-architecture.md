@@ -85,7 +85,7 @@ discover → review → trust → install → scope → activate → update → 
 
 Metadata per capability: owner/source, version, trust level, supported agents/runtimes, project-or-global scope, activation conditions, dependencies, removal path.
 
-**Why it's a real gap.** [`skill-libraries-and-marketplaces.md`](./skill-libraries-and-marketplaces.md) covers what a skill *is*; [`_ai-tooling-recommendations.md`](./_ai-tooling-recommendations.md) has a growing candidate list. Neither covers what happens *after* a skill is picked — tracked as trusted, version bumps noticed, safe removal. This repo already lives the gap: `decisions/001-first-design-skill-picks.md` records three picks with no trust level, no version pin, no removal path. That's steps 1-2 (discover, informally review) done ad hoc — the rest isn't tracked.
+**Why it's a real gap.** [`skill-libraries-and-marketplaces.md`](./skill-libraries-and-marketplaces.md) covers what a skill *is*; [`_ai-tooling-recommendations.md`](./_ai-tooling-recommendations.md) has a growing candidate list. Neither covers what happens *after* a skill is picked — tracked as trusted, version bumps noticed, safe removal. This repo already lives the gap: an early design-skill trial recorded candidate picks with no trust level, no version pin, no removal path. That's steps 1-2 (discover, informally review) done ad hoc — the rest isn't tracked.
 
 **Ties to security research.** [`security-and-supply-chain.md`](./security-and-supply-chain.md) already covers why "trust" can't be assumed — the ClawHub/OpenClaw poisoning (real, 30+ malicious skills at peak) is exactly what a "review → trust" gate exists to catch.
 
