@@ -8,4 +8,6 @@
   filterBy="label"
   filterMode="lenient"
   (onNodeSelect)="onNodeSelect($event)"
+  (onNodeExpand)="onChevron($event, true)"
+  (onNodeCollapse)="onChevron($event, false)"
 />

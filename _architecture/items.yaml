@@ -781,3 +781,12 @@ items:
     ts_started: 2026-09-29T02:46:17Z
     ts_done: 2026-09-29T02:46:17Z
     ts_touched: 2026-09-29T02:46:17Z
+  qc5w:
+    title: 'Crash course makeover: remaining polish'
+    status: now
+    priority: 76000
+    body: 'Decision 040 addendum. Done: README hero + reading path, reading order, tree state fix, 93 sidecar figures over 21 docs (second pass covered the long pages). Open: ux:smoke and test run not done; `_ai-tooling-recommendations` (3 figs) and `_inspiration-and-staying-current` (1) are the thinnest; sidecars are hand-edited sources now (generator was throwaway), recheck numbers after a resync; no Unsplash photos (SVG only) unless the user asks.'
+    ts_created: 2026-10-02T01:24:20Z
+    ts_started: 2026-10-02T01:24:20Z
+    ts_done: null
+    ts_touched: 2026-10-02T01:51:18Z

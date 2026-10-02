@@ -7,6 +7,7 @@ import {
   linkedSignal,
   resource,
 } from '@angular/core';
+import { DomSanitizer, type SafeHtml } from '@angular/platform-browser';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PaperSheetComponent } from '../../shared/design-system/surfaces/paper-sheet/paper-sheet.component';
@@ -26,6 +27,7 @@ export class LibraryDocumentPage {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly sanitizer = inject(DomSanitizer);
 
   private readonly routeData = toSignal(this.route.data, {
     initialValue: this.route.snapshot.data,
@@ -67,6 +69,16 @@ export class LibraryDocumentPage {
   protected readonly displayedHtml = linkedSignal<string, string>({
     source: () => this.html.value(),
     computation: (current, previous) => (current !== '' ? current : (previous?.value ?? '')),
+  });
+
+  /**
+   * Designed docs (`custom`) are repo-authored HTML with their own <style> and
+   * inline SVG, which Angular's sanitizer would strip. Trusted because the
+   * files live in this repo, never user input.
+   */
+  protected readonly renderedHtml = computed<string | SafeHtml>(() => {
+    const content = this.displayedHtml();
+    return this.doc()?.trusted ? this.sanitizer.bypassSecurityTrustHtml(content) : content;
   });
 
   private readonly mermaidEffect = afterRenderEffect(() => {

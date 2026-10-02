@@ -6,14 +6,22 @@ export function folderToNode(path: string, expanded = false): TreeNode {
   const folder = findLibraryFolder(path);
   if (!folder) return { key: path, label: path, leaf: true };
 
-  // Default sort: stray files A–Z on top, then subfolders A–Z (recursive).
+  // Docs follow reading order (index.md `reading-order`), ties A–Z; then subfolders A–Z.
   const docs = [...folder.docs]
-    .map((docPath) => ({
-      key: docPath,
-      label: findLibraryDoc(docPath)?.title ?? docPath,
-      leaf: true as const,
-    }))
-    .sort((a, b) => a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }));
+    .map((docPath) => {
+      const doc = findLibraryDoc(docPath);
+      return {
+        key: docPath,
+        label: doc?.title ?? docPath,
+        order: doc?.order ?? 0,
+        leaf: true as const,
+      };
+    })
+    .sort(
+      (a, b) =>
+        a.order - b.order || a.label.localeCompare(b.label, undefined, { sensitivity: 'base' }),
+    )
+    .map(({ key, label, leaf }) => ({ key, label, leaf }));
 
   const childFolders = [...folder.childFolders]
     .sort((a, b) =>
@@ -52,7 +60,8 @@ export function buildFullLibraryTree(focusPath = '', expandFolder = ''): TreeNod
       const branch = expandFolder === path ? node : findNodeByKey([node], expandFolder);
       if (branch) expandDescendants(branch);
     } else if (focusPath && path === focusTop) {
-      expandAncestors([node], focusPath);
+      // Inside a collection: open it fully (Topics included) by default.
+      expandDescendants(node);
     }
 
     return node;

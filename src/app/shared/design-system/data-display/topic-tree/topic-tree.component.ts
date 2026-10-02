@@ -35,6 +35,8 @@ export class TopicTreeComponent {
   /** Applied via PrimeNG filter API; UI lives on the library layout (store). */
   readonly filterText = input('');
   readonly nodeActivate = output<TreeNode>();
+  /** A folder was opened or closed by the user (row click or chevron). */
+  readonly folderToggle = output<{ key: string; open: boolean }>();
 
   private readonly tree = viewChild(Tree);
 
@@ -58,6 +60,13 @@ export class TopicTreeComponent {
     const node = findNodeByKey(roots, key);
     if (node && !node.leaf) {
       node.expanded = !node.expanded;
+      this.folderToggle.emit({ key, open: node.expanded });
+    }
+  }
+
+  protected onChevron(event: { node: TreeNode }, open: boolean): void {
+    if (typeof event.node.key === 'string') {
+      this.folderToggle.emit({ key: event.node.key, open });
     }
   }
 

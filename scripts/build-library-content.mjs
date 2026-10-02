@@ -23,6 +23,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { basename, dirname, extname, join, relative, resolve as resolvePath } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 import { Marked } from 'marked';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -131,6 +132,62 @@ function rewriteLinks(body, file, docsByRel) {
     .join('\n');
 }
 
+// Decorative banner (data-URI svg img, passes Angular's sanitizer) seeded by slug.
+const BANNER_PALETTES = [
+  ['#0c0b16', '#3b2a7a', '#3df2ff', '#ff3ea5'],
+  ['#07060d', '#0e5560', '#5cffa8', '#3df2ff'],
+  ['#110f1e', '#6a1b4d', '#ff7cc3', '#ffb547'],
+  ['#0c0b16', '#2e2a6a', '#a47bff', '#3df2ff'],
+  ['#07060d', '#5a2a12', '#ffb547', '#ff5468'],
+];
+function bannerHtml(slug) {
+  let h = 2166136261;
+  for (const c of slug) h = Math.imul(h ^ c.charCodeAt(0), 16777619) >>> 0;
+  const rnd = () => ((h = Math.imul(h ^ (h >>> 15), 2246822507) >>> 0) % 1000) / 1000;
+  const [bg, glow, a, b] = BANNER_PALETTES[h % BANNER_PALETTES.length];
+  let shapes = '';
+  for (let i = 0; i < 9; i++) {
+    const x = Math.round(rnd() * 1200);
+    const y = Math.round(rnd() * 120);
+    const r = 14 + Math.round(rnd() * 46);
+    const fill = i % 2 ? a : b;
+    shapes +=
+      i % 3 === 0
+        ? `<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" opacity=".55"/>`
+        : i % 3 === 1
+          ? `<rect x="${x}" y="${y - r / 2}" width="${r * 2.2}" height="${r / 2.5}" rx="${r / 5}" fill="${fill}" opacity=".7"/>`
+          : `<circle cx="${x}" cy="${y}" r="${r}" fill="none" stroke="${fill}" stroke-width="4" opacity=".7"/>`;
+  }
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMid slice"><defs><radialGradient id="g" cx=".85" cy="0" r="1"><stop offset="0" stop-color="${glow}"/><stop offset="1" stop-color="${bg}"/></radialGradient></defs><rect width="1200" height="120" fill="url(#g)"/>${shapes}</svg>`;
+  return `<img class="doc-banner" alt="" width="1200" height="120" src="data:image/svg+xml;base64,${Buffer.from(svg).toString('base64')}">
+`;
+}
+
+/**
+ * foo.figs.html sidecar: `<!-- after: heading-id -->` followed by markup. Each
+ * block lands after the first block element that follows that heading.
+ */
+function injectFigures(html, figsRaw, label) {
+  const parts = figsRaw.split(/<!--\s*after:\s*([a-z0-9-]+)\s*-->/i);
+  let out = html;
+  for (let i = 1; i < parts.length; i += 2) {
+    const id = parts[i];
+    const block = parts[i + 1].trim();
+    const at = out.indexOf(`id="${id}"`);
+    if (at === -1) {
+      warnings.push(`${label}: figure anchor #${id} not found`);
+      continue;
+    }
+    const headEnd = out.indexOf('</h', at);
+    const closer = /<\/(p|ul|ol|table|pre|blockquote)>/g;
+    closer.lastIndex = headEnd;
+    const m = closer.exec(out);
+    const cut = m ? m.index + m[0].length : out.indexOf('>', headEnd) + 1;
+    out = `${out.slice(0, cut)}\n${block}\n${out.slice(cut)}`;
+  }
+  return out;
+}
+
 function renderMarkdown(body) {
   const seenHeadings = new Map();
   let hasDiagrams = false;
@@ -141,7 +198,8 @@ function renderMarkdown(body) {
         const text = this.parser.parseInline(tokens);
         const plain = tokens.map((t) => ('text' in t ? t.text : '')).join('');
         const id = slugifyHeading(plain, seenHeadings);
-        return `<h${depth} id="${id}">${text}</h${depth}>\n`;
+        const numbered = depth === 2 && /^(\d|section\s)/i.test(plain) ? ' class="has-num"' : '';
+        return `<h${depth} id="${id}"${numbered}>${text}</h${depth}>\n`;
       },
       code({ text, lang }) {
         if (lang === 'mermaid') {
@@ -243,7 +301,13 @@ for (const folder of discovered) {
     const { attrs, body } = parseFrontMatter(raw);
     const slug = file.slug;
     const title = labelFromName(slug);
-    const order = attrs.order !== undefined ? Number(attrs.order) : 0;
+    let order = attrs.order !== undefined ? Number(attrs.order) : 0;
+    // Folder index.md `reading-order: [slug, ...]` wins; unlisted docs sort after.
+    const readingOrder = parseIndex(folder.absDir).attrs['reading-order'];
+    if (Array.isArray(readingOrder)) {
+      const at = readingOrder.indexOf(slug);
+      order = at === -1 ? 1000 : at + 1;
+    }
     const summary = attrs.summary ?? '';
     const tags = Array.isArray(attrs.tags) ? attrs.tags : [];
     parsedDocs.push({
@@ -274,7 +338,39 @@ for (const [, group] of docsByParent) {
   const ordered = orderEntries(group);
   ordered.forEach((d, i) => {
     const rewritten = rewriteLinks(d.body, d.abs, docsByRel);
-    const { html, hasDiagrams } = renderMarkdown(rewritten);
+    let { html, hasDiagrams } = renderMarkdown(rewritten);
+    // Designed variant: foo.html beside foo.md replaces the rendered body. The
+    // .md stays the synced text source; its fingerprint is pinned in the html
+    // as `<!-- md-sha: xxxxxxxx -->` so a text change is flagged as stale.
+    let custom = false;
+    let trusted = false;
+    // foo.top.html is prepended to the rendered md (hero, reading path). The md
+    // stays the synced text; no pin needed. Trusted render, plain facelift kept.
+    const topFile = d.abs.replace(/\.md$/, '.top.html');
+    if (existsSync(topFile)) {
+      trusted = true;
+      html = readFileSync(topFile, 'utf8') + html;
+    } else {
+      html = bannerHtml(d.slug) + html;
+    }
+    const figsFile = d.abs.replace(/\.md$/, '.figs.html');
+    if (existsSync(figsFile)) {
+      trusted = true;
+      html = injectFigures(html, readFileSync(figsFile, 'utf8'), posixRel(root, figsFile));
+    }
+    const designed = d.abs.replace(/\.md$/, '.html');
+    if (existsSync(designed)) {
+      custom = true;
+      html = readFileSync(designed, 'utf8');
+      hasDiagrams = html.includes('class="mermaid"');
+      const sha = createHash('sha1').update(readFileSync(d.abs, 'utf8')).digest('hex').slice(0, 8);
+      const pinned = /<!--\s*md-sha:\s*([0-9a-f]+)\s*-->/.exec(html)?.[1];
+      if (pinned !== sha) {
+        warnings.push(
+          `${posixRel(root, designed)}: STALE designed html (md-sha pinned ${pinned ?? 'none'}, md is ${sha}); re-merge text then update the pin`,
+        );
+      }
+    }
     allDocs.push({
       path: d.rel,
       title: d.title,
@@ -282,6 +378,8 @@ for (const [, group] of docsByParent) {
       summary: d.summary,
       tags: d.tags,
       hasDiagrams,
+      custom,
+      trusted: custom || trusted,
       prev: ordered[i - 1] ? ordered[i - 1].rel : null,
       next: ordered[i + 1] ? ordered[i + 1].rel : null,
       html,
@@ -452,6 +550,8 @@ const indexBody = [
   '  readonly summary: string;',
   '  readonly tags: readonly string[];',
   '  readonly hasDiagrams: boolean;',
+  '  readonly custom: boolean;',
+  '  readonly trusted: boolean;',
   '  readonly prev: string | null;',
   '  readonly next: string | null;',
   '}',

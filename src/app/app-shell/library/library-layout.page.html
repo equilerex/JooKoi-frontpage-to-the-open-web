@@ -16,6 +16,7 @@
         [selectionKeys]="selectionKeys()"
         [filterText]="treeFilter()"
         (nodeActivate)="onNodeActivate($event)"
+        (folderToggle)="layoutStore.setFolderOpen($event.key, $event.open)"
       />
     </joo-readout-panel>
   </aside>

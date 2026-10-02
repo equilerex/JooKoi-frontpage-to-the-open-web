@@ -1,0 +1,356 @@
+<!-- md-sha: 77ec1d5a -->
+<!-- Designed variant of 0-how-llms-actually-work-under-the-hood.md. Text comes from the .md; this file only adds layout. -->
+<style>
+  .llm0 {
+    --ink: #17152a;
+    --muted: #5d5a78;
+    --cy: #0e8c99;
+    --mg: #c21c7a;
+    --am: #c77d00;
+    --vi: #6d45e0;
+    --gr: #12915a;
+    --paper: #fbfaff;
+    --line: #e2dff0;
+    color: var(--ink);
+    font-size: 1.05em;
+  }
+  .llm0 * { box-sizing: border-box; }
+  .llm0 a { color: var(--vi); font-weight: 600; }
+
+  /* hero */
+  .llm0 .hero {
+    position: relative;
+    overflow: hidden;
+    margin: 0 0 2.2rem;
+    padding: 2rem 1.6rem 1.4rem;
+    color: #eceaf7;
+    background: radial-gradient(circle at 85% 0%, #3b2a7a 0, transparent 55%), #0c0b16;
+    border-radius: 18px;
+  }
+  .llm0 .hero h1 { margin: 0 0 0.8rem; font-size: 1.9em; line-height: 1.15; color: #fff; }
+  .llm0 .hero h1 em { font-style: normal; color: #3df2ff; }
+  .llm0 .hero p { max-width: 46rem; margin: 0 0 1.2rem; color: #c3bfdb; }
+  .llm0 .hero img { display: block; width: 100%; height: auto; border-radius: 12px; }
+  .llm0 .cursor {
+    display: inline-block; width: 0.55em; height: 1em; margin-left: 0.15em;
+    vertical-align: -0.12em; background: #3df2ff; animation: llm0-blink 1s steps(2) infinite;
+  }
+  @keyframes llm0-blink { 50% { opacity: 0; } }
+
+  /* section chrome */
+  .llm0 section { position: relative; margin: 0 0 2.4rem; }
+  .llm0 h2 {
+    display: flex; align-items: center; gap: 0.7rem;
+    margin: 0 0 1rem; font-size: 1.35em; line-height: 1.25;
+  }
+  .llm0 h2 .n {
+    flex: none; display: grid; place-items: center; width: 2.1rem; height: 2.1rem;
+    font: 700 0.85em var(--font-mono, monospace); color: #fff; border-radius: 10px;
+    background: var(--acc, var(--cy)); transform: rotate(-4deg);
+  }
+  .llm0 section:nth-of-type(3n+1) { --acc: var(--cy); }
+  .llm0 section:nth-of-type(3n+2) { --acc: var(--mg); }
+  .llm0 section:nth-of-type(3n)   { --acc: var(--vi); }
+  .llm0 p { margin: 0 0 0.9rem; }
+  .llm0 code { font-size: 0.9em; }
+
+  .llm0 .squiggle {
+    height: 14px; margin: 0 0 2.4rem; opacity: 0.8;
+    background: repeating-linear-gradient(135deg, var(--cy) 0 8px, transparent 8px 16px, var(--mg) 16px 24px, transparent 24px 32px);
+    -webkit-mask: linear-gradient(#000, #000); border-radius: 7px;
+  }
+
+  /* one-liner */
+  .llm0 .bigquote {
+    margin: 0 0 1rem; padding: 1.4rem 1.5rem; font-size: 1.25em; line-height: 1.45;
+    background: #fff7e0; border: 3px solid #ffb547; border-radius: 16px;
+    box-shadow: 6px 6px 0 #ffb547; transform: rotate(-0.4deg);
+  }
+  .llm0 .bigquote b { background: linear-gradient(transparent 60%, #ffd77a 60%); }
+
+  /* autocomplete chips */
+  .llm0 .phone {
+    max-width: 26rem; margin: 0.4rem 0 1.2rem; padding: 0.8rem 1rem;
+    font: 500 1.05em var(--font-mono, monospace); background: #1c1a30; color: #eceaf7;
+    border-radius: 22px; border: 4px solid #2e2a4a;
+  }
+  .llm0 .phone .sug { display: flex; gap: 0.5rem; margin-top: 0.7rem; }
+  .llm0 .phone .sug span {
+    flex: 1; padding: 0.3rem 0; text-align: center; font-size: 0.85em;
+    background: #2e2a4a; border-radius: 8px; color: #c3bfdb;
+  }
+  .llm0 .phone .sug span:nth-child(2) { background: var(--mg); color: #fff; }
+
+  .llm0 .pills { list-style: none; margin: 1.1rem 0 1.6rem; padding: 0 0 0 0.3rem; display: grid; gap: 0.7rem; }
+  .llm0 .pills li { margin: 0; padding-left: 1.5rem; position: relative; }
+  .llm0 .pills li::before {
+    content: ""; position: absolute; left: 0; top: 0.5em; width: 0.65rem; height: 0.65rem;
+    background: var(--acc, var(--cy)); border-radius: 50%;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--acc, var(--cy)) 18%, transparent);
+  }
+
+  /* figures */
+  .llm0 .fig { margin: 1.2rem 0 1.6rem; }
+  .llm0 .fig svg { display: block; width: 100%; height: auto; }
+  .llm0 .fig figcaption { margin-top: 0.4rem; font-size: 0.85em; text-align: center; color: var(--muted); }
+  .llm0 .fig text { font-family: var(--font-read, system-ui, sans-serif); }
+  .llm0 .fig .mono { font-family: var(--font-mono, monospace); }
+  .llm0 .ic { display: block; width: 3.2rem; height: 3.2rem; margin-bottom: 0.5rem; }
+
+  /* callouts */
+  .llm0 .note {
+    margin: 0 0 1rem; padding: 0.9rem 1.1rem; border-radius: 12px;
+    background: #fff; border: 2px dashed var(--acc, var(--cy));
+  }
+  .llm0 .note.warn { border-style: solid; background: #fff0f7; --acc: var(--mg); }
+  .llm0 .note .tag {
+    display: inline-block; margin: 0 0.5rem 0.2rem 0; padding: 0.05rem 0.55rem;
+    font: 700 0.7em var(--font-mono, monospace); letter-spacing: 0.08em; text-transform: uppercase;
+    color: #fff; background: var(--acc, var(--cy)); border-radius: 99px;
+  }
+  .llm0 .note p:last-child { margin: 0; }
+
+  /* two-phase path */
+  .llm0 .phases { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); margin: 0 0 1rem; }
+  .llm0 .phase { padding: 1.1rem 1.2rem; border-radius: 16px; background: var(--paper); border: 2px solid var(--line); }
+  .llm0 .phase.p1 { border-color: var(--cy); }
+  .llm0 .phase.p2 { border-color: var(--mg); }
+  .llm0 .phase h3 { margin: 0 0 0.5rem; font-size: 1.05em; }
+  .llm0 .phase .big { display: block; font: 700 2.6em/1 var(--font-display, sans-serif); opacity: 0.25; }
+  .llm0 .phase ol { margin: 0; padding-left: 1.3rem; }
+  .llm0 .phase li { margin-bottom: 0.6rem; }
+
+  /* mermaid already styled globally; give figure caption */
+  .llm0 .cap { margin: -0.6rem 0 1.2rem; text-align: center; font-size: 0.85em; color: var(--muted); }
+
+  /* harness cards */
+  .llm0 .cards { display: grid; gap: 0.8rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin: 0 0 1rem; padding: 0; list-style: none; }
+  .llm0 .cards li {
+    margin: 0; padding: 0.9rem 1rem; background: #fff; border: 1px solid var(--line);
+    border-top: 5px solid var(--acc, var(--cy)); border-radius: 12px;
+  }
+  .llm0 .cards li:nth-child(4n+2) { --acc: var(--mg); }
+  .llm0 .cards li:nth-child(4n+3) { --acc: var(--vi); }
+  .llm0 .cards li:nth-child(4n)   { --acc: var(--am); }
+  .llm0 .cards li > b:first-child { display: block; margin-bottom: 0.3rem; color: var(--acc); }
+
+  .llm0 .pattern {
+    margin: 0 0 1rem; padding: 1rem 1.2rem; color: #eceaf7; background: #171529;
+    border-radius: 14px; border-left: 6px solid #3df2ff;
+  }
+  .llm0 .pattern p:last-child { margin: 0; }
+
+  /* glossary */
+  .llm0 .gloss { display: grid; gap: 0.7rem; grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr)); margin: 0; padding: 0; list-style: none; }
+  .llm0 .gloss li {
+    margin: 0; padding: 0.8rem 0.95rem; font-size: 0.93em; background: var(--paper);
+    border: 1px solid var(--line); border-radius: 12px; transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .llm0 .gloss li:hover { transform: translateY(-2px); box-shadow: 0 6px 14px #17152a22; }
+  .llm0 .gloss li > b:first-child {
+    display: inline-block; margin-bottom: 0.35rem; padding: 0.05rem 0.6rem;
+    font: 700 0.95em var(--font-display, sans-serif); color: #fff; background: var(--cy); border-radius: 99px;
+  }
+  .llm0 .gloss li:nth-child(3n+2) > b:first-child { background: var(--mg); }
+  .llm0 .gloss li:nth-child(3n)   > b:first-child { background: var(--vi); }
+
+  .llm0 .sources { font-size: 0.9em; color: var(--muted); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .llm0 .cursor { animation: none; }
+    .llm0 .gloss li { transition: none; }
+  }
+</style>
+
+<article class="llm0">
+  <header class="hero">
+    <h1>0 — How LLMs Actually Work <em>(Quick, Casual Explainer)</em><span class="cursor" aria-hidden="true"></span></h1>
+    <p>You don't need a CS degree for this. You need the right picture in your head instead of a wrong one. Most people's mental model is "it's a search engine," or "it remembers me," or "it's kind of thinking like a person." All wrong. Here's what's actually going on, in plain terms.</p>
+    <img src="library-art/llm-next-word-loop.svg" alt="The words 'I went to the' go into an LLM, which scores candidate next words. The winner is appended and the loop repeats." width="1200" height="380" />
+  </header>
+
+  <section>
+    <h2 id="the-one-liner"><span class="n">01</span>The one-liner</h2>
+    <p class="bigquote">An LLM <b>guesses the next word</b>, over and over, based on everything written so far. That's it. That's the whole trick. Chat, code, "reasoning," all just that guess, repeated thousands of times per answer.</p>
+  </section>
+
+  <section>
+    <h2 id="eli5-how-it-actually-answers-you"><span class="n">02</span>ELI5: how it actually answers you</h2>
+    <p>Imagine the world's best autocomplete. You type "I went to the," your phone suggests "store." An LLM does that, except:</p>
+    <div class="phone" aria-hidden="true">I went to the<span class="cursor"></span><div class="sug"><span>park</span><span>store</span><span>moon</span></div></div>
+    <ul class="pills">
+      <li>it's insanely good at it, trained on a huge chunk of the internet</li>
+      <li>it doesn't stop at one word, it keeps guessing the next one, and the next, using its own previous guesses as new input</li>
+      <li>it can hold a much bigger picture in mind than "the last word or two." It looks back over your whole question and its whole answer so far, every single time it picks the next word</li>
+    </ul>
+    <p class="note warn"><span class="tag">Heads up</span>There's no thinking, no checking facts, no understanding in the human sense. It's pattern-completion, done at a scale that makes the pattern completion look like reasoning.</p>
+  </section>
+
+  <section>
+    <h2 id="where-does-the-knowledge-come-from"><span class="n">03</span>Where does the "knowledge" come from?</h2>
+    <p>Training. Once. A long time before you ever chat with it.</p>
+    <p>The model reads an enormous pile of text (trillions of words: books, code, websites, articles) and plays one repeated game: cover up the next word, guess it, get told the right answer, adjust slightly to guess better next time. Do that billions of times and the model ends up with a huge internal sense of what word tends to follow what — at scale, that sense encodes grammar, facts, coding patterns, and reasoning-shaped habits.</p>
+    <p>That's it settled after training. Talking to it later doesn't teach it anything new or look anything up. It's running your question through the same frozen sense of what comes next that got built once.</p>
+    <figure class="fig"><svg viewBox="0 0 900 120" role="img" aria-label="Training happens once, then a cutoff, then you chat with frozen weights">
+<rect x="10" y="40" width="520" height="34" rx="17" fill="#12915a"/><text x="270" y="63" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">TRAINING: read trillions of words, once</text>
+<line x1="545" y1="22" x2="545" y2="98" stroke="#c21c7a" stroke-width="4" stroke-dasharray="7 6"/><text x="545" y="16" text-anchor="middle" fill="#c21c7a" font-size="14" font-weight="700">KNOWLEDGE CUTOFF</text>
+<rect x="560" y="40" width="330" height="34" rx="17" fill="#e8e5f6" stroke="#6d45e0" stroke-width="2"/><text x="725" y="63" text-anchor="middle" fill="#17152a" font-size="16">you chat: weights stay frozen</text>
+<text x="270" y="102" text-anchor="middle" fill="#5d5a78" font-size="13">learns</text><text x="725" y="102" text-anchor="middle" fill="#5d5a78" font-size="13">does not learn, does not look anything up</text></svg><figcaption>Learning happens before the cutoff. After it, the model only gets what lands in the conversation.</figcaption></figure>
+    <p class="note"><span class="tag">Cutoff</span>That's also why it has a knowledge cutoff and can't know anything after that, unless a tool (search, a fetched webpage) hands it fresh text directly in the conversation.</p>
+  </section>
+
+  <section>
+    <h2 id="why-does-it-sometimes-just-make-stuff-up"><span class="n">04</span>Why does it sometimes just make stuff up?</h2>
+    <p>Because guessing a plausible-sounding next word and guessing a <em>true</em> next word are literally the same operation to the model. There's no separate "I actually know this" switch. If something is a very common, confident-sounding pattern in its training, it'll say it just as confidently whether it's true or not. Hallucination isn't a glitch, it's the normal mechanism, just without a truth-checker attached.</p>
+    <p>Some newer training tries to teach it to sound less sure when it's actually less sure. Helps a bit. Doesn't fix the underlying issue.</p>
+    <figure class="fig"><svg viewBox="0 0 900 200" role="img" aria-label="A confident wrong answer about the capital of Mars">
+<rect x="20" y="16" width="330" height="48" rx="14" fill="#e8e5f6"/><text x="38" y="46" fill="#17152a" font-size="17">What's the capital of Mars?</text>
+<rect x="300" y="84" width="580" height="64" rx="14" fill="#17152a"/><text x="322" y="112" fill="#fff" font-size="17">Olympus City, founded 2031.</text><text x="322" y="136" fill="#c3bfdb" font-size="15">Population 4.2 million. Fluent, specific, invented.</text>
+<rect x="20" y="96" width="250" height="52" rx="8" fill="#fff0f7" stroke="#c21c7a" stroke-width="2" stroke-dasharray="6 5"/><text x="145" y="118" text-anchor="middle" fill="#c21c7a" font-size="14" font-weight="700" class="mono">TRUTH-CHECKER</text><text x="145" y="138" text-anchor="middle" fill="#c21c7a" font-size="14" class="mono">not installed</text>
+<text x="300" y="178" fill="#5d5a78" font-size="14">Same operation either way: pick a plausible next word.</text>
+<rect x="640" y="164" width="240" height="12" rx="6" fill="#e2dff0"/><rect x="640" y="164" width="236" height="12" rx="6" fill="#c77d00"/><text x="640" y="192" fill="#5d5a78" font-size="12">sounds 98% sure</text></svg><figcaption>The model sounds equally sure whether the pattern is true or not.</figcaption></figure>
+  </section>
+
+  <div class="squiggle" role="presentation"></div>
+
+  <section>
+    <h2 id="training-has-two-very-different-phases"><span class="n">05</span>Training has two very different phases</h2>
+    <figure class="fig"><svg viewBox="0 0 900 140" role="img" aria-label="Training pipeline: raw text to base model, then examples and scoring to an assistant"><rect x="10" y="22" width="160" height="70" rx="12" fill="#e0f6f8" stroke="#0e8c99" stroke-width="2"/><text x="90.0" y="52" text-anchor="middle" fill="#17152a" font-size="15" font-weight="700">Trillions of</text><text x="90.0" y="74" text-anchor="middle" fill="#17152a" font-size="13">words of text</text><rect x="190" y="22" width="160" height="70" rx="12" fill="#e0f6f8" stroke="#0e8c99" stroke-width="2"/><text x="270.0" y="52" text-anchor="middle" fill="#17152a" font-size="15" font-weight="700">Base model</text><text x="270.0" y="74" text-anchor="middle" fill="#17152a" font-size="13">fluent, not helpful</text><rect x="370" y="22" width="160" height="70" rx="12" fill="#ffe6f3" stroke="#c21c7a" stroke-width="2"/><text x="450.0" y="52" text-anchor="middle" fill="#17152a" font-size="15" font-weight="700">Assistant</text><text x="450.0" y="74" text-anchor="middle" fill="#17152a" font-size="13">example chats</text><rect x="550" y="22" width="160" height="70" rx="12" fill="#ffe6f3" stroke="#c21c7a" stroke-width="2"/><text x="630.0" y="52" text-anchor="middle" fill="#17152a" font-size="15" font-weight="700">Scored answers</text><text x="630.0" y="74" text-anchor="middle" fill="#17152a" font-size="13">nudge toward good</text><rect x="730" y="22" width="160" height="70" rx="12" fill="#17152a" stroke="#17152a" stroke-width="2"/><text x="810.0" y="52" text-anchor="middle" fill="#fff" font-size="15" font-weight="700">Assistant</text><text x="810.0" y="74" text-anchor="middle" fill="#fff" font-size="13">helpful, safer</text><path d="M172 57h24" stroke="#5d5a78" stroke-width="3"/><path d="M190 51l8 6-8 6" fill="none" stroke="#5d5a78" stroke-width="3"/><path d="M352 57h24" stroke="#5d5a78" stroke-width="3"/><path d="M370 51l8 6-8 6" fill="none" stroke="#5d5a78" stroke-width="3"/><path d="M532 57h24" stroke="#5d5a78" stroke-width="3"/><path d="M550 51l8 6-8 6" fill="none" stroke="#5d5a78" stroke-width="3"/><path d="M712 57h24" stroke="#5d5a78" stroke-width="3"/><path d="M730 51l8 6-8 6" fill="none" stroke="#5d5a78" stroke-width="3"/><rect x="10" y="104" width="340" height="8" rx="4" fill="#0e8c99"/><text x="180" y="130" text-anchor="middle" fill="#0e8c99" font-size="14" font-weight="700">PHASE 1: brute-force language</text><rect x="370" y="104" width="520" height="8" rx="4" fill="#c21c7a"/><text x="630" y="130" text-anchor="middle" fill="#c21c7a" font-size="14" font-weight="700">PHASE 2: turn it into an assistant</text></svg><figcaption>Two very different jobs, in order.</figcaption></figure>
+    <div class="phases">
+      <div class="phase p1">
+        <span class="big">1</span>
+        <p><strong>Phase 1, learn language by brute force.</strong> Read a giant pile of internet text, guess-the-next-word millions of times. This makes it fluent and knowledgeable, but not helpful. A raw model like this will happily respond to your question with another question, because that's a normal pattern in raw text.</p>
+      </div>
+      <div class="phase p2">
+        <span class="big">2</span>
+        <p><strong>Phase 2, turn it into an assistant.</strong> Two steps:</p>
+        <ol>
+          <li>Show it a bunch of examples of "good assistant" conversations, so it learns the shape of a helpful reply.</li>
+          <li>Have it generate several possible answers to the same prompt, score which ones are actually better (correct code, correct math, or just "a human or another AI liked this one better"), and nudge it toward producing more of the good ones and fewer of the bad ones. Repeated a huge number of times.</li>
+        </ol>
+      </div>
+    </div>
+    <p>That second step is also where "safety" gets trained in: bad-behavior answers just get marked as bad answers, same mechanism.</p>
+    <p class="note"><span class="tag">Fun fact</span>One experiment (DeepSeek-R1) skipped step 1 entirely and just rewarded a model for getting the final answer right. The model taught itself to "think out loud" step by step first, purely because that strategy worked better. Nobody told it to do that.</p>
+  </section>
+
+  <section>
+    <h2 id="thinking-reasoning-mode-what-is-it-really"><span class="n">06</span>"Thinking" / reasoning mode, what is it really?</h2>
+    <p>Same next-word-guessing loop. The only difference: the model was trained to write out a scratchpad of reasoning before giving its final answer, instead of jumping straight there. More words written before the answer means more chances to catch its own mistake, which means better results on hard problems like math and code. That's why "thinking longer" measurably helps. It's not doing anything fundamentally different — it's just giving itself more room to work the problem out in text first.</p>
+    <figure class="fig"><svg viewBox="0 0 900 190" role="img" aria-label="Direct answer versus writing a scratchpad first">
+<text x="10" y="28" fill="#5d5a78" font-size="14" font-weight="700" class="mono">DIRECT</text>
+<rect x="10" y="38" width="130" height="40" rx="10" fill="#e8e5f6"/><text x="75" y="63" text-anchor="middle" fill="#17152a" font-size="15">question</text>
+<path d="M146 58h300" stroke="#5d5a78" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round"/>
+<rect x="452" y="38" width="150" height="40" rx="10" fill="#c21c7a"/><text x="527" y="63" text-anchor="middle" fill="#fff" font-size="15">answer (wrong)</text>
+<text x="10" y="116" fill="#6d45e0" font-size="14" font-weight="700" class="mono">THINKING</text>
+<rect x="10" y="126" width="130" height="40" rx="10" fill="#e8e5f6"/><text x="75" y="151" text-anchor="middle" fill="#17152a" font-size="15">question</text>
+<rect x="160" y="120" width="430" height="52" rx="10" fill="#fff" stroke="#6d45e0" stroke-width="2" stroke-dasharray="6 5"/><text x="175" y="142" fill="#17152a" font-size="14" class="mono">try 7x8 = 54 ... check ... no, 56. redo.</text><text x="175" y="162" fill="#5d5a78" font-size="13">scratchpad: more words, more chances to catch a mistake</text>
+<path d="M596 146h24" stroke="#5d5a78" stroke-width="3"/><rect x="626" y="126" width="150" height="40" rx="10" fill="#12915a"/><text x="701" y="151" text-anchor="middle" fill="#fff" font-size="15">answer (right)</text></svg><figcaption>Same guessing loop, with room to work the problem out in text first.</figcaption></figure>
+  </section>
+
+  <section>
+    <h2 id="why-it-forgets-everything-the-moment-you-close-the-tab"><span class="n">07</span>Why it forgets everything the moment you close the tab</h2>
+    <p>There's no memory being saved anywhere inside the model. Every single reply is generated by re-reading the <em>entire</em> visible conversation from scratch: your messages, its own previous replies, all of it, every time. Close the chat and it's gone. Permanently.</p>
+    <figure class="fig"><svg viewBox="0 0 900 135" role="img" aria-label="Every reply re-reads the whole conversation; closing the tab deletes it"><rect x="20" y="20" width="150" height="20" rx="6" fill="#c21c7a"/><text x="95" y="62" text-anchor="middle" fill="#5d5a78" font-size="13">reply 1 reads 1 message</text><rect x="220" y="20" width="150" height="20" rx="6" fill="#8f86d6"/><rect x="220" y="46" width="150" height="20" rx="6" fill="#c21c7a"/><text x="295" y="88" text-anchor="middle" fill="#5d5a78" font-size="13">reply 2 re-reads both</text><rect x="420" y="20" width="150" height="20" rx="6" fill="#8f86d6"/><rect x="420" y="46" width="150" height="20" rx="6" fill="#8f86d6"/><rect x="420" y="72" width="150" height="20" rx="6" fill="#c21c7a"/><text x="495" y="114" text-anchor="middle" fill="#5d5a78" font-size="13">reply 3 re-reads all three</text><path d="M600 56h50" stroke="#5d5a78" stroke-width="3"/><rect x="670" y="10" width="210" height="104" rx="14" fill="#17152a"/><text x="775" y="46" text-anchor="middle" fill="#fff" font-size="16" font-weight="700">tab closed</text><text x="775" y="70" text-anchor="middle" fill="#c3bfdb" font-size="14">conversation: gone</text><text x="775" y="92" text-anchor="middle" fill="#ff7cc3" font-size="14">memory: never existed</text></svg><figcaption>Each reply starts from the full transcript. Nothing is stored in the model.</figcaption></figure>
+    <p>Anything that looks like the AI "remembering you" (ChatGPT's memory, Claude Code's memory files) is a bolted-on trick: some other piece of software writes a summary to a file, and quietly stuffs that summary back into the conversation next time, pretending it's memory. The model itself never learns a thing from talking to you.</p>
+    <p class="note"><span class="tag">Practical upshot</span>The model only ever knows two things, whatever got baked into it during training, and whatever is literally sitting in front of it in the current conversation right now. Nothing else exists to it.</p>
+  </section>
+
+  <div class="squiggle" role="presentation"></div>
+
+  <section>
+    <h2 id="where-do-web-search-skills-and-local-files-fit-in-then"><span class="n">08</span>Where do web search, skills, and local files fit in, then?</h2>
+    <p>None of it is training, and none of it changes the model's weights. It's all the same trick: get more relevant text into the context window before the model starts guessing the next word.</p>
+    <figure class="fig"><svg viewBox="0 0 900 360" role="img" aria-label="You ask the harness, the harness builds context and calls the model, the model returns text or a tool call, the harness runs the action and feeds the result back, then answers you">
+<defs>
+<linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1c1a30"/><stop offset="1" stop-color="#2e2a4a"/></linearGradient>
+<marker id="ah" markerUnits="userSpaceOnUse" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0L12 6L0 12z" fill="#5d5a78"/></marker>
+</defs>
+<circle cx="70" cy="140" r="46" fill="#e8e5f6" stroke="#6d45e0" stroke-width="3"/><text x="70" y="147" text-anchor="middle" fill="#17152a" font-size="19" font-weight="700">You</text>
+<rect x="230" y="30" width="400" height="200" rx="20" fill="url(#hg)"/>
+<text x="254" y="64" fill="#3df2ff" font-size="15" font-weight="700" letter-spacing="2" class="mono">HARNESS</text>
+<g font-size="14" fill="#eceaf7"><text x="254" y="100">builds the context:</text></g>
+<g font-size="13" font-weight="700"><rect x="254" y="112" width="86" height="26" rx="13" fill="#0e8c99"/><text x="297" y="130" text-anchor="middle" fill="#fff">your text</text>
+<rect x="348" y="112" width="58" height="26" rx="13" fill="#c21c7a"/><text x="377" y="130" text-anchor="middle" fill="#fff">files</text>
+<rect x="414" y="112" width="62" height="26" rx="13" fill="#6d45e0"/><text x="445" y="130" text-anchor="middle" fill="#fff">skills</text>
+<rect x="484" y="112" width="124" height="26" rx="13" fill="#c77d00"/><text x="546" y="130" text-anchor="middle" fill="#fff">search results</text></g>
+<text x="254" y="176" fill="#eceaf7" font-size="14">runs the real actions, pastes results back in</text>
+<text x="254" y="204" fill="#9a94bd" font-size="13">the model never touches your disk or the web</text>
+<rect x="720" y="62" width="160" height="150" rx="20" fill="#fff" stroke="#c21c7a" stroke-width="3"/>
+<text x="800" y="104" text-anchor="middle" fill="#c21c7a" font-size="17" font-weight="700">Model</text><text x="800" y="130" text-anchor="middle" fill="#17152a" font-size="14">guesses the</text><text x="800" y="150" text-anchor="middle" fill="#17152a" font-size="14">next words</text><text x="800" y="184" text-anchor="middle" fill="#5d5a78" font-size="12">text in, text out</text>
+<rect x="300" y="290" width="260" height="56" rx="16" fill="#e0f6f8" stroke="#0e8c99" stroke-width="2"/><text x="430" y="324" text-anchor="middle" fill="#17152a" font-size="16" font-weight="700">Web  ·  files  ·  scripts</text>
+<g stroke="#5d5a78" stroke-width="3" fill="none" marker-end="url(#ah)">
+<path d="M118 120H224"/><path d="M224 168H118"/><path d="M636 108H714"/><path d="M714 164H636"/><path d="M370 236V284"/><path d="M490 284V236"/></g>
+<g font-size="13" fill="#5d5a78"><text x="171" y="110" text-anchor="middle">1 question</text><text x="171" y="190" text-anchor="middle">6 answer</text>
+<text x="675" y="98" text-anchor="middle">2 context</text><text x="675" y="188" text-anchor="middle">3 text or</text><text x="675" y="204" text-anchor="middle">tool call</text>
+<text x="358" y="266" text-anchor="end">4 run action</text><text x="502" y="266">5 result</text></g></svg><figcaption>The model only reads and writes text. The harness does everything else.</figcaption></figure>
+    <ul class="cards">
+      <li><b>Web search / fetching a page</b>the harness runs the search, grabs the result text, and pastes it into the conversation as if you'd typed it in yourself. The model then does its normal "guess the next word" thing, except now the answer is sitting right there in its input.</li>
+      <li><b>Skills</b>a skill is a pre-written block of instructions on disk. When one triggers, the harness reads that file and drops its contents into context, same as pasting in a very detailed instruction sheet before you ask your question. The model isn't "loading a skill" the way software loads a plugin, it's just been handed more text to read before it answers.</li>
+      <li><b>Local files / project context (CLAUDE.md, memory files, a codebase)</b>identical mechanism. Reading a file and putting its contents in context is the only way the model ever "sees" it. There's no separate channel; it's all just more tokens in the same input sequence.</li>
+      <li><b>Agents and tool calls</b>when the model "calls a tool," it's actually just outputting text in a specific format that the harness recognizes as a command. The harness runs the real action (search the web, edit a file, run a script) outside the model entirely, then feeds the result back in as more context. The model never touches your filesystem or the internet directly, it only ever produces text, and the surrounding software decides what to do with that text.</li>
+    </ul>
+    <div class="pattern">
+      <p>The pattern is always the same: training gives the model its baseline knowledge and behavior, frozen. Everything that looks like "live" knowledge or "using a tool" is the harness injecting fresh text into the one thing the model actually reads: the current context window.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 id="a-few-more-things-worth-knowing-briefly"><span class="n">09</span>A few more things worth knowing, briefly</h2>
+    <ul class="cards">
+      <li><svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="22" width="16" height="20" rx="5" fill="#0e8c99"/><rect x="24" y="22" width="20" height="20" rx="5" fill="#c21c7a"/><rect x="48" y="22" width="12" height="20" rx="5" fill="#6d45e0"/></svg><b>It doesn't see words, it sees "tokens,"</b>chunks of a word, roughly. Common words are one chunk; weird words get chopped into pieces. This is why it's bad at spelling and counting-letter tasks: it's not looking at letters at all.</li>
+      <li><svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="8" width="52" height="8" rx="4" fill="#c21c7a"/><rect x="6" y="22" width="52" height="8" rx="4" fill="#c21c7a" opacity=".55"/><rect x="6" y="36" width="52" height="8" rx="4" fill="#c21c7a" opacity=".25"/><rect x="6" y="50" width="52" height="8" rx="4" fill="#c21c7a" opacity=".85"/></svg><b>Longer conversations cost more and get slightly worse.</b>Every reply reprocesses the whole conversation so far, so a long chat is slower and pricier. Stuff buried in the middle of a huge wall of text also tends to get less "attention" than stuff near the end, so dumping your entire codebase in isn't automatically better than giving it just the relevant bits.</li>
+      <li><svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="10" width="44" height="44" rx="10" fill="#6d45e0"/><circle cx="24" cy="24" r="4" fill="#fff"/><circle cx="40" cy="40" r="4" fill="#fff"/><circle cx="40" cy="24" r="4" fill="#fff"/><circle cx="24" cy="40" r="4" fill="#fff"/></svg><b>Answers aren't always identical for the same question,</b>because there's a small dial of randomness in how it picks the next word, called temperature. Turn that dial to zero and it gets much more repeatable.</li>
+      <li><svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><g fill="#e2dff0"><rect x="6" y="6" width="16" height="16" rx="4"/><rect x="24" y="6" width="16" height="16" rx="4"/><rect x="42" y="6" width="16" height="16" rx="4"/><rect x="6" y="24" width="16" height="16" rx="4"/><rect x="42" y="24" width="16" height="16" rx="4"/><rect x="6" y="42" width="16" height="16" rx="4"/><rect x="24" y="42" width="16" height="16" rx="4"/></g><rect x="24" y="24" width="16" height="16" rx="4" fill="#c77d00"/><rect x="42" y="42" width="16" height="16" rx="4" fill="#c77d00"/></svg><b>Modern big models don't use their whole brain for every word.</b>They're built from many smaller specialist sub-networks, and only a handful get switched on per word, called "mixture of experts." Lets a model be huge without being huge-slow.</li>
+    </ul>
+    <p class="bigquote">It's a next-word guessing machine, extremely well trained twice over: once to be fluent, once to be helpful. It has no memory, no database, no "I don't know" button that always works. Every weird behavior you'll run into, confident wrong answers, getting worse in giant conversations, answers changing between runs, writing fluent code for a library that doesn't exist, comes directly from that mechanism.</p>
+  </section>
+
+  <div class="squiggle" role="presentation"></div>
+
+  <section>
+    <h2 id="appendix-the-lingo-quickly"><span class="n">A</span>Appendix: the lingo, quickly</h2>
+    <figure class="fig"><svg viewBox="0 0 900 270" role="img" aria-label="Map of the terms: AI contains LLM; the harness wraps the LLM and adds tools, skills, MCP, RAG and the agent loop">
+<rect x="6" y="6" width="888" height="258" rx="22" fill="#f4f1ff" stroke="#c9c2ee" stroke-width="2"/><text x="26" y="34" fill="#6d45e0" font-size="15" font-weight="700" class="mono">AI (umbrella)</text>
+<rect x="30" y="52" width="250" height="196" rx="16" fill="#e0f6f8" stroke="#0e8c99" stroke-width="2"/><text x="46" y="80" fill="#0e8c99" font-size="16" font-weight="700">LLM</text>
+<g fill="#fff" stroke="#0e8c99"><rect x="46" y="96" width="106" height="30" rx="8"/><rect x="160" y="96" width="106" height="30" rx="8"/><rect x="46" y="134" width="106" height="30" rx="8"/><rect x="160" y="134" width="106" height="30" rx="8"/></g>
+<g fill="#17152a" font-size="13" text-anchor="middle"><text x="99" y="116">weights</text><text x="213" y="116">tokens</text><text x="99" y="154">context window</text><text x="213" y="154">inference</text></g>
+<text x="46" y="196" fill="#17152a" font-size="13">frozen after training</text><text x="46" y="216" fill="#17152a" font-size="13">only ever reads and writes text</text>
+<path d="M286 150h38" stroke="#5d5a78" stroke-width="3"/><path d="M318 144l8 6-8 6" fill="none" stroke="#5d5a78" stroke-width="3"/>
+<rect x="334" y="52" width="544" height="196" rx="16" fill="#ffe6f3" stroke="#c21c7a" stroke-width="2"/><text x="350" y="80" fill="#c21c7a" font-size="16" font-weight="700">HARNESS (the software around the model)</text>
+<g fill="#fff" stroke="#c21c7a" stroke-width="1.5"><rect x="350" y="98" width="110" height="34" rx="17"/><rect x="470" y="98" width="90" height="34" rx="17"/><rect x="570" y="98" width="70" height="34" rx="17"/><rect x="650" y="98" width="70" height="34" rx="17"/><rect x="350" y="142" width="170" height="34" rx="17"/><rect x="530" y="142" width="130" height="34" rx="17"/></g>
+<g fill="#17152a" font-size="13" text-anchor="middle"><text x="405" y="120">tool calls</text><text x="515" y="120">skills</text><text x="605" y="120">MCP</text><text x="685" y="120">RAG</text><text x="435" y="164">agent loop</text><text x="595" y="164">prompts</text></g>
+<text x="350" y="206" fill="#17152a" font-size="13">builds the context, runs real actions, feeds results back in</text><text x="350" y="226" fill="#5d5a78" font-size="13">Claude Code, ChatGPT app, IDE plugins</text></svg><figcaption>Where each term in the list below sits.</figcaption></figure>
+    <ul class="gloss">
+      <li><b>AI</b> a broad umbrella term for software that does tasks normally needing human judgment. Everything below is one specific kind of AI.</li>
+      <li><b>LLM (large language model)</b> the actual model discussed in this whole doc, the next-word guesser trained on huge amounts of text.</li>
+      <li><b>Token</b> the chunk of text (roughly a word or word-piece) the model actually reads and generates, one at a time.</li>
+      <li><b>Model weights</b> the huge set of numbers tuned during training. This is "the model." Nothing else is stored anywhere.</li>
+      <li><b>Context window</b> everything the model can currently see in one go: your messages, its own replies, any files or search results pasted in. Its only source of "live" information. Deliberately curating what goes in here is its own discipline, see <strong>context engineering</strong> below.</li>
+      <li><b>Prompt</b> the text you (or a system) send the model to get a response.</li>
+      <li><b>Prompt engineering</b> optimizing the literal wording of a prompt (word choice, examples, output format) for a single call to the model. Stands on its own, doesn't require a harness, an agent, or any wrapper software, it's the same discipline whether you're calling the API directly or typing into a chat box. Deep dive: <a href="/library/ai-tooling-crash-course-for-developers/topics/prompt-engineering"><code>prompt-engineering.md</code></a>.</li>
+      <li><b>Context engineering</b> deciding <em>what</em> goes into the context window in the first place, not just how it's worded, minimal tool sets, just-in-time retrieval instead of front-loading everything, note-taking as durable memory. Deep dive: <a href="/library/ai-tooling-crash-course-for-developers/topics/harness-engineering-vocabulary#2-context-engineering--real-gap-or-already-covered"><code>harness-engineering-vocabulary.md</code></a>.</li>
+      <li><b>Training / pretraining</b> the one-time process of tuning the weights on a giant pile of text. Happens long before you ever chat with it.</li>
+      <li><b>Fine-tuning / post-training</b> further training on top of a pretrained model, usually to make it behave more like a helpful assistant rather than raw autocomplete.</li>
+      <li><b>Inference</b> the actual act of running the model to generate a response. This is what happens every time you send a message; no weights change during this.</li>
+      <li><b>Hallucination</b> a confident, fluent, wrong answer. Not a malfunction, just the normal guessing mechanism landing on something false.</li>
+      <li><b>Harness</b> the software wrapped around the model (Claude Code, ChatGPT's app, an IDE plugin) that manages the conversation, runs tools, reads files, and decides what text to feed the model next. The model itself has none of this; the harness builds it. Deep dive: <a href="/library/ai-tooling-crash-course-for-developers/topics/harness-engineering-vocabulary#1-harness-engineering--what-it-actually-means"><code>harness-engineering-vocabulary.md</code></a>.</li>
+      <li><b>Tool call</b> the model outputting a specific, structured piece of text that the harness recognizes as "run this action" (search the web, edit a file, run a command). The model requests it; the harness executes it and feeds the result back.</li>
+      <li><b>Agent</b> a harness set up to run the model in a loop, letting it call tools, see results, and decide the next step on its own, repeatedly, until the task looks done. See <a href="/library/ai-tooling-crash-course-for-developers/topics/subagents-and-delegation"><code>subagents-and-delegation.md</code></a> for how multiple agents split work.</li>
+      <li><b>Skill</b> a pre-written instruction file the harness can load into context when a task matches, so the model gets detailed guidance without you typing it out every time. Deep dive: <a href="/library/ai-tooling-crash-course-for-developers/topics/skill-libraries-and-marketplaces"><code>skill-libraries-and-marketplaces.md</code></a>.</li>
+      <li><b>Loop</b> running the same prompt or task repeatedly (on a timer, or self-paced), typically to check on something or make incremental progress over multiple turns. Building these deliberately (external progress files, explicit done-conditions instead of trusting self-report) is sometimes called <strong>loop engineering</strong>. Deep dive: <a href="/library/ai-tooling-crash-course-for-developers/topics/loop-engineering-agent-loops"><code>loop-engineering-agent-loops.md</code></a>.</li>
+      <li><b>Graph engineering</b> coordinating <em>multiple</em> agents or loops as an explicit network of nodes (agents, steps) and edges (handoffs, conditions), instead of one agent looping alone, plus a separate sense of the term for storing knowledge as explicit linked relationships rather than flat searchable text. Works independently of any specific harness underneath. Newer, less settled term. Deep dive: <a href="/library/ai-tooling-crash-course-for-developers/topics/graph-engineering-multi-agent-coordination"><code>graph-engineering-multi-agent-coordination.md</code></a>.</li>
+      <li><b>RAG (retrieval-augmented generation)</b> the formal name for "fetch relevant text from somewhere and paste it into context before answering." Web search and file lookups in this doc are both examples of RAG in practice. See <a href="/library/ai-tooling-crash-course-for-developers/topics/dev-scoped-second-brain-rag"><code>dev-scoped-second-brain-rag.md</code></a> for RAG over your own codebase/notes specifically.</li>
+      <li><b>MCP (Model Context Protocol)</b> a standard way for a harness to connect a model to live external tools/data sources without custom integration code per tool. Deep dive: <a href="/library/ai-tooling-crash-course-for-developers/topics/mcp-model-context-protocol"><code>mcp-model-context-protocol.md</code></a>.</li>
+    </ul>
+  </section>
+
+  <section class="sources">
+    <h2 id="sources"><span class="n">↗</span>Sources</h2>
+    <ul>
+      <li><a href="https://arxiv.org/abs/1706.03762">Attention Is All You Need (Vaswani et al., 2017)</a>: the original transformer/self-attention paper.</li>
+      <li><a href="https://tensorops.ai/blog/what-is-mixture-of-experts-llm">TensorOps, LLM Mixture of Experts Explained: A 2026 Field Guide</a>: MoE mechanics and 2026 frontier model parameter counts (DeepSeek-V4, Kimi K2, Qwen3, Mistral Large 3, Llama 4 Maverick).</li>
+      <li><a href="https://jxzhangjhu.github.io/blog/2026/how-frontier-labs-train-llms/">Jiaxin Zhang, How Frontier Labs Train Large Language Models (2026)</a>: the pretraining to mid-training to SFT to RL (GRPO-family) to alignment pipeline, DeepSeek-R1's pure-RL reasoning emergence, calibration and safety-gating in RL reward design.</li>
+    </ul>
+  </section>
+</article>

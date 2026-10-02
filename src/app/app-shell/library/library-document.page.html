@@ -8,7 +8,8 @@
       <joo-prose-content
         class="library-doc__body"
         [class.is-pending]="html.isLoading()"
-        [innerHTML]="content"
+        [class.is-plain]="!doc()?.custom"
+        [innerHTML]="renderedHtml()"
       />
     } @else {
       <div class="library-doc__slot" aria-hidden="true"></div>

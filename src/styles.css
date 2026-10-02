@@ -180,6 +180,133 @@
     border-top: 1px solid var(--sheet-border);
   }
 
+  /* Sidecar illustrations (`*.figs.html`, decision 040). */
+  joo-prose-content .fig {
+    margin: 1.4rem 0 1.8rem;
+  }
+
+  joo-prose-content .fig svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  joo-prose-content .fig svg text {
+    font-family: var(--font-read);
+  }
+
+  /* Diagrams are drawn for ~900px; on phones keep them legible and scroll sideways. */
+  @media (max-width: 768px) {
+    joo-prose-content .fig {
+      overflow-x: auto;
+    }
+
+    joo-prose-content .fig svg {
+      min-width: 640px;
+    }
+  }
+
+  joo-prose-content .fig figcaption {
+    margin-top: 0.4rem;
+    font-size: 0.85em;
+    text-align: center;
+    color: var(--sheet-text-muted);
+  }
+
+  /*
+   * Library facelift for plain markdown docs (`is-plain`; designed html docs
+   * carry their own CSS, decision 040). Reach-in for the reason above.
+   */
+  joo-prose-content.is-plain {
+    counter-reset: lib-h2;
+  }
+
+  joo-prose-content.is-plain .doc-banner {
+    display: block;
+    width: 100%;
+    height: 5.5rem;
+    margin: 0 0 1.6rem;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  joo-prose-content.is-plain h2 {
+    counter-increment: lib-h2;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-top: 0.4rem;
+  }
+
+  joo-prose-content.is-plain h2::before {
+    content: counter(lib-h2, decimal-leading-zero);
+    flex: none;
+    display: grid;
+    place-items: center;
+    min-width: 2rem;
+    height: 2rem;
+    padding-inline: 0.3rem;
+    font: 700 0.7em var(--font-mono);
+    color: #fff;
+    background: var(--p-cyan-700);
+    border-radius: 8px;
+    transform: rotate(-4deg);
+  }
+
+  joo-prose-content.is-plain h2.has-num::before {
+    display: none;
+  }
+
+  joo-prose-content.is-plain h2:nth-of-type(3n + 2)::before {
+    background: var(--p-magenta-700);
+  }
+
+  joo-prose-content.is-plain h2:nth-of-type(3n)::before {
+    background: var(--p-link-600);
+  }
+
+  joo-prose-content.is-plain ul {
+    list-style: none;
+    padding-left: 0.4rem;
+  }
+
+  joo-prose-content.is-plain ul > li {
+    position: relative;
+    padding-left: 1.4rem;
+  }
+
+  joo-prose-content.is-plain ul > li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 0.6rem;
+    height: 0.6rem;
+    background: var(--p-cyan-700);
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--p-cyan-700) 16%, transparent);
+  }
+
+  joo-prose-content.is-plain blockquote {
+    padding: 0.8rem 1rem 0.2rem 1.1rem;
+    color: var(--sheet-text);
+    background: color-mix(in srgb, var(--sheet-quote) 8%, white);
+    border-radius: 0 10px 10px 0;
+  }
+
+  joo-prose-content.is-plain tbody tr:nth-child(even) td {
+    background: color-mix(in srgb, var(--sheet-head) 60%, white);
+  }
+
+  joo-prose-content.is-plain hr {
+    width: 6rem;
+    height: 4px;
+    margin: 2.5rem auto;
+    background: linear-gradient(90deg, var(--p-cyan-700) 60%, var(--p-magenta-700) 60%);
+    border: 0;
+    border-radius: 2px;
+  }
+
   @media (max-width: 768px) {
     joo-prose-content pre {
       margin-inline: calc(var(--space-4) * -1);

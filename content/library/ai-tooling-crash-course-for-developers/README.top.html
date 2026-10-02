@@ -1,0 +1,114 @@
+<!-- Designed top of README.md (prepended at build, decision 040). The md below it is the synced text; edit reading paths here when topics change. -->
+<style>
+  .rd { --cy: #0e8c99; --mg: #c21c7a; --vi: #6d45e0; --am: #c77d00; --ink: #17152a; --muted: #5d5a78; --line: #e2dff0; color: var(--ink); }
+  .rd * { box-sizing: border-box; }
+  .rd a { text-decoration: none; }
+  .rd .hero {
+    position: relative; overflow: hidden; margin: 0 0 2rem; padding: 2rem 1.6rem 1.6rem; color: #eceaf7; border-radius: 18px;
+    background: radial-gradient(circle at 90% 0, #4a2a8a 0, transparent 55%), radial-gradient(circle at 0 100%, #0e5560 0, transparent 50%), #0c0b16;
+  }
+  .rd .hero .kicker { font: 700 0.75em var(--font-mono, monospace); letter-spacing: 0.18em; color: #3df2ff; }
+  .rd .hero h1 { margin: 0.4rem 0 0.7rem; font-size: 2em; line-height: 1.12; color: #fff; }
+  .rd .hero h1 em { font-style: normal; background: linear-gradient(90deg, #3df2ff, #ff7cc3); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .rd .hero p { max-width: 44rem; margin: 0 0 1.2rem; color: #c3bfdb; }
+  .rd .hero .cta { display: inline-block; padding: 0.55rem 1.1rem; font-weight: 700; color: #07060d !important; background: #3df2ff; border-radius: 99px; transition: transform 0.15s; }
+  .rd .hero .cta:hover { transform: translateY(-2px); text-decoration: none !important; }
+  .rd .hero svg { position: absolute; right: -20px; bottom: -30px; width: 280px; opacity: 0.5; pointer-events: none; }
+
+  .rd h2.t { margin: 2.2rem 0 0.4rem; font-size: 1.35em; }
+  .rd .lead { margin: 0 0 1.4rem; color: var(--muted); }
+
+  .rd .zone { --c: var(--cy); position: relative; margin: 0 0 1.4rem; padding: 1.1rem 1.2rem 0.4rem 1.2rem; background: color-mix(in srgb, var(--c) 7%, white); border: 2px solid color-mix(in srgb, var(--c) 40%, white); border-radius: 16px; }
+  .rd .zone.z2 { --c: var(--vi); }
+  .rd .zone.z3 { --c: var(--mg); }
+  .rd .zone.z4 { --c: var(--am); }
+  .rd .zone > h3 { display: flex; align-items: baseline; gap: 0.6rem; margin: 0 0 0.2rem; font-size: 1.1em; color: var(--c); }
+  .rd .zone > h3 small { font: 600 0.65em var(--font-mono, monospace); letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; }
+  .rd .zone > p { margin: 0 0 0.9rem; color: var(--muted); font-size: 0.95em; }
+  .rd .st { list-style: none; margin: 0; padding: 0; position: relative; }
+  .rd .st::before { content: ""; position: absolute; left: 0.95rem; top: 0.8rem; bottom: 1.2rem; border-left: 3px dotted color-mix(in srgb, var(--c) 55%, white); }
+  .rd .st li { position: relative; margin: 0 0 0.7rem; padding-left: 3rem; }
+  .rd .st li > i { position: absolute; left: 0; top: 0.05rem; width: 1.95rem; height: 1.95rem; display: grid; place-items: center; font: 700 0.8em var(--font-mono, monospace); font-style: normal; color: #fff; background: var(--c); border-radius: 50%; box-shadow: 0 0 0 4px #fff; }
+  .rd .st a { font-weight: 700; color: var(--ink); }
+  .rd .st a:hover { color: var(--c); text-decoration: underline; }
+  .rd .st span { display: block; font-size: 0.92em; color: var(--muted); }
+
+  .rd .side { display: grid; gap: 0.8rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin: 0 0 1rem; }
+  .rd .side a { display: block; padding: 0.9rem 1rem; color: var(--ink); background: #fff; border: 2px dashed var(--line); border-radius: 14px; transition: transform 0.15s, border-color 0.15s; }
+  .rd .side a:hover { transform: translateY(-2px); border-color: var(--cy); text-decoration: none; }
+  .rd .side b { display: block; color: var(--cy); }
+  .rd .side span { font-size: 0.92em; color: var(--muted); }
+
+  .rd .cut { display: flex; align-items: center; gap: 0.8rem; margin: 2.4rem 0 1.2rem; font: 700 0.75em var(--font-mono, monospace); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+  .rd .cut::before, .rd .cut::after { content: ""; flex: 1; border-top: 3px dotted var(--line); }
+  @media (prefers-reduced-motion: reduce) { .rd .hero .cta, .rd .side a { transition: none; } }
+</style>
+
+<div class="rd">
+  <header class="hero">
+    <svg viewBox="0 0 280 200" aria-hidden="true"><g fill="none" stroke="#3df2ff" stroke-width="3"><circle cx="60" cy="140" r="26"/><circle cx="150" cy="70" r="26" stroke="#ff7cc3"/><circle cx="230" cy="150" r="26" stroke="#ffb547"/><path d="M84 128 130 88M174 82 212 132" stroke-dasharray="6 7"/></g></svg>
+    <div class="kicker">AI TOOLING CRASH COURSE</div>
+    <h1>Start here. <em>Read in this order.</em></h1>
+    <p>Nineteen deep-dives on working with AI coding tools. You do not need to read them all, and you do not need to read them in file order. Follow the trail below: the basics first, then the working habits, then trust and safety, then the niche stuff.</p>
+    <a class="cta" href="/library/ai-tooling-crash-course-for-developers/0-how-llms-actually-work-under-the-hood">Begin: what even is an LLM?</a>
+  </header>
+
+  <h2 class="t" id="the-trail">The trail</h2>
+  <p class="lead">Four zones, easy to hard. Stop whenever you have what you came for.</p>
+
+  <section class="zone z1">
+    <h3>Zone 1: The basics <small>start here</small></h3>
+    <p>What the thing is, the words people use, and how not to burn money.</p>
+    <ol class="st">
+      <li><i>1</i><a href="/library/ai-tooling-crash-course-for-developers/0-how-llms-actually-work-under-the-hood">How LLMs actually work</a><span>The next-word machine, in plain terms. Read this first.</span></li>
+      <li><i>2</i><a href="/library/ai-tooling-crash-course-for-developers/topics/harness-engineering-vocabulary">Harness &amp; context vocabulary</a><span>The shared words: harness, context engineering, repository legibility.</span></li>
+      <li><i>3</i><a href="/library/ai-tooling-crash-course-for-developers/topics/session-and-token-economics">Sessions &amp; token economics</a><span>Why long chats get worse and pricier, and how to save tokens.</span></li>
+      <li><i>4</i><a href="/library/ai-tooling-crash-course-for-developers/topics/prompt-engineering">Prompt engineering</a><span>Writing the actual words you send the model.</span></li>
+    </ol>
+  </section>
+
+  <section class="zone z2">
+    <h3>Zone 2: Working with an agent <small>daily habits</small></h3>
+    <p>Set the agent up well and give it good instructions.</p>
+    <ol class="st">
+      <li><i>5</i><a href="/library/ai-tooling-crash-course-for-developers/topics/base-instruction-files">Base instruction files</a><span>CLAUDE.md, AGENTS.md and friends: what goes in, what does not.</span></li>
+      <li><i>6</i><a href="/library/ai-tooling-crash-course-for-developers/topics/planning-before-implementation">Planning before implementation</a><span>When to plan, when to skip it, and how to check a plan.</span></li>
+      <li><i>7</i><a href="/library/ai-tooling-crash-course-for-developers/topics/skill-libraries-and-marketplaces">Skills &amp; marketplaces</a><span>Reusable instruction packs and where to find them.</span></li>
+      <li><i>8</i><a href="/library/ai-tooling-crash-course-for-developers/topics/subagents-and-delegation">Subagents &amp; delegation</a><span>Handing work to a helper with its own fresh context.</span></li>
+      <li><i>9</i><a href="/library/ai-tooling-crash-course-for-developers/topics/mcp-model-context-protocol">MCP</a><span>Connecting the model to live tools and data.</span></li>
+      <li><i>10</i><a href="/library/ai-tooling-crash-course-for-developers/topics/memory-and-progress-ledgers">Memory &amp; progress ledgers</a><span>Making an agent remember across sessions without magic.</span></li>
+    </ol>
+  </section>
+
+  <section class="zone z3">
+    <h3>Zone 3: Trust &amp; safety <small>before you ship</small></h3>
+    <p>Checking the work, and not getting burned by what you install.</p>
+    <ol class="st">
+      <li><i>11</i><a href="/library/ai-tooling-crash-course-for-developers/topics/review-and-verification-tooling">Review &amp; verification</a><span>Why self-review is weak and what to do instead.</span></li>
+      <li><i>12</i><a href="/library/ai-tooling-crash-course-for-developers/topics/security-and-supply-chain">Security &amp; supply chain</a><span>Real incidents and a low-effort checklist.</span></li>
+      <li><i>13</i><a href="/library/ai-tooling-crash-course-for-developers/topics/skill-scanning-and-verification">Scanning third-party skills</a><span>Scanners exist, disagree, and can be fooled.</span></li>
+      <li><i>14</i><a href="/library/ai-tooling-crash-course-for-developers/topics/agent-sandboxing">Agent sandboxing</a><span>Keeping a bad action contained to a box.</span></li>
+    </ol>
+  </section>
+
+  <section class="zone z4">
+    <h3>Zone 4: Going deeper <small>niche, optional</small></h3>
+    <p>Worth it once the earlier zones feel routine.</p>
+    <ol class="st">
+      <li><i>15</i><a href="/library/ai-tooling-crash-course-for-developers/topics/loop-engineering-agent-loops">Loop engineering</a><span>Agent loops that finish instead of drifting.</span></li>
+      <li><i>16</i><a href="/library/ai-tooling-crash-course-for-developers/topics/dev-scoped-second-brain-rag">Second brain &amp; RAG</a><span>Search over your own code, decisions and notes.</span></li>
+      <li><i>17</i><a href="/library/ai-tooling-crash-course-for-developers/topics/local-model-hardware-fit">Local models &amp; hardware</a><span>What actually runs on a consumer GPU.</span></li>
+      <li><i>18</i><a href="/library/ai-tooling-crash-course-for-developers/topics/protocol-landscape-acp-a2a">ACP, A2A &amp; protocols</a><span>How the agent protocols relate to MCP.</span></li>
+      <li><i>19</i><a href="/library/ai-tooling-crash-course-for-developers/topics/graph-engineering-multi-agent-coordination">Graph engineering</a><span>Many agents as an explicit network. Newer, less settled.</span></li>
+      <li><i>20</i><a href="/library/ai-tooling-crash-course-for-developers/topics/personal-harness-architecture">Personal harness architecture</a><span>Concrete build proposals for your own setup.</span></li>
+    </ol>
+  </section>
+
+  <h2 class="t" id="side-quests">Side quests</h2>
+  <div class="side">
+    <a href="/library/ai-tooling-crash-course-for-developers/_inspiration-and-staying-current"><b>Inspiration &amp; staying current</b><span>Who to follow and where things change first.</span></a>
+    <a href="/library/ai-tooling-crash-course-for-developers/_ai-tooling-recommendations"><b>Tooling recommendations</b><span>Reference lists of tools, harnesses and models.</span></a>
+  </div>
+
+  <div class="cut">The full topic survey</div>
+</div>

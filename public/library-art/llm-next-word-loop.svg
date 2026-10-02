@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" role="img" aria-labelledby="t d">
+  <title id="t">An LLM predicts one word at a time</title>
+  <desc id="d">The text "I went to the" is fed into the model, which scores candidate next words (store 62%, park 21%, moon 2%). The chosen word is appended and the loop repeats.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c0b16"/><stop offset="1" stop-color="#221f38"/>
+    </linearGradient>
+    <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0 0L10 5L0 10z" fill="#3df2ff"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="380" rx="20" fill="url(#bg)"/>
+  <g font-family="'JetBrains Mono',Consolas,monospace" font-size="26" fill="#eceaf7">
+    <text x="60" y="70" font-family="'Chakra Petch','Segoe UI',sans-serif" font-size="20" letter-spacing="3" fill="#8af7ff">CONTEXT SO FAR</text>
+    <g>
+      <rect x="60" y="95" width="70" height="52" rx="8" fill="#2e2a4a"/><text x="76" y="130">I</text>
+      <rect x="140" y="95" width="110" height="52" rx="8" fill="#2e2a4a"/><text x="156" y="130">went</text>
+      <rect x="260" y="95" width="70" height="52" rx="8" fill="#2e2a4a"/><text x="276" y="130">to</text>
+      <rect x="340" y="95" width="90" height="52" rx="8" fill="#2e2a4a"/><text x="356" y="130">the</text>
+    </g>
+    <path d="M450 121H530" stroke="#3df2ff" stroke-width="3" marker-end="url(#ar)"/>
+    <rect x="540" y="70" width="240" height="102" rx="14" fill="#171529" stroke="#3df2ff" stroke-width="2"/>
+    <text x="660" y="112" text-anchor="middle" font-family="'Chakra Petch','Segoe UI',sans-serif" font-size="26" fill="#3df2ff">LLM</text>
+    <text x="660" y="148" text-anchor="middle" font-size="16" fill="#9a94bd">frozen weights</text>
+    <path d="M790 121H850" stroke="#3df2ff" stroke-width="3" marker-end="url(#ar)"/>
+    <text x="870" y="70" font-family="'Chakra Petch','Segoe UI',sans-serif" font-size="20" letter-spacing="3" fill="#ff7cc3">NEXT-WORD ODDS</text>
+    <g font-size="22">
+      <rect x="870" y="88" width="250" height="26" rx="5" fill="#ff3ea5" opacity=".95"/><text x="880" y="108" fill="#07060d">store  62%</text>
+      <rect x="870" y="124" width="82" height="26" rx="5" fill="#a47bff"/><text x="962" y="145">park 21%</text>
+      <rect x="870" y="160" width="40" height="26" rx="5" fill="#423d63"/><text x="920" y="181" fill="#9a94bd">moon 2%</text>
+    </g>
+    <path d="M995 200C995 290 600 300 400 300" fill="none" stroke="#ffb547" stroke-width="3" stroke-dasharray="8 7" marker-end="url(#ar)"/>
+    <text x="790" y="340" text-anchor="middle" font-family="'Chakra Petch','Segoe UI',sans-serif" font-size="22" fill="#ffcb7a">pick one, append it to the context, run again</text>
+    <rect x="60" y="270" width="340" height="62" rx="10" fill="#171529" stroke="#ffb547" stroke-width="2"/>
+    <text x="80" y="310" fill="#eceaf7">I went to the <tspan fill="#ff7cc3">store</tspan></text>
+  </g>
+</svg>

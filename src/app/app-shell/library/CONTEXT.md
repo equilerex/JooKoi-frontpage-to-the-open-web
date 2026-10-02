@@ -17,3 +17,9 @@ Tree on the layout so every library URL keeps folder navigation. The right pane 
 ## Don't
 
 Don't remove the tree from document views. Don't invent `##` folders. Don't read a sibling path from `pnpm build`.
+
+**Designed docs (decision 040).** A `foo.html` beside `foo.md` in `content/library/` replaces the rendered body; doc meta carries `custom: true` and the page renders it through `bypassSecurityTrustHtml` (own `<style>`, inline SVG allowed; repo-authored only). `content:sync` only copies `.md`, so html survives. Pin `<!-- md-sha: xxxxxxxx -->` = first 8 hex of sha1 of the md; `pnpm run content` warns `STALE designed html` when it differs. Art goes in `public/library-art/`, referenced without a leading slash.
+
+Plain md docs get `.is-plain` styling (src/styles.css) and a generated banner img from `bannerHtml()` in the build script. Designed html docs skip both.
+
+Sidecars next to a doc: `foo.top.html` (prepended), `foo.figs.html` (figures after named headings). Folder `index.md` `reading-order` drives tree and pager order. Hand-toggled folder state lives in `LibraryLayoutStore.folderOpen`. See decision 040 addendum.

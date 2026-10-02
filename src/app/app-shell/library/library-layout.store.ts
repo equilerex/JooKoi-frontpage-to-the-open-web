@@ -5,11 +5,14 @@ interface LibraryLayoutState {
   treeScrollTop: number;
   /** PrimeNG tree filter box text (ephemeral; not URL). */
   treeFilter: string;
+  /** Folders the user opened or closed by hand; survives tree rebuilds on navigation. */
+  folderOpen: Readonly<Record<string, boolean>>;
 }
 
 const initialState: LibraryLayoutState = {
   treeScrollTop: 0,
   treeFilter: '',
+  folderOpen: {},
 };
 
 /**
@@ -25,6 +28,9 @@ export const LibraryLayoutStore = signalStore(
     },
     setTreeFilter(treeFilter: string): void {
       patchState(store, { treeFilter });
+    },
+    setFolderOpen(key: string, open: boolean): void {
+      patchState(store, { folderOpen: { ...store.folderOpen(), [key]: open } });
     },
   })),
 );

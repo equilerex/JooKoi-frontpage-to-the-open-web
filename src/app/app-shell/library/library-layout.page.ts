@@ -20,7 +20,7 @@ import {
 import { ReadoutPanelComponent } from '../../shared/design-system/surfaces/readout-panel/readout-panel.component';
 import { findLibraryDoc, findLibraryFolder } from '../../shared/library-content/library-lookup';
 import { LibraryLayoutStore } from './library-layout.store';
-import { buildFullLibraryTree, entryDocForFolder } from './library-tree';
+import { buildFullLibraryTree, entryDocForFolder, expandAncestors } from './library-tree';
 
 /**
  * Library frame: breadcrumb, file tree on the left (always), right pane renders
@@ -40,7 +40,7 @@ import { buildFullLibraryTree, entryDocForFolder } from './library-tree';
 })
 export class LibraryLayoutPage {
   private readonly router = inject(Router);
-  private readonly layoutStore = inject(LibraryLayoutStore);
+  protected readonly layoutStore = inject(LibraryLayoutStore);
 
   private readonly treePanel = viewChild('treePanel', { read: ElementRef });
 
@@ -66,9 +66,14 @@ export class LibraryLayoutPage {
 
   protected readonly crumbs = computed<readonly Crumb[]>(() => crumbsFor(this.libraryPath()));
 
-  protected readonly treeNodes = computed(() =>
-    buildFullLibraryTree(this.libraryPath(), this.expandFolder()),
-  );
+  protected readonly treeNodes = computed(() => {
+    const nodes = buildFullLibraryTree(this.libraryPath(), this.expandFolder());
+    // Hand-toggled folders keep their state across navigations; the focused
+    // document's ancestors still open.
+    applyFolderOpen(nodes, this.layoutStore.folderOpen());
+    expandAncestors(nodes, this.libraryPath());
+    return nodes;
+  });
 
   protected readonly selectionKeys = computed<Record<string, boolean> | null>(() => {
     const path = this.libraryPath();
@@ -141,4 +146,15 @@ function crumbsFor(path: string): readonly Crumb[] {
     crumbs.push(isLast ? { label } : { label, routerLink: `/library/${acc}` });
   }
   return crumbs;
+}
+
+function applyFolderOpen(
+  nodes: readonly TreeNode[],
+  open: Readonly<Record<string, boolean>>,
+): void {
+  for (const node of nodes) {
+    const state = typeof node.key === 'string' ? open[node.key] : undefined;
+    if (state !== undefined) node.expanded = state;
+    if (node.children) applyFolderOpen(node.children, open);
+  }
 }

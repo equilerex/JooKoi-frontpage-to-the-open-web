@@ -8,6 +8,8 @@ export interface LibraryDocMeta {
   readonly summary: string;
   readonly tags: readonly string[];
   readonly hasDiagrams: boolean;
+  readonly custom: boolean;
+  readonly trusted: boolean;
   readonly prev: string | null;
   readonly next: string | null;
 }
@@ -68,10 +70,10 @@ export const LIBRARY_FOLDERS: readonly LibraryFolderMeta[] = [
       "ai-tooling-crash-course-for-developers/topics"
     ],
     "docs": [
-      "ai-tooling-crash-course-for-developers/_ai-tooling-recommendations",
-      "ai-tooling-crash-course-for-developers/_inspiration-and-staying-current",
+      "ai-tooling-crash-course-for-developers/README",
       "ai-tooling-crash-course-for-developers/0-how-llms-actually-work-under-the-hood",
-      "ai-tooling-crash-course-for-developers/README"
+      "ai-tooling-crash-course-for-developers/_inspiration-and-staying-current",
+      "ai-tooling-crash-course-for-developers/_ai-tooling-recommendations"
     ],
     "docCount": 23
   },
@@ -79,29 +81,29 @@ export const LIBRARY_FOLDERS: readonly LibraryFolderMeta[] = [
     "path": "ai-tooling-crash-course-for-developers/topics",
     "title": "Topics",
     "order": 0,
-    "summary": "",
+    "summary": "Deep-dives, easiest and most useful first.",
     "introHtml": "",
     "childFolders": [],
     "docs": [
-      "ai-tooling-crash-course-for-developers/topics/agent-sandboxing",
-      "ai-tooling-crash-course-for-developers/topics/base-instruction-files",
-      "ai-tooling-crash-course-for-developers/topics/dev-scoped-second-brain-rag",
-      "ai-tooling-crash-course-for-developers/topics/graph-engineering-multi-agent-coordination",
       "ai-tooling-crash-course-for-developers/topics/harness-engineering-vocabulary",
-      "ai-tooling-crash-course-for-developers/topics/local-model-hardware-fit",
-      "ai-tooling-crash-course-for-developers/topics/loop-engineering-agent-loops",
+      "ai-tooling-crash-course-for-developers/topics/session-and-token-economics",
+      "ai-tooling-crash-course-for-developers/topics/prompt-engineering",
+      "ai-tooling-crash-course-for-developers/topics/base-instruction-files",
+      "ai-tooling-crash-course-for-developers/topics/planning-before-implementation",
+      "ai-tooling-crash-course-for-developers/topics/skill-libraries-and-marketplaces",
+      "ai-tooling-crash-course-for-developers/topics/subagents-and-delegation",
       "ai-tooling-crash-course-for-developers/topics/mcp-model-context-protocol",
       "ai-tooling-crash-course-for-developers/topics/memory-and-progress-ledgers",
-      "ai-tooling-crash-course-for-developers/topics/personal-harness-architecture",
-      "ai-tooling-crash-course-for-developers/topics/planning-before-implementation",
-      "ai-tooling-crash-course-for-developers/topics/prompt-engineering",
-      "ai-tooling-crash-course-for-developers/topics/protocol-landscape-acp-a2a",
       "ai-tooling-crash-course-for-developers/topics/review-and-verification-tooling",
       "ai-tooling-crash-course-for-developers/topics/security-and-supply-chain",
-      "ai-tooling-crash-course-for-developers/topics/session-and-token-economics",
-      "ai-tooling-crash-course-for-developers/topics/skill-libraries-and-marketplaces",
       "ai-tooling-crash-course-for-developers/topics/skill-scanning-and-verification",
-      "ai-tooling-crash-course-for-developers/topics/subagents-and-delegation"
+      "ai-tooling-crash-course-for-developers/topics/agent-sandboxing",
+      "ai-tooling-crash-course-for-developers/topics/loop-engineering-agent-loops",
+      "ai-tooling-crash-course-for-developers/topics/dev-scoped-second-brain-rag",
+      "ai-tooling-crash-course-for-developers/topics/local-model-hardware-fit",
+      "ai-tooling-crash-course-for-developers/topics/protocol-landscape-acp-a2a",
+      "ai-tooling-crash-course-for-developers/topics/graph-engineering-multi-agent-coordination",
+      "ai-tooling-crash-course-for-developers/topics/personal-harness-architecture"
     ],
     "docCount": 19
   }
@@ -111,232 +113,278 @@ export const LIBRARY_DOCS: readonly LibraryDocMeta[] = [
   {
     "path": "ai-tooling-crash-course-for-developers/_ai-tooling-recommendations",
     "title": "Ai Tooling Recommendations",
-    "order": 0,
+    "order": 4,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": null,
-    "next": "ai-tooling-crash-course-for-developers/_inspiration-and-staying-current"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/_inspiration-and-staying-current",
+    "next": null
   },
   {
     "path": "ai-tooling-crash-course-for-developers/_inspiration-and-staying-current",
     "title": "Inspiration And Staying Current",
-    "order": 0,
+    "order": 3,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/_ai-tooling-recommendations",
-    "next": "ai-tooling-crash-course-for-developers/0-how-llms-actually-work-under-the-hood"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/0-how-llms-actually-work-under-the-hood",
+    "next": "ai-tooling-crash-course-for-developers/_ai-tooling-recommendations"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/0-how-llms-actually-work-under-the-hood",
     "title": "0 How Llms Actually Work Under The Hood",
-    "order": 0,
+    "order": 2,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/_inspiration-and-staying-current",
-    "next": "ai-tooling-crash-course-for-developers/README"
+    "custom": true,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/README",
+    "next": "ai-tooling-crash-course-for-developers/_inspiration-and-staying-current"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/README",
     "title": "README",
-    "order": 0,
+    "order": 1,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/0-how-llms-actually-work-under-the-hood",
-    "next": null
+    "custom": false,
+    "trusted": true,
+    "prev": null,
+    "next": "ai-tooling-crash-course-for-developers/0-how-llms-actually-work-under-the-hood"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/agent-sandboxing",
     "title": "Agent Sandboxing",
-    "order": 0,
+    "order": 13,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": null,
-    "next": "ai-tooling-crash-course-for-developers/topics/base-instruction-files"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/skill-scanning-and-verification",
+    "next": "ai-tooling-crash-course-for-developers/topics/loop-engineering-agent-loops"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/base-instruction-files",
     "title": "Base Instruction Files",
-    "order": 0,
+    "order": 4,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/agent-sandboxing",
-    "next": "ai-tooling-crash-course-for-developers/topics/dev-scoped-second-brain-rag"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/prompt-engineering",
+    "next": "ai-tooling-crash-course-for-developers/topics/planning-before-implementation"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/dev-scoped-second-brain-rag",
     "title": "Dev Scoped Second Brain Rag",
-    "order": 0,
+    "order": 15,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/base-instruction-files",
-    "next": "ai-tooling-crash-course-for-developers/topics/graph-engineering-multi-agent-coordination"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/loop-engineering-agent-loops",
+    "next": "ai-tooling-crash-course-for-developers/topics/local-model-hardware-fit"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/graph-engineering-multi-agent-coordination",
     "title": "Graph Engineering Multi Agent Coordination",
-    "order": 0,
+    "order": 18,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/dev-scoped-second-brain-rag",
-    "next": "ai-tooling-crash-course-for-developers/topics/harness-engineering-vocabulary"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/protocol-landscape-acp-a2a",
+    "next": "ai-tooling-crash-course-for-developers/topics/personal-harness-architecture"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/harness-engineering-vocabulary",
     "title": "Harness Engineering Vocabulary",
-    "order": 0,
+    "order": 1,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/graph-engineering-multi-agent-coordination",
-    "next": "ai-tooling-crash-course-for-developers/topics/local-model-hardware-fit"
+    "custom": false,
+    "trusted": true,
+    "prev": null,
+    "next": "ai-tooling-crash-course-for-developers/topics/session-and-token-economics"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/local-model-hardware-fit",
     "title": "Local Model Hardware Fit",
-    "order": 0,
+    "order": 16,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/harness-engineering-vocabulary",
-    "next": "ai-tooling-crash-course-for-developers/topics/loop-engineering-agent-loops"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/dev-scoped-second-brain-rag",
+    "next": "ai-tooling-crash-course-for-developers/topics/protocol-landscape-acp-a2a"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/loop-engineering-agent-loops",
     "title": "Loop Engineering Agent Loops",
-    "order": 0,
+    "order": 14,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/local-model-hardware-fit",
-    "next": "ai-tooling-crash-course-for-developers/topics/mcp-model-context-protocol"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/agent-sandboxing",
+    "next": "ai-tooling-crash-course-for-developers/topics/dev-scoped-second-brain-rag"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/mcp-model-context-protocol",
     "title": "Mcp Model Context Protocol",
-    "order": 0,
+    "order": 8,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/loop-engineering-agent-loops",
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/subagents-and-delegation",
     "next": "ai-tooling-crash-course-for-developers/topics/memory-and-progress-ledgers"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/memory-and-progress-ledgers",
     "title": "Memory And Progress Ledgers",
-    "order": 0,
+    "order": 9,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
+    "custom": false,
+    "trusted": true,
     "prev": "ai-tooling-crash-course-for-developers/topics/mcp-model-context-protocol",
-    "next": "ai-tooling-crash-course-for-developers/topics/personal-harness-architecture"
+    "next": "ai-tooling-crash-course-for-developers/topics/review-and-verification-tooling"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/personal-harness-architecture",
     "title": "Personal Harness Architecture",
-    "order": 0,
+    "order": 19,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/memory-and-progress-ledgers",
-    "next": "ai-tooling-crash-course-for-developers/topics/planning-before-implementation"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/graph-engineering-multi-agent-coordination",
+    "next": null
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/planning-before-implementation",
     "title": "Planning Before Implementation",
-    "order": 0,
+    "order": 5,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/personal-harness-architecture",
-    "next": "ai-tooling-crash-course-for-developers/topics/prompt-engineering"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/base-instruction-files",
+    "next": "ai-tooling-crash-course-for-developers/topics/skill-libraries-and-marketplaces"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/prompt-engineering",
     "title": "Prompt Engineering",
-    "order": 0,
+    "order": 3,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/planning-before-implementation",
-    "next": "ai-tooling-crash-course-for-developers/topics/protocol-landscape-acp-a2a"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/session-and-token-economics",
+    "next": "ai-tooling-crash-course-for-developers/topics/base-instruction-files"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/protocol-landscape-acp-a2a",
     "title": "Protocol Landscape Acp A2a",
-    "order": 0,
+    "order": 17,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/prompt-engineering",
-    "next": "ai-tooling-crash-course-for-developers/topics/review-and-verification-tooling"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/local-model-hardware-fit",
+    "next": "ai-tooling-crash-course-for-developers/topics/graph-engineering-multi-agent-coordination"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/review-and-verification-tooling",
     "title": "Review And Verification Tooling",
-    "order": 0,
+    "order": 10,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/protocol-landscape-acp-a2a",
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/memory-and-progress-ledgers",
     "next": "ai-tooling-crash-course-for-developers/topics/security-and-supply-chain"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/security-and-supply-chain",
     "title": "Security And Supply Chain",
-    "order": 0,
+    "order": 11,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
+    "custom": false,
+    "trusted": true,
     "prev": "ai-tooling-crash-course-for-developers/topics/review-and-verification-tooling",
-    "next": "ai-tooling-crash-course-for-developers/topics/session-and-token-economics"
+    "next": "ai-tooling-crash-course-for-developers/topics/skill-scanning-and-verification"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/session-and-token-economics",
     "title": "Session And Token Economics",
-    "order": 0,
+    "order": 2,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/security-and-supply-chain",
-    "next": "ai-tooling-crash-course-for-developers/topics/skill-libraries-and-marketplaces"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/harness-engineering-vocabulary",
+    "next": "ai-tooling-crash-course-for-developers/topics/prompt-engineering"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/skill-libraries-and-marketplaces",
     "title": "Skill Libraries And Marketplaces",
-    "order": 0,
+    "order": 6,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/session-and-token-economics",
-    "next": "ai-tooling-crash-course-for-developers/topics/skill-scanning-and-verification"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/planning-before-implementation",
+    "next": "ai-tooling-crash-course-for-developers/topics/subagents-and-delegation"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/skill-scanning-and-verification",
     "title": "Skill Scanning And Verification",
-    "order": 0,
+    "order": 12,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/skill-libraries-and-marketplaces",
-    "next": "ai-tooling-crash-course-for-developers/topics/subagents-and-delegation"
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/security-and-supply-chain",
+    "next": "ai-tooling-crash-course-for-developers/topics/agent-sandboxing"
   },
   {
     "path": "ai-tooling-crash-course-for-developers/topics/subagents-and-delegation",
     "title": "Subagents And Delegation",
-    "order": 0,
+    "order": 7,
     "summary": "",
     "tags": [],
     "hasDiagrams": false,
-    "prev": "ai-tooling-crash-course-for-developers/topics/skill-scanning-and-verification",
-    "next": null
+    "custom": false,
+    "trusted": true,
+    "prev": "ai-tooling-crash-course-for-developers/topics/skill-libraries-and-marketplaces",
+    "next": "ai-tooling-crash-course-for-developers/topics/mcp-model-context-protocol"
   }
 ];
 
