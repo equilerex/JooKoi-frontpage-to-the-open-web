@@ -1,23 +1,17 @@
 <joo-readout-panel jooCornerBrackets [flush]="true">
   <joo-console-landing-template>
-    <joo-eyebrow-label templateHero>Front page to the</joo-eyebrow-label>
     <joo-logotype templateHero>Open <b>Web</b></joo-logotype>
-    <p templateHero class="home-lede">Find the sites worth searching. Then search them directly.</p>
+    <p templateHero class="home-lede">Browse your neighbourhood</p>
 
     <joo-console-input
       templateConsole
       size="lg"
-      placeholder="css grid, estonian news, rss readers"
+      placeholder="What are you curious about today?"
       [(value)]="query"
       (submitted)="onSubmit()"
     >
       <joo-hardware-key accent="hot" (press)="onSubmit()">Launch</joo-hardware-key>
     </joo-console-input>
-    <joo-toolbar-row templateConsole>
-      <joo-field-label>Scope</joo-field-label>
-      <joo-segment-selector [options]="scopeOptions" value="trusted" ariaLabel="Scope" />
-    </joo-toolbar-row>
-
     <joo-field-label templateKeys>Quick keys</joo-field-label>
     <joo-keycap-grid templateKeys>
       @for (key of quickKeys; track key.fn) {
@@ -37,10 +31,23 @@
 
 <joo-stripe-rule />
 
-@if (feedArticles().length) {
+@if (hasFeed) {
   <joo-readout-panel [flush]="true" label="Wire" led="green">
     <span panelHead class="panel-meta">{{ feedMeta() }}</span>
-    <ul class="feed">
+    @if (feedEmpty()) {
+      <p class="feed-hint">
+        None of the sources you follow are in the current feed, so everything is shown.
+        <button type="button" class="feed-remove" (click)="showAllFeedSources()">
+          Clear my follow list
+        </button>
+      </p>
+    }
+    <ul
+      class="feed feed-scroll"
+      tabindex="0"
+      aria-label="Wire articles"
+      (scroll)="onFeedScroll($event)"
+    >
       @for (item of feedArticles(); track item.link) {
         <li class="feed-item">
           <span class="feed-date">{{ item.date }}</span>
@@ -120,4 +127,14 @@
       </a>
     }
   </joo-tag-set>
+</joo-readout-panel>
+
+<joo-readout-panel label="Why this exists" led="cyan">
+  <p class="home-deck">
+    Google and most other search engines hand you a few answers and nothing around them, so you
+    never run into the neighbouring pages the way you used to on the old web. This is a small
+    attempt to gather some pages worth visiting on an open web that keeps shrinking. Browse around,
+    and search the sites directly.
+    <a class="home-deck__link" routerLink="/about">Read more</a>
+  </p>
 </joo-readout-panel>

@@ -18,6 +18,11 @@ export const routes: Routes = [
     loadComponent: () => import('./app-shell/search.page').then((m) => m.SearchPage),
     title: 'Search',
   },
+  {
+    path: 'about',
+    loadComponent: () => import('./app-shell/about.page').then((m) => m.AboutPage),
+    title: 'About',
+  },
   /** D8 + ADR 029: old `/learn` URLs land on the crash-course collection. */
   {
     path: 'learn',

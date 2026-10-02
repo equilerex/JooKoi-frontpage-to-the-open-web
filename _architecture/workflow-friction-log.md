@@ -49,3 +49,8 @@ The Phase 2 run cost far more than it should have: too many tokens, too much wal
 - `[tooling]` Text written through the Bash tool with doubled backslashes (`\n`, `\b`) arrives with single ones, so a regex or template literal silently changes meaning. Write source files with the Write/Edit tools, not shell heredocs or `python -c`.
 - `[tooling]` `lighthouse` on Windows exits non-zero with `EPERM` on its temp Chrome profile after the report is written. `scripts/ux-lab.mjs` treats the report file as success.
 - `[confusion]` The static preview served the CSR fallback for every deep route and no compression, so early lab numbers were about 2x too slow. Fixed in `scripts/serve-static-build.mjs`.
+
+## 2026-10-02 — search page funnel
+
+- `[tooling]` The `ng serve` template HMR endpoint (`/@ng/component?c=...SearchPage`) kept serving a stale compiled template while the main chunk and SSR HTML were current. The browser hydrated, then applied the stale HMR template, so edits never showed even though the type check passed. A reload does not clear it; restarting `pnpm start` does. Check with `fetch("/@ng/component?c=src%2Fapp%2Fapp-shell%2Fsearch.page.ts%40SearchPage")` and look for a string from the new template.
+- `[tooling]` The stale template HMR cache came back after a restart, now for record-grid and the home page. `pnpm start` now runs `ng serve --no-hmr`, so edits reload the page instead of patching templates in place.

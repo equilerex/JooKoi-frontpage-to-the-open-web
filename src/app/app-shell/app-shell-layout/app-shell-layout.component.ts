@@ -1,6 +1,6 @@
-import { afterNextRender, Component, computed, inject, signal } from '@angular/core';
+import { afterNextRender, Component, computed, inject, isDevMode, signal } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { NavigationEnd, NavigationStart, Router, RouterOutlet } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
 import { SOURCE_COUNT } from '../../shared/curated-websites/source-stats.generated';
 import { NavItem } from '../../shared/design-system/navigation/indicator-nav-list/indicator-nav-list.component';
@@ -16,9 +16,10 @@ import { MobileBottomDockComponent } from '../mobile-bottom-dock/mobile-bottom-d
  * and the dock full-bleed while only page content is constrained to
  * `--content-max`.
  *
- * Two nav lists: the header's `.hud__nav` is Search and Library only — the
- * brand mark is the way home — while the mobile dock carries a thumb-reach Home
- * item plus Search and Library.
+ * Two nav lists: the header's `.hud__nav` and the mobile dock both carry Home,
+ * Search and Library (the brand mark also links home). The footer links to the
+ * component playground (`/specimen`) only in dev mode, because that route does
+ * not exist in a production build.
  *
  * `/search` and `/library` are real routes. The parked `Browse` item was removed
  * since browsing is part of the landing experience and the brand mark links home.
@@ -26,6 +27,7 @@ import { MobileBottomDockComponent } from '../mobile-bottom-dock/mobile-bottom-d
 @Component({
   imports: [
     RouterOutlet,
+    RouterLink,
     HorizonBackdropComponent,
     HeadsUpDisplayHeaderComponent,
     MobileBottomDockComponent,
@@ -83,7 +85,11 @@ export class AppShellLayoutComponent {
     });
   }
 
+  /** The `/specimen` route is registered only when `isDevMode()` (see `app.routes.ts`). */
+  protected readonly showPlaygroundLink = isDevMode();
+
   private readonly baseHeaderNavItems: readonly NavItem[] = [
+    { label: 'Home', routerLink: '/' },
     { label: 'Search', routerLink: '/search' },
     { label: 'Library', routerLink: '/library' },
   ];

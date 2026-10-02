@@ -4,6 +4,7 @@ import { HardwareKeyComponent } from '../../shared/design-system/actions/hardwar
 import { ConsoleInputComponent } from '../../shared/design-system/form-controls/console-input/console-input.component';
 import { StatusLightComponent } from '../../shared/design-system/indicators/status-light/status-light.component';
 import { NavItem } from '../../shared/design-system/navigation/indicator-nav-list/indicator-nav-list.component';
+import { EyebrowLabelComponent } from '../../shared/design-system/typography/eyebrow-label/eyebrow-label.component';
 import { LogotypeComponent } from '../../shared/design-system/typography/logotype/logotype.component';
 
 /**
@@ -39,6 +40,7 @@ import { LogotypeComponent } from '../../shared/design-system/typography/logotyp
 @Component({
   selector: 'joo-heads-up-display-header',
   imports: [
+    EyebrowLabelComponent,
     LogotypeComponent,
     HardwareKeyComponent,
     StatusLightComponent,

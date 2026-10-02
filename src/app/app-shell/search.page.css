@@ -48,6 +48,65 @@
   border-bottom: 1px solid var(--border-subtle);
 }
 
+/* Two-layer category funnel between the inputs and the table: categories,
+ * then the specific types of the chosen category. */
+.funnel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  padding: var(--space-5) var(--space-4);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+/* Layer 1: one column per theme, auto-fitting so it wraps on narrow screens. */
+.funnel__columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: var(--space-5) var(--space-4);
+}
+
+.funnel__column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-left: var(--space-3);
+  border-left: 1px solid var(--border-subtle);
+}
+
+.funnel__heading {
+  font: 700 var(--text-xs) / 1.2 var(--font-mono);
+  color: var(--text-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Layer 2 header: expand/collapse and clear. */
+.funnel__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Clear key sits at the far end of the bar, away from the Types key. */
+.funnel__clear {
+  margin-left: auto;
+}
+
+/* Expanded types layer: a bracketed region. CSS columns (not a grid) so each
+ * group keeps its own height and groups stack under each other instead of
+ * every row stretching to the tallest group. */
+.funnel__panel {
+  padding: var(--space-5) var(--space-4);
+  columns: 14rem;
+  column-gap: var(--space-5);
+}
+
+.funnel__panel .funnel__column {
+  break-inside: avoid;
+  margin-bottom: var(--space-5);
+}
+
 /* Fix wave 5: the Category filter's chip row, and the active-filter chip
  * row above the table. `.chip-btn` follows the same convention
  * `.chip-link` (below) already uses for the tag panel's anchor — `joo-chip`

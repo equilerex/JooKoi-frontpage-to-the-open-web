@@ -12,17 +12,17 @@ Enforced by the generated `no-restricted-imports` block in `eslint.config.js` (A
 
 ## Sub-groups
 
-| Folder            | What belongs in it                                                                                                                                  |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `actions/`        | Things you press: `hardware-key`, `keycap`, `keycap-grid`.                                                                                          |
-| `data-display/`   | Data on screen: `record-grid`, `spec-list`, `tag-set`, `capability-tag`, `count-chip`, `prose-content`.                                             |
-| `form-controls/`  | Inputs and their labels: `chrome-select`, `console-input`, `field-label`, `segment-selector`, `stompbox-toggle`.                                    |
-| `indicators/`     | State at a glance: `status-light`, `bezel-jewel`, `segment-readout`, `classification-badge`.                                                        |
-| `navigation/`     | Moving between places: `breadcrumb-trail`, `indicator-nav-list`, `pager`.                                                                           |
-| `page-layouts/`   | Pieces composed **inside** a page. Currently `toolbar-row`.                                                                                         |
-| `page-templates/` | The outermost grid a page **is** (ADR 013): `console-landing-template`, `directory-browse-template`, `record-detail-template`, `document-template`. |
-| `surfaces/`       | Boxes and their decorations: `readout-panel`, `paper-sheet`, `filter-drawer`, and the `corner-brackets` directive.                                  |
-| `typography/`     | Type that is part of the look: `logotype`, `eyebrow-label`, `stripe-rule`.                                                                          |
+| Folder            | What belongs in it                                                                                                                                                                     |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `actions/`        | Things you press: `hardware-key`, `keycap`, `keycap-grid`.                                                                                                                             |
+| `data-display/`   | Data on screen: `record-grid`, `spec-list`, `tag-set`, `capability-tag`, `count-chip`, `prose-content`.                                                                                |
+| `form-controls/`  | Inputs and their labels: `chrome-select`, `console-input`, `dual-console-input` (one frame, filter zone left, query zone right), `field-label`, `segment-selector`, `stompbox-toggle`. |
+| `indicators/`     | State at a glance: `status-light`, `bezel-jewel`, `segment-readout`, `classification-badge`.                                                                                           |
+| `navigation/`     | Moving between places: `breadcrumb-trail`, `indicator-nav-list`, `pager`.                                                                                                              |
+| `page-layouts/`   | Pieces composed **inside** a page. Currently `toolbar-row`.                                                                                                                            |
+| `page-templates/` | The outermost grid a page **is** (ADR 013): `console-landing-template`, `directory-browse-template`, `record-detail-template`, `document-template`.                                    |
+| `surfaces/`       | Boxes and their decorations: `readout-panel`, `paper-sheet`, `filter-drawer`, and the `corner-brackets` directive.                                                                     |
+| `typography/`     | Type that is part of the look: `logotype`, `eyebrow-label`, `stripe-rule`.                                                                                                             |
 
 `theme/` is the tenth folder and holds no components — `elevation.ts` (the `ELEVATION` scale) and `jookoi-preset.ts` (PrimeNG's `definePreset`).
 
@@ -70,7 +70,7 @@ Recipes (pick one; do not invent a fifth duration):
 1. **Shell routes (Home / Search / Library)** — `view-transition-name: app-main` on `<main>`; HUD/dock named `app-chrome` / `app-dock` stay still. Use the route keyframes in `src/styles.css`, with `--duration-route` and `--ease-out`. Skip VT for library-internal paths; the reader owns that transition.
 2. **Library reader entry** — keep the opaque reader frame stable; enter with `opacity` plus `translateX(1rem)` over `--duration-route` and `--ease-out`. Never fade the dark container behind a white document.
 3. **Conditional state** — for occasional inserted panels, tiers, or filter rows, use `@starting-style` with `opacity` plus a 4–8px translate. When a state is removed, DOM removal is immediate; do not hold nodes alive with exit animations. Do not put `@if` around a surface whose box geometry needs to morph.
-4. **Filtered collections** — table rows in `record-grid` may use enter/leave transitions only if restricted to compositor-safe opacity, tracked by stable unique identifiers (`rowKey`), and protected with input debouncing. Never animate layout geometry (`transform`, `height`) on table rows. In-page filter updates sync via `Location.replaceState` rather than `router.navigate` to prevent scroll-to-top and unneeded View Transitions (ADR 035, ADR 036).
+4. **Filtered collections** — `record-grid` rows animate in and out only through `animateRows` (decision 039): a cell-level grid-track height animation on the cell content, never on the `<tr>` itself, with rows matched by `rowKey`, leaving rows retained for one 220ms animation, at most 30 animated rows per change, and reduced motion swapping instantly. Keep the virtual scroller and input debouncing. In-page filter updates sync via `Location.replaceState` rather than `router.navigate` to prevent scroll-to-top and unneeded View Transitions (ADR 035, ADR 036, ADR 039).
 5. **Press feedback** — use a subtle `translateY` or `scale(0.98)` over `--duration-press`; hardware keys are the physical reference. Do not add a second scale to keys that already travel.
 6. **Pending without wipe** — keep last painted content; dim with `--duration-state` if needed; never replace with a loading label slower than the real render. SSR resources that hydrate need a TransferState `id`.
 7. **Fonts** — preload first-paint faces in `index.html`; `font-display: optional` in `fonts.css`.

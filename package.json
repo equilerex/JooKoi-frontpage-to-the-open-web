@@ -6,7 +6,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "node scripts/primeui-license.mjs && ng serve",
+    "start": "node scripts/primeui-license.mjs && ng serve --no-hmr",
     "build": "node scripts/primeui-license.mjs && node scripts/build-library-content.mjs && node scripts/build-sources.mjs && node scripts/build-running-feed.mjs && ng build --stats-json",
     "watch": "node scripts/primeui-license.mjs && ng build --watch --configuration development",
     "content": "node scripts/build-library-content.mjs",

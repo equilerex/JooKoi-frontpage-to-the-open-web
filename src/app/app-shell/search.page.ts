@@ -8,6 +8,8 @@ import {
   HardwareKeyComponent,
 } from '../shared/design-system/actions/hardware-key/hardware-key.component';
 import { CapabilityTagComponent } from '../shared/design-system/data-display/capability-tag/capability-tag.component';
+import { CornerBracketsDirective } from '../shared/design-system/surfaces/corner-brackets/corner-brackets.directive';
+import { StatusLightComponent } from '../shared/design-system/indicators/status-light/status-light.component';
 import { ChipComponent } from '../shared/design-system/data-display/chip/chip.component';
 import { RecordGridCellDirective } from '../shared/design-system/data-display/record-grid/record-grid-cell.directive';
 import {
@@ -18,7 +20,7 @@ import {
   SelectOption,
   ChromeSelectComponent,
 } from '../shared/design-system/form-controls/chrome-select/chrome-select.component';
-import { ConsoleInputComponent } from '../shared/design-system/form-controls/console-input/console-input.component';
+import { DualConsoleInputComponent } from '../shared/design-system/form-controls/dual-console-input/dual-console-input.component';
 import { FieldLabelComponent } from '../shared/design-system/form-controls/field-label/field-label.component';
 import { StompboxToggleComponent } from '../shared/design-system/form-controls/stompbox-toggle/stompbox-toggle.component';
 import { ToolbarRowComponent } from '../shared/design-system/page-layouts/toolbar-row/toolbar-row.component';
@@ -27,6 +29,7 @@ import { ReadoutPanelComponent } from '../shared/design-system/surfaces/readout-
 import { EyebrowLabelComponent } from '../shared/design-system/typography/eyebrow-label/eyebrow-label.component';
 import { ALL_SOURCES } from '../shared/curated-websites/sources.generated';
 import { Capability, Source } from '../shared/curated-websites/source.model';
+import { TYPE_GROUP_ORDER, typeGroupOf } from '../shared/curated-websites/type-groups';
 import {
   domainOf,
   filterByQuery,
@@ -115,7 +118,6 @@ const BASE_SEARCH_ROWS_MAP: ReadonlyMap<string, BaseSearchRow> = new Map(
 const CAPABILITY_TOGGLES: readonly { readonly value: Capability; readonly label: string }[] = [
   { value: 'rss-feed', label: 'Has RSS' },
   { value: 'site-search', label: 'Has site search' },
-  { value: 'public-api', label: 'Has API' },
 ];
 
 function uniqueSorted(values: readonly string[]): readonly string[] {
@@ -180,20 +182,56 @@ function toSelectOptions(
   ];
 }
 
-const TYPE_OPTIONS = toSelectOptions(
-  'Any type',
-  uniqueSorted(ALL_SOURCES.map((source) => source.type)),
-);
+/** How many tabs the pink "Open" key opens. */
+const BULK_OPEN_COUNT = 5;
+
+export interface FunnelCategory {
+  readonly id: string;
+  readonly label: string;
+  readonly count: number;
+}
+
+export interface FunnelSubType {
+  readonly value: string;
+  readonly count: number;
+}
+
+export interface FunnelTypeGroup {
+  readonly label: string;
+  readonly types: readonly FunnelSubType[];
+}
+
+export interface FunnelGroup {
+  readonly label: string;
+  readonly categories: readonly FunnelCategory[];
+}
+
+/** Themed columns for the category funnel. A category missing here lands in
+ *  a trailing "Other" column, so a new category in the data still shows up. */
+const CATEGORY_GROUPS: readonly { readonly label: string; readonly ids: readonly string[] }[] = [
+  {
+    label: 'AI & tooling',
+    ids: ['ai-marketplace', 'developer-reference', 'technology', 'open-web'],
+  },
+  { label: 'Culture & play', ids: ['culture', 'lifestyle', 'inspiration'] },
+  { label: 'News & world pulse', ids: ['news', 'public', 'science'] },
+  { label: 'Money & movement', ids: ['finance', 'transport'] },
+];
+
+/** `a,b` from a URL param to a set. Category slugs and type names hold no commas. */
+function sameSet(a: ReadonlySet<string>, b: ReadonlySet<string>): boolean {
+  return a.size === b.size && [...a].every((value) => b.has(value));
+}
+
+function parseList(value: string | null): ReadonlySet<string> {
+  return new Set((value ?? '').split(',').filter(Boolean));
+}
+
 const REGION_OPTIONS = toSelectOptions(
   'Any region',
   uniqueSorted(
     ALL_SOURCES.map((source) => source.region).filter((region): region is string => !!region),
   ),
-);
-const CATEGORY_OPTIONS = toSelectOptions(
-  'Any category',
-  uniqueSorted(ALL_SOURCES.map((source) => source.category)),
-  (value) => CATEGORY_LABEL[value] ?? value,
 );
 const DISTINCT_LANGS = uniqueSorted(
   ALL_SOURCES.map((source) => source.lang).filter((lang): lang is string => !!lang),
@@ -236,12 +274,12 @@ const LANG_OPTIONS = toSelectOptions(
  * placeholder, so `Relevance` stays the default sort and stays enabled
  * whether or not `kw` is present, rather than being hidden or disabled.
  *
- * **Fix wave 2 (reverses D4/ADR 020, see the plan's "Implementation
- * deviations"):** `q` no longer filters this table — `filteredSources` is
- * now driven only by the sidebar filters, `kw` (the new keyword filter)
- * included. The results query box (`queryInput`) feeds each row's Search↗
- * live as the user types. URL `q` is the shareable snapshot (header, a
- * pasted link, Enter in the box). Neither filters the table — `kw` does.
+ * **Dual input (above the table):** the left box is `kw`, which filters the
+ * table. The right box is `q`, which never filters: it only feeds each row's
+ * Search↗ href, and the pink Open key opens the first five rows' hrefs as
+ * new tabs. Both live in the URL. Trusted-only and Has-API are not in the UI
+ * (the data fields stay). Category and type are the two funnel chip rows
+ * between the inputs and the table.
  */
 @Component({
   selector: 'joo-search-page',
@@ -253,12 +291,14 @@ const LANG_OPTIONS = toSelectOptions(
     FieldLabelComponent,
     StompboxToggleComponent,
     ChromeSelectComponent,
-    ConsoleInputComponent,
+    DualConsoleInputComponent,
     RecordGridComponent,
     RecordGridCellDirective,
     CapabilityTagComponent,
     HardwareKeyComponent,
     ChipComponent,
+    CornerBracketsDirective,
+    StatusLightComponent,
   ],
   templateUrl: './search.page.html',
   styleUrl: './search.page.css',
@@ -271,15 +311,21 @@ export class SearchPage {
   private queryDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
   private readonly initialParams = this.route.snapshot.queryParamMap;
-  private readonly initialQuery = this.initialParams.get('q') ?? this.initialParams.get('kw') ?? '';
+  private readonly initialQuery = this.initialParams.get('q') ?? '';
+  private readonly initialKeyword = this.initialParams.get('kw') ?? '';
+  private keywordDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
-  /** Text currently in the search input box, updated immediately for snappy typing. */
+  /** Text currently in the query box (right half of the dual input), updated immediately. */
   protected readonly queryInput = signal(this.initialQuery);
 
-  /** Active query applied to table filtering and direct-search links, debounced on typing. */
+  /** Query appended to each row's outbound link. Never filters the table. Debounced on typing. */
   protected readonly q = signal(this.initialQuery);
 
-  protected readonly trustedOnly = signal(this.initialParams.get('trusted') === '1');
+  /** Text currently in the filter box (left half of the dual input), updated immediately. */
+  protected readonly keywordInput = signal(this.initialKeyword);
+
+  /** Keyword that filters the table rows. Debounced on typing. */
+  protected readonly kw = signal(this.initialKeyword);
 
   /** Unrecognised values (a hand-edited or stale URL) are silently inert —
    *  the `.has()` check below never matches a `Capability` that a stray
@@ -288,9 +334,15 @@ export class SearchPage {
   protected readonly caps = signal<ReadonlySet<Capability>>(
     new Set((this.initialParams.get('caps') ?? '').split(',').filter(Boolean) as Capability[]),
   );
-  protected readonly typeFilter = signal(this.initialParams.get('type') ?? '');
+  protected readonly typeFilter = signal<ReadonlySet<string>>(
+    parseList(this.initialParams.get('type')),
+  );
   protected readonly regionFilter = signal(this.initialParams.get('region') ?? '');
-  protected readonly categoryFilter = signal(this.initialParams.get('category') ?? '');
+  protected readonly categoryFilter = signal<ReadonlySet<string>>(
+    parseList(this.initialParams.get('category')),
+  );
+  /** Whether the types layer of the funnel is expanded. */
+  protected readonly typesOpen = signal(false);
   protected readonly langFilter = signal(this.initialParams.get('lang') ?? '');
   protected readonly tagFilter = signal(this.initialParams.get('tag') ?? '');
   protected readonly sortField = signal<string | undefined>(
@@ -306,6 +358,9 @@ export class SearchPage {
       if (this.queryDebounceTimer) {
         clearTimeout(this.queryDebounceTimer);
       }
+      if (this.keywordDebounceTimer) {
+        clearTimeout(this.keywordDebounceTimer);
+      }
     });
 
     // Synchronize filters when external navigation lands on /search (e.g. Header search, F5 tag quick key)
@@ -316,14 +371,58 @@ export class SearchPage {
 
   protected readonly showLangFilter = DISTINCT_LANGS.length > 1;
   protected readonly capabilityToggles = CAPABILITY_TOGGLES;
-  protected readonly typeOptions = TYPE_OPTIONS;
   protected readonly regionOptions = REGION_OPTIONS;
-  protected readonly categoryOptions = CATEGORY_OPTIONS;
   protected readonly langOptions = LANG_OPTIONS;
-  /** Category rendered as chips (fix wave 5), not a select — the "Any
-   *  category" sentinel `CATEGORY_OPTIONS` carries for the select has no
-   *  chip: an active chip toggling itself off is what clears the filter. */
-  protected readonly categoryChipOptions = CATEGORY_OPTIONS.filter((option) => option.value);
+  protected readonly totalSourceCount = ALL_SOURCES.length;
+
+  /** Funnel layer 1: categories with source counts, arranged in themed columns. */
+  protected readonly funnelGroups: readonly FunnelGroup[] = (() => {
+    const counts = new Map<string, number>();
+    for (const source of ALL_SOURCES) {
+      counts.set(source.category, (counts.get(source.category) ?? 0) + 1);
+    }
+    const toCategory = (id: string): FunnelCategory => ({
+      id,
+      label: CATEGORY_LABEL[id] ?? id,
+      count: counts.get(id) ?? 0,
+    });
+    const grouped = new Set(CATEGORY_GROUPS.flatMap((group) => group.ids));
+    const groups: FunnelGroup[] = CATEGORY_GROUPS.map((group) => ({
+      label: group.label,
+      categories: group.ids.filter((id) => counts.has(id)).map(toCategory),
+    }));
+    const other = [...counts.keys()].filter((id) => !grouped.has(id)).map(toCategory);
+    if (other.length) groups.push({ label: 'Other', categories: other });
+    return groups.filter((group) => group.categories.length > 0);
+  })();
+
+  /** Funnel layer 2: specific types, limited to the selected categories (all
+   *  categories when none is selected), biggest first. */
+  protected readonly funnelSubTypes = computed<readonly FunnelSubType[]>(() => {
+    const categories = this.categoryFilter();
+    const counts = new Map<string, number>();
+    for (const source of ALL_SOURCES) {
+      if (!categories.size || categories.has(source.category)) {
+        counts.set(source.type, (counts.get(source.type) ?? 0) + 1);
+      }
+    }
+    return [...counts.entries()]
+      .map(([value, count]) => ({ value, count }))
+      .sort((a, b) => b.count - a.count || a.value.localeCompare(b.value));
+  });
+
+  /** The same types arranged in themed columns (`type-groups.ts`), empty groups dropped. */
+  protected readonly funnelTypeGroups = computed<readonly FunnelTypeGroup[]>(() => {
+    const byGroup = new Map<string, FunnelSubType[]>();
+    for (const sub of this.funnelSubTypes()) {
+      const group = typeGroupOf(sub.value);
+      byGroup.set(group, [...(byGroup.get(group) ?? []), sub]);
+    }
+    return TYPE_GROUP_ORDER.filter((label) => byGroup.has(label)).map((label) => ({
+      label,
+      types: byGroup.get(label)!,
+    }));
+  });
 
   protected readonly resultColumns: readonly GridColumn<SearchRow>[] = [
     { field: 'name', header: 'Source', sortable: true },
@@ -340,23 +439,20 @@ export class SearchPage {
   private readonly filteredSources = computed<readonly Source[]>(() => {
     let sources: readonly Source[] = ALL_SOURCES;
 
-    if (this.trustedOnly()) {
-      sources = sources.filter((source) => source.trustScore >= 80);
-    }
     for (const cap of this.caps()) {
       sources = sources.filter((source) => source.capabilities.includes(cap));
     }
-    const type = this.typeFilter();
-    if (type) {
-      sources = sources.filter((source) => source.type === type);
+    const types = this.typeFilter();
+    if (types.size) {
+      sources = sources.filter((source) => types.has(source.type));
     }
     const region = this.regionFilter();
     if (region) {
       sources = sources.filter((source) => source.region === region);
     }
-    const category = this.categoryFilter();
-    if (category) {
-      sources = sources.filter((source) => source.category === category);
+    const categories = this.categoryFilter();
+    if (categories.size) {
+      sources = sources.filter((source) => categories.has(source.category));
     }
     const lang = this.langFilter();
     if (lang) {
@@ -366,28 +462,20 @@ export class SearchPage {
     if (tag) {
       sources = sources.filter((source) => source.tags.includes(tag));
     }
-    const q = this.q().trim();
-    if (q) {
-      sources = filterByQuery(sources, q);
+    const kw = this.kw().trim();
+    if (kw) {
+      sources = filterByQuery(sources, kw);
     }
     return sources;
   });
 
   protected readonly rows = computed<readonly SearchRow[]>(() => {
+    const kw = this.kw().trim();
     const q = this.q().trim();
-    const sources = q
-      ? sortSources(this.filteredSources(), 'relevance', q)
+    const sources = kw
+      ? sortSources(this.filteredSources(), 'relevance', kw)
       : this.filteredSources();
     return sources.map((source) => this.toSearchRow(source, q));
-  });
-
-  protected readonly isCapActive = computed(() => {
-    const c = this.caps();
-    return {
-      'rss-feed': c.has('rss-feed'),
-      'site-search': c.has('site-search'),
-      'public-api': c.has('public-api'),
-    } as const;
   });
 
   protected readonly resultCount = computed(() => this.rows().length);
@@ -402,22 +490,11 @@ export class SearchPage {
   >(() => {
     const filters: { key: string; label: string; clear: () => void }[] = [];
 
-    if (this.trustedOnly()) {
-      filters.push({ key: 'trusted', label: 'Trusted only', clear: () => this.onTrustedToggle() });
-    }
     for (const cap of this.caps()) {
       filters.push({
         key: `cap-${cap}`,
         label: this.capabilityLabel(cap),
         clear: () => this.onCapabilityToggle(cap),
-      });
-    }
-    const type = this.typeFilter();
-    if (type) {
-      filters.push({
-        key: 'type',
-        label: `Type: ${labelFor(TYPE_OPTIONS, type)}`,
-        clear: () => this.onTypeChange(null),
       });
     }
     const region = this.regionFilter();
@@ -428,28 +505,12 @@ export class SearchPage {
         clear: () => this.onRegionChange(null),
       });
     }
-    const category = this.categoryFilter();
-    if (category) {
-      filters.push({
-        key: 'category',
-        label: `Category: ${labelFor(CATEGORY_OPTIONS, category)}`,
-        clear: () => this.onCategoryChange(null),
-      });
-    }
     const lang = this.langFilter();
     if (lang) {
       filters.push({
         key: 'lang',
         label: `Language: ${labelFor(LANG_OPTIONS, lang)}`,
         clear: () => this.onLangChange(null),
-      });
-    }
-    const q = this.q().trim();
-    if (q) {
-      filters.push({
-        key: 'q',
-        label: `Query: ${q}`,
-        clear: () => this.onQueryCommit(''),
       });
     }
     return filters;
@@ -495,14 +556,13 @@ export class SearchPage {
     const params = new URLSearchParams();
     const qVal = this.q().trim();
     if (qVal) params.set('q', qVal);
-    if (this.trustedOnly()) params.set('trusted', '1');
+    const kwVal = this.kw().trim();
+    if (kwVal) params.set('kw', kwVal);
     if (this.caps().size) params.set('caps', [...this.caps()].join(','));
-    const typeVal = this.typeFilter();
-    if (typeVal) params.set('type', typeVal);
+    if (this.typeFilter().size) params.set('type', [...this.typeFilter()].join(','));
     const regVal = this.regionFilter();
     if (regVal) params.set('region', regVal);
-    const catVal = this.categoryFilter();
-    if (catVal) params.set('category', catVal);
+    if (this.categoryFilter().size) params.set('category', [...this.categoryFilter()].join(','));
     const langVal = this.langFilter();
     if (langVal) params.set('lang', langVal);
     const tagVal = this.tagFilter();
@@ -517,24 +577,29 @@ export class SearchPage {
   }
 
   private applyParamMap(map: ParamMap): void {
-    const q = map.get('q') ?? map.get('kw') ?? '';
+    const q = map.get('q') ?? '';
     if (q !== this.q()) {
       this.q.set(q);
       this.queryInput.set(q);
     }
-    const trusted = map.get('trusted') === '1';
-    if (trusted !== this.trustedOnly()) this.trustedOnly.set(trusted);
+    const kw = map.get('kw') ?? '';
+    if (kw !== this.kw()) {
+      this.kw.set(kw);
+      this.keywordInput.set(kw);
+    }
     const rawCaps = (map.get('caps') ?? '').split(',').filter(Boolean) as Capability[];
     const capsSet = new Set(rawCaps);
     if (capsSet.size !== this.caps().size || [...capsSet].some((c) => !this.caps().has(c))) {
       this.caps.set(capsSet);
     }
-    const type = map.get('type') ?? '';
-    if (type !== this.typeFilter()) this.typeFilter.set(type);
+    const types = parseList(map.get('type'));
+    if (!sameSet(types, this.typeFilter())) this.typeFilter.set(types);
     const region = map.get('region') ?? '';
     if (region !== this.regionFilter()) this.regionFilter.set(region);
-    const category = map.get('category') ?? '';
-    if (category !== this.categoryFilter()) this.categoryFilter.set(category);
+    const categories = parseList(map.get('category'));
+    if (!sameSet(categories, this.categoryFilter())) {
+      this.categoryFilter.set(categories);
+    }
     const lang = map.get('lang') ?? '';
     if (lang !== this.langFilter()) this.langFilter.set(lang);
     const tag = map.get('tag') ?? '';
@@ -581,15 +646,29 @@ export class SearchPage {
     this.syncUrl();
   }
 
-  protected onTrustedToggle(): void {
-    this.trustedOnly.update((v) => !v);
-    this.syncUrl();
+  /** Filter input (left half of the dual input): filters the table rows. */
+  protected onKeywordInput(value: string): void {
+    this.keywordInput.set(value);
+    if (this.keywordDebounceTimer) {
+      clearTimeout(this.keywordDebounceTimer);
+    }
+    this.keywordDebounceTimer = setTimeout(() => {
+      this.kw.set(value.trim());
+      this.syncUrl();
+    }, 120);
   }
 
-  /** Reserved: open the first N Search↗ results as new tabs. The pink key
-   *  is not how the query is applied. */
+  /** Opens the first `BULK_OPEN_COUNT` rows of the table as new tabs, in the
+   *  table's current sort order. Does nothing when the table is empty. */
   protected onBulkOpen(): void {
-    return;
+    const field = this.sortField() as keyof SearchRow | undefined;
+    const order = this.sortOrder();
+    const rows = field
+      ? [...this.rows()].sort((a, b) => order * String(a[field]).localeCompare(String(b[field])))
+      : this.rows();
+    for (const row of rows.slice(0, BULK_OPEN_COUNT)) {
+      window.open(row.actionHref, '_blank', 'noopener');
+    }
   }
 
   protected onCapabilityToggle(cap: Capability): void {
@@ -603,26 +682,44 @@ export class SearchPage {
     this.syncUrl();
   }
 
-  protected onTypeChange(value: string | null): void {
-    this.typeFilter.set(value ?? '');
-    this.syncUrl();
-  }
-
   protected onRegionChange(value: string | null): void {
     this.regionFilter.set(value ?? '');
     this.syncUrl();
   }
 
-  protected onCategoryChange(value: string | null): void {
-    this.categoryFilter.set(value ?? '');
+  /** Funnel layer 1, multi-select. Clicking a selected category deselects it.
+   *  Selected types that no remaining category holds are dropped. */
+  protected onCategoryFunnelClick(category: string): void {
+    const next = new Set(this.categoryFilter());
+    if (!next.delete(category)) next.add(category);
+    this.categoryFilter.set(next);
+    if (next.size) {
+      const available = new Set(
+        ALL_SOURCES.filter((s) => next.has(s.category)).map((source) => source.type),
+      );
+      const kept = [...this.typeFilter()].filter((type) => available.has(type));
+      if (kept.length !== this.typeFilter().size) this.typeFilter.set(new Set(kept));
+    }
     this.syncUrl();
   }
 
-  /** Category chip click (single-select toggle: clicking the already-active
-   *  chip clears the filter back to "Any category", clicking a different one
-   *  switches to it). */
-  protected onCategoryChipClick(value: string): void {
-    this.onCategoryChange(this.categoryFilter() === value ? null : value);
+  /** "All" chip: clears categories and types. */
+  protected onCategoryFunnelClear(): void {
+    this.categoryFilter.set(new Set());
+    this.typeFilter.set(new Set());
+    this.syncUrl();
+  }
+
+  /** Funnel layer 2, multi-select. Clicking a selected type deselects it. */
+  protected onTypeFunnelClick(type: string): void {
+    const next = new Set(this.typeFilter());
+    if (!next.delete(type)) next.add(type);
+    this.typeFilter.set(next);
+    this.syncUrl();
+  }
+
+  protected onTypesToggle(): void {
+    this.typesOpen.update((open) => !open);
   }
 
   protected onLangChange(value: string | null): void {

@@ -40,6 +40,11 @@ export class WireFollowStore {
     this.commit(next);
   }
 
+  /** Back to "show every source". */
+  clear(): void {
+    this.commit(new Set());
+  }
+
   private commit(next: ReadonlySet<string>): void {
     this._followed.set(next);
     try {

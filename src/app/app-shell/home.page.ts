@@ -14,19 +14,13 @@ import {
   RecordGridComponent,
 } from '../shared/design-system/data-display/record-grid/record-grid.component';
 import { TagSetComponent } from '../shared/design-system/data-display/tag-set/tag-set.component';
+import { LogotypeComponent } from '../shared/design-system/typography/logotype/logotype.component';
 import { ConsoleInputComponent } from '../shared/design-system/form-controls/console-input/console-input.component';
 import { FieldLabelComponent } from '../shared/design-system/form-controls/field-label/field-label.component';
-import {
-  SegmentOption,
-  SegmentSelectorComponent,
-} from '../shared/design-system/form-controls/segment-selector/segment-selector.component';
 import { ClassificationBadgeComponent } from '../shared/design-system/indicators/classification-badge/classification-badge.component';
-import { ToolbarRowComponent } from '../shared/design-system/page-layouts/toolbar-row/toolbar-row.component';
 import { ConsoleLandingTemplateComponent } from '../shared/design-system/page-templates/console-landing-template/console-landing-template.component';
 import { CornerBracketsDirective } from '../shared/design-system/surfaces/corner-brackets/corner-brackets.directive';
 import { ReadoutPanelComponent } from '../shared/design-system/surfaces/readout-panel/readout-panel.component';
-import { EyebrowLabelComponent } from '../shared/design-system/typography/eyebrow-label/eyebrow-label.component';
-import { LogotypeComponent } from '../shared/design-system/typography/logotype/logotype.component';
 import { StripeRuleComponent } from '../shared/design-system/typography/stripe-rule/stripe-rule.component';
 import {
   CATEGORY_COUNTS,
@@ -102,7 +96,8 @@ interface FeedRow extends RunningFeedArticle {
   readonly date: string;
 }
 
-const FEED_LIMIT = 20;
+/** Articles revealed per step of the Wire list; more load as it scrolls. */
+const FEED_PAGE_SIZE = 20;
 const FEED_DATE = new Intl.DateTimeFormat('en-GB', {
   day: 'numeric',
   month: 'short',
@@ -174,13 +169,10 @@ function searchHref(params: Readonly<Record<string, string>>): string {
     ConsoleLandingTemplateComponent,
     ReadoutPanelComponent,
     CornerBracketsDirective,
-    EyebrowLabelComponent,
-    LogotypeComponent,
     ConsoleInputComponent,
     HardwareKeyComponent,
-    ToolbarRowComponent,
     FieldLabelComponent,
-    SegmentSelectorComponent,
+    LogotypeComponent,
     KeycapGridComponent,
     KeycapComponent,
     StripeRuleComponent,
@@ -198,12 +190,6 @@ function searchHref(params: Readonly<Record<string, string>>): string {
 export class HomePage {
   private readonly router = inject(Router);
   private readonly wireStore = inject(WireFollowStore);
-
-  protected readonly scopeOptions: readonly SegmentOption[] = [
-    { value: 'trusted', label: 'Trusted' },
-    { value: 'all', label: 'All' },
-    { value: 'discovered', label: 'Discovered' },
-  ];
 
   protected readonly quickKeys: readonly QuickKey[] = [
     {
@@ -291,21 +277,53 @@ export class HomePage {
   /** Latest articles compiled at build time by `scripts/build-running-feed.mjs`,
    *  narrowed to the sources followed from `/search`. Dates are absolute: the
    *  page is prerendered, so a relative "2h ago" would be frozen at build time. */
-  protected readonly feedArticles = computed<readonly FeedRow[]>(() => {
+  private readonly followedArticles = computed(() => {
     const followed = this.wireStore.followed();
-    return RUNNING_FEED_ARTICLES.filter((a) => followed.size === 0 || followed.has(a.sourceId))
-      .slice(0, FEED_LIMIT)
-      .map((article) => ({ ...article, date: FEED_DATE.format(new Date(article.publishedAt)) }));
+    return RUNNING_FEED_ARTICLES.filter((a) => followed.size === 0 || followed.has(a.sourceId));
   });
+
+  /** The follow list names sources, but none of them has a compiled article. */
+  protected readonly feedEmpty = computed(
+    () => this.wireStore.followed().size > 0 && this.followedArticles().length === 0,
+  );
+
+  /** Followed articles, or every article when the follow list matches none, so the list never empties itself. */
+  private readonly feedMatches = computed(() =>
+    this.feedEmpty() ? RUNNING_FEED_ARTICLES : this.followedArticles(),
+  );
+
+  /** How many matching articles the list shows. Grows by a page when the list scrolls near its end. */
+  private readonly feedVisible = signal(FEED_PAGE_SIZE);
+
+  protected readonly feedArticles = computed<readonly FeedRow[]>(() =>
+    this.feedMatches()
+      .slice(0, this.feedVisible())
+      .map((article) => ({ ...article, date: FEED_DATE.format(new Date(article.publishedAt)) })),
+  );
+
+  /** The Wire panel exists whenever a feed was compiled, even if the follow list matches nothing. */
+  protected readonly hasFeed = RUNNING_FEED_ARTICLES.length > 0;
+
+  protected onFeedScroll(event: Event): void {
+    const list = event.target as HTMLElement;
+    if (list.scrollTop + list.clientHeight >= list.scrollHeight - 80) {
+      this.feedVisible.update((n) => Math.min(n + FEED_PAGE_SIZE, this.feedMatches().length));
+    }
+  }
 
   protected removeFromFeed(sourceId: string): void {
     this.wireStore.unfollow(sourceId, new Set(RUNNING_FEED_ARTICLES.map((a) => a.sourceId)));
   }
 
+  protected showAllFeedSources(): void {
+    this.wireStore.clear();
+  }
+
   protected readonly feedMeta = computed(() => {
     const count = this.wireStore.followed().size;
     const scope = count ? `following ${count}` : 'all sources';
-    return `${scope} · updated ${FEED_DATE.format(new Date(RUNNING_FEED_COMPILED_AT))}`;
+    const shown = this.feedArticles().length;
+    return `${scope} · ${shown} of ${this.feedMatches().length} · updated ${FEED_DATE.format(new Date(RUNNING_FEED_COMPILED_AT))}`;
   });
 
   protected readonly tags: readonly Tag[] = TOP_TAGS.map(({ label, count }) => ({

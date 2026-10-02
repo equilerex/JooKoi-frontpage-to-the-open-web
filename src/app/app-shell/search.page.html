@@ -2,9 +2,9 @@
   <joo-toolbar-row templateToolbar>
     <div>
       <joo-eyebrow-label>Search results</joo-eyebrow-label>
-      @if (q()) {
+      @if (kw()) {
         <h1 class="search-title">
-          Sources for <span class="mono">{{ q() }}</span>
+          Sources for <span class="mono">{{ kw() }}</span>
         </h1>
       } @else {
         <h1 class="search-title">All sources</h1>
@@ -17,35 +17,16 @@
 
   <joo-readout-panel templateRack label="Filters" led="amber">
     <div class="rack-group">
-      <joo-field-label>Trust tier</joo-field-label>
-      <joo-stompbox-toggle color="cyan" [on]="trustedOnly()" (onChange)="onTrustedToggle()">
-        Trusted only
-      </joo-stompbox-toggle>
-    </div>
-
-    <div class="rack-group">
       <joo-field-label>Signals</joo-field-label>
       @for (toggle of capabilityToggles; track toggle.value) {
         <joo-stompbox-toggle
           color="magenta"
-          [on]="isCapActive()[toggle.value]"
+          [on]="caps().has(toggle.value)"
           (onChange)="onCapabilityToggle(toggle.value)"
         >
           {{ toggle.label }}
         </joo-stompbox-toggle>
       }
-    </div>
-
-    <div class="rack-group">
-      <joo-field-label for="f-type">Type</joo-field-label>
-      <joo-chrome-select
-        inputId="f-type"
-        ariaLabel="Type"
-        [options]="typeOptions"
-        [value]="typeFilter()"
-        [filter]="true"
-        (valueChange)="onTypeChange($event)"
-      />
     </div>
 
     <div class="rack-group">
@@ -58,22 +39,6 @@
         [filter]="true"
         (valueChange)="onRegionChange($event)"
       />
-    </div>
-
-    <div class="rack-group">
-      <joo-field-label id="f-category-label">Category</joo-field-label>
-      <div class="chip-row" role="group" aria-labelledby="f-category-label">
-        @for (option of categoryChipOptions; track option.value) {
-          <button
-            type="button"
-            class="chip-btn"
-            [attr.aria-pressed]="categoryFilter() === option.value"
-            (click)="onCategoryChipClick(option.value)"
-          >
-            <joo-chip [active]="categoryFilter() === option.value">{{ option.label }}</joo-chip>
-          </button>
-        }
-      </div>
     </div>
 
     @if (showLangFilter) {
@@ -94,19 +59,95 @@
   <joo-readout-panel [flush]="true" label="Results" led="cyan">
     <span panelHead class="panel-meta">sources, not pages</span>
 
-    <div class="rack-group query-group">
-      <joo-field-label for="f-query">Search sources</joo-field-label>
-      <joo-console-input
-        inputId="f-query"
-        size="lg"
-        placeholder="Search by name, topic, tag or domain..."
-        [value]="queryInput()"
-        (valueChange)="onQueryInput($event)"
-        (blurred)="onQueryCommit($event)"
-        (submitted)="onQueryCommit($event)"
+    <div class="query-group">
+      <joo-dual-console-input
+        leftId="f-filter"
+        leftLabel="Filter results"
+        leftPlaceholder="Name, topic, tag or domain..."
+        [leftValue]="keywordInput()"
+        (leftValueChange)="onKeywordInput($event)"
+        rightId="f-query"
+        rightLabel="Query for each site"
+        rightPlaceholder="Search term..."
+        [rightValue]="queryInput()"
+        (rightValueChange)="onQueryInput($event)"
+        (rightBlurred)="onQueryCommit($event)"
+        (rightSubmitted)="onQueryCommit($event)"
       >
-        <joo-hardware-key accent="hot" (press)="onBulkOpen()">Update</joo-hardware-key>
-      </joo-console-input>
+        <joo-hardware-key accent="hot" (press)="onBulkOpen()">Open 5</joo-hardware-key>
+      </joo-dual-console-input>
+    </div>
+
+    <div class="funnel">
+      <div class="funnel__columns" role="group" aria-label="Category">
+        @for (group of funnelGroups; track group.label) {
+          <div class="funnel__column">
+            <span class="funnel__heading">{{ group.label }}</span>
+            <div class="chip-row">
+              @for (cat of group.categories; track cat.id) {
+                <button
+                  type="button"
+                  class="chip-btn"
+                  [attr.aria-pressed]="categoryFilter().has(cat.id)"
+                  (click)="onCategoryFunnelClick(cat.id)"
+                >
+                  <joo-chip [count]="cat.count" [active]="categoryFilter().has(cat.id)">
+                    {{ cat.label }}
+                  </joo-chip>
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="funnel__bar">
+        <joo-hardware-key
+          [pressed]="typesOpen()"
+          aria-controls="funnel-types"
+          (press)="onTypesToggle()"
+        >
+          <joo-status-light color="amber" [on]="typesOpen()" />
+          Types ({{ funnelSubTypes().length }}){{
+            categoryFilter().size ? ' in selected categories' : ''
+          }}
+        </joo-hardware-key>
+        @if (categoryFilter().size || typeFilter().size) {
+          <span class="funnel__clear">
+            <joo-hardware-key size="xs" (press)="onCategoryFunnelClear()">✕ Clear</joo-hardware-key>
+          </span>
+        }
+      </div>
+
+      @if (typesOpen()) {
+        <div
+          id="funnel-types"
+          jooCornerBrackets
+          class="funnel__panel"
+          role="group"
+          aria-label="Types"
+        >
+          @for (group of funnelTypeGroups(); track group.label) {
+            <div class="funnel__column">
+              <span class="funnel__heading">{{ group.label }}</span>
+              <div class="chip-row">
+                @for (sub of group.types; track sub.value) {
+                  <button
+                    type="button"
+                    class="chip-btn"
+                    [attr.aria-pressed]="typeFilter().has(sub.value)"
+                    (click)="onTypeFunnelClick(sub.value)"
+                  >
+                    <joo-chip [count]="sub.count" [active]="typeFilter().has(sub.value)">
+                      {{ sub.value }}
+                    </joo-chip>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
     </div>
 
     <div
@@ -135,10 +176,13 @@
       [rows]="rows()"
       [columns]="resultColumns"
       [virtual]="true"
+      scrollHeight="max(24rem, calc(100dvh - var(--hud-height) - var(--space-8)))"
+      [animateRows]="true"
+      rowKey="id"
       [sortable]="true"
       [sortField]="sortField()"
       [sortOrder]="sortOrder()"
-      [rowHeight]="52"
+      [rowHeight]="88"
       ariaLabel="Search results"
       emptyMessage="No matches. Try different filters."
       (sortChange)="onSortChange($event)"

@@ -3,3 +3,84 @@
   max-width: 100%;
   overflow-x: auto;
 }
+
+/* Row enter/leave (`animateRows`). Each cell holds a one-row grid whose track
+ * animates 0fr <-> 1fr, which gives a real height animation to the content's
+ * natural height; the cell's vertical padding animates with it. 220ms must
+ * match ROW_MOTION_MS in the component. */
+.cell {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.cell__body {
+  min-height: 0;
+}
+
+.row-enter .cell__body,
+.row-leave .cell__body {
+  overflow: hidden;
+}
+
+.row-enter .cell {
+  animation: record-grid-cell-in 220ms var(--ease-out) both;
+}
+
+.row-enter td {
+  animation: record-grid-pad-in 220ms var(--ease-out) both;
+}
+
+.row-leave {
+  pointer-events: none;
+}
+
+.row-leave .cell {
+  animation: record-grid-cell-out 220ms var(--ease-out) both;
+}
+
+.row-leave td {
+  animation: record-grid-pad-out 220ms var(--ease-out) both;
+}
+
+@keyframes record-grid-cell-in {
+  from {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+  to {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+}
+
+@keyframes record-grid-cell-out {
+  from {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  to {
+    grid-template-rows: 0fr;
+    opacity: 0;
+  }
+}
+
+@keyframes record-grid-pad-in {
+  from {
+    padding-block: 0;
+  }
+}
+
+@keyframes record-grid-pad-out {
+  to {
+    padding-block: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row-enter .cell,
+  .row-enter td,
+  .row-leave .cell,
+  .row-leave td {
+    animation: none;
+  }
+}

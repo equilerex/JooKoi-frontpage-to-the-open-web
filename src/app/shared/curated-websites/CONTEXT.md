@@ -67,3 +67,5 @@ Enforced by the generated `no-restricted-imports` blocks in `eslint.config.js`.
 ## Open question
 
 Steyer's 2026 layout would make the domain its own top-level folder rather than a child of `shared/`. It sits here because every feature uses it and the user wanted `shared/` to hold stores and services. Parked in the items store; if it moves, ADR 005 gets superseded, not edited.
+
+- `type-groups.ts` — `typeGroupOf(type)` maps the free-text `Source.type` to a themed group for the search page type funnel. First matching regex rule wins, unmatched types land in "Other". Add a word to a rule to move a type, add to `TYPE_GROUP_ORDER` plus a rule for a new theme.

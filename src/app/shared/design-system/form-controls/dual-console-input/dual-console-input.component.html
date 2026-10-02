@@ -1,0 +1,31 @@
+<div class="zone zone--left">
+  <label class="zone__label" [attr.for]="leftId() || null">{{ leftLabel() }}</label>
+  <div class="zone__field">
+    <span class="zone__prompt" aria-hidden="true">&gt;</span>
+    <input
+      class="zone__input"
+      type="text"
+      [attr.id]="leftId() || null"
+      [placeholder]="leftPlaceholder()"
+      [value]="leftValue()"
+      (input)="onLeftInput($event)"
+    />
+  </div>
+</div>
+<div class="zone zone--right">
+  <label class="zone__label" [attr.for]="rightId() || null">{{ rightLabel() }}</label>
+  <div class="zone__field">
+    <span class="zone__prompt" aria-hidden="true">&gt;</span>
+    <input
+      class="zone__input"
+      type="text"
+      [attr.id]="rightId() || null"
+      [placeholder]="rightPlaceholder()"
+      [value]="rightValue()"
+      (input)="onRightInput($event)"
+      (keydown.enter)="rightSubmitted.emit(rightValue())"
+      (blur)="rightBlurred.emit(rightValue())"
+    />
+    <ng-content />
+  </div>
+</div>

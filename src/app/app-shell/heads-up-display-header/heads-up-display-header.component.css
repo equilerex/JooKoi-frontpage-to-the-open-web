@@ -52,6 +52,19 @@
   padding: var(--space-2) var(--space-6);
 }
 
+/* "Front page to the" eyebrow stacked above the header logotype. */
+.hud__wordmark {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  line-height: 1;
+}
+
+.hud__kicker {
+  font-size: 0.5625rem;
+  line-height: 1;
+}
+
 .hud__brand {
   display: inline-flex;
   align-items: center;
@@ -146,7 +159,7 @@
     display: none;
   }
 
-  .hud__brand joo-logotype {
+  .hud__brand .hud__wordmark {
     display: none;
   }
 

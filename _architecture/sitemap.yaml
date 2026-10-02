@@ -19,6 +19,14 @@
   components: live-bound search console (swaps trusted highlights for ranked results in place); quick category keys, incl. AI marketplace
   links_to: search_results, browse, source_detail, library_root, collection_view
 
+- id: about
+  title: About
+  path: /about
+  status: mvp
+  purpose: Why the site exists and what it is not, linked from the home page deck and the footer.
+  components: static prose panels
+  links_to: home, search_results
+
 - id: search_results
   title: Search Results
   path: /search?q=

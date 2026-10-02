@@ -3,6 +3,7 @@
   [columns]="tableColumns()"
   [virtualScroll]="virtual()"
   [virtualScrollItemSize]="rowHeight()"
+  [virtualScrollOptions]="virtualScrollOptions"
   [scrollable]="virtual() || !!scrollHeight()"
   [scrollHeight]="scrollHeight() || (virtual() ? '600px' : undefined)"
   [sortField]="sortField()"
@@ -42,14 +43,24 @@
   </ng-template>
 
   <ng-template #body let-row let-cols="columns">
-    <tr (click)="rowActivate.emit(row)">
+    <tr
+      [class.row-enter]="rowState(row) === 'enter'"
+      [class.row-leave]="rowState(row) === 'leave'"
+      (click)="rowActivate.emit(row)"
+    >
       @for (col of cols; track col.field) {
         <td [attr.data-col]="col.field">
-          @if (cellTemplateByField().get(col.field); as cellTemplate) {
-            <ng-container *ngTemplateOutlet="cellTemplate; context: { $implicit: row, row: row }" />
-          } @else {
-            {{ row[col.field] }}
-          }
+          <div class="cell">
+            <div class="cell__body">
+              @if (cellTemplateByField().get(col.field); as cellTemplate) {
+                <ng-container
+                  *ngTemplateOutlet="cellTemplate; context: { $implicit: row, row: row }"
+                />
+              } @else {
+                {{ row[col.field] }}
+              }
+            </div>
+          </div>
         </td>
       }
     </tr>
