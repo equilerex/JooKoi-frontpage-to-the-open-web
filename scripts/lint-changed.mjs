@@ -59,7 +59,12 @@ const prettier = spawnSync(`${localBin('prettier')} --write ${quoted}`, {
   encoding: 'utf8',
 });
 
-const lintable = files.filter((file) => /\.(?:ts|html)$/.test(file));
+// content/library holds hand-built html sidecars (SVG figures), not Angular templates;
+// eslint's template parser chokes on a literal `{` in them. .prettierignore skips them too.
+const lintable = files.filter(
+  (file) =>
+    /\.(?:ts|html)$/.test(file) && !file.replaceAll('\\', '/').startsWith('content/library/'),
+);
 const eslint =
   lintable.length > 0
     ? spawnSync(`${localBin('eslint')} ${lintable.map((f) => `"${f}"`).join(' ')}`, {

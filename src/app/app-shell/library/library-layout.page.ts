@@ -4,12 +4,14 @@ import {
   computed,
   ElementRef,
   inject,
+  signal,
   untracked,
   viewChild,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import type { TreeNode } from 'primeng/api';
+import { Drawer } from 'primeng/drawer';
 import { filter, map, startWith } from 'rxjs';
 import { TopicTreeComponent } from '../../shared/design-system/data-display/topic-tree/topic-tree.component';
 import { ConsoleInputComponent } from '../../shared/design-system/form-controls/console-input/console-input.component';
@@ -34,6 +36,7 @@ import { buildFullLibraryTree, entryDocForFolder, expandAncestors } from './libr
     ReadoutPanelComponent,
     TopicTreeComponent,
     ConsoleInputComponent,
+    Drawer,
   ],
   templateUrl: './library-layout.page.html',
   styleUrl: './library-layout.page.css',
@@ -41,6 +44,7 @@ import { buildFullLibraryTree, entryDocForFolder, expandAncestors } from './libr
 export class LibraryLayoutPage {
   private readonly router = inject(Router);
   protected readonly layoutStore = inject(LibraryLayoutStore);
+  protected readonly isMobileDrawerOpen = signal(false);
 
   private readonly treePanel = viewChild('treePanel', { read: ElementRef });
 
@@ -105,6 +109,7 @@ export class LibraryLayoutPage {
 
   protected onNodeActivate(node: TreeNode): void {
     if (typeof node.key !== 'string') return;
+    this.isMobileDrawerOpen.set(false);
     const queryParams = this.expandQueryParams(node.key);
     if (node.leaf) {
       void this.router.navigate(['/library', ...node.key.split('/')], { queryParams });

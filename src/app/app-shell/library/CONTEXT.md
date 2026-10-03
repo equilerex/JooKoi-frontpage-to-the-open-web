@@ -22,4 +22,4 @@ Don't remove the tree from document views. Don't invent `##` folders. Don't read
 
 Plain md docs get `.is-plain` styling (src/styles.css) and a generated banner img from `bannerHtml()` in the build script. Designed html docs skip both.
 
-Sidecars next to a doc: `foo.top.html` (prepended), `foo.figs.html` (figures after named headings). Folder `index.md` `reading-order` drives tree and pager order. Hand-toggled folder state lives in `LibraryLayoutStore.folderOpen`. See decision 040 addendum.
+Sidecars next to a doc: `foo.top.html` (prepended), `foo.figs.html` (figures after named headings). Folder `index.md` `reading-order` drives tree and pager order. Hand-toggled folder state lives in `LibraryLayoutStore.folderOpen`. Figures in `foo.figs.html` carry a phone twin (`svg.fig-narrow` beside `svg.fig-wide`, swapped by CSS at 768px) or fall back to tap-to-enlarge (`ProseContentComponent` builds a `<dialog>` on `<body>`). Below 1024px the file tree opens from a small edge handle (`.library-tree-tab`, icon only, mid-height). See decision 040 addendum and `.agents/skills/library-figure-sidecars`.

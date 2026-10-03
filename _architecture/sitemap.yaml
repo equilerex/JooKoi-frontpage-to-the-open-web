@@ -78,9 +78,18 @@
 - id: utilities
   title: Local Utilities
   path: /tools
-  status: parked
-  purpose: Small client-side tools (diff, JSON format, hashing, etc.) that replace one-off external tool searches. Secondary feature family.
+  status: mvp
+  purpose: Small client-side tools that run in the browser. The first one is the markdown preview.
   components: tool list; per-tool local-only UI
+  links_to: markdown_preview
+
+- id: markdown_preview
+  title: Markdown preview
+  path: /tools/markdown
+  status: mvp
+  purpose: Paste markdown, read it (including mermaid diagrams), and print it to PDF. The text stays in the browser.
+  components: source textarea; rendered sheet; sample note
+  links_to: utilities
 
 - id: export
   title: Export / Download

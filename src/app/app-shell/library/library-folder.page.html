@@ -28,6 +28,14 @@
         <h1 class="library-title">{{ f.title }}</h1>
       }
 
+      @if (entryDoc(); as entry) {
+        <p class="library-entry-doc-action">
+          <a class="library-read-link" [routerLink]="['/library', ...entry.split('/')]">
+            Read index document &rarr;
+          </a>
+        </p>
+      }
+
       @if (filterChips().length > 0) {
         <div class="library-filters" aria-label="Filters">
           @for (chip of filterChips(); track chip) {

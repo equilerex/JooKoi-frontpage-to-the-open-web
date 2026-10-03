@@ -80,6 +80,26 @@
   letter-spacing: 0.1em;
 }
 
+/* The drawer host adds no box of its own; the overlay renders on <body>. */
+.search-drawer-host {
+  display: contents;
+}
+
+/* Phone only: fold the category chips away on demand. */
+.funnel__toggle {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .funnel__toggle {
+    display: inline-flex;
+  }
+
+  .funnel__columns--collapsed {
+    display: none;
+  }
+}
+
 /* Layer 2 header: expand/collapse and clear. */
 .funnel__bar {
   display: flex;

@@ -49,7 +49,7 @@ const TYPE_GROUP_RULES: readonly { readonly group: string; readonly pattern: Reg
   {
     group: 'Dev & web reference',
     pattern:
-      /documentation|reference|specification|standards|support tables|framework|runtime|code repository|project repository|developer|design & dev|web design|q&a|technical community|offline docs/i,
+      /documentation|reference|specification|standards|support tables|framework|runtime|code repository|project repository|developer|design & dev|web design|q&a|technical community|offline docs|utility|visualizer|analyzer|scrubber|compressor|playground|diff|explorer/i,
   },
   {
     group: 'Civic & everyday',

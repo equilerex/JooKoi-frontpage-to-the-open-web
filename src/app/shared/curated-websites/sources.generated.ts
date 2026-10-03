@@ -440,26 +440,6 @@ export const ALL_SOURCES: readonly Source[] = [
     "lang": "en"
   },
   {
-    "id": "caniuse",
-    "name": "Can I Use",
-    "url": "https://caniuse.com",
-    "desc": "Up-to-date browser support tables for HTML, CSS and JavaScript features.",
-    "type": "Browser support tables",
-    "category": "developer-reference",
-    "tags": [
-      "browser-support",
-      "compatibility",
-      "css"
-    ],
-    "trustScore": 88,
-    "capabilities": [
-      "site-search",
-      "public-api"
-    ],
-    "verified": "2026-08-29",
-    "lang": "en"
-  },
-  {
     "id": "tc39-proposals",
     "name": "TC39 Proposals",
     "url": "https://github.com/tc39/proposals",
@@ -4583,6 +4563,167 @@ export const ALL_SOURCES: readonly Source[] = [
         "format": "atom"
       }
     ],
+    "lang": "en"
+  },
+  {
+    "id": "log-sanitizer-for-ai-sharing",
+    "name": "Log Sanitizer for AI Sharing",
+    "url": "https://openbrowsertools.com/tools/log-sanitizer-for-ai-sharing",
+    "desc": "Client-side log scrubber that strips API keys, tokens, emails, IPs, and UUIDs before pasting traces into AI prompts.",
+    "type": "Log scrubber",
+    "category": "utilities",
+    "tags": [
+      "ai-tooling",
+      "privacy",
+      "sanitizer",
+      "security",
+      "logs"
+    ],
+    "trustScore": 88,
+    "capabilities": [],
+    "verified": "2026-10-03",
+    "lang": "en"
+  },
+  {
+    "id": "config-diff-checker",
+    "name": "Config Diff Checker",
+    "url": "https://openbrowsertools.com/tools/config-diff-checker",
+    "desc": "Client-side visual diff tool for JSON, YAML, TOML, and env configs with semantic key-level normalization.",
+    "type": "Diff visualizer",
+    "category": "utilities",
+    "tags": [
+      "diff",
+      "config",
+      "json",
+      "yaml",
+      "developer-tools"
+    ],
+    "trustScore": 86,
+    "capabilities": [],
+    "verified": "2026-10-03",
+    "lang": "en"
+  },
+  {
+    "id": "google-har-analyzer",
+    "name": "Google Admin Toolbox HAR Analyzer",
+    "url": "https://toolbox.googleapps.com/apps/har_analyzer/",
+    "desc": "Inspect and debug HTTP Archive (HAR) network captures securely in the browser to analyze request waterfalls and slow API calls.",
+    "type": "Network analyzer",
+    "category": "utilities",
+    "tags": [
+      "har",
+      "network",
+      "performance",
+      "debugging",
+      "google"
+    ],
+    "trustScore": 92,
+    "capabilities": [],
+    "verified": "2026-10-03",
+    "lang": "en"
+  },
+  {
+    "id": "source-map-visualizer",
+    "name": "Source Map Visualizer",
+    "url": "https://evanw.github.io/source-map-visualization/",
+    "desc": "Interactive mapping visualizer by Evan Wallace to verify TypeScript and JavaScript source maps against minified production output.",
+    "type": "Source map visualizer",
+    "category": "utilities",
+    "tags": [
+      "source-maps",
+      "debugging",
+      "typescript",
+      "compiler"
+    ],
+    "trustScore": 94,
+    "capabilities": [],
+    "verified": "2026-10-03",
+    "sourceUrl": "https://github.com/evanw/source-map-visualization",
+    "lang": "en"
+  },
+  {
+    "id": "dompurify-test-suite",
+    "name": "DOMPurify Test Suite",
+    "url": "https://cure53.de/purify",
+    "desc": "Interactive playground and XSS sanitization testbed for DOMPurify to test HTML and SVG payloads against real sanitizers.",
+    "type": "Security playground",
+    "category": "utilities",
+    "tags": [
+      "security",
+      "xss",
+      "sanitizer",
+      "dompurify",
+      "html"
+    ],
+    "trustScore": 95,
+    "capabilities": [],
+    "verified": "2026-10-03",
+    "sourceUrl": "https://github.com/cure53/DOMPurify",
+    "lang": "en"
+  },
+  {
+    "id": "astexplorer",
+    "name": "AST Explorer",
+    "url": "https://astexplorer.net/",
+    "desc": "Interactive syntax tree explorer supporting dozens of parsers and AST transformers across JavaScript, TypeScript, CSS, and HTML.",
+    "type": "Syntax tree explorer",
+    "category": "utilities",
+    "tags": [
+      "ast",
+      "compiler",
+      "parser",
+      "javascript",
+      "typescript"
+    ],
+    "trustScore": 94,
+    "capabilities": [],
+    "verified": "2026-10-03",
+    "sourceUrl": "https://github.com/fkling/astexplorer",
+    "lang": "en"
+  },
+  {
+    "id": "squoosh",
+    "name": "Squoosh",
+    "url": "https://squoosh.app/",
+    "desc": "WebAssembly-powered client-side image compression and conversion studio with instant side-by-side visual comparisons.",
+    "type": "Image compressor",
+    "category": "utilities",
+    "tags": [
+      "images",
+      "compression",
+      "webp",
+      "avif",
+      "performance",
+      "wasm"
+    ],
+    "trustScore": 94,
+    "capabilities": [],
+    "verified": "2026-10-03",
+    "sourceUrl": "https://github.com/GoogleChromeLabs/squoosh",
+    "lang": "en"
+  },
+  {
+    "id": "caniuse",
+    "name": "Can I Use",
+    "url": "https://caniuse.com",
+    "desc": "Up-to-date browser support tables for HTML, CSS, JavaScript, and Web APIs across all major desktop and mobile engines.",
+    "type": "Browser support tables",
+    "category": "utilities",
+    "tags": [
+      "browser-support",
+      "compatibility",
+      "css",
+      "html",
+      "javascript"
+    ],
+    "trustScore": 92,
+    "capabilities": [
+      "site-search",
+      "public-api"
+    ],
+    "verified": "2026-10-03",
+    "searchUrl": "https://caniuse.com/?search={q}",
+    "sourceUrl": "https://github.com/Fyrd/caniuse",
     "lang": "en"
   }
 ];

@@ -67,10 +67,10 @@ src/
         library-document.page.*         #     document sheet + pager (right pane)
         library-tree.ts                 #     tree builders + entry-doc helper
         library.routes.ts               #     layout parent, one literal child Route per path
-      app-shell-layout/                 #   backdrop + header + <router-outlet> + dock
-      heads-up-display-header/          #   desktop HUD navigation (.hud)
-      mobile-bottom-dock/               #   thumb-reach navigation below 768px (.dock)
+      app-shell-layout/                 #   backdrop + header + <router-outlet>
+      heads-up-display-header/          #   HUD navigation; phone menu is the bottom sheet
       horizon-backdrop/                 #   perspective grid, desktop only
+      tools/                            #   /tools index and /tools/markdown preview
       page-title.strategy.ts            #   TitleStrategy: "<page> · JooKoi"
 
     specimen/                           # dev-only parts kit at /specimen (ADR 004)

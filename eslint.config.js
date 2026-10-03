@@ -153,6 +153,8 @@ if (hasShared) {
 }
 
 module.exports = defineConfig([
+  // Hand-built html sidecars, not Angular templates (decision 040).
+  { ignores: ['content/library/**'] },
   {
     files: ['**/*.ts'],
     extends: [

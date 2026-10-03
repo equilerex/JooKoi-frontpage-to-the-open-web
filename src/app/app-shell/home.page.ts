@@ -135,7 +135,7 @@ function searchHref(params: Readonly<Record<string, string>>): string {
 /**
  * Home route (`''`). Content mirrors `features/design-theme/index.html`'s
  * `<main>` — the shell (`app-shell-layout.component.html`) already supplies
- * the header and mobile dock, so this page owns only the launcher, the
+ * the header, so this page owns only the launcher, the
  * trusted-highlights/search-results table and the tag chips.
  *
  * Task 4 behaviour (plan D4, brief "Home page behaviour"), **reversed by fix
@@ -194,43 +194,34 @@ export class HomePage {
   protected readonly quickKeys: readonly QuickKey[] = [
     {
       fn: 'F1',
-      label: 'Developer reference',
-      count: countByCategory('developer-reference'),
-      routerLink: '/search',
-      queryParams: { category: 'developer-reference' },
-    },
-    {
-      fn: 'F2',
       label: 'News',
       count: countByCategory('news'),
       routerLink: '/search',
       queryParams: { category: 'news' },
     },
     {
-      fn: 'F3',
-      label: 'Open-web holdouts',
-      count: countByCategory('open-web'),
+      fn: 'F2',
+      label: 'Culture',
+      count: countByCategory('culture'),
       routerLink: '/search',
-      queryParams: { category: 'open-web' },
+      queryParams: { category: 'culture' },
     },
     {
-      fn: 'F4',
+      fn: 'F3',
       label: 'Inspiration',
       count: countByCategory('inspiration'),
       routerLink: '/search',
       queryParams: { category: 'inspiration' },
     },
     {
-      fn: 'F5',
+      fn: 'F4',
       label: 'Investigative',
       count: countByTag('investigative'),
       routerLink: '/search',
       queryParams: { tag: 'investigative' },
     },
-    // AI marketplace (D3) — the mock's F6 hot key. Real count from the
-    // fixture, replacing the earlier hard-coded placeholder.
     {
-      fn: 'F6',
+      fn: 'F5',
       label: 'AI marketplace',
       count: countByCategory('ai-marketplace'),
       routerLink: '/search',
@@ -238,11 +229,19 @@ export class HomePage {
       accent: 'hot',
     },
     {
-      fn: 'DEV',
-      label: 'Developer stack ↗',
+      fn: 'AI',
+      label: 'AI crash course',
       count: null,
-      href: 'https://github.com/equilerex/JooKoi-developer-stack',
+      routerLink: '/library/ai-tooling-crash-course-for-developers/README',
       accent: 'cyan',
+    },
+    {
+      fn: 'TOOLS',
+      label: 'Useful tooling',
+      count: countByCategory('utilities'),
+      routerLink: '/search',
+      queryParams: { category: 'utilities' },
+      accent: 'amber',
     },
   ];
 

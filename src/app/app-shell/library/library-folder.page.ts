@@ -1,6 +1,6 @@
 import { Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { KeycapComponent } from '../../shared/design-system/actions/keycap/keycap.component';
 import { KeycapGridComponent } from '../../shared/design-system/actions/keycap-grid/keycap-grid.component';
 import { ProseContentComponent } from '../../shared/design-system/data-display/prose-content/prose-content.component';
@@ -17,7 +17,7 @@ import { entryDocForFolder } from './library-tree';
  */
 @Component({
   selector: 'joo-library-folder-page',
-  imports: [KeycapGridComponent, KeycapComponent, ProseContentComponent],
+  imports: [KeycapGridComponent, KeycapComponent, ProseContentComponent, RouterLink],
   templateUrl: './library-folder.page.html',
   styleUrl: './library-folder.page.css',
 })
@@ -34,6 +34,7 @@ export class LibraryFolderPage {
     findLibraryFolder(this.path()),
   );
   protected readonly isRoot = computed(() => this.path() === '');
+  protected readonly entryDoc = computed(() => entryDocForFolder(this.path()));
 
   protected readonly collections = computed(() => findLibraryFolder('')?.collections ?? []);
 

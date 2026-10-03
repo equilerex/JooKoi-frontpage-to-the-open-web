@@ -1,8 +1,8 @@
 /*
  * The frame's own box. `display: block` is explicit because nothing else
  * supplies it: a custom element defaults to `inline`, and no global rule in
- * `src/styles/` blockifies one. Its three children are a fixed backdrop, a
- * sticky header and a fixed dock, all of which position against the viewport
+ * `src/styles/` blockifies one. Its children are a fixed backdrop and a
+ * sticky header, both of which position against the viewport
  * rather than against this box, so an inline host is harmless today — the
  * `<main>` between them is a block box that also sizes against `body`. It is
  * the same declaration, added for the same reason, as
@@ -10,7 +10,10 @@
  * trap for the first change that needs the host to have a box.
  */
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  /* Sticky footer: short pages stretch `<main>` so the footer sits at the window bottom. */
+  min-height: 100dvh;
 }
 
 /*
@@ -18,20 +21,17 @@
  * `.page` (:91-103), including its `@media (max-width: 767px)` rule.
  *
  * It sits on `<main>` rather than on `:host` on purpose. On the host it would
- * constrain the sticky header and the fixed dock to `--content-max`, so the HUD's
- * background and its `border-bottom` would stop 80rem short of the viewport
- * edges instead of spanning them; and it would nest a second content column
- * inside `specimen.page.css`'s own, doubling its padding and its centring.
- *
- * The mobile rule's `calc(var(--dock-height) + var(--space-6))` bottom padding
- * IS the dock clearance — nothing else pads for the dock, and adding a second
- * clearance on top of it would double the gap.
+ * constrain the sticky header to `--content-max`, so the HUD's background and
+ * its `border-bottom` would stop short of the viewport edges instead of
+ * spanning them; and it would nest a second content column inside
+ * `specimen.page.css`'s own, doubling its padding and its centring.
  */
 
 .page {
   width: 100%;
   max-width: var(--content-max);
   margin-inline: auto;
+  flex: 1 0 auto;
   padding: var(--space-6) var(--space-6) var(--space-10);
   /* Named for shell View Transitions (Home ↔ Search ↔ Library). */
   view-transition-name: app-main;
@@ -48,7 +48,7 @@
 
 @media (max-width: 767px) {
   .page {
-    padding: var(--space-3) var(--space-3) calc(var(--dock-height) + var(--space-6));
+    padding: var(--space-3);
   }
 }
 
@@ -94,10 +94,4 @@
 .shell-footer__link:hover {
   color: var(--accent-cyan);
   text-decoration: underline;
-}
-
-@media (max-width: 767px) {
-  .shell-footer {
-    padding-bottom: var(--dock-height);
-  }
 }

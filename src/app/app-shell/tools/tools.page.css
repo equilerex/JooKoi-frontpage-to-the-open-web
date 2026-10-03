@@ -1,0 +1,24 @@
+:host {
+  display: block;
+}
+
+.tools__title {
+  margin: 0 0 var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.tools__lede {
+  margin: 0 0 var(--space-6);
+  max-width: 40rem;
+  color: var(--text-muted);
+}
+
+.tools__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: var(--space-3);
+  max-width: 16rem;
+}

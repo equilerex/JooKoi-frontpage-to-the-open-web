@@ -37,6 +37,10 @@ export const routes: Routes = [
     path: 'library',
     loadChildren: () => import('./app-shell/library/library.routes').then((m) => m.libraryRoutes),
   },
+  {
+    path: 'tools',
+    loadChildren: () => import('./app-shell/tools/tools.routes').then((m) => m.toolsRoutes),
+  },
   ...(isDevMode()
     ? [
         {

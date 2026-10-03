@@ -19,6 +19,8 @@ function prerenderRoute(path: string): ServerRoute {
 export const serverRoutes: ServerRoute[] = [
   prerenderRoute(''),
   prerenderRoute('about'),
+  prerenderRoute('tools'),
+  prerenderRoute('tools/markdown'),
   prerenderRoute('library'),
   ...LIBRARY_FOLDER_PATHS.map((path) => prerenderRoute(`library/${path}`)),
   ...LIBRARY_DOC_PATHS.map((path) => prerenderRoute(`library/${path}`)),

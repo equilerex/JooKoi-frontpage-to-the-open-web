@@ -298,19 +298,6 @@
       "lang": "en"
     },
     {
-      "id": "caniuse",
-      "name": "Can I Use",
-      "url": "https://caniuse.com",
-      "desc": "Up-to-date browser support tables for HTML, CSS and JavaScript features.",
-      "type": "Browser support tables",
-      "category": "developer-reference",
-      "tags": ["browser-support", "compatibility", "css"],
-      "trustScore": 88,
-      "capabilities": ["site-search", "public-api"],
-      "verified": "2026-08-29",
-      "lang": "en"
-    },
-    {
       "id": "tc39-proposals",
       "name": "TC39 Proposals",
       "url": "https://github.com/tc39/proposals",

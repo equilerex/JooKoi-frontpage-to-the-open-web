@@ -27,6 +27,7 @@
     --p-cyan-700: #0e8c99;
     --p-amber-300: #ffcb7a;
     --p-amber-400: #ffb547;
+    --p-amber-700: #8c4d00;
     --p-green-400: #5cffa8;
     --p-violet-400: #a47bff;
     --p-orange-400: #ff8a3d;
@@ -94,7 +95,7 @@
     --sheet-link: var(--p-link-600); /* 5.2:1 on sheet */
     --sheet-border: var(--p-paper-300);
     --sheet-head: var(--p-paper-100);
-    --sheet-code-inline: var(--p-paper-200);
+    --sheet-code-inline: rgb(250 239 227);
     --sheet-code-block: var(--p-code-900);
     --sheet-code-text: var(--p-white);
     --sheet-quote: var(--p-link-600);
@@ -120,6 +121,9 @@
     --key-cyan-top: var(--p-cyan-300);
     --key-cyan-base: var(--p-cyan-400);
     --key-cyan-edge: var(--p-cyan-700);
+    --key-amber-top: var(--p-amber-300);
+    --key-amber-base: var(--p-amber-400);
+    --key-amber-edge: var(--p-amber-700);
 
     /* LEDs and enamel accents */
     --led-off: var(--p-void-600);
@@ -143,6 +147,7 @@
     --shadow-deep: color-mix(in srgb, var(--p-black) 65%, transparent);
     --glow-cyan: color-mix(in srgb, var(--p-cyan-400) 45%, transparent);
     --glow-magenta: color-mix(in srgb, var(--p-magenta-400) 50%, transparent);
+    --glow-amber: color-mix(in srgb, var(--p-amber-400) 45%, transparent);
     --scanline: color-mix(in srgb, var(--p-black) 35%, transparent);
 
     /* Shape: chrome is soft-cornered hardware, print is near-square */
@@ -175,7 +180,6 @@
 
     /* Size */
     --hud-height: 64px;
-    --dock-height: 64px;
     --content-max: 90rem;
     --sheet-max: 950px;
 
@@ -195,7 +199,6 @@
      * configured from the matching numbers in
      * shared/design-system/theme/elevation.ts. Keep the two in step. */
     --z-backdrop: -1;
-    --z-dock: 100;
     --z-hud: 200;
     --z-menu: 1000;
     --z-overlay: 1100;

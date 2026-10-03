@@ -144,9 +144,90 @@
   letter-spacing: 0.08em;
 }
 
+.hud__burger {
+  display: none;
+}
+
+.hud__sheet {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding-bottom: max(var(--space-2), env(safe-area-inset-bottom));
+}
+
+.hud__sheet-nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.hud__sheet-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-inset);
+  border: 1px solid var(--border-panel);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font: 600 var(--text-sm) / 1 var(--font-display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    border-color var(--duration-micro) var(--ease-out),
+    background var(--duration-micro) var(--ease-out);
+}
+
+.hud__sheet-item:hover {
+  border-color: var(--border-accent);
+  background: var(--surface-panel);
+}
+
+.hud__sheet-item.is-active {
+  border-color: var(--led-cyan);
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+}
+
+.hud__sheet-label {
+  flex: 1;
+}
+
+.hud__sheet-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border-chrome);
+}
+
+.hud__sheet-link {
+  font: 500 var(--text-xs) / 1.4 var(--font-mono);
+  color: var(--text-muted);
+  text-decoration: none;
+}
+
+.hud__sheet-link:hover {
+  color: var(--text-primary);
+  text-decoration: underline;
+}
+
+.hud__sheet-status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  font: 500 var(--text-2xs) / 1 var(--font-mono);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--surface-inset);
+  border-radius: var(--radius-sm);
+}
+
 /* A media query, not a container query: this is chrome, and the rule that binds
- * design-system components to their own width does not. Below 768px the dock is
- * the navigation, so the nav goes and the brand collapses to its mark — without
+ * design-system components to their own width does not. Below 768px the nav
+ * hides and the menu button opens the sheet, and the brand collapses to its mark — without
  * `.hud__mark` the brand would be an invisible, wordless link to `/`. */
 @media (max-width: 767px) {
   .hud__inner {
@@ -165,5 +246,38 @@
 
   .hud__search {
     max-width: none;
+  }
+
+  .hud__burger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    margin-left: auto;
+    background: var(--surface-inset);
+    border: 1px solid var(--border-chrome);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    cursor: pointer;
+    touch-action: manipulation;
+    box-shadow: 0 0 6px rgba(0, 240, 255, 0.1);
+    transition:
+      border-color var(--duration-micro) var(--ease-out),
+      box-shadow var(--duration-micro) var(--ease-out),
+      color var(--duration-micro) var(--ease-out);
+  }
+
+  .hud__burger:hover {
+    border-color: var(--border-panel);
+    box-shadow: 0 0 10px var(--glow-cyan);
+    color: var(--text-accent);
+  }
+
+  .hud__burger:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
   }
 }

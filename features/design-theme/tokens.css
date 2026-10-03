@@ -102,7 +102,7 @@
   --sheet-link: var(--p-link-600); /* 5.2:1 on sheet */
   --sheet-border: var(--p-paper-300);
   --sheet-head: var(--p-paper-100);
-  --sheet-code-inline: var(--p-paper-200);
+  --sheet-code-inline: rgb(250 239 227);
   --sheet-code-block: var(--p-code-900);
   --sheet-code-text: var(--p-white);
   --sheet-quote: var(--p-link-600);

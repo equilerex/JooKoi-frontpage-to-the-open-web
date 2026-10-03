@@ -1,5 +1,51 @@
 <joo-breadcrumb-trail [crumbs]="crumbs()" />
 
+<button
+  type="button"
+  class="edge-handle"
+  aria-label="Open library files"
+  [attr.aria-expanded]="isMobileDrawerOpen()"
+  (click)="isMobileDrawerOpen.set(true)"
+>
+  <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+    <path
+      d="M3 5h14M3 10h9M3 15h14"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+    />
+  </svg>
+</button>
+
+<p-drawer
+  [(visible)]="isMobileDrawerOpen"
+  position="left"
+  header="Files"
+  [blockScroll]="true"
+  appendTo="body"
+  ariaCloseLabel="Close file tree"
+  styleClass="joo-library-drawer"
+>
+  @if (isMobileDrawerOpen()) {
+    <joo-console-input
+      class="library-tree-filter"
+      size="compact"
+      placeholder="Filter files"
+      [value]="treeFilter()"
+      (valueChange)="onTreeFilter($event)"
+    />
+    <joo-topic-tree
+      [nodes]="treeNodes()"
+      ariaLabel="Library files"
+      [selectionKeys]="selectionKeys()"
+      [filterText]="treeFilter()"
+      (nodeActivate)="onNodeActivate($event)"
+      (folderToggle)="layoutStore.setFolderOpen($event.key, $event.open)"
+    />
+  }
+</p-drawer>
+
 <div class="library-split">
   <aside class="library-tree" #treePanel (scroll)="onTreeScroll($event)">
     <joo-readout-panel label="Files" led="cyan">

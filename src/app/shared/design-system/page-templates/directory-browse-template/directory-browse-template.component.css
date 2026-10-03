@@ -62,3 +62,14 @@
     gap: var(--space-3);
   }
 }
+
+/*
+ * A consumer that moves its rack into a drawer below 1024px marks the rack
+ * element `rack-desktop-only`; the empty aside then drops out of the grid so it
+ * does not leave a gap row behind.
+ */
+@media (max-width: 1023px) {
+  .browse__rack:has(> .rack-desktop-only) {
+    display: none;
+  }
+}

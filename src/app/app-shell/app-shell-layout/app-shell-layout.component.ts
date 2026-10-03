@@ -6,32 +6,24 @@ import { SOURCE_COUNT } from '../../shared/curated-websites/source-stats.generat
 import { NavItem } from '../../shared/design-system/navigation/indicator-nav-list/indicator-nav-list.component';
 import { HeadsUpDisplayHeaderComponent } from '../heads-up-display-header/heads-up-display-header.component';
 import { HorizonBackdropComponent } from '../horizon-backdrop/horizon-backdrop.component';
-import { MobileBottomDockComponent } from '../mobile-bottom-dock/mobile-bottom-dock.component';
 
 /**
- * The frame rendered once around every page: the horizon behind everything, the
- * HUD header and the mobile dock around a `router-outlet`.
+ * The frame rendered once around every page: the horizon behind everything and
+ * the HUD header around a `router-outlet`.
  *
- * The header, `<main>` and the dock are siblings, which is what keeps the header
- * and the dock full-bleed while only page content is constrained to
- * `--content-max`.
+ * The header and `<main>` are siblings, which keeps the header full-bleed
+ * while only page content is constrained to `--content-max`.
  *
- * Two nav lists: the header's `.hud__nav` and the mobile dock both carry Home,
- * Search and Library (the brand mark also links home). The footer links to the
- * component playground (`/specimen`) only in dev mode, because that route does
- * not exist in a production build.
+ * Wide screens use `.hud__nav` (Home, Search, Library, Tools). Below 768px that nav
+ * is hidden and the header's menu button opens the same items. The brand mark
+ * also links home. The footer links to the component playground (`/specimen`)
+ * only in dev mode, because that route does not exist in a production build.
  *
  * `/search` and `/library` are real routes. The parked `Browse` item was removed
  * since browsing is part of the landing experience and the brand mark links home.
  */
 @Component({
-  imports: [
-    RouterOutlet,
-    RouterLink,
-    HorizonBackdropComponent,
-    HeadsUpDisplayHeaderComponent,
-    MobileBottomDockComponent,
-  ],
+  imports: [RouterOutlet, RouterLink, HorizonBackdropComponent, HeadsUpDisplayHeaderComponent],
   selector: 'joo-app-shell-layout',
   styleUrl: './app-shell-layout.component.css',
   templateUrl: './app-shell-layout.component.html',
@@ -92,12 +84,7 @@ export class AppShellLayoutComponent {
     { label: 'Home', routerLink: '/' },
     { label: 'Search', routerLink: '/search' },
     { label: 'Library', routerLink: '/library' },
-  ];
-
-  private readonly baseDockNavItems: readonly NavItem[] = [
-    { label: 'Home', routerLink: '/' },
-    { label: 'Search', routerLink: '/search' },
-    { label: 'Library', routerLink: '/library' },
+    { label: 'Tools', routerLink: '/tools' },
   ];
 
   /** `active` derived from the real current route instead of hard-coded.
@@ -106,10 +93,6 @@ export class AppShellLayoutComponent {
    *  (`/library` also lights for `/library/some-topic`). */
   protected readonly headerNavItems = computed<readonly NavItem[]>(() =>
     this.withActive(this.baseHeaderNavItems),
-  );
-
-  protected readonly dockNavItems = computed<readonly NavItem[]>(() =>
-    this.withActive(this.baseDockNavItems),
   );
 
   private withActive(items: readonly NavItem[]): readonly NavItem[] {

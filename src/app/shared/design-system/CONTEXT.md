@@ -67,7 +67,7 @@ Durations and easing tokens live in `src/styles/design-tokens.css` (mirrored in
 
 Recipes (pick one; do not invent a fifth duration):
 
-1. **Shell routes (Home / Search / Library)** — `view-transition-name: app-main` on `<main>`; HUD/dock named `app-chrome` / `app-dock` stay still. Use the route keyframes in `src/styles.css`, with `--duration-route` and `--ease-out`. Skip VT for library-internal paths; the reader owns that transition.
+1. **Shell routes (Home / Search / Library / Tools)** — `view-transition-name: app-main` on `<main>`; the HUD is named `app-chrome` and stays still. Use the route keyframes in `src/styles.css`, with `--duration-route` and `--ease-out`. Skip VT for library-internal paths; the reader owns that transition.
 2. **Library reader entry** — keep the opaque reader frame stable; enter with `opacity` plus `translateX(1rem)` over `--duration-route` and `--ease-out`. Never fade the dark container behind a white document.
 3. **Conditional state** — for occasional inserted panels, tiers, or filter rows, use `@starting-style` with `opacity` plus a 4–8px translate. When a state is removed, DOM removal is immediate; do not hold nodes alive with exit animations. Do not put `@if` around a surface whose box geometry needs to morph.
 4. **Filtered collections** — `record-grid` rows animate in and out only through `animateRows` (decision 039): a cell-level grid-track height animation on the cell content, never on the `<tr>` itself, with rows matched by `rowKey`, leaving rows retained for one 220ms animation, at most 30 animated rows per change, and reduced motion swapping instantly. Keep the virtual scroller and input debouncing. In-page filter updates sync via `Location.replaceState` rather than `router.navigate` to prevent scroll-to-top and unneeded View Transitions (ADR 035, ADR 036, ADR 039).
@@ -99,6 +99,7 @@ Four targets, all there for that one reason:
 - `.joo-filter-drawer` — `styleClass` lands on PrimeNG Drawer's root element, which Drawer's template created.
 - `.joo-record-grid` — the class sits on the component's own `<table>`, so it _is_ the table, not the host.
 - `joo-logotype b`, `joo-prose-content *` and `joo-paper-sheet :focus-visible` — the consumer projects these elements in.
+- `joo-prose-content` also builds a phone figure-zoom `<dialog>` in code and appends it to `<body>` (styles `.fig-zoom` in `src/styles.css`). A dialog in its template broke hydration because the consumer sets innerHTML into the projection slot (NG0502).
 
 A rule that looks dead in a component stylesheet should be read as a hint to check `src/styles.css` first.
 

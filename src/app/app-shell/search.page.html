@@ -15,7 +15,7 @@
     >
   </joo-toolbar-row>
 
-  <joo-readout-panel templateRack label="Filters" led="amber">
+  <ng-template #filterGroups let-sfx>
     <div class="rack-group">
       <joo-field-label>Signals</joo-field-label>
       @for (toggle of capabilityToggles; track toggle.value) {
@@ -30,9 +30,9 @@
     </div>
 
     <div class="rack-group">
-      <joo-field-label for="f-region">Region</joo-field-label>
+      <joo-field-label [for]="'f-region' + sfx">Region</joo-field-label>
       <joo-chrome-select
-        inputId="f-region"
+        [inputId]="'f-region' + sfx"
         ariaLabel="Region"
         [options]="regionOptions"
         [value]="regionFilter()"
@@ -43,9 +43,9 @@
 
     @if (showLangFilter) {
       <div class="rack-group">
-        <joo-field-label for="f-lang">Language</joo-field-label>
+        <joo-field-label [for]="'f-lang' + sfx">Language</joo-field-label>
         <joo-chrome-select
-          inputId="f-lang"
+          [inputId]="'f-lang' + sfx"
           ariaLabel="Language"
           [options]="langOptions"
           [value]="langFilter()"
@@ -54,7 +54,41 @@
         />
       </div>
     }
+  </ng-template>
+
+  <!-- Desktop: the left rack. Below 1024px the drawer and edge handle below take over. -->
+  <joo-readout-panel templateRack class="rack-desktop-only" label="Filters" led="amber">
+    <ng-container [ngTemplateOutlet]="filterGroups" [ngTemplateOutletContext]="{ $implicit: '' }" />
   </joo-readout-panel>
+
+  <button
+    type="button"
+    class="edge-handle"
+    [class.edge-handle--active]="railActive()"
+    aria-label="Open filters"
+    [attr.aria-expanded]="filtersOpen()"
+    (click)="filtersOpen.set(true)"
+  >
+    <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+      <path
+        d="M3 4h14l-5.5 6.5V16l-3-1.5v-4z"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linejoin="round"
+        stroke-linecap="round"
+      />
+    </svg>
+  </button>
+
+  <joo-filter-drawer class="search-drawer-host" [(open)]="filtersOpen" heading="Filters">
+    @if (filtersOpen()) {
+      <ng-container
+        [ngTemplateOutlet]="filterGroups"
+        [ngTemplateOutletContext]="{ $implicit: '-drawer' }"
+      />
+    }
+  </joo-filter-drawer>
 
   <joo-readout-panel [flush]="true" label="Results" led="cyan">
     <span panelHead class="panel-meta">sources, not pages</span>
@@ -79,7 +113,23 @@
     </div>
 
     <div class="funnel">
-      <div class="funnel__columns" role="group" aria-label="Category">
+      <span class="funnel__toggle">
+        <joo-hardware-key
+          [pressed]="categoriesOpen()"
+          aria-controls="funnel-categories"
+          (press)="onCategoriesToggle()"
+        >
+          <joo-status-light color="amber" [on]="categoriesOpen()" />
+          Categories{{ categoryFilter().size ? ' (' + categoryFilter().size + ')' : '' }}
+        </joo-hardware-key>
+      </span>
+      <div
+        id="funnel-categories"
+        class="funnel__columns"
+        [class.funnel__columns--collapsed]="!categoriesOpen()"
+        role="group"
+        aria-label="Category"
+      >
         @for (group of funnelGroups; track group.label) {
           <div class="funnel__column">
             <span class="funnel__heading">{{ group.label }}</span>

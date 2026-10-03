@@ -1,4 +1,4 @@
-import { Location } from '@angular/common';
+import { Location, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { WireFollowStore } from '../shared/curated-websites/wire-follow.store';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -25,6 +25,7 @@ import { FieldLabelComponent } from '../shared/design-system/form-controls/field
 import { StompboxToggleComponent } from '../shared/design-system/form-controls/stompbox-toggle/stompbox-toggle.component';
 import { ToolbarRowComponent } from '../shared/design-system/page-layouts/toolbar-row/toolbar-row.component';
 import { DirectoryBrowseTemplateComponent } from '../shared/design-system/page-templates/directory-browse-template/directory-browse-template.component';
+import { FilterDrawerComponent } from '../shared/design-system/surfaces/filter-drawer/filter-drawer.component';
 import { ReadoutPanelComponent } from '../shared/design-system/surfaces/readout-panel/readout-panel.component';
 import { EyebrowLabelComponent } from '../shared/design-system/typography/eyebrow-label/eyebrow-label.component';
 import { ALL_SOURCES } from '../shared/curated-websites/sources.generated';
@@ -139,6 +140,7 @@ function labelFor(options: readonly SelectOption[], value: string): string {
  *  select doesn't need, so re-deriving four short strings here is cheaper
  *  than threading a shared constant through two unrelated shapes. */
 const CATEGORY_LABEL: Record<string, string> = {
+  utilities: 'Useful tooling',
   technology: 'Technology',
   culture: 'Culture & arts',
   lifestyle: 'Lifestyle & fashion',
@@ -211,7 +213,7 @@ export interface FunnelGroup {
 const CATEGORY_GROUPS: readonly { readonly label: string; readonly ids: readonly string[] }[] = [
   {
     label: 'AI & tooling',
-    ids: ['ai-marketplace', 'developer-reference', 'technology', 'open-web'],
+    ids: ['utilities', 'ai-marketplace', 'developer-reference', 'technology', 'open-web'],
   },
   { label: 'Culture & play', ids: ['culture', 'lifestyle', 'inspiration'] },
   { label: 'News & world pulse', ids: ['news', 'public', 'science'] },
@@ -299,6 +301,8 @@ const LANG_OPTIONS = toSelectOptions(
     ChipComponent,
     CornerBracketsDirective,
     StatusLightComponent,
+    FilterDrawerComponent,
+    NgTemplateOutlet,
   ],
   templateUrl: './search.page.html',
   styleUrl: './search.page.css',
@@ -343,6 +347,13 @@ export class SearchPage {
   );
   /** Whether the types layer of the funnel is expanded. */
   protected readonly typesOpen = signal(false);
+  /** Phone only: the category chips can be folded away (`.funnel__toggle` is hidden above 767px). */
+  protected readonly categoriesOpen = signal(true);
+  /** Below 1024px the Signals/Region/Language rack lives in a left drawer. */
+  protected readonly filtersOpen = signal(false);
+  protected readonly railActive = computed(
+    () => this.caps().size > 0 || this.regionFilter() !== '' || this.langFilter() !== '',
+  );
   protected readonly langFilter = signal(this.initialParams.get('lang') ?? '');
   protected readonly tagFilter = signal(this.initialParams.get('tag') ?? '');
   protected readonly sortField = signal<string | undefined>(
@@ -716,6 +727,10 @@ export class SearchPage {
     if (!next.delete(type)) next.add(type);
     this.typeFilter.set(next);
     this.syncUrl();
+  }
+
+  protected onCategoriesToggle(): void {
+    this.categoriesOpen.update((open) => !open);
   }
 
   protected onTypesToggle(): void {

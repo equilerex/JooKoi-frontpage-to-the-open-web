@@ -1,6 +1,6 @@
 # Verified Tools & Repos
 
-Curated, evidence-checked repos, products, and protocols for AI-assisted dev tooling. Nothing goes in this file without meeting the evidence bar: named practitioners with a checkable identity, current docs, or repo-health signals (stars, forks, active commits — not a one-person abandoned project). New-but-promising entries are allowed as a labeled exception. For newsletters/people/communities, see [`_inspiration-and-staying-current.md`](./_inspiration-and-staying-current.md). Process notes live in `_architecture/`.
+Curated, evidence-checked repos, products, and protocols for AI-assisted dev tooling. Nothing goes in this file without meeting the evidence bar: named practitioners with a checkable identity, current docs, or repo-health signals (stars, forks, active commits — not a one-person abandoned project). New-but-promising entries are allowed as a labeled exception. For newsletters/people/communities, see [`_inspiration-and-staying-current.md`](./_inspiration-and-staying-current.md). For browser-based utilities and web tools, see [`useful-tooling`](../useful-tooling/README.md). Process notes live in `_architecture/`.
 
 ---
 

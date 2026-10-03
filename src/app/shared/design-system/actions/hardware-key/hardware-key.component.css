@@ -121,6 +121,15 @@
   border-color: var(--key-cyan-edge);
 }
 
+:host(.is-amber) .key {
+  --k-top: var(--key-amber-top);
+  --k-base: var(--key-amber-base);
+  --k-edge: var(--key-amber-edge);
+  --k-text: var(--text-on-neon);
+  --k-glow: var(--glow-amber);
+  border-color: var(--key-amber-edge);
+}
+
 :host(.is-sm) .key {
   min-height: 2.25rem;
   padding: 0 var(--space-3);

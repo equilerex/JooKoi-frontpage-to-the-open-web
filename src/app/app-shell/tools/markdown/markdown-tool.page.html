@@ -1,0 +1,43 @@
+<h1 class="md-tool__title">Markdown</h1>
+<div class="md-tool__bar">
+  <div class="md-tool__mode">
+    <joo-hardware-key size="sm" [pressed]="pane() === 'edit'" (press)="pane.set('edit')"
+      >Edit</joo-hardware-key
+    >
+    <joo-hardware-key size="sm" [pressed]="pane() === 'preview'" (press)="pane.set('preview')">
+      Preview
+    </joo-hardware-key>
+  </div>
+  <div class="md-tool__actions">
+    <joo-hardware-key size="sm" (press)="loadSample()">Sample</joo-hardware-key>
+    <joo-hardware-key size="sm" [disabled]="!html()" (press)="print()">Print PDF</joo-hardware-key>
+  </div>
+</div>
+<div
+  class="md-tool__panes"
+  [class.is-edit]="pane() === 'edit'"
+  [class.is-preview]="pane() === 'preview'"
+>
+  <label class="md-tool__editor">
+    <span class="md-tool__label">Markdown</span>
+    <textarea
+      class="md-tool__input"
+      [value]="source()"
+      spellcheck="false"
+      (input)="onInput($event)"
+    ></textarea>
+  </label>
+  <div class="md-tool__preview">
+    <joo-paper-sheet>
+      <joo-prose-content>
+        @if (error()) {
+          <p role="alert">{{ error() }}</p>
+        } @else if (html()) {
+          <div [innerHTML]="html()"></div>
+        } @else {
+          <p>Paste markdown on the left. Sample loads a short note with a diagram.</p>
+        }
+      </joo-prose-content>
+    </joo-paper-sheet>
+  </div>
+</div>

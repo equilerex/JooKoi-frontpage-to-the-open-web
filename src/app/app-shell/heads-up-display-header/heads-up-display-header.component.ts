@@ -1,5 +1,6 @@
-import { Component, input, model, output } from '@angular/core';
+import { Component, input, isDevMode, model, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Drawer } from 'primeng/drawer';
 import { HardwareKeyComponent } from '../../shared/design-system/actions/hardware-key/hardware-key.component';
 import { ConsoleInputComponent } from '../../shared/design-system/form-controls/console-input/console-input.component';
 import { StatusLightComponent } from '../../shared/design-system/indicators/status-light/status-light.component';
@@ -46,6 +47,7 @@ import { LogotypeComponent } from '../../shared/design-system/typography/logotyp
     StatusLightComponent,
     ConsoleInputComponent,
     RouterLink,
+    Drawer,
   ],
   templateUrl: './heads-up-display-header.component.html',
   styleUrl: './heads-up-display-header.component.css',
@@ -53,6 +55,8 @@ import { LogotypeComponent } from '../../shared/design-system/typography/logotyp
 })
 export class HeadsUpDisplayHeaderComponent {
   readonly navItems = input.required<readonly NavItem[]>();
+  protected readonly isMenuOpen = signal(false);
+  protected readonly showPlayground = isDevMode();
   /** Shows the compact search console. Off by default; the app shell passes
    *  `true` on every page, home included (deviation, 2026-09-16). */
   readonly console = input(false);

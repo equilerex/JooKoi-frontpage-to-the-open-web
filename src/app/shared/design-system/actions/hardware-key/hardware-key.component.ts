@@ -3,7 +3,7 @@ import { Component, input, output } from '@angular/core';
 import { Params, RouterLink } from '@angular/router';
 
 export type HardwareKeySize = 'xs' | 'sm' | 'md' | 'lg';
-export type HardwareKeyAccent = 'neutral' | 'hot' | 'cyan';
+export type HardwareKeyAccent = 'neutral' | 'hot' | 'cyan' | 'amber';
 
 /**
  * The pressable slab. One component in five placements — button, nav link,
@@ -41,6 +41,7 @@ export type HardwareKeyAccent = 'neutral' | 'hot' | 'cyan';
     '[class.is-lg]': "size() === 'lg'",
     '[class.is-hot]': "accent() === 'hot'",
     '[class.is-cyan]': "accent() === 'cyan'",
+    '[class.is-amber]': "accent() === 'amber'",
     '[class.is-block]': 'block()',
   },
 })

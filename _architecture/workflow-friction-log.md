@@ -54,3 +54,9 @@ The Phase 2 run cost far more than it should have: too many tokens, too much wal
 
 - `[tooling]` The `ng serve` template HMR endpoint (`/@ng/component?c=...SearchPage`) kept serving a stale compiled template while the main chunk and SSR HTML were current. The browser hydrated, then applied the stale HMR template, so edits never showed even though the type check passed. A reload does not clear it; restarting `pnpm start` does. Check with `fetch("/@ng/component?c=src%2Fapp%2Fapp-shell%2Fsearch.page.ts%40SearchPage")` and look for a string from the new template.
 - `[tooling]` The stale template HMR cache came back after a restart, now for record-grid and the home page. `pnpm start` now runs `ng serve --no-hmr`, so edits reload the page instead of patching templates in place.
+
+## 2026-10-03 — crash course makeover
+
+- `[tooling]` Stop hooks in `.claude/settings.json` ran `node scripts/lint-changed.mjs` relative to the session cwd. A `cd` into a subfolder in the Bash tool moves that cwd for the rest of the session, so the hook died with "Cannot find module ...\src\app\app-shell\app-shell-layout\scripts\lint-changed.mjs". Both script hooks now use `"$CLAUDE_PROJECT_DIR/scripts/..."`. Agents should still avoid `cd` out of the repo root.
+- `[tooling]` `lint-changed` ran eslint's Angular template parser over `content/library/**/*.figs.html`, which are SVG sidecars; a literal `{` in a figure label is a parse error there. Prettier already ignored `content/library`; eslint now does too (`eslint.config.js` and the `lintable` filter).
+- `[confusion]` Subagents that were told to append figures ran their generator twice in three sidecars, so figures rendered twice. Compare `<!-- after: -->` plus block text after any batch (see `.agents/skills/library-figure-sidecars`).

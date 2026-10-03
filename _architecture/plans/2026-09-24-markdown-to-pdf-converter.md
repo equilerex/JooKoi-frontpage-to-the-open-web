@@ -35,7 +35,7 @@ The canvas renders Markdown using the exact same parser rules and styling as the
 
 The browser print engine must output only the rendered document:
 
-- All surrounding shell elements hidden via `@media print`: `joo-horizon-backdrop`, `joo-heads-up-display-header`, `footer.shell-footer`, `joo-mobile-bottom-dock`.
+- All surrounding shell elements hidden via `@media print`: `joo-horizon-backdrop`, `joo-heads-up-display-header`, `footer.shell-footer`. The header includes the phone sheet.
 - The shell content container `main.page` reset to full width with zero padding and margins.
 - All page toolbars, floating action buttons, and modal dialogs hidden during print.
 - The paper sheet frame (shadows, background rings, dark borders) removed so the printed paper has a clean white background and natural margins.
@@ -105,7 +105,6 @@ The browser print engine must output only the rendered document:
   joo-horizon-backdrop,
   joo-heads-up-display-header,
   footer.shell-footer,
-  joo-mobile-bottom-dock,
   .no-print,
   .md-converter__toolbar,
   .md-converter__modal-backdrop {
@@ -192,3 +191,5 @@ The browser print engine must output only the rendered document:
 8. **Verification.** Validate modal open/apply flow, verify rendering against archive pages, and test print output in browser preview.
 
 ## Implementation deviations
+
+The live preview is `/tools/markdown` and does not follow this plan's modal. Print PDF on that page calls `window.print()`. Print CSS hides the header, which includes the phone sheet, plus the footer and the horizon. There is no separate `/tools/markdown-to-pdf` route.

@@ -5,7 +5,6 @@
  * from here. Change one, change the other.
  */
 export const ELEVATION = {
-  dock: 100,
   hud: 200,
   menu: 1000,
   overlay: 1100,

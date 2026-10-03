@@ -38,6 +38,12 @@
   }
 }
 
+@media (max-width: 1023px) {
+  .library-tree {
+    display: none;
+  }
+}
+
 @media (max-width: 767px) {
   :host,
   .library-split {

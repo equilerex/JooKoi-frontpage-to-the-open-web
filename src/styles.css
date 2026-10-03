@@ -22,8 +22,7 @@
     animation: none;
   }
 
-  ::view-transition-group(app-chrome),
-  ::view-transition-group(app-dock) {
+  ::view-transition-group(app-chrome) {
     animation: none;
   }
 
@@ -122,6 +121,17 @@
     margin-bottom: 0.5rem;
   }
 
+  joo-prose-content .mermaid {
+    display: flex;
+    justify-content: center;
+    margin: 1.25rem 0 1.5rem;
+  }
+
+  joo-prose-content .mermaid svg {
+    max-width: 100%;
+    height: auto;
+  }
+
   joo-prose-content code {
     padding: 0.2rem 0.4rem;
     font: 600 0.9em var(--font-mono);
@@ -195,15 +205,146 @@
     font-family: var(--font-read);
   }
 
-  /* Diagrams are drawn for ~900px; on phones keep them legible and scroll sideways. */
+  /*
+   * Diagrams are drawn for ~900px. On phones they shrink to the column as a
+   * preview and a tap opens a larger clone (ProseContentComponent). No label
+   * on the preview: it would cover the drawing.
+   */
+  joo-prose-content .fig .fig-narrow {
+    display: none;
+  }
+
   @media (max-width: 768px) {
-    joo-prose-content .fig {
-      overflow-x: auto;
+    /* A figure with a `.fig-narrow` twin swaps to it and needs no zoom. */
+    joo-prose-content .fig:has(.fig-narrow) .fig-wide {
+      display: none;
     }
 
-    joo-prose-content .fig svg {
-      min-width: 640px;
+    joo-prose-content .fig:has(.fig-narrow) .fig-narrow {
+      display: block;
     }
+
+    joo-prose-content .fig:not(:has(.fig-narrow)) {
+      position: relative;
+      cursor: zoom-in;
+    }
+  }
+
+  /* Small edge handle that opens a left drawer below 1024px (library files,
+   * search filters). Parked at mid-height so it never covers the HUD or the
+   * breadcrumb. The page owns the click and the drawer; this owns the look. */
+  .edge-handle {
+    display: none;
+  }
+
+  @media (max-width: 1023px) {
+    .edge-handle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      left: 0;
+      top: 45dvh;
+      z-index: calc(var(--z-hud) - 10);
+      width: 1.4rem;
+      height: 2.5rem;
+      padding: 0;
+      background: var(--surface-panel);
+      border: 1px solid var(--border-panel);
+      border-left: none;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      box-shadow: 0 2px 8px var(--shadow-deep);
+      color: var(--text-muted);
+      opacity: 0.85;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition:
+        color var(--duration-micro) var(--ease-out),
+        opacity var(--duration-micro) var(--ease-out);
+    }
+
+    .edge-handle:hover {
+      color: var(--text-primary);
+      opacity: 1;
+    }
+
+    .edge-handle:focus-visible {
+      outline: 2px solid var(--focus-ring);
+      outline-offset: 2px;
+    }
+
+    .edge-handle svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    /* Something inside the drawer is set. */
+    .edge-handle--active::after {
+      content: '';
+      position: absolute;
+      top: 0.3rem;
+      right: 0.2rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--led-amber);
+      box-shadow: 0 0 6px var(--led-amber);
+    }
+  }
+
+  /* Phone figure zoom: a <dialog> that ProseContentComponent appends to <body>. */
+  .fig-zoom {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--surface-sheet);
+    overflow: auto;
+    touch-action: pan-x pan-y pinch-zoom;
+  }
+
+  .fig-zoom::backdrop {
+    background: rgb(0 0 0 / 0.6);
+  }
+
+  .fig-zoom-close {
+    position: sticky;
+    top: 0.5rem;
+    left: 0.5rem;
+    z-index: 1;
+    margin: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--sheet-border);
+    border-radius: 8px;
+    background: var(--sheet-head);
+    color: var(--sheet-text);
+    font: 600 0.875rem / 1 var(--font-read);
+  }
+
+  .fig-zoom figure {
+    margin: 0;
+    padding: 0 1rem 2rem;
+    width: max-content;
+  }
+
+  .fig-zoom svg,
+  .fig-zoom img {
+    display: block;
+    height: auto;
+  }
+
+  /* Phone: images in prose open the zoom on tap. */
+  @media (max-width: 768px) {
+    joo-prose-content img {
+      cursor: zoom-in;
+    }
+  }
+
+  .fig-zoom svg text {
+    font-family: var(--font-read);
   }
 
   joo-prose-content .fig figcaption {
@@ -397,7 +538,9 @@
    * inverse of the component-stylesheet case above: an unlayered Angular
    * stylesheet beats a layered rule, and a layered PrimeNG one does not.
    * Decision 011. */
-  .joo-filter-drawer {
+  .joo-filter-drawer,
+  .joo-library-drawer,
+  .joo-menu-sheet {
     /* PrimeNG's `.p-drawer` sets `border-style` and `border-color` (the colour
      * arrives from the preset) but no `border-width`, and only
      * `.p-drawer-left`/`-right`/`-top`/`-bottom` set an inline width — 1px, on
@@ -416,6 +559,15 @@
     border-radius: var(--radius-panel);
   }
 
+  .joo-library-drawer {
+    width: min(22rem, 85vw);
+  }
+
+  .joo-menu-sheet {
+    border-bottom: none;
+    border-radius: var(--radius-panel) var(--radius-panel) 0 0;
+  }
+
   /* The close control is a `pButton` inside Drawer's own template, so it is not
    * on the drawer's token chain: the preset declares no `button` block, and
    * Aura's `--p-button-*` defaults colour it. Measured on the open panel:
@@ -423,11 +575,15 @@
    * project, and it would not follow a `[data-theme]` swap. Muted, like every
    * other secondary icon in the system (`pager.component.css:43`,
    * `breadcrumb-trail.component.css:37`). */
-  .joo-filter-drawer .p-drawer-close-button {
+  .joo-filter-drawer .p-drawer-close-button,
+  .joo-library-drawer .p-drawer-close-button,
+  .joo-menu-sheet .p-drawer-close-button {
     color: var(--text-muted);
   }
 
-  .joo-filter-drawer .p-drawer-close-button:hover {
+  .joo-filter-drawer .p-drawer-close-button:hover,
+  .joo-library-drawer .p-drawer-close-button:hover,
+  .joo-menu-sheet .p-drawer-close-button:hover {
     color: var(--text-primary);
   }
 
@@ -678,6 +834,89 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
       margin-bottom: var(--space-1);
+    }
+  }
+
+  /* Markdown tool print. Layered `!important` beats the shell components'
+   * unlayered `display` so the sheet is the only thing on the page. */
+  @media print {
+    joo-horizon-backdrop,
+    joo-heads-up-display-header,
+    footer.shell-footer {
+      display: none !important;
+    }
+
+    html,
+    body,
+    joo-app-shell-layout,
+    main.page,
+    joo-markdown-tool-page,
+    joo-paper-sheet,
+    joo-prose-content,
+    .mermaid,
+    .mermaid svg {
+      background: #ffffff !important;
+      background-image: none !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    main.page {
+      max-width: 100% !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    joo-paper-sheet {
+      box-shadow: none !important;
+      border: none !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+
+    joo-prose-content table {
+      display: table !important;
+      overflow: visible !important;
+      width: 100% !important;
+    }
+
+    joo-prose-content pre {
+      white-space: pre-wrap !important;
+      word-break: break-word !important;
+      overflow: visible !important;
+    }
+
+    joo-prose-content code {
+      background: var(--p-paper-200) !important;
+    }
+
+    joo-prose-content a::after {
+      content: none !important;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      break-after: avoid;
+      page-break-after: avoid;
+    }
+
+    pre,
+    blockquote,
+    table,
+    .mermaid {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    @page {
+      margin: 1.5cm;
+      background-color: #ffffff;
     }
   }
 }

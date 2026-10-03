@@ -68,3 +68,28 @@
   font: 500 var(--text-2xs) / 1 var(--font-mono);
   color: var(--text-muted);
 }
+
+.library-entry-doc-action {
+  margin: var(--space-2) 0 0;
+}
+
+.library-read-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border-panel);
+  border-radius: var(--radius-sm);
+  background: var(--surface-inset);
+  font: 600 var(--text-xs) / 1 var(--font-mono);
+  color: var(--color-cyan);
+  text-decoration: none;
+  transition:
+    border-color var(--duration-fast),
+    color var(--duration-fast);
+}
+
+.library-read-link:hover {
+  border-color: var(--color-cyan);
+  color: var(--text-primary);
+}

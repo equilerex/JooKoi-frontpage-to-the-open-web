@@ -54,4 +54,91 @@
       {{ statusText() }}
     </div>
   }
+  <button
+    type="button"
+    class="hud__burger"
+    aria-label="Open navigation menu"
+    [attr.aria-expanded]="isMenuOpen()"
+    (click)="isMenuOpen.set(true)"
+  >
+    <svg
+      viewBox="0 0 24 24"
+      width="16"
+      height="16"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+    >
+      <line x1="4" y1="7" x2="20" y2="7" />
+      <line x1="4" y1="12" x2="20" y2="12" />
+      <line x1="4" y1="17" x2="20" y2="17" />
+    </svg>
+  </button>
 </div>
+
+<p-drawer
+  [(visible)]="isMenuOpen"
+  position="bottom"
+  header="Navigation"
+  [blockScroll]="true"
+  appendTo="body"
+  ariaCloseLabel="Close navigation menu"
+  styleClass="joo-menu-sheet"
+  [style]="{ height: 'auto' }"
+>
+  @if (isMenuOpen()) {
+    <div class="hud__sheet">
+      <nav class="hud__sheet-nav" aria-label="Mobile site navigation">
+        @for (item of navItems(); track item.label) {
+          <a
+            class="hud__sheet-item"
+            [class.is-active]="item.active"
+            [routerLink]="item.routerLink"
+            [queryParams]="item.queryParams"
+            (click)="isMenuOpen.set(false)"
+          >
+            <joo-status-light color="cyan" [on]="item.active ?? false" />
+            <span class="hud__sheet-label">{{ item.label }}</span>
+          </a>
+        }
+        <a class="hud__sheet-item" routerLink="/about" (click)="isMenuOpen.set(false)">
+          <joo-status-light color="cyan" [on]="false" />
+          <span class="hud__sheet-label">About</span>
+        </a>
+        @if (showPlayground) {
+          <a class="hud__sheet-item" routerLink="/specimen" (click)="isMenuOpen.set(false)">
+            <joo-status-light color="amber" [on]="false" />
+            <span class="hud__sheet-label">Component Playground</span>
+          </a>
+        }
+      </nav>
+
+      <div class="hud__sheet-links">
+        <a
+          class="hud__sheet-link"
+          href="https://github.com/equilerex/JooKoi-developer-stack"
+          target="_blank"
+          rel="noopener"
+        >
+          Developer Stack ↗
+        </a>
+        <a
+          class="hud__sheet-link"
+          href="https://github.com/equilerex/JooKoi-frontpage-to-the-open-web"
+          target="_blank"
+          rel="noopener"
+        >
+          Source ↗
+        </a>
+      </div>
+
+      @if (statusText()) {
+        <div class="hud__sheet-status" aria-hidden="true">
+          <joo-status-light color="green" [on]="true" [blink]="true" />
+          <span>{{ statusText() }}</span>
+        </div>
+      }
+    </div>
+  }
+</p-drawer>
