@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>JooKoi</title>
+  <defs>
+    <linearGradient id="chrome" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" />
+      <stop offset="0.4" stop-color="#e6e9f2" />
+      <stop offset="0.52" stop-color="#7b8199" />
+      <stop offset="0.6" stop-color="#e6e9f2" />
+      <stop offset="1" stop-color="#ffffff" />
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="3" />
+    </filter>
+  </defs>
+  <rect width="64" height="64" rx="12" fill="#07060d" />
+  <rect x="1" y="1" width="62" height="62" rx="11" fill="none" stroke="#171529" stroke-width="2" />
+  <!-- HUD corner brackets -->
+  <g fill="none" stroke="#3df2ff" stroke-width="3" stroke-linecap="square">
+    <path d="M10 18V10H18" />
+    <path d="M54 46V54H46" />
+  </g>
+  <!-- J glow, then the chrome J (chamfered like Chakra Petch) -->
+  <path
+    d="M22 14H44V40L36 48H24L18 42V36"
+    fill="none"
+    stroke="#ff3ea5"
+    stroke-width="9"
+    stroke-linejoin="miter"
+    filter="url(#glow)"
+    opacity="0.85"
+  />
+  <path
+    d="M22 14H44V40L36 48H24L18 42V36"
+    fill="none"
+    stroke="url(#chrome)"
+    stroke-width="8"
+    stroke-linejoin="miter"
+  />
+</svg>

@@ -5,7 +5,9 @@
     <title>JookoiFrontpage</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" sizes="48x48" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
     <!--
       Start the first-paint faces before CSS discovers @font-face.
       `crossorigin` is required for font preloads (even same-origin).
@@ -25,6 +27,35 @@
       type="font/woff2"
       crossorigin
     />
+    <!--
+      Privacy-friendly analytics by Plausible (self-hosted, JooKoi-plausible repo).
+      One bundle is served from two origins, each with its own Plausible site and script id:
+      jookoi.com and the GitHub Pages copy. The script id is picked by hostname.
+    -->
+    <script>
+      window.plausible =
+        window.plausible ||
+        function () {
+          (plausible.q = plausible.q || []).push(arguments);
+        };
+      plausible.init =
+        plausible.init ||
+        function (i) {
+          plausible.o = i || {};
+        };
+      (function () {
+        var host = location.hostname;
+        var id =
+          host === 'jookoi.com' || host === 'www.jookoi.com'
+            ? 'pa-LhdRED7Yityos9URLBE6v'
+            : 'pa-6vsep_VfoM4BwILC7TqJf';
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://thezoo.jookoi.com/js/' + id + '.js';
+        document.head.appendChild(s);
+      })();
+      plausible.init();
+    </script>
   </head>
   <body>
     <joo-root></joo-root>

@@ -24,7 +24,8 @@
     "format:check": "prettier --check .",
     "ux:lab:record": "node scripts/ux-lab.mjs --record",
     "ux:lab:ci": "node scripts/ux-lab.mjs --strict",
-    "build:gh-pages": "node scripts/build-gh-pages.mjs"
+    "build:gh-pages": "node scripts/build-gh-pages.mjs",
+    "deploy:jookoi": "node scripts/deploy-jookoi.mjs"
   },
   "private": true,
   "packageManager": "pnpm@11.22.0",

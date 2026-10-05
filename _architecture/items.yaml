@@ -799,3 +799,29 @@ items:
     ts_started: 2026-10-02T01:24:20Z
     ts_done: null
     ts_touched: 2026-10-02T23:46:07Z
+  fr7l:
+    title: Deploy the new favicon to jookoi.com
+    status: now
+    priority: 77000
+    body: |-
+      The favicon (chamfered chrome J, magenta glow, cyan HUD brackets, from the retro tokens) is generated and linked in `src/index.html`: `public/favicon.svg`, `public/favicon.ico` (16/32/48, PNG-embedded) and `public/apple-touch-icon.png`. It is not live. jookoi.com only changes on a manual deploy.
+
+      Next: `node scripts/deploy-jookoi.mjs` (add `--dry-run` first), then curl `/favicon.svg`, `/favicon.ico`, `/apple-touch-icon.png` for 200. The 16 px render was not eyeballed. The GitHub Pages copy updates on the owner's commit and push.
+
+      Uncommitted at this point (the owner commits): `scripts/deploy-jookoi.mjs`, the `deploy:jookoi` script in `package.json`, `src/index.html` (Plausible snippet and favicon links), the three `public/` favicon files.
+    ts_created: 2026-10-05T22:59:07Z
+    ts_started: 2026-10-05T22:59:07Z
+    ts_done: null
+    ts_touched: 2026-10-05T22:59:07Z
+  hi0z:
+    title: Move the jookoi.com deploy into CI
+    status: parked
+    priority: 78000
+    body: |-
+      jookoi.com is deployed by hand today (`scripts/deploy-jookoi.mjs`, decision 041). The owner plans a GitHub company account whose Pages can serve a custom domain, which may replace the Linode mirror for the apex entirely.
+
+      Open question when this starts: if the apex DNS moves to GitHub Pages, the other apps living under jookoi.com paths on the Linode stop being reachable there. They would need their own subdomains first (the folders are listed in the local deploy config). Plausible also gets simpler with one origin: drop the hostname switch in `src/index.html` (decision 042).
+    ts_created: 2026-10-05T22:59:07Z
+    ts_started: null
+    ts_done: null
+    ts_touched: 2026-10-05T23:11:10Z

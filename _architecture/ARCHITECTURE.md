@@ -299,6 +299,14 @@ Re-set on 2026-09-21 from a measured build (536 kB initial raw, 130 kB transferr
 
 **Landing-page weight rule** (decision 032): a route in `app.routes.ts` is lazy unless it is a few kB. `record-grid` is a plain table, so nothing in `main` may import PrimeNG's table code. The shell and home must not import data-sized modules: they read counts and highlights from `source-stats.generated.ts`, and only `/search` imports the full `sources.generated.ts`.
 
+## Hosting, analytics and favicon
+
+The site is served from two origins: GitHub Pages (CI deploys, base path `/JooKoi-frontpage-to-the-open-web/`) and `https://jookoi.com`, an nginx host on the owner's second Linode that also serves other apps. The second is deployed by hand with `scripts/deploy-jookoi.mjs` (`pnpm run deploy:jookoi`), decision 041. The repo is public, so the script has no server details: they live in the gitignored `.local/deploy-jookoi.json` (field list in the script header) and in the owner's private notes.
+
+Analytics is self-hosted Plausible (own repo, runs on the vault server), decision 042. The inline script in `src/index.html` picks the Plausible script id by `location.hostname`, so one bundle serves both origins with separate stats. No cookies, no consent banner. A privacy line on the About page is still owed.
+
+The favicon is `public/favicon.svg` (a hand-drawn chamfered J, so it does not depend on the font), plus `public/favicon.ico` (16/32/48) and `public/apple-touch-icon.png`, in the retro theme colors from `features/design-theme/tokens.css`.
+
 ## Where Phase 3 plugs in
 
 Phase order and reasoning: `_architecture/plans/decision-history/002-*`. **Phase 1 (foundation), Phase 2 (design system) and Phase 3 (content and features) are all complete.**
