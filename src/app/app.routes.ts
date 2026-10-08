@@ -41,6 +41,11 @@ export const routes: Routes = [
     path: 'tools',
     loadChildren: () => import('./app-shell/tools/tools.routes').then((m) => m.toolsRoutes),
   },
+  {
+    path: 'calendar-sync',
+    loadChildren: () =>
+      import('./app-shell/calendar-sync/calendar-sync.routes').then((m) => m.calendarSyncRoutes),
+  },
   ...(isDevMode()
     ? [
         {
