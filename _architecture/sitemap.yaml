@@ -91,6 +91,22 @@
   components: source textarea; rendered sheet; sample note
   links_to: utilities
 
+- id: calendar_sync
+  title: Calendar sync
+  path: /calendar-sync
+  status: mvp
+  purpose: Public page describing the personal Google Calendar and Tasks sync. Its URL is the home page on the Google OAuth consent screen. Static, prerendered.
+  components: document template; prose body
+  links_to: calendar_sync_privacy, home
+
+- id: calendar_sync_privacy
+  title: Calendar sync privacy policy
+  path: /calendar-sync/privacy
+  status: mvp
+  purpose: Privacy policy linked from the Google OAuth consent screen. Must stay reachable at this exact URL.
+  components: document template; prose body
+  links_to: calendar_sync
+
 - id: export
   title: Export / Download
   path: /export

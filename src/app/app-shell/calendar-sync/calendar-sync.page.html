@@ -1,36 +1,30 @@
-<joo-eyebrow-label>Personal service</joo-eyebrow-label>
-<h1 class="sync-title">Calendar sync</h1>
+<joo-document-template>
+  <joo-breadcrumb-trail templateCrumbs [crumbs]="crumbs" />
 
-<joo-readout-panel label="What it is" led="magenta">
-  <div class="sync-body">
-    <p>
-      Calendar sync is a personal synchronization service run by Joosep Kõivistik. It connects
-      Google Calendar and Google Tasks with a private, self-hosted personal knowledge-management
-      system, so the owner's own calendar entries and tasks can sit alongside their notes.
-    </p>
-    <p>
-      It serves one person, the owner. It is not a commercial product and it is not offered to the
-      public.
-    </p>
-  </div>
-</joo-readout-panel>
+  <joo-paper-sheet>
+    <joo-prose-content>
+      <h1>Calendar sync</h1>
 
-<joo-readout-panel label="Your Google data" led="amber">
-  <div class="sync-body">
-    <p>
-      The service uses Google data only to keep the owner's notes and Google account in step. It is
-      not sold, it is not used for advertising, and it is not shared with third parties beyond what
-      the privacy policy describes.
-    </p>
-    <p>
-      The full details, including how data is stored and how to revoke access, are in the
-      <a routerLink="/calendar-sync/privacy">privacy policy</a>.
-    </p>
-  </div>
-</joo-readout-panel>
+      <h2>What it is</h2>
+      <p>
+        Calendar sync is a personal synchronization service run by Joosep Kõivistik. It connects
+        Google Calendar and Google Tasks with a private, self-hosted personal knowledge-management
+        system, so the owner's own calendar entries and tasks can sit alongside their notes.
+      </p>
+      <p>
+        It serves one person, the owner. It is not a commercial product and it is not offered to the
+        public.
+      </p>
 
-<p class="sync-links">
-  <a routerLink="/">Front page</a>
-  <span aria-hidden="true">·</span>
-  <a routerLink="/about">About JooKoi</a>
-</p>
+      <h2>Your Google data</h2>
+      <p>
+        The service uses Google data only to keep the owner's notes and Google account in step. It
+        is not sold, it is not used for advertising, and it is not shared with third parties.
+      </p>
+      <p>
+        The full details, including how data is stored and how to revoke access, are in the
+        <a routerLink="/calendar-sync/privacy">privacy policy</a>.
+      </p>
+    </joo-prose-content>
+  </joo-paper-sheet>
+</joo-document-template>

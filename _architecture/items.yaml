@@ -825,3 +825,17 @@ items:
     ts_started: null
     ts_done: null
     ts_touched: 2026-10-05T23:11:10Z
+  r915:
+    title: 'Calendar sync Google OAuth pages: owner decisions and deploy'
+    status: now
+    priority: 79000
+    body: |-
+      Pages `/calendar-sync` and `/calendar-sync/privacy` are rebuilt on `joo-document-template` + `joo-paper-sheet` + `joo-prose-content`, with sitemap entries. Policy states data is not shared with third parties. Dev-build check in the running app still to do (chrome-devtools profile was locked; not verified at 390px or 1440px).
+
+      Owner decisions still open before Google submission: routes (hard to change once Google has them), app name must match the consent screen, Tasks scope, calendar/tasks scopes vs read-only, contact (GitHub profile), terms page (`/calendar-sync/terms`) if the form requires it, Plausible counting visits on these pages.
+
+      Deploy: Node 22.22.3+ or 24.15+; run `primeui-license`, `build-library-content`, `build-sources`; `pnpm run deploy:jookoi -- --dry-run`, then `pnpm run deploy:jookoi`. Verify both URLs on jookoi.com. Google side: verify jookoi.com in Search Console (DNS TXT), add authorized domain, home URL and privacy URL.
+    ts_created: 2026-10-08T20:01:34Z
+    ts_started: 2026-10-08T20:01:34Z
+    ts_done: null
+    ts_touched: 2026-10-08T20:57:23Z

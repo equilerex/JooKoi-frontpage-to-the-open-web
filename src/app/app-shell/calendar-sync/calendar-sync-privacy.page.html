@@ -1,101 +1,101 @@
-<joo-eyebrow-label>Calendar sync</joo-eyebrow-label>
-<h1 class="policy__title">Privacy policy</h1>
-<p class="policy__meta">Last updated 8 October 2026</p>
+<joo-document-template>
+  <joo-breadcrumb-trail templateCrumbs [crumbs]="crumbs" />
 
-<article class="policy">
-  <p>
-    This policy covers Calendar sync, the personal synchronization service described on the
-    <a routerLink="/calendar-sync">Calendar sync page</a>.
-  </p>
+  <joo-paper-sheet>
+    <joo-prose-content>
+      <h1>Privacy policy</h1>
+      <p><em>Last updated 8 October 2026</em></p>
 
-  <h2>Who runs this service</h2>
-  <p>
-    Calendar sync is operated by Joosep Kõivistik as a personal, non-commercial project. It is not
-    a company and has no customers. To ask a question about this policy or about data held by the
-    service, contact the operator through their GitHub profile at
-    <a href="https://github.com/equilerex" target="_blank" rel="noopener">github.com/equilerex ↗</a>.
-  </p>
+      <p>
+        This policy covers Calendar sync, the personal synchronization service described on the
+        <a routerLink="/calendar-sync">Calendar sync page</a>.
+      </p>
 
-  <h2>What Google data the service uses</h2>
-  <p>
-    With the owner's permission, the service accesses the owner's own Google Calendar events and
-    Google Tasks through Google's APIs. It does not access other Google data. The service is used
-    by one person, the owner, and is not open to other people's Google accounts.
-  </p>
+      <h2>Who runs this service</h2>
+      <p>
+        Calendar sync is operated by Joosep Kõivistik as a personal, non-commercial project. It is
+        not a company and has no customers. To ask a question about this policy or about data held
+        by the service, contact the operator through their GitHub profile at
+        <a href="https://github.com/equilerex" target="_blank" rel="noopener"
+          >github.com/equilerex ↗</a
+        >.
+      </p>
 
-  <h2>Why it uses this data</h2>
-  <p>
-    The data is used only to provide synchronization. Calendar entries and tasks are copied into
-    the owner's private notes. If the owner changes an entry in those notes, the service can write
-    that change back to the owner's Google Calendar or Google Tasks. The data is not used for any
-    other purpose.
-  </p>
+      <h2>What Google data the service uses</h2>
+      <p>
+        With the owner's permission, the service accesses the owner's own Google Calendar events and
+        Google Tasks through Google's APIs. It does not access other Google data. The service is
+        used by one person, the owner, and is not open to other people's Google accounts.
+      </p>
 
-  <h2>How the data is used and shared</h2>
-  <ul>
-    <li>The data stays within the owner's private personal system.</li>
-    <li>Google user data is not sold.</li>
-    <li>Google user data is not used for advertising, and not for building advertising profiles.</li>
-    <li>This service does not use Google user data to train or improve AI or machine-learning models.</li>
-    <li>
-      Data is not shared with third parties except where the operation of the service requires it:
+      <h2>Why it uses this data</h2>
+      <p>
+        The data is used only to provide synchronization. Calendar entries and tasks are copied into
+        the owner's private notes. If the owner changes an entry in those notes, the service can
+        write that change back to the owner's Google Calendar or Google Tasks. The data is not used
+        for any other purpose.
+      </p>
+
+      <h2>How the data is used and shared</h2>
       <ul>
+        <li>The data stays within the owner's private personal system.</li>
+        <li>Google user data is not sold.</li>
         <li>
-          Obsidian Sync, which keeps the owner's notes in step across the owner's own devices. It
-          is an end-to-end encrypted sync service.
+          Google user data is not used for advertising, and not for building advertising profiles.
         </li>
         <li>
-          AI assistants that the owner chooses to use on their own notes. When the owner asks an
-          assistant to work with their notes, that assistant may read synced calendar and task
-          entries.
+          This service does not use Google user data to train or improve AI or machine-learning
+          models.
         </li>
+        <li>Data is not shared with third parties.</li>
       </ul>
-    </li>
-  </ul>
 
-  <h2>How the data is stored and protected</h2>
-  <p>
-    Synced entries are kept in the owner's private notes. Those notes are held on a private server
-    that the owner operates and on the owner's own devices. The Google access credentials are kept
-    in a separate restricted file on that server, not in the notes. Access to the server and the
-    notes is limited to the owner's accounts.
-  </p>
-  <p>
-    These are reasonable measures for a small personal project. No system can be guaranteed to be
-    free of security problems, and the service has not been independently audited.
-  </p>
+      <h2>How the data is stored and protected</h2>
+      <p>
+        Synced entries are kept in the owner's private notes. Those notes are held on a private
+        server that the owner operates and on the owner's own devices. The Google access credentials
+        are kept in a separate restricted file on that server, not in the notes. Access to the
+        server and the notes is limited to the owner's accounts.
+      </p>
+      <p>
+        These are reasonable measures for a small personal project. No system can be guaranteed to
+        be free of security problems, and the service has not been independently audited.
+      </p>
 
-  <h2>How long the data is kept</h2>
-  <p>
-    Synced entries stay in the owner's notes until the owner deletes them. The owner can delete
-    them at any time. Deleting the stored Google credentials ends the service's access to the
-    account.
-  </p>
+      <h2>How long the data is kept</h2>
+      <p>
+        Synced entries stay in the owner's notes until the owner deletes them. The owner can delete
+        them at any time. Deleting the stored Google credentials ends the service's access to the
+        account.
+      </p>
 
-  <h2>How to revoke access</h2>
-  <p>
-    You can revoke this service's access to your Google Account at any time. Open
-    <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener"
-      >myaccount.google.com/permissions ↗</a
-    >, choose the app, and remove its access. Once access is removed, the service can no longer
-    read or update your Google Calendar or Google Tasks. Notes that were already synced remain until
-    they are deleted. To ask for them to be deleted, contact the operator as described above.
-  </p>
+      <h2>How to revoke access</h2>
+      <p>
+        You can revoke this service's access to your Google Account at any time. Open
+        <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener"
+          >myaccount.google.com/permissions ↗</a
+        >, choose the app, and remove its access. Once access is removed, the service can no longer
+        read or update your Google Calendar or Google Tasks. Notes that were already synced remain
+        until they are deleted. To ask for them to be deleted, contact the operator as described
+        above.
+      </p>
 
-  <h2>Google API Services User Data Policy</h2>
-  <p>
-    The service's use of information received from Google APIs follows the
-    <a
-      href="https://developers.google.com/terms/api-services-user-data-policy"
-      target="_blank"
-      rel="noopener"
-      >Google API Services User Data Policy ↗</a
-    >, including its Limited Use requirements.
-  </p>
+      <h2>Google API Services User Data Policy</h2>
+      <p>
+        The service's use of information received from Google APIs follows the
+        <a
+          href="https://developers.google.com/terms/api-services-user-data-policy"
+          target="_blank"
+          rel="noopener"
+          >Google API Services User Data Policy ↗</a
+        >, including its Limited Use requirements.
+      </p>
 
-  <h2>Changes to this policy</h2>
-  <p>
-    This policy is updated when the service's handling of data changes. The date at the top of the
-    page shows when it was last updated.
-  </p>
-</article>
+      <h2>Changes to this policy</h2>
+      <p>
+        This policy is updated when the service's handling of data changes. The date at the top of
+        the page shows when it was last updated.
+      </p>
+    </joo-prose-content>
+  </joo-paper-sheet>
+</joo-document-template>
